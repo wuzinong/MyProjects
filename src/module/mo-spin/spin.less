@@ -1,0 +1,82 @@
+:global{
+    .tj-laballspin {
+        position: relative;
+        display: block;
+        width: 32px;
+        height: 32px;
+        font-size: 0;
+        color: #333;
+    
+        div {
+            position: absolute;
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 100%;
+            background-color: currentColor;
+            border: 0 solid currentColor;
+            :local {
+                animation: tj-laballspin-spin 1s infinite ease-in-out;
+            }
+            
+    
+            &:nth-child(1) {
+                top: 5%;
+                left: 50%;
+                animation-delay: -1.125s;
+            }
+            &:nth-child(2) {
+                top: 18.1801948466%;
+                left: 81.8198051534%;
+                animation-delay: -1.25s;
+            }
+            &:nth-child(3) {
+                top: 50%;
+                left: 95%;
+                animation-delay: -1.375s;
+            }
+            &:nth-child(4) {
+                top: 81.8198051534%;
+                left: 81.8198051534%;
+                animation-delay: -1.5s;
+            }
+            &:nth-child(5) {
+                top: 94.9999999966%;
+                left: 50.0000000005%;
+                animation-delay: -1.625s;
+            }
+            &:nth-child(6) {
+                top: 81.8198046966%;
+                left: 18.1801949248%;
+                animation-delay: -1.75s;
+            }
+            &:nth-child(7) {
+                top: 49.9999750815%;
+                left: 5.0000051215%;
+                animation-delay: -1.875s;
+            }
+            &:nth-child(8) {
+                top: 18.179464974%;
+                left: 18.1803700518%;
+                animation-delay: -2s;
+            }
+            
+        }
+    }
+    
+}
+
+@keyframes tj-laballspin-spin {
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    20% {
+        opacity: 1;
+    }
+    80% {
+        opacity: 0;
+        transform: scale(0);
+    }
+}
