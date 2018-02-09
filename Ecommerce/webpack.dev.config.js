@@ -61,8 +61,24 @@ module.exports = {
 				},
 				'postcss-loader',
 				'less-loader'
-			],
-		}, {
+			]
+		},{
+		   test:/\.scss$/,
+		   exclude:/node_modules/,
+			use: [
+				'style-loader', {
+					loader: 'css-loader',
+					options: {
+						minimize: true,
+						modules: true,
+						localIdentName: '[name]-[local]-[hash:base64:5]',
+						importLoaders: 2
+					}
+				},
+				'postcss-loader',
+				'sass-loader'
+			]
+		},{
 			test: /\.(jpe?g|png|gif)$/i,
 			include: /src/,
 			use: [

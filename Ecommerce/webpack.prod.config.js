@@ -74,6 +74,13 @@ module.exports = {
                 fallback: 'style-loader',
                 use: 'css-loader?modules,localIdentName="[name]-[local]-[hash:base64:5]"!postcss-loader!less-loader'
             }),
+        },{
+            test: /\.scss$/,
+            exclude: [/node_modules/],
+            use: ExtractTextPlugin.extract({
+                fallback: 'style-loader',
+                use: 'css-loader?modules,localIdentName="[name]-[local]-[hash:base64:5]"!postcss-loader!sass-loader'
+            }),
         }, {
             test:/\.(png|jpg|gif)$/,
             exclude: [/node_modules/],
