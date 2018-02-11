@@ -64,7 +64,7 @@ module.exports = {
 			]
 		},{
 		   test:/\.scss$/,
-		   exclude:/node_modules/,
+		   //exclude:/node_modules/,
 			use: [
 				'style-loader', {
 					loader: 'css-loader',
@@ -92,7 +92,7 @@ module.exports = {
 		alias: {
 			'my-util': resolve(__dirname, './src/libs/my-util'),
 			'action': resolve(__dirname, './src/action/index.js'),
-			'stroe': resolve(__dirname, './src/store/index.js'),
+			'store': resolve(__dirname, './src/store/index.js'),
 			'layout': resolve(__dirname, './src/layout'),
 			'reducers': resolve(__dirname, './src/reducers')
 		}

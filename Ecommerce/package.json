@@ -51,6 +51,7 @@
     "bootstrap": "^4.0.0",
     "es6-promise": "^4.1.1",
     "history": "^4.6.1",
+    "node-sass": "^4.7.2",
     "prop-types": "^15.5.10",
     "react": "^16.2.0",
     "react-css-modules": "^4.7.1",
