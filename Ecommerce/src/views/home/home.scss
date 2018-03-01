@@ -1,0 +1,25 @@
+
+:local{
+  .gutter{
+    padding:0 28px;
+  }
+  .list{
+    border:1px solid #666666;
+    height: 250px;
+    overflow: hidden;
+    .listLeft{
+      background-color:#0f204b;
+    }
+    img{
+      width:100%;
+    }
+    .des{
+      
+      color:white;
+      text-align: center;
+      padding:40px 0 10px 0;
+      border-top:2px solid white;
+    }
+  }
+  
+}

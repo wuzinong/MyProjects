@@ -1,0 +1,15 @@
+:global{
+
+    .mylist{
+        ul{
+            list-style:decimal;
+            text-align: left;
+            width:80%;
+            margin:10px auto;
+        }
+    }
+    .nopadding{
+        padding:0;
+        margin:0;
+    }
+}

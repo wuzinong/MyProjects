@@ -1,0 +1,19 @@
+
+:local{
+    .listContainer{
+        min-height: 400px;
+        header{
+            width:80%;
+            margin:0 auto;
+            position: relative;
+            a{
+                position: absolute;
+                left:0;
+            }
+        }
+        input{
+            margin-top:10px;
+            width:80%;
+        }
+    }
+}
