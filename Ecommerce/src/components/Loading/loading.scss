@@ -1,0 +1,66 @@
+
+:local{
+
+    .bak{
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 20000;
+        background-color: black;
+        opacity: .8;
+    }
+    .content{
+        display: block;
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        width: 160px;
+        height: 160px;
+        margin: -75px 0 0 -75px;
+        border-radius: 50%;
+        box-shadow: 0 3px 0 0 #8DD6F7;
+        -webkit-transform-origin: 80px 81.5px;
+        transform-origin: 80px 81.5px;
+        -webkit-animation: spin 2s linear infinite;
+        animation: spin 2s linear infinite;
+        z-index: 20001;
+    }
+
+      .content:before {
+        content: "";
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        right: 10px;
+        bottom: 10px;
+        box-shadow: 0 3px 0 0 #60BA4D;
+        border-radius: 50%;
+        -webkit-animation: spin 3s linear infinite;
+        animation: spin 3s linear infinite;
+      }
+      .content:after {
+        content: "";
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        right: 20px;
+        bottom: 20px;
+        box-shadow: 0 3px 0 0 #005AA9;
+        border-radius: 50%;
+        -webkit-animation: spin 1.5s linear infinite;
+        animation: spin 1.5s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+    
+        100% {
+            transform: rotate(359deg);
+        }
+    }
+ 
+}

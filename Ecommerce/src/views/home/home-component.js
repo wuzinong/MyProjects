@@ -2,14 +2,14 @@ import React,{Component} from 'react';
 import {Link,BrowserRouter} from 'react-router-dom';
 import homeStyle from'./home.scss';
 import '../../assets/images/person.png';
-import Dialogue from '../../components/Dialogue/index.js';
+import Loading from '../../components/Loading/index.js';
 import {Button} from 'react-bootstrap';
 
 class Home extends Component{
     constructor(props){
         super(props);
         this.state = {
-            showDyy:false
+            showDyy:true
         };
     }
     openDialogue(){
@@ -25,7 +25,8 @@ class Home extends Component{
         const {
             handleClick
         } = this.props;
-        var dyy = this.state.showDyy? <Dialogue info="test info" close={()=>{this.close()}}/>:null;
+        //var dyy = this.state.showDyy? <Dialogue info="test info" close={()=>{this.close()}}/>:null;
+        var dyy = this.state.showDyy? <Loading close={()=>{this.close()}}/>:null;
         return ( 
         //   <div className={homeStyle.whole}>
         //     <p>A test frame for react practicing</p>
@@ -65,6 +66,7 @@ class Home extends Component{
                         </div>
                     </div>
                 </div>
+                {dyy} 
            </div>
         )
     }
