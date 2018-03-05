@@ -47,17 +47,21 @@ class Home extends Component{
                     </p>
                 </div>
                 <div className="row">
-                    <div className={"col-xs-12 col-lg-6 "+homeStyle.gutter}>
+                    <div className={"col-xs-12 col-lg-6 space-stack-lg "+homeStyle.gutter}>
                         <a href="#">
                             <div className={"row "+homeStyle.list}>
                                 <div className={"col-3 nopadding "+homeStyle.listLeft}>
                                     <img src={require('../../assets/images/demo.png')} alt=""/>
                                     <p className={homeStyle.des}>All industries</p>
                                 </div>
+                                <div className={"col-9 space-square-md "+homeStyle.detail}>
+                                    <h3>Apply for service 1(Process 4)</h3>
+                                    <p>Mapping with Apply for Service 1 in MyDNVGL</p>
+                                </div>
                             </div>
                         </a>
                     </div>
-                    <div className={"col-xs-12 col-lg-6 "+homeStyle.gutter}>
+                    <div className={"col-xs-12 col-lg-6 space-stack-lg "+homeStyle.gutter}>
                         <div className={"row "+homeStyle.list}>
                             <div className={"col-3 nopadding "+homeStyle.listLeft}>
                                 <img src={require('../../assets/images/demo.png')} alt=""/>
@@ -65,6 +69,14 @@ class Home extends Component{
                             </div>
                         </div>
                     </div>
+                    <div className={"col-xs-12 col-lg-6 space-stack-lg "+homeStyle.gutter}>
+                    <div className={"row "+homeStyle.list}>
+                        <div className={"col-3 nopadding "+homeStyle.listLeft}>
+                            <img src={require('../../assets/images/demo.png')} alt=""/>
+                            <p className={homeStyle.des}>All industries</p>
+                        </div>
+                    </div>
+                </div>
                 </div>
                 {dyy} 
            </div>
