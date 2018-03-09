@@ -1,0 +1,90 @@
+
+:local{
+  .banner{
+     position: relative;
+     img{
+       width:100%;
+     }
+     .videoDes{
+       position: absolute;
+       left: 20px;
+       top:30%;
+       width:305px;
+       p{
+         color:white;
+       }
+       button{
+         font-weight: normal;
+       }
+     }
+  }
+}
+
+:local{
+  .priceArea{
+    margin-top:20px;
+    text-align:center;
+    & >div{
+      &:last-child{
+        padding-right:15px;
+        text-align:left;
+        
+        p{
+          text-align: center;
+        }
+        button{
+          width:190px;
+          font-weight: normal;
+          font-size: 14px;
+          width:100%;
+        }
+      }
+      @media only screen and (min-width:1000px) {
+        &:nth-child(4){
+          border-left:1px solid black;
+          position: relative;
+          &:after{
+            content: '';
+            display: block;
+            position: absolute;
+            top: 83px;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-color: transparent transparent transparent #fff;
+            border-width: 20px;
+            left: -1px;
+          }
+          &:before{
+            content: '';
+            display: block;
+            position: absolute;
+            top: 82px;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-color: transparent transparent transparent #333;
+            border-width: 21px;
+            left: -1px;
+          }
+          
+        }
+      }
+      padding:0 45px;
+      img{
+        max-width: 70px;
+        margin-bottom:20px;
+      }
+    }
+
+    select{
+      background: #fff;
+      border: 1px solid #999;
+      border-radius: 0;
+      font-size: 16px;
+      padding-right: 32px;
+      width: 100%;
+    }
+  }
+  
+}

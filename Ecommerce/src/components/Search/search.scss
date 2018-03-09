@@ -1,0 +1,42 @@
+:local{
+    .search{
+        // position: absolute;
+        // bottom: -62px;
+        // left: 0;
+        width: 100%;
+        padding: 14px 8px;
+        background-color: white;
+        z-index: 100;
+        .tag{
+            a{
+                box-shadow: none;
+                text-decoration: none;
+                color: #0f204b;
+                font-size: 18px;
+                padding: 0px 15px;
+                text-align: center;
+                border-right: 2px solid #999;
+
+                &:first-child{
+                    padding-left:7px;
+                }
+                &:last-child{
+                    border-right:none;
+                }
+            }
+        }
+
+        .outer{
+            width: 260px;
+            border-bottom: 1px solid #999;
+            input{
+                border:none;
+                outline: none;
+            }
+            button{
+                height: 100%;
+                width:100%;
+            }
+        }
+    }
+}

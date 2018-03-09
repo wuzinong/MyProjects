@@ -3,6 +3,7 @@ import {Link,BrowserRouter} from 'react-router-dom';
 import homeStyle from'./home.scss';
 import '../../assets/images/person.png';
 import Loading from '../../components/Loading/index.js';
+import Search from '../../components/Search/index.js';
 import {Button} from 'react-bootstrap';
 
 class Home extends Component{
@@ -37,8 +38,12 @@ class Home extends Component{
         //     <Link className={homeStyle.btn} to='/list'>Go to List</Link> 
         //     {dyy} 
         //   </div> 
-        
+           
            <div>
+               
+                <Search/>
+      
+                
                 <div>
                     <h1>Welcome to our Marketplace</h1>
                     <p className="space-stack-sm" style={{fontFamily:"Avenir Next"}}>
