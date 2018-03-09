@@ -2,11 +2,23 @@
 :local{
   .gutter{
     padding:0 28px;
+    a:hover{
+      text-decoration:none;
+    }
+
   }
   .list{
     border:1px solid #666666;
     height: 250px;
     overflow: hidden;
+    position: relative;
+    .icon{
+      position: absolute;
+      bottom:15px;
+      right:15px;
+      width:80px;
+    }
+
     .listLeft{
       background-color:#0f204b;
     }
@@ -24,6 +36,7 @@
       color:black;
       max-height:108px;
       overflow: hidden;
+    
     }
   }
   
