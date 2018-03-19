@@ -3,7 +3,9 @@ import {connect} from 'react-redux';
 
 const mapDispatchToProps =(dispatch,props)=>{
     return {
-
+        handleClick(){
+            props.history.push("/");
+         }
     }
 }
 const mapStateToProps = (state)=>{

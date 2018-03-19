@@ -23,7 +23,9 @@
 :local{
   .priceArea{
     margin-top:20px;
+    padding-bottom: 80px;
     text-align:center;
+    box-shadow: 0px 34px 47px -18px #9ea4a5;
     & >div{
       &:last-child{
         padding-right:15px;
@@ -86,5 +88,15 @@
       width: 100%;
     }
   }
-  
+}
+
+:local{
+  .contentList{ 
+    .row{
+      margin:20px 0;
+      img{
+        width:100%;
+      }
+    }
+ }
 }
