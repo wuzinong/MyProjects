@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 const mapDispatchToProps =(dispatch,props)=>{
     return {
         handleClick(){
-            props.history.push("/");
+            props.history.push("/cart");
          }
     }
 }

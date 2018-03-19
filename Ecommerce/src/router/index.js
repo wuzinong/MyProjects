@@ -15,6 +15,8 @@ import About from '../views/about';
 import NotFound from '../views/notFound';
 import List from '../views/List';
 import Details from '../views/details';
+import Cart from '../views/cart';
+
 
 const App =()=>(
       <Provider store={store}>
@@ -32,6 +34,10 @@ const App =()=>(
                 </Route>
                 <Route path="/details"
                        component = {Details}
+                >
+                </Route>
+                <Route path="/cart"
+                       component={Cart}
                 >
                 </Route>
                 <Route path="/notFound"
