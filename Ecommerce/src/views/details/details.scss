@@ -88,15 +88,33 @@
       width: 100%;
     }
   }
+
+  .contentList{ 
+      .row{
+        margin:40px 0;
+        img{
+          width:100%;
+        }
+      }
+  }
+  .section{
+    section{
+      margin-bottom: 30px;
+    }
+
+    img{
+      float: left;
+      height: 40px;
+      margin-right: 20px;
+    }
+    figure{
+       font-size: 12px;
+       h3{
+         font-size: 14px;
+         margin:0;
+         padding:0;
+       }
+    }
+  }
 }
 
-:local{
-  .contentList{ 
-    .row{
-      margin:40px 0;
-      img{
-        width:100%;
-      }
-    }
- }
-}
