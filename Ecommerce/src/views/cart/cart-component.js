@@ -1,5 +1,7 @@
 import React,{Component} from 'react';
 import Search from '../../components/Search/index.js';
+import cartStyle from './cart.scss';
+import {Link} from 'react-router-dom';
 class Cart extends Component{
     constructor(props){
         super(props);
@@ -10,6 +12,29 @@ class Cart extends Component{
             <div>
                 <Search/>
                 <h2>Your Shopping Cart</h2>
+                <div className={cartStyle.table}>
+                    <div className="row tHeader">
+                        <div className="col-lg-5">Item</div>
+                        <div className="col-lg-4">Quantity</div>
+                        <div className="col-lg-3">Item Total</div>
+                    </div>
+                    <div className="row tItems">
+                        <div className="col-lg-1">
+                            <img src={require("../../assets/images/banner.jpg")} alt=""/>
+                        </div>
+                        <div className="col-lg-4">
+                            <b>Automation Test Prod 3</b>
+                            <p>Mapping to automation test 3 service in test environment</p>
+                            <p>Free/year</p>
+                        </div>
+                        <div className="col-lg-4">
+                            <Link to="/details">Remove</Link>
+                        </div>
+                        <div className="col-lg-3">
+                            €0.00
+                        </div>
+                    </div>
+                </div>
             </div>
         )
     }

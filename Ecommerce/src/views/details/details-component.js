@@ -96,7 +96,7 @@ class Details extends Component{
                          {
                             [1,2,3,4].map((item,index)=>{
                                 return (
-                                    <section className="col-lg-6 col-sm-12">
+                                    <section key={index} className="col-lg-6 col-sm-12">
                                         <img src={require("../../assets/images/calendar_icon.png")} alt=""/>
                                         <figure>
                                             <h3>Calendar</h3>
