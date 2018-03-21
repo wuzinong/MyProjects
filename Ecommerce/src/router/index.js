@@ -11,11 +11,14 @@ import store from '../store';
 // const About = asyncComponent(()=>import('../views/about'));
 // const NotFound = asyncComponent(()=>import('../views/notFound'));
 // const List = asyncComponent(()=>import('../views/list'));
+// const Details = asyncComponent(()=>import('../views/details'));
+// const Cart = asyncComponent(()=>import('../views/cart'));
 import About from '../views/about';
 import NotFound from '../views/notFound';
 import List from '../views/List';
 import Details from '../views/details';
 import Cart from '../views/cart';
+import Intermediate from '../views/intermediate';
 
 
 const App =()=>(
@@ -38,6 +41,10 @@ const App =()=>(
                 </Route>
                 <Route path="/cart"
                        component={Cart}
+                >
+                </Route>
+                <Route path="/intermediate"
+                       component={Intermediate}
                 >
                 </Route>
                 <Route path="/notFound"

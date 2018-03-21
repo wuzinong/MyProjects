@@ -28,12 +28,18 @@ class Cart extends Component{
                             <p>Free/year</p>
                         </div>
                         <div className="col-lg-4">
-                            <Link to="/details">Remove</Link>
+                            <Link to="/details"><span className="closeBtn">+</span>Remove</Link>
                         </div>
                         <div className="col-lg-3">
                             €0.00
                         </div>
                     </div>
+                    
+                </div>
+                <div className={cartStyle.checkout}>
+                    <strong>Sub-Total:€0.00</strong>
+                    <p>VAT not included</p>
+                    <Link className="btn btn-primary btn-lg" to="/intermediate">Check-out now</Link>
                 </div>
             </div>
         )
