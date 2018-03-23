@@ -1,0 +1,56 @@
+:local{
+    .confirmation{
+        padding-top:15px;
+
+        :global{
+            .confirmationText{
+                margin-bottom:30px;
+
+                b{
+                    font-size:28px;
+                    font-weight: normal;
+                }
+                p{
+                    margin:0;
+                }
+            }
+
+            .order-box{
+                border: 1px solid #2BAFE3;
+                a{
+                    color:black;
+                    text-decoration: none;
+                }
+
+                .order-support-image{
+                    float: left;
+                    width: 15%;
+                    padding-right: 15px;
+                    padding-top: 2px;
+                    img{
+                        width: 100%;
+                        max-width: 30px;
+                    }
+                    
+                }
+                .order-support-text{
+                    h3{
+                        color:#003591;
+                    }
+                }
+            }
+            .order-box-blue{
+                border-color: #EAF7FC;
+                background-color: #EAF7FC;
+            }
+        }
+        h2{
+            font-weight: normal;
+        }
+        ul{
+            list-style: none;
+            padding:0;
+        }
+
+    }
+}

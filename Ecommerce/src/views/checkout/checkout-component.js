@@ -2,6 +2,7 @@ import React,{Component} from 'react';
 import Search from '../../components/Search/index.js';
 import Nav from '../../components/Nav/index';
 import checkoutStyle from './checkout.scss';
+ 
 class Checkout extends Component {
     constructor(props){
         super(props);
@@ -111,7 +112,7 @@ class Checkout extends Component {
                             <p>€100.00/year</p>
                        </div>
 
-                        <button className="btn btn-primary btn-lg space-stack-sm" >
+                        <button onClick={this.props.payWithInvoice} className="btn btn-primary btn-lg space-stack-sm" >
                             <span>Pay with invoice</span>
                         </button>
                         <button className="btn btn-secondary btn-lg space-stack-sm">

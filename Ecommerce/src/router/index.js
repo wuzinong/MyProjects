@@ -20,6 +20,7 @@ import Details from '../views/details';
 import Cart from '../views/cart';
 import Intermediate from '../views/intermediate';
 import Checkout from '../views/checkout';
+import Confirmation from '../views/confirmation';
 
 const App =()=>(
       <Provider store={store}>
@@ -52,6 +53,10 @@ const App =()=>(
                        component={Checkout}   
                 >
                 </Route>
+                <Route path="/confirmation"
+                       component = {Confirmation}
+                >
+                </Route>
                 <Route path="/notFound"
                       component = {NotFound}
                     >
@@ -59,7 +64,7 @@ const App =()=>(
                 <Redirect exact path='*' to='/notFound'></Redirect>
             </Switch>
         </HashRouter>
-   </Provider>
+      </Provider>
 );
 
 export default App;

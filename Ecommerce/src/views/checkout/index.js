@@ -6,9 +6,13 @@ const mapStateToProps = state=>{
 }
 
 const mapDispatchToProps =(dispatch,props)=>{
-    return {}
+    return {
+        payWithInvoice(){
+            props.history.push("/confirmation");
+         }
+    }
 }
 
-const Checkout = connect(mapStateToProps,mapDispatchToProps)(CheckoutComponent);
+let Checkout = connect(mapStateToProps,mapDispatchToProps)(CheckoutComponent);
 
 export default Checkout;
