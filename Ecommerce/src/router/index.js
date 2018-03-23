@@ -19,14 +19,15 @@ import List from '../views/List';
 import Details from '../views/details';
 import Cart from '../views/cart';
 import Intermediate from '../views/intermediate';
-
+import Checkout from '../views/checkout';
 
 const App =()=>(
       <Provider store={store}>
         <HashRouter>
             <Switch>
-                <Route exact path="/" component={Home} />
+                <Route exact path="/" component={Home} >
                  
+                </Route>
                 <Route path="/about" 
                        component = {About}
                     >
@@ -45,6 +46,10 @@ const App =()=>(
                 </Route>
                 <Route path="/intermediate"
                        component={Intermediate}
+                >
+                </Route>
+                <Route path="/checkout"
+                       component={Checkout}   
                 >
                 </Route>
                 <Route path="/notFound"

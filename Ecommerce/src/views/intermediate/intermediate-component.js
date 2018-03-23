@@ -21,7 +21,7 @@ class Intermediate extends Component{
                     <div className="col-lg-5 interBlock">
                         <b>New customer</b>
                         <p>Check-out now</p>
-                        <Link className="btn bg-sea-blue" to="/cart">Continue</Link>
+                        <Link className="btn bg-sea-blue" to="/checkout">Continue</Link>
                     </div>
                     <div className="col-lg-5 interBlock offset-2">
                         <b>New customer</b>
