@@ -2,7 +2,7 @@ import React,{Component} from 'react';
 import Search from '../../components/Search/index.js';
 import Nav from '../../components/Nav/index';
 import checkoutStyle from './checkout.scss';
- 
+import {Link} from 'react-router-dom';
 class Checkout extends Component {
     constructor(props){
         super(props);
@@ -116,7 +116,7 @@ class Checkout extends Component {
                             <span>Pay with invoice</span>
                         </button>
                         <button className="btn btn-secondary btn-lg space-stack-sm">
-                            <span>Cancel</span>
+                            <Link to="/">Cancel</Link>
                         </button>
                    </div>
                </div>

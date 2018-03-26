@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
 import Search from '../../components/Search'
 import confirmationStyle from './confirmation.scss';
+import {Link} from 'react-router-dom';
 
 class Confirmation extends Component{
     constructor(props){
@@ -87,6 +88,30 @@ class Confirmation extends Component{
                 </div>
 
                 <h2>Your order summary</h2>
+                <div className={confirmationStyle.table}>
+                    <div className="row tHeader">
+                        <div className="col-lg-5">Item</div>
+                        <div className="col-lg-4">Quantity</div>
+                        <div className="col-lg-3">Item Total</div>
+                    </div>
+                    <div className="row tItems">
+                        <div className="col-lg-1">
+                            <img src={require("../../assets/images/banner.jpg")} alt=""/>
+                        </div>
+                        <div className="col-lg-4">
+                            <b>Automation Test Prod 3</b>
+                            <p>Mapping to automation test 3 service in test environment</p>
+                            <p>Free/year</p>
+                        </div>
+                        <div className="col-lg-4">
+                            1
+                        </div>
+                        <div className="col-lg-3">
+                            €0.00
+                        </div>
+                    </div>
+                </div>
+                <p className={confirmationStyle.thankyou}>Thank you for your confidence,visit us again at <a href="https://www.veracity.com">www.veracity.com <i>&gt;</i></a></p>
             </div>
         )
     }
