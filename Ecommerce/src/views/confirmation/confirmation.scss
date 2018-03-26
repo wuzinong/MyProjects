@@ -36,12 +36,29 @@
                 .order-support-text{
                     h3{
                         color:#003591;
+                        font-weight: normal;
+                        padding-top:5px;
                     }
                 }
             }
             .order-box-blue{
                 border-color: #EAF7FC;
                 background-color: #EAF7FC;
+            }
+
+            .confirmationInformation{
+                padding: 16px 16px 24px;
+                &>:first-child{
+                    border: 1px solid #2BAFE3;
+                    padding:24px 0;
+                    b{
+                        font-size: 22px;
+                        font-weight: normal;
+                    }
+                    ul:first-of-type{
+                        border-right:1px solid rgba(0, 0, 0, 0.2);
+                    }
+                }
             }
         }
         h2{
