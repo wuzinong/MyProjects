@@ -24,7 +24,7 @@ import Confirmation from '../views/confirmation';
 
 const App =()=>(
       <Provider store={store}>
-        <HashRouter>
+        <BrowserRouter>
             <Switch>
                 <Route exact path="/" component={Home} >
                  
@@ -63,7 +63,7 @@ const App =()=>(
                 </Route>
                 <Redirect exact path='*' to='/notFound'></Redirect>
             </Switch>
-        </HashRouter>
+        </BrowserRouter>
       </Provider>
 );
 
