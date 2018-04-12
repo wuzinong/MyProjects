@@ -73,7 +73,12 @@ html,body{
     animation-fill-mode:forwards;
     animation-duration: .5s;
 }
-
+.myRotate{
+    animation-name: myRotateAnimation;
+    animation-delay: .2s;
+    animation-fill-mode:forwards;
+    animation-duration: .5s;
+}
 
 @keyframes mySkewAnimation{
     0%{transform: skew(0deg)}
@@ -87,4 +92,9 @@ html,body{
     25%{transform: scale(1.2)}
     75%{transform:scale(1.3)}
     100%{transform:scale(1)}
+}
+
+@keyframes myRotateAnimation{
+    0%{transform: rotateZ(0deg)}
+    100%{transform: rotateZ(360deg)}
 }

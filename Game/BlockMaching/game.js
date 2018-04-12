@@ -6,11 +6,13 @@
       lineNumber:4,
       eleList:[],
       classNameList:["glyphicon-asterisk","glyphicon-plus","glyphicon-euro","glyphicon-glass","glyphicon-music",
-                     "glyphicon-search","glyphicon-heart"],
+                     "glyphicon-search","glyphicon-heart","glyphicon-star","glyphicon-star-empty","glyphicon-film",
+                     "glyphicon-th-large","glyphicon glyphicon-th-list","glyphicon-ok","glyphicon-zoom-in","glyphicon-off",
+                     "glyphicon-cog","glyphicon-trash"],
       currentEle:null,
       count:document.querySelector("#count"),
       cleanList:[],
-      animationList:["mySkew","myScale"]
+      animationList:["mySkew","myScale","myRotate"]
   }
 
   function shuffle(array) {
