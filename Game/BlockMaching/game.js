@@ -8,11 +8,13 @@
       classNameList:["glyphicon-asterisk","glyphicon-plus","glyphicon-euro","glyphicon-glass","glyphicon-music",
                      "glyphicon-search","glyphicon-heart","glyphicon-star","glyphicon-star-empty","glyphicon-film",
                      "glyphicon-th-large","glyphicon glyphicon-th-list","glyphicon-ok","glyphicon-zoom-in","glyphicon-off",
-                     "glyphicon-cog","glyphicon-trash"],
+                     "glyphicon-cog","glyphicon-trash","glyphicon-home","glyphicon-time","glyphicon-road","glyphicon-download",
+                     "glyphicon-thumbs-up","glyphicon-phone","glyphicon-flash","glyphicon-cutlery"],
       currentEle:null,
       count:document.querySelector("#count"),
       cleanList:[],
-      animationList:["mySkew","myScale","myRotate"]
+      animationList:["mySkew","myScale","myRotate"],
+      timeArea:document.querySelector("#timeArea")
   }
 
   function shuffle(array) {
@@ -85,64 +87,121 @@
   }
 
   function bindEvent(){
-    options.stage.addEventListener("click",function(event){
-        var tempClassName = event.target.className;
-        if(tempClassName.indexOf("backStyle")>=0){
-            var timeout = null;
-            //Add animation
-            if(tempClassName.indexOf("backRotate")<0){
-                event.target.classList.add("backRotate");
-                event.target.previousElementSibling.classList.add("frontRotate");
-                function clean(){
-                    return function(){
-                        event.target.classList.remove("backRotate");
-                        event.target.previousElementSibling.classList.remove("frontRotate");
-                    }
-                }
-                options.cleanList.push(clean());
-                addCount();
-            }
 
-            if(options.currentEle!=null){
-                if(options.currentEle == event.target){
-                    console.log("self click")
-                    return;
-                }else{
-                    if(options.currentEle.previousElementSibling.className.indexOf(event.target.previousElementSibling.className)>=0 || event.target.previousElementSibling.className.indexOf(options.currentEle.previousElementSibling.className)>=0){
-                        options.currentEle.previousElementSibling.classList.add("succeed");
-                        event.target.previousElementSibling.classList.add("succeed");
-                        var tempOptCurr = options.currentEle;
-                        var index = rd(0,options.animationList.length-1);
-                        var cName =options.animationList[index];
-                        console.log(cName);
-                        var aniTimeout = setTimeout(function(){
-                            tempOptCurr.parentElement.classList.add(cName);
-                            event.target.parentElement.classList.add(cName);
-                            clearTimeout(aniTimeout);
-                        },1000)
-                        ifPassed();
-                    }else{
-                        var tempList = options.cleanList;
-                        var cleanTimeout =setTimeout(function(){
-                            tempList.forEach(function(item){
-                                item();
-                            }); 
-                            clearTimeout(cleanTimeout);
-                        },2000);     
+    if("ontouchend" in document ){
+        options.stage.addEventListener("touchend",function(event){
+            var tempClassName = event.target.className;
+            if(tempClassName.indexOf("backStyle")>=0){
+                var timeout = null;
+                //Add animation
+                if(tempClassName.indexOf("backRotate")<0){
+                    event.target.classList.add("backRotate");
+                    event.target.previousElementSibling.classList.add("frontRotate");
+                    function clean(){
+                        return function(){
+                            event.target.classList.remove("backRotate");
+                            event.target.previousElementSibling.classList.remove("frontRotate");
+                        }
                     }
-                    options.cleanList = [];
-                    options.currentEle = null;
+                    options.cleanList.push(clean());
+                    addCount();
                 }
-               
-            }else{
-                options.currentEle = event.target;
+    
+                if(options.currentEle!=null){
+                    if(options.currentEle == event.target){
+                        return;
+                    }else{
+                        if(options.currentEle.previousElementSibling.className.indexOf(event.target.previousElementSibling.className)>=0 || event.target.previousElementSibling.className.indexOf(options.currentEle.previousElementSibling.className)>=0){
+                            options.currentEle.previousElementSibling.classList.add("succeed");
+                            event.target.previousElementSibling.classList.add("succeed");
+                            var tempOptCurr = options.currentEle;
+                            var index = rd(0,options.animationList.length-1);
+                            var cName =options.animationList[index];
+                            var aniTimeout = setTimeout(function(){
+                                tempOptCurr.parentElement.classList.add(cName);
+                                event.target.parentElement.classList.add(cName);
+                                clearTimeout(aniTimeout);
+                            },1000)
+                            ifPassed();
+                        }else{
+                            var tempList = options.cleanList;
+                            var cleanTimeout =setTimeout(function(){
+                                tempList.forEach(function(item){
+                                    item();
+                                }); 
+                                clearTimeout(cleanTimeout);
+                            },2000);     
+                        }
+                        options.cleanList = [];
+                        options.currentEle = null;
+                    }
+                   
+                }else{
+                    options.currentEle = event.target;
+                }
             }
-        }
-    },false)
+        },false);
+    }else{
+        options.stage.addEventListener("click",function(event){
+            var tempClassName = event.target.className;
+            if(tempClassName.indexOf("backStyle")>=0){
+                var timeout = null;
+                //Add animation
+                if(tempClassName.indexOf("backRotate")<0){
+                    event.target.classList.add("backRotate");
+                    event.target.previousElementSibling.classList.add("frontRotate");
+                    function clean(){
+                        return function(){
+                            event.target.classList.remove("backRotate");
+                            event.target.previousElementSibling.classList.remove("frontRotate");
+                        }
+                    }
+                    options.cleanList.push(clean());
+                    addCount();
+                }
+    
+                if(options.currentEle!=null){
+                    if(options.currentEle == event.target){
+                        console.log("self click");
+                        return;
+                    }else{
+                        if(options.currentEle.previousElementSibling.className.indexOf(event.target.previousElementSibling.className)>=0 || event.target.previousElementSibling.className.indexOf(options.currentEle.previousElementSibling.className)>=0){
+                            options.currentEle.previousElementSibling.classList.add("succeed");
+                            event.target.previousElementSibling.classList.add("succeed");
+                            var tempOptCurr = options.currentEle;
+                            var index = rd(0,options.animationList.length-1);
+                            var cName =options.animationList[index];
+
+                            var aniTimeout = setTimeout(function(){
+                                tempOptCurr.parentElement.classList.add(cName);
+                                event.target.parentElement.classList.add(cName);
+                                clearTimeout(aniTimeout);
+                            },1000)
+                            ifPassed();
+                        }else{
+                            var tempList = options.cleanList;
+                            var cleanTimeout =setTimeout(function(){
+                                tempList.forEach(function(item){
+                                    item();
+                                }); 
+                                clearTimeout(cleanTimeout);
+                            },2000);     
+                        }
+                        options.cleanList = [];
+                        options.currentEle = null;
+                    }
+                   
+                }else{
+                    options.currentEle = event.target;
+                }
+            }
+        },false);
+    }
+    
 
   }
 
-  function preLook(){
+  function preLook(second){
     setTimeout(function(){
         document.querySelectorAll(".frontStyle").forEach(function(item){
            item.classList.add("initRotateFront");
@@ -150,27 +209,51 @@
         document.querySelectorAll(".backStyle").forEach(function(item){
           item.classList.add("initRotateBack");
        });
-    },3000);
+    },second*1000);
+    options.timeArea.innerText=second;
+    var myInterval = setInterval(function(){
+        var seconds =parseInt(options.timeArea.innerText);
+        if(seconds === 0){
+            options.timeArea.innerText = "";
+            clearInterval(myInterval);
+        }else{
+            options.timeArea.innerText = parseInt(options.timeArea.innerText)-1;
+        }
+    },1000);
   }
   
-  function cleanAll(){
+  function cleanAll(){ 
     options.stage.innerHTML = "";
     options.count.innerText = 0;
+  }
+
+  function endingAnimation(){
+      var cardList = document.querySelectorAll(".card");
+      cardList.forEach(function(item){
+         item.classList.add("endGame");
+      })
   }
 
   function ifPassed(){
       var eles = document.querySelectorAll(".succeed");
       if(eles.length === (initOption.pairs*2)){
-         var goNext = window.confirm("是否进入下一关？");
-         if(goNext){
-            initOption = {
-                lineNumber:initOption.lineNumber*2,
-                pairs:initOption.pairs*4
+         endingAnimation();
+          
+         var timeout = setTimeout(function(){
+            var goNext = window.confirm("是否进入下一关？");
+            if(goNext){
+               initOption = {
+                   lineNumber:initOption.lineNumber*2,
+                   pairs:initOption.pairs*4
+               }
+               cleanAll();
+               init(initOption);
+               preLook(initOption.pairs);
+            }else{
+                options.stage.innerText = "what a shame , then you may leave this page";
             }
-            cleanAll();
-            init(initOption);
-            preLook();
-         }
+            clearTimeout(timeout);
+         },2000)
       }
   }
   
@@ -179,7 +262,7 @@
     pairs:8
   }
   init(initOption);
-  preLook();
+  preLook(3);
   bindEvent();
 
 })(window,document);
