@@ -1,0 +1,12 @@
+<!--index.wxml-->
+<view class="container">
+   <div class="score">
+        <dl>
+            <dt>STEPS:</dt>
+            <dd id="count">0</dd>
+        </dl>
+    </div>
+    <div class="stage">
+    </div>
+ 
+</view>

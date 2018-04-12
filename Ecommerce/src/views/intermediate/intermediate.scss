@@ -1,0 +1,33 @@
+:local{
+    .outer{
+        :global{
+            .interBlock{
+                border: 1px solid #145c9e;
+                height: 180px;
+                padding: 0 45px;
+                position: relative;
+                text-align: center;
+                
+                b{
+                    display: block;
+                    margin-top:10px;
+                }
+
+
+                a{
+                    font-weight: normal;
+                    color:white;
+                    position: absolute;
+                    bottom:20px;
+                    left: 50%;
+                    margin-left: -50px;
+                    width: 90px;
+                }
+            }
+            .interDes{
+                text-align: center;
+                padding-top:30px;
+            }
+        }
+    }
+}

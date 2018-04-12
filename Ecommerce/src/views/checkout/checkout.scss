@@ -1,0 +1,65 @@
+:local{
+    .form{
+        :global{
+            .checkbox-inline{
+                label{
+                    font-weight: normal;
+                }
+            }
+        }
+        h1{
+            font-size: 24px;
+            font-weight: normal;
+            margin:20px 0 5px 0;
+        }
+        b{
+            color:#ad2728;
+            font-size:16px
+        }
+        h2{
+            font-size: 22px;
+            font-weight: normal;
+            margin:10px 0 5px 0;
+        }
+        label{
+            display: block;
+            font-weight: bold;
+            margin-bottom:4px;
+            font-size:16px;
+        }
+        input[type="text"]{
+            width:100%;
+            max-width: 400px;
+        }
+        :global{
+            .alert-danger{
+                display: none;
+            }
+        }
+    }
+
+
+    .common{
+        border: 1px solid #009fda;
+        padding: 14px;
+        font-size: 14px;
+        line-height: 1rem; 
+        margin-top:95px;
+        width:250px;
+        b{
+            color:black; 
+        }
+        p{
+            padding:0;
+            margin:0;
+        }
+
+    }
+    .orderSummary{
+        margin:30px 0;
+    }
+    button{
+        width:250px;
+    }
+    
+}

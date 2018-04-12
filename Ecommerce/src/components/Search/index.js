@@ -16,9 +16,9 @@ class Search extends Component{
                <div className={"col-lg-3 col-sm-12 row nopadding "+searchStyle.outer}>
                   <input type="text" className="col-9 nopadding" autoComplete="off"  placeholder="Enter your search text here."/>
                   <div className="col-3 input-group-btn nopadding">
-                    <button>
+                    <Link className={" "+searchStyle.btn} to="/">
                        Go
-                    </button>
+                    </Link>
                  </div>
                </div>
             </div>

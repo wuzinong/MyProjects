@@ -1,0 +1,113 @@
+:local{
+    .confirmation{
+        padding-top:15px;
+
+        .thankyou{
+            padding:20px 0 80px 0;
+        }
+        :global{
+            .confirmationText{
+                margin-bottom:30px;
+
+                b{
+                    font-size:28px;
+                    font-weight: normal;
+                }
+                p{
+                    margin:0;
+                }
+            }
+
+            .order-box{
+                border: 1px solid #2BAFE3;
+                a{
+                    color:black;
+                    text-decoration: none;
+                }
+
+                .order-support-image{
+                    float: left;
+                    width: 15%;
+                    padding-right: 15px;
+                    padding-top: 2px;
+                    img{
+                        width: 100%;
+                        max-width: 30px;
+                    }
+                    
+                }
+                .order-support-text{
+                    h3{
+                        color:#003591;
+                        font-weight: normal;
+                        padding-top:5px;
+                    }
+                }
+            }
+            .order-box-blue{
+                border-color: #EAF7FC;
+                background-color: #EAF7FC;
+            }
+
+            .confirmationInformation{
+                padding: 16px 16px 24px;
+                &>:first-child{
+                    border: 1px solid #2BAFE3;
+                    padding:24px 0;
+                    b{
+                        font-size: 22px;
+                        font-weight: normal;
+                    }
+                    div:first-child >ul{
+                        border-right:1px solid rgba(0, 0, 0, 0.2);
+                    }
+                }
+            }
+        }
+        h2{
+            font-weight: normal;
+        }
+        ul{
+            list-style: none;
+            padding:0;
+        }
+
+    }
+}
+
+
+:local{
+    .table{
+        :global{
+            .tHeader{
+                background-color:#f2f2f2;
+            }
+            .tItems{
+                padding:20px 0;
+                p{
+                    margin:0;
+                    font-size:12px;
+                }
+                .closeBtn{
+                    display: inline-block;
+                    transform: rotate(45deg);
+                    font-size: 18px;
+                }
+            }
+        }
+        img{
+            width:100%;
+            height: 20px;
+        }
+    }
+
+    .checkout{
+        font-size: 24px;
+        text-align: right;
+        padding-top:40px;
+        p{
+            font-size: 14px;
+        }
+       
+    }
+}

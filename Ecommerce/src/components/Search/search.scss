@@ -27,15 +27,16 @@
         }
 
         .outer{
+            text-align:center;
             width: 260px;
             border-bottom: 1px solid #999;
             input{
                 border:none;
                 outline: none;
             }
-            button{
-                height: 100%;
-                width:100%;
+            .btn{
+                border:none;
+                
             }
         }
     }

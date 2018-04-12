@@ -18,7 +18,7 @@ const config = {
         './src/index.js'
     ],
     output:{
-        path:path.join(__dirname,'/dist/'),
+        path:path.join(__dirname,'/dist/wwwroot'),
         filename:"[name].bundle.js",
         chunkFilename: '[name]-[hash:5].chunk.js', // for dynamic loading
         publicPath: "./",

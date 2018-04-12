@@ -1,11 +1,17 @@
 import React,{Component} from 'react';
 import Search from '../../components/Search';
-import detailStyle from './details.scss';
+import detailStyle from './details.scss'; 
 class Details extends Component{
     constructor(props){
         super(props);
     }
+    addToCart(){
+        console.log("add to cart clicked")
+    }
     render(){
+        const {
+            handleClick
+        } = this.props;
         return (
             <div>
                 <Search/>
@@ -40,10 +46,72 @@ class Details extends Component{
                             <option value="10users">6-10 Users: €100.00 / month</option>
                         </select>
                         <p>VAT not included</p>
-                        <button className="btn btn-primary btn-lg space-stack-sm">Add to Cart</button>
+                        <button onClick={handleClick} className="btn btn-primary btn-lg space-stack-sm">Add to Cart</button>
                         <button className="btn btn-secondary btn-lg">Request information</button>
                     </div>
                 </div>
+
+                <div className={detailStyle.contentList}>
+                    
+                    {
+                        [1,2,3].map((item,index)=>{
+                            if(index%2===0){
+                            return (
+                                <div className={"row "+detailStyle.row}>
+                                    <div className="col-lg-6 col-sm-12">
+                                        <div>
+                                            <h3>Reduce operational risk</h3>
+                                            <p>Investigation of incidents and near misses is a key part of most company safety management systems and is a regulatory requirement for major hazard facilities. Good investigation goes beyond immediate and basic technical causes to examine incident management systems root causes and safety barrier failures.</p>
+                                            <p>Our Barrier-based Systematic Cause Analysis Technique (BSCAT) combines traditional technical and management system root cause analysis.</p>
+                                        </div>
+                                    </div>
+                                    <div className="col-lg-6 col-sm-12">
+                                        <img src={require("../../assets/images/content.jpg")} alt=""/>
+                                    </div>
+                                </div>
+                            )
+                            }else{
+                            return (
+                                <div className={"row "+detailStyle.row}>
+                                    <div className="col-lg-6 col-sm-12">
+                                        <img src={require("../../assets/images/content.jpg")} alt=""/>
+                                    </div>
+                                    <div className="col-lg-6 col-sm-12">
+                                        <div>
+                                            <h3>Reduce operational risk</h3>
+                                            <p>Investigation of incidents and near misses is a key part of most company safety management systems and is a regulatory requirement for major hazard facilities. Good investigation goes beyond immediate and basic technical causes to examine incident management systems root causes and safety barrier failures.</p>
+                                            <p>Our Barrier-based Systematic Cause Analysis Technique (BSCAT) combines traditional technical and management system root cause analysis.</p>
+                                        </div>
+                                    </div>                         
+                                </div>
+                            )
+                            }
+                        })
+                    }
+                     
+                </div>
+
+                 <div className={detailStyle.section}>
+                     <div className="row">
+                         {
+                            [1,2,3,4].map((item,index)=>{
+                                return (
+                                    <section key={index} className="col-lg-6 col-sm-12">
+                                        <img src={require("../../assets/images/calendar_icon.png")} alt=""/>
+                                        <figure>
+                                            <h3>Calendar</h3>
+                                            <p>Navigate to calendar</p>
+                                        </figure>
+                                    </section>
+                                )
+                            })
+                         }
+                          
+                     </div>
+                      
+                 </div>
+
+                 
             </div>
         )
     }
