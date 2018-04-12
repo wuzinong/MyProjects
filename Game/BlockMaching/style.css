@@ -94,6 +94,18 @@ html,body{
     animation-fill-mode:forwards;
     animation-duration: .5s;
 }
+.myColor{
+    animation-name: myColorAnimation;
+    animation-delay: .2s;
+    animation-fill-mode:forwards;
+    animation-duration: .5s;
+}
+.myMove{
+    animation-name: myMoveAnimation;
+    animation-delay: .2s;
+    animation-fill-mode:forwards;
+    animation-duration: .5s;
+}
 .endGame{
     animation-name: myEndAnimation;
     animation-delay: .2s;
@@ -101,6 +113,7 @@ html,body{
     animation-duration: 2s;
     
 }
+
 
 @keyframes mySkewAnimation{
     0%{transform: skew(0deg)}
@@ -124,4 +137,25 @@ html,body{
 @keyframes myEndAnimation{
     0%{transform: rotateZ(0deg);opacity: 1;}
     100%{transform:rotateZ(360deg);opacity: 0;}
+}
+
+@keyframes myColorAnimation{
+    0%{background-color: red;}
+    10%{background-color: orange;}
+    20%{background-color:green;}
+    30%{background-color: lightgreen;}
+    40%{background-color: blue;}
+    50%{background-color: lightblue;}
+    60%{background-color: wheat;}
+    70%{background-color: gray;}
+    80%{background-color: black;}
+    90%{background-color: pink;}
+    100%{background-color: purple;}
+}
+@keyframes myMoveAnimation{
+    0%{opacity:1;transform: translateX(0)}
+    25%{opacity:1;transform: translateX(-200px)}
+    50%{opacity:1;transform: translateX(0)}
+    75%{opacity:1;transform: translateX(200px)}
+    100%{opacity:1;transform: translateX(0)}
 }

@@ -13,7 +13,7 @@
       currentEle:null,
       count:document.querySelector("#count"),
       cleanList:[],
-      animationList:["mySkew","myScale","myRotate"],
+      animationList:["mySkew","myScale","myRotate","myMove"],
       timeArea:document.querySelector("#timeArea")
   }
 
