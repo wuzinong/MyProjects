@@ -7,7 +7,10 @@
       eleList:[],
       classNameList:["glyphicon-asterisk","glyphicon-plus","glyphicon-euro","glyphicon-glass","glyphicon-music",
                      "glyphicon-search","glyphicon-heart"],
-      currentEle:null
+      currentEle:null,
+      count:document.querySelector("#count"),
+      cleanList:[],
+      animationList:["mySkew","myScale"]
   }
 
   function shuffle(array) {
@@ -18,7 +21,6 @@
 
     // While there remain elements to shuffle...
     while (0 !== currentIndex) {
-
       // Pick a remaining element...
       randomIndex = Math.floor(Math.random() * currentIndex);
       currentIndex -= 1;
@@ -39,44 +41,64 @@
   function eleFactory(option){
     var list = [];
     var fragment = document.createDocumentFragment();
+        for(var i=0;i<option.count;i++){
+            var div = document.createElement("div");
+            div.style.width = option.width +"px";
+            div.style.height= option.height+"px";
+            div.className = "card";
 
-        for(var i=0;i<option.len;i++){
-            var ele = document.createElement("span");
-            ele.style.width = option.width +"px";
-            ele.style.height= option.height+"px";
-            ele.className="glyphicon ";
+            var front = document.createElement("span");
+            front.className="frontStyle glyphicon ";
             var index = rd(0,options.classNameList.length-1);
-            ele.className +=options.classNameList[index];
-            list.push(ele);
-            list.push(ele.cloneNode(true));
+            front.className +=options.classNameList[index];
+
+            var back = document.createElement("span");
+            back.className = "backStyle";
+
+            div.appendChild(front);
+            div.appendChild(back);
+
+            list.push(div);
+            list.push(div.cloneNode(true));
         }
         var temp = shuffle(list);
-        console.log(temp);
         for(var key=0,tempLen=temp.length;key<tempLen;key++){
            options.stage.appendChild(temp[key]);
         }
   }
 
 
-  function init(){
+  function init(option){
       var width = parseInt(getComputedStyle(options.stage).width)-parseInt(getComputedStyle(options.stage).paddingLeft)-parseInt(getComputedStyle(options.stage).paddingRight);
       var eleOption = {
-          width:(width/4),
-          height:(width/4),
-          len:8
+          width:(width/option.lineNumber),
+          height:(width/option.lineNumber),
+          count:option.pairs
       };
-      eleFactory(eleOption)
+      eleFactory(eleOption);
   }
+
+  function addCount(){
+    options.count.innerText = parseInt(options.count.innerText)+1;
+  }
+
   function bindEvent(){
     options.stage.addEventListener("click",function(event){
         var tempClassName = event.target.className;
-        if(tempClassName.indexOf("glyphicon")>=0){
-
-            if(tempClassName.indexOf("rotate")<0){
-                event.target.classList.add("rotate")
-                var timeout = window.setTimeout(function(){
-                    event.target.classList.remove("rotate")
-                },2000);
+        if(tempClassName.indexOf("backStyle")>=0){
+            var timeout = null;
+            //Add animation
+            if(tempClassName.indexOf("backRotate")<0){
+                event.target.classList.add("backRotate");
+                event.target.previousElementSibling.classList.add("frontRotate");
+                function clean(){
+                    return function(){
+                        event.target.classList.remove("backRotate");
+                        event.target.previousElementSibling.classList.remove("frontRotate");
+                    }
+                }
+                options.cleanList.push(clean());
+                addCount();
             }
 
             if(options.currentEle!=null){
@@ -84,9 +106,29 @@
                     console.log("self click")
                     return;
                 }else{
-                    if(options.currentEle.className.indexOf(event.target.className)>=0 || event.target.className.indexOf(options.currentEle.className)>=0){
-                        console.log("hit hit hit");
+                    if(options.currentEle.previousElementSibling.className.indexOf(event.target.previousElementSibling.className)>=0 || event.target.previousElementSibling.className.indexOf(options.currentEle.previousElementSibling.className)>=0){
+                        options.currentEle.previousElementSibling.classList.add("succeed");
+                        event.target.previousElementSibling.classList.add("succeed");
+                        var tempOptCurr = options.currentEle;
+                        var index = rd(0,options.animationList.length-1);
+                        var cName =options.animationList[index];
+                        console.log(cName);
+                        var aniTimeout = setTimeout(function(){
+                            tempOptCurr.parentElement.classList.add(cName);
+                            event.target.parentElement.classList.add(cName);
+                            clearTimeout(aniTimeout);
+                        },1000)
+                        ifPassed();
+                    }else{
+                        var tempList = options.cleanList;
+                        var cleanTimeout =setTimeout(function(){
+                            tempList.forEach(function(item){
+                                item();
+                            }); 
+                            clearTimeout(cleanTimeout);
+                        },2000);     
                     }
+                    options.cleanList = [];
                     options.currentEle = null;
                 }
                
@@ -98,7 +140,44 @@
 
   }
 
-  init();
+  function preLook(){
+    setTimeout(function(){
+        document.querySelectorAll(".frontStyle").forEach(function(item){
+           item.classList.add("initRotateFront");
+        });
+        document.querySelectorAll(".backStyle").forEach(function(item){
+          item.classList.add("initRotateBack");
+       });
+    },3000);
+  }
+  
+  function cleanAll(){
+    options.stage.innerHTML = "";
+    options.count.innerText = 0;
+  }
+
+  function ifPassed(){
+      var eles = document.querySelectorAll(".succeed");
+      if(eles.length === (initOption.pairs*2)){
+         var goNext = window.confirm("是否进入下一关？");
+         if(goNext){
+            initOption = {
+                lineNumber:initOption.lineNumber*2,
+                pairs:initOption.pairs*4
+            }
+            cleanAll();
+            init(initOption);
+            preLook();
+         }
+      }
+  }
+  
+  var initOption = {
+    lineNumber:4,
+    pairs:8
+  }
+  init(initOption);
+  preLook();
   bindEvent();
 
-})(window,document)
+})(window,document);
