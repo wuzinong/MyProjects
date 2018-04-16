@@ -13,7 +13,7 @@ const config = {
     target:'web',
     entry,
     output:{
-        path:path.join(__dirname,'/dist/'),
+        path:path.join(__dirname,'../dist/'),
         filename:"[name].bundle.js",
         chunkFilename: '[name]-[hash:5].chunk.js', // for dynamic loading
         publicPath: "./",

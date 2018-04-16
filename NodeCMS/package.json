@@ -9,7 +9,11 @@
     "dev": "cross-env NODE_ENV=development webpack-dev-server --config webpack.config.js --profile --colors",
     "build:dev": "node scripts/build-dev.js",
     "bulid:devserver": "node scripts/build-devserver.js",
-    "start": "npm run bulid:devserver"
+    "build:prod": "node scripts/build-prod.js",
+    "eslint": "eslint --color src",
+    "eslint:watch": "esw --color --watch src",
+    "start": "npm run bulid:devserver",
+    "nsp:check": "nsp check"
   },
   "dependencies": {
     "autoprefixer": "^7.2.6",
@@ -37,6 +41,7 @@
     "html-webpack-plugin": "^2.30.1",
     "http-proxy-middleware": "^0.18.0",
     "node-sass": "^4.7.2",
+    "nsp": "^3.2.1",
     "postcss-loader": "^2.1.0",
     "promise-loader": "^1.0.0",
     "prop-types": "^15.6.0",
@@ -50,6 +55,7 @@
     "redux-thunk": "^2.2.0",
     "rimraf": "^2.6.2",
     "sass-loader": "^6.0.6",
+    "shelljs": "^0.8.1",
     "style-loader": "^0.20.1",
     "url-loader": "^0.6.2",
     "webpack": "^3.11.0",
