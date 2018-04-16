@@ -2,6 +2,8 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const entry = require('./webpack.entry');
+
 
  
 console.log(process.env.NODE_ENV);
@@ -9,10 +11,7 @@ console.log(process.env.NODE_ENV);
 const config = {
     devtool:false,
     target:'web',
-    entry:{
-        vendor:['babel-polyfill','react','react-dom','react-router'],
-        app:'./src/index.js'
-    },
+    entry,
     output:{
         path:path.join(__dirname,'/dist/'),
         filename:"[name].bundle.js",

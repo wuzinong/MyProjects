@@ -3,18 +3,17 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
+const entry = require('./webpack.entry');
+entry.app = [
+    'webpack-hot-middleware/client?reload=true',
+    'webpack/hot/only-dev-server',
+    ...entry.app
+];
 
 const config = {
     devtool:"cheap-module-eval-source-map",
     target:'web',
-    entry:[
-        // 'react-hot-loader/patch',
-        // 'webpack-dev-server/client?http://127.0.0.1:3000',
-        // 'babel-polyfill',
-        'webpack-hot-middleware/client?reload=true',
-        'webpack/hot/only-dev-server',
-        './src/index.js'
-    ],
+    entry,
     output:{
         path:path.join(__dirname,'/dist/'),
         filename:"[name].bundle.js",
