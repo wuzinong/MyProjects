@@ -1,0 +1,22 @@
+:local{
+
+    .bak{
+        left:0;
+        right:0;
+        top:0;
+        bottom:0;
+        position: absolute;
+        background-color:black;
+        opacity: .4;
+        z-index: 100;
+    }
+    .content{
+        width:800px;
+        position: absolute;
+        left:50%;
+        margin-left:-400px;
+        background-color:white;
+        z-index: 101;
+    }
+ 
+}
