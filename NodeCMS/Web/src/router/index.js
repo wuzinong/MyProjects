@@ -14,13 +14,18 @@ import store from '../store';
 import About from '../views/about';
 import NotFound from '../views/notFound';
 import List from '../views/List';
+import Login from '../views/login';
 
 const App =()=>(
       <Provider store={store}>
         <HashRouter>
             <Switch>
-                <Route exact path="/" component={Home} />
+                <Route exact path="/" component={Login} />
                  
+                <Route pate="/home"
+                       component = {Home}
+                >
+                </Route>
                 <Route path="/about" 
                        component = {About}
                     >

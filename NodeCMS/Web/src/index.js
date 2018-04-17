@@ -6,12 +6,13 @@ import {AppContainer} from 'react-hot-loader';
 import resetCss from './assets/styles/reset.scss';
 import globalCss from './assets/styles/global.scss';
 
+
 if(process.env.NODE_ENV==='development'){
     const render = (Component)=>{
        ReactDOM.render(
-           <AppContainer>
-              <Component/>
-           </AppContainer>
+                <AppContainer>
+                    <Component/>
+                </AppContainer>
        ,document.getElementById("container"))
     };
     render(App);
