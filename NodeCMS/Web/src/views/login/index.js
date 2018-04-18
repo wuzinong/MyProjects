@@ -5,6 +5,7 @@ import {LoginFunc} from '../../reducers/login-reducer';
 
 const mapDispatchToProps = (dispatch,props)=>{
         const Login = (data)=>{
+            
             dispatch(LoginFunc(data));
         }
 
@@ -15,8 +16,9 @@ const mapDispatchToProps = (dispatch,props)=>{
 }
 
 const mapStateToProps = (state)=>{
-
-    const {ifLogin,code,message} = state;
+    console.log("map to props")
+    console.log(state)
+    const {ifLogin,code,message} = state.LoginReducer;
     return {
         ifLogin,
         code,

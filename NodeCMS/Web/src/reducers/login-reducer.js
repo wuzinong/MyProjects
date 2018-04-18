@@ -7,10 +7,14 @@ const initLogin={
 const LoginReducer = (state=initLogin,action)=>{
     switch (action.type) {
         case "LOGIN": {
-            
+
             return Object.assign({},initLogin,{ifLogin:true,code:1,message:"log in succeed"});
         }
-        default : return state;
+        default : {
+            console.log("init")
+            console.log(state);
+            return state;
+        }
     }
 }
 

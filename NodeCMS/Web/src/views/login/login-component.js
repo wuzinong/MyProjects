@@ -10,7 +10,6 @@ class Login extends Component {
         let email = this.email.value;
         let password = this.password.value;
         const {Login} = this.props;
-        console.log("login")
         Login({
             email:email,
             password:password,
@@ -19,9 +18,12 @@ class Login extends Component {
     }
 
     render(){
-       return (
-            <div>
-                
+        const {ifLogin,code,message} = this.props;
+        if(ifLogin){
+            this.props.history.push("/home");
+        }
+        return (
+            <div> 
                 <form className={loginStyle.form}>
                     <h4 className="card-title mb-4 mt-1">Sign in</h4>
                     <div className="form-group">
@@ -38,6 +40,7 @@ class Login extends Component {
                         <label> <input type="checkbox"/> Save password </label>
                         </div>  
                     </div>  
+                    <div>{message}</div>
                     <div className="form-group">
                         <button onClick={()=>{this.goLogin()}} className="btn btn-primary btn-block"> Login  </button>
                     </div>                                                           
