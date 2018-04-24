@@ -19,26 +19,28 @@ import Login from '../views/login';
 const App =()=>(
       <Provider store={store}>
         <HashRouter>
-            <Switch>
-                <Route exact path="/" component={Login} />
-                <Route path="/about" 
-                       component = {About}
-                    >
-                </Route>
-                <Route path="/list" 
-                       component = {List}
-                    >
-                </Route>
-                <Route pate="/home"
-                    component = {Home}
-                    >
-                </Route>
-                <Route path="/notFound"
-                      component = {NotFound}
-                    >
-                </Route>
-                <Redirect exact path='*' to='/notFound'></Redirect>
-            </Switch>
+        <Switch>
+        <Route exact path="/" component={Login} />
+         
+        <Route path="/about" 
+               component = {About}
+            >
+        </Route>
+        <Route path="/home" 
+               component = {Home}
+            >
+        </Route>
+        <Route path="/list" 
+               component = {List}
+            >
+        </Route>
+       
+        <Route path="/notFound"
+              component = {NotFound}
+            >
+        </Route>
+        <Redirect exact path='*' to='/notFound'></Redirect>
+    </Switch>
         </HashRouter>
    </Provider>
 );
