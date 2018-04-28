@@ -4,7 +4,12 @@ router.get('/home', async (ctx, next) => {
     await ctx.render('index', {
       title: 'Hello Koa 2!'
     })
-})
+});
+router.get('/catalog',async (ctx,next)=>{
+  await ctx.render("../views/Catalog/catalog", {
+      title: 'catelog page'
+    })
+});
 
 router.get('/string', async (ctx, next) => {
   ctx.body = 'koa2 string'

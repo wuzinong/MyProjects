@@ -5,4 +5,29 @@ html
     link(rel='stylesheet', href='/stylesheets/bootstrap.min.css') 
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
-    block content
+    div.cmsWhole
+      div#mobile-menu.mobile-nav
+        ul
+          li
+            a(href="/home") Dashboard
+          li
+            a(href="/catalog") Catagory
+          li
+            a(href="") Marketing
+          li
+            a(href="") Design
+          li
+            a(href="") Media
+          li
+            a(href="") Repors
+          li
+            a(href="") Search
+          li
+            a(href="") Accounts
+          li
+            a(href="") Settings
+          li
+            a(href="") Publising
+      section.homt_right
+        block content
+      

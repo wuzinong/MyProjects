@@ -1,0 +1,39 @@
+extends ../layout
+
+block content
+    div.catalog
+      div.catalog_header
+        button.btn.btn-primary +New Catalog
+        select.form-control
+          option(value="test1") test1
+          option(value="test2") test2
+          option(value="test3") test3
+      div.catalog_main
+        aside
+          h5 Master Catalog
+          div.cata_nav
+            p
+              button.btn.btn-primary +New Collection
+            ul
+              li.bs-callout.bs-callout-info All Products
+              li.bs-callout Unassigned Products
+            ul
+              li Storefront Navigation
+                ul
+                  li Oil & Gas
+                  li Software
+                  li Maritime
+              li Non-Navigable
+        section
+          h5 All Products
+            select.form-control
+              option(value="test1") test1 
+              option(value="test2") test2
+              option(value="test3") test3
+          div.cata_nav
+            p
+              button.btn.btn-primary +New Product
+              input(placeholder="search for prodct").form-control
+              button.btn.btn-default Go
+
+          

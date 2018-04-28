@@ -1,8 +1,14 @@
 body {
-  padding: 50px;
+  margin-top:20px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
-
+*{
+  margin:0;
+  padding:0;
+}
+ul li{
+  list-style: none;
+}
 a {
   color: #00B7FF;
 }
@@ -10,4 +16,96 @@ a {
 fieldset{
   max-width: 300px;
   margin:0 auto;
+}
+
+.cmsWhole{
+  display: flex;
+}
+
+#mobile-menu {width:220px;height:100%;background-color:#373737;z-index:9999;}
+a:hover ,a:focus{text-decoration:none}
+.mobile-nav ul li a {color:gray;display:block;padding:1em 5%;    border-top:1px solid #4f4f4f;border-bottom:1px solid #292929;transition:all 0.2s ease-out;cursor:pointer;#mobile-menu {position:fixed;top:0;left:0;width:220px;height:100%;background-color:#373737;z-index:9999;transition:all 0.3s ease-in;}}
+.mobile-nav ul li a:hover {background-color: #23A1F6;color: #ffffff;}
+.show-nav {transform:translateX(0);}
+.hide-nav {transform:translateX(-220px);} /*侧滑关键*/
+.mobile-nav-taggle {height:35px;line-height:35px;width:35px;background-color:#23A1F6;color:#ffffff;display:inline-block;text-align:center;cursor:pointer}
+.nav.avbar-inverse{position:relative;}
+.nav-btn {position:absolute;right:20px;top:20px;}
+
+
+.bs-callout {
+  padding: 4px 6px;
+  margin: 8px 4px;
+  border: 1px solid transparent;
+  border-left-width: 2px;
+  text-align: left;
+  cursor: pointer;
+}
+.bs-callout:hover,.bs-callout-info {
+  border-left-color: #1b809e;
+}
+
+.homt_right{
+  flex:1 1 auto; 
+}
+
+.catalog .catalog_header{
+   background-color:#eee;
+   padding:3px 10px;
+   width:100%;
+   overflow: hidden;
+}
+.catalog .catalog_header button{
+  float:left;
+}
+
+.catalog .catalog_header select{
+  width:200px;
+  float:left;
+  margin-left:10px;
+}
+
+.catalog .catalog_main{
+  display: flex;
+}
+.catalog .catalog_main aside{
+  width:200px;
+  text-align:center;
+} 
+.catalog .catalog_main .cata_nav{
+  border:1px solid #eee;
+  border-radius: 3px;
+}
+.catalog .catalog_main .cata_nav ul:first-of-type{
+  border-bottom:1px solid #eee;
+  padding:0 5px;
+  margin-bottom:20px;
+}
+.catalog .catalog_main .cata_nav p{
+   background-color:#eee;
+   padding:8px;
+   overflow: hidden;
+}
+
+.catalog .catalog_main section{
+  flex:1 1 auto;
+  padding-left:10px;
+}
+
+.catalog .catalog_main section p button{
+   float: left;
+}
+
+.catalog .catalog_main section p input{
+  width:200px;
+  float:left;
+  margin-left:10px;
+}
+.catalog_main h5{
+  overflow: hidden;
+  min-height:40px;
+}
+.catalog_main h5 select{
+  float: right;
+  width:200px;
 }
