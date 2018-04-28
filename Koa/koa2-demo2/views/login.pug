@@ -1,0 +1,28 @@
+extends layout
+
+block content
+  div.container-fluid
+    form(method="post").commonForm.form-horizontal
+      fieldset
+        legend 用户登录
+        div.control-group
+            label(for="username").control-label 用户名
+            div.controls
+              input(type="text",name="username",placeholder="username")#username.input-xlarge
+        div.control-group
+            label(for="password").control-label 密码
+            div.controls
+              input(type="password",name="password",placeholder="password")#password.input-xlarge
+        div.control-group
+            div.bg-danger
+        div.form-actions
+          button(type="button")#loginBtn.btn.btn-primary 登录   
+  script(src="/javascripts/commonTools.js")        
+  script(src="/javascripts/login.js")
+     
+
+
+//- script(type='text/javascript', href='../public/javascripts/login.js') 
+//- block append head
+//-   script(src='../public/javascripts/login.js')
+
