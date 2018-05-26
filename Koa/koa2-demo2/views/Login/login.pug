@@ -1,28 +1,27 @@
-extends ../layout
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/bootstrap.min.css') 
+    link(rel='stylesheet', href='/stylesheets/reset.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/supersized.css')
+  body
 
-block content
-  div.container-fluid
-    form(method="post").commonForm.form-horizontal
-      fieldset
-        legend 用户登录
-        div.control-group
-            label(for="username").control-label 用户名
-            div.controls
-              input(type="text",name="username",placeholder="username")#username.input-xlarge
-        div.control-group
-            label(for="password").control-label 密码
-            div.controls
-              input(type="password",name="password",placeholder="password")#password.input-xlarge
-        div.control-group
-            div.bg-danger
-        div.form-actions
-          button(type="button")#loginBtn.btn.btn-primary 登录   
-  script(src="/javascripts/commonTools.js")        
-  script(src="/javascripts/login.js")
-     
-
-
-//- script(type='text/javascript', href='../public/javascripts/login.js') 
-//- block append head
-//-   script(src='../public/javascripts/login.js')
-
+    div.page-container
+      h1 Login
+      form(method="post")
+        input(type="text",name="userid",placeholder="username")
+        input(type="password",name="password",placeholder="password")
+        button.sign-in Sign In
+      div.connect
+        p Or connect with:
+          p
+            a.facebook
+            a.twitter
+    script(type='text/javascript', src='/javascripts/jquery-1.8.2.min.js')
+    script(type='text/javascript', src='/javascripts/supersized.3.2.7.min.js')
+    script(type='text/javascript', src='/javascripts/supersized-init.js')
+    script(type='text/javascript', src='/javascripts/scripts.js')
+    script(type='text/javascript', src='/javascripts/commonTools.js')
+      
