@@ -2,32 +2,129 @@ doctype html
 html
   head
     title= title
-    link(rel='stylesheet', href='/stylesheets/bootstrap.min.css') 
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='bootstrap/css/bootstrap.min.css') 
+    link(rel='stylesheet', href='bootstrap/css/bootstrap-responsive.min.css') 
+    link(rel='stylesheet', href='css/theme.css')
+    link(rel='stylesheet', href='/images/icons/css/font-awesome.css')
   body
-    div.cmsWhole
-      div#mobile-menu.mobile-nav
-        ul
-          li
-            a(href="/home") Dashboard
-          li
-            a(href="/catalog") Catagory
-          li
-            a(href="") Marketing
-          li
-            a(href="") Design
-          li
-            a(href="") Media
-          li
-            a(href="") Repors
-          li
-            a(href="") Search
-          li
-            a(href="") Accounts
-          li
-            a(href="") Settings
-          li
-            a(href="") Publising
-      section.homt_right
-        block content
+    div.navbar.navbar-fixed-top
+      div.navbar-inner
+        div.container
+          a(data-toggle="collapse",data-target=".navbar-inverse-collapse").btn.btn-navbar
+            i.icon-reorder.shaded
+          a(href="index.html").brand Admin
+          div.nav-collapse.collapse.navbar-inverse-collapse
+            ul.nav.nav-icons
+              li.active
+                a
+                  i.icon-envelope
+              li
+                a(href="#")
+                  i.icon-eye-open
+              li
+                a(href="#")
+                  i.icon-bar-chart
+            form.navbar-search.pullleft.input-append(action="#")
+              input(type="text").span3
+              button.btn
+                i.icon-search
+            ul.nav.pull-right
+              li.dropdown
+                a.dropdown-toggle(href="#",data-toggle="dropdown") Dropdown
+                  b.caret
+                ul.dropdown-menu
+                  li
+                    a(href="#") Item No.1
+                  li
+                    a(href="#") Don't click
+                  li.divider
+                  li.nav-header Example Header
+                  li
+                    a(href="#") ASeparated link
+              li
+                a(href="#") Support
+              li.nav-user.dropdown
+                a(href="#",data-toggle="dropdown").dropdown-toggle
+                  img(src="images/user.png", alt="").nav-avatar
+                  b.caret
+                ul.dropdown-menu
+                  li
+                    a(href="#") Your Profile
+                  li
+                    a(href="#") Edit Profile
+                  li
+                    a(href="#") Account Settings
+                  li.divider
+                  li
+                    a(href="#") Logout
+    
+    div.wrapper
+      div.container
+        div.row
+          div.span3
+            div.sidebar
+              ul.widget.widget-menu.unstyled
+                li.active
+                  a(href="index.html")
+                    i.menu-icon.icon-dashboard Dashboard
+                li
+                  a(href="activity.html")
+                    i.menu-icon.icon-bullhorn News Feed
+                li
+                  a(href="message.html")
+                    i.menu-icon.icon-inbox Inbox
+                    b.label.green.pull-right 11
+                li
+                  a(href="task.html")
+                    i.menu-icon.icon-tasks Tasks
+                    b.label.orange.pull-right 19
+              
+              ul.widget.widget-menu.unstyled
+                li
+                  a(href="ui-button-icon.html")
+                    i.menu-icon.icon-bold Buttons
+                li
+                  a(href="")
+                    i.menu-icon.icon-book Typography
+                li
+                  a(href="")
+                    i.menu-icon.icon-paste Forms
+                li
+                  a(href="")
+                    i.menu-icon.icon-table Tables
+                li
+                  a(href="")
+                    i.menu-icon.icon-bar-chart Charts
+
+              ul.widget.widget-menu.unstled
+                li
+                  a(href="#togglePages",data-toggle="collapse").collpased
+                    i.menu-icon.icon-cog
+                    i.icon-chevron-down.pull-right
+                    i.icon-chevron-up.pull-right
+                  ul#togglePages.collpase.unstyled 
+                    li
+                      a(href="")
+                        i.icon-inbox Login
+                    li
+                      a(href="")
+                        i.icon-inbox Profile
+                    li
+                      a(href="")
+                        i.icon-inbox All Users
+          
+                li
+                  a(href="")
+                    i.menu-icon.icon-signout Logout
+          
+          div.span9
+            block content
+    
       
+    script(type='text/javascript', src='/scripts/jquery-1.9.1.min.js')
+    script(type='text/javascript', src='/scripts/jquery-ui-1.10.1.custom.min.js')
+    script(type='text/javascript', src='/bootstrap/js/bootstrap.min.js')
+    script(type='text/javascript', src='/scripts/flot/jquery.flot.js')
+    script(type='text/javascript', src='/scripts/flot/jquery.flot.resize.js')
+    script(type='text/javascript', src='/scripts/datatables/jquery.dataTables.js')
+    script(type='text/javascript', src='/scripts/common.js') 
