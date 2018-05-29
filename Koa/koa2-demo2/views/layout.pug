@@ -2,10 +2,13 @@ doctype html
 html
   head
     title= title
+    meta(http-equiv="Content-Type",context="text/html;charset=utf-8")
+    meta(name="viewport",content="width=device-width,initial-scale=1,maximun-scale=1,userscalable=no")
     link(rel='stylesheet', href='bootstrap/css/bootstrap.min.css') 
     link(rel='stylesheet', href='bootstrap/css/bootstrap-responsive.min.css') 
     link(rel='stylesheet', href='css/theme.css')
     link(rel='stylesheet', href='/images/icons/css/font-awesome.css')
+    link(rel="stylesheet", href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600")
   body
     div.navbar.navbar-fixed-top
       div.navbar-inner
@@ -66,56 +69,69 @@ html
               ul.widget.widget-menu.unstyled
                 li.active
                   a(href="index.html")
-                    i.menu-icon.icon-dashboard Dashboard
+                    i.menu-icon.icon-dashboard
+                    |Dashboard
                 li
-                  a(href="activity.html")
-                    i.menu-icon.icon-bullhorn News Feed
+                  a(href="activity.html") 
+                    i.menu-icon.icon-bullhorn 
+                    |News Feed
                 li
-                  a(href="message.html")
-                    i.menu-icon.icon-inbox Inbox
+                  a(href="message.html") 
+                    i.menu-icon.icon-inbox 
+                    |Inbox
                     b.label.green.pull-right 11
                 li
-                  a(href="task.html")
-                    i.menu-icon.icon-tasks Tasks
+                  a(href="task.html") 
+                    i.menu-icon.icon-tasks 
+                    |Tasks
                     b.label.orange.pull-right 19
               
               ul.widget.widget-menu.unstyled
                 li
-                  a(href="ui-button-icon.html")
-                    i.menu-icon.icon-bold Buttons
+                  a(href="ui-button-icon.html") 
+                    i.menu-icon.icon-bold
+                    |Buttons
                 li
-                  a(href="")
-                    i.menu-icon.icon-book Typography
+                  a(href="") 
+                    i.menu-icon.icon-book 
+                    |Typography
                 li
-                  a(href="")
-                    i.menu-icon.icon-paste Forms
+                  a(href="") 
+                    i.menu-icon.icon-paste 
+                    |Forms
                 li
-                  a(href="")
-                    i.menu-icon.icon-table Tables
+                  a(href="") 
+                    i.menu-icon.icon-table 
+                    |Tables
                 li
-                  a(href="")
-                    i.menu-icon.icon-bar-chart Charts
-
-              ul.widget.widget-menu.unstled
+                  a(href="") 
+                    i.menu-icon.icon-bar-chart 
+                    |Charts
+                
+              ul.widget.widget-menu.unstyled
                 li
                   a(href="#togglePages",data-toggle="collapse").collpased
                     i.menu-icon.icon-cog
                     i.icon-chevron-down.pull-right
                     i.icon-chevron-up.pull-right
-                  ul#togglePages.collpase.unstyled 
+                    |More Pages
+                  ul#togglePages.unstyled.in.collapse 
                     li
-                      a(href="")
-                        i.icon-inbox Login
+                      a(href="") 
+                        i.icon-inbox 
+                        |Login
                     li
-                      a(href="")
-                        i.icon-inbox Profile
+                      a(href="") 
+                        i.icon-inbox 
+                        |Profile
                     li
-                      a(href="")
-                        i.icon-inbox All Users
-          
+                      a(href="") 
+                        i.icon-inbox 
+                        |All Users
                 li
-                  a(href="")
-                    i.menu-icon.icon-signout Logout
+                  a(href="") 
+                    i.menu-icon.icon-signout 
+                    |Logout
           
           div.span9
             block content
