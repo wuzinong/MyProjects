@@ -15,7 +15,7 @@ html
         div.container
           a(data-toggle="collapse",data-target=".navbar-inverse-collapse").btn.btn-navbar
             i.icon-reorder.shaded
-          a(href="index.html").brand Admin
+          a(href="#").brand Admin
           div.nav-collapse.collapse.navbar-inverse-collapse
             ul.nav.nav-icons
               li.active
@@ -68,7 +68,7 @@ html
             div.sidebar
               ul.widget.widget-menu.unstyled
                 li.active
-                  a(href="index.html")
+                  a(href="/home")
                     i.menu-icon.icon-dashboard
                     |Dashboard
                 li
@@ -134,7 +134,8 @@ html
                     |Logout
           
           div.span9
-            block content
+            div.content
+              block content
     
       
     script(type='text/javascript', src='/scripts/jquery-1.9.1.min.js')

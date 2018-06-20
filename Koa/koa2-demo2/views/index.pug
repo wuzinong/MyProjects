@@ -1,4 +1,104 @@
 extends layout
 
 block content
-   H3 This is home page
+   div.btn-controls
+    div.btn-box-row.row-fluid
+       a(href="#").btn-box.big.span4
+         i.icon-random
+         b 65%
+         p.text-muted Growth
+       a(href="#").btn-box.big.span4
+         i.icon-user
+         b 15
+         p.text-muted New users
+       a(href="#").btn-box.big.span4
+         i.icon-money
+         b 15,152
+         p.text-muted Profit
+
+    div.btn-box-row.row-fluid
+        div.span8
+            div.row-fluid
+                div.span12
+                    a.btn-box.small.span4
+                        i.icon-envelope
+                        b Messages
+                    a.btn-box.small.span4
+                        i.icon-group
+                        b Clients
+                    a.btn-box.small.span4
+                        i.icon-exchange
+                        b Expenses
+            div.row-fluid
+                div.span12
+                    a.btn-box.small.span4
+                        i.icon-save
+                        b Total Sales
+                    a.btn-box.small.span4
+                        i.icon-bullhorn
+                        b Social Feed
+                    a.btn-box.small.span4
+                        i.icon-sort-down
+                        b Bounce Rate
+        ul.widget.widget-usage.unstyled.span4
+            li
+                p
+                  strong Windows 8
+                  span.pull-right.small.muted 78%
+                div.progress.tight
+                  div(style='width:78%').bar
+            li
+                p
+                  strong Mac
+                  span.pull-right.small.muted 56%
+                div.progress.tight
+                  div(style='width:56%').bar.bar-success
+            li
+                p
+                  strong Linux
+                  span.pull-right.small.muted 44%
+                div.progress.tight
+                  div(style='width:44%').bar.bar-warning
+            li
+                p
+                  strong iPhone
+                  span.pull-right.small.muted 67%
+                div.progress.tight
+                  div(style='width:67%').bar.bar-danger
+
+    div.module
+      div.module-head
+        h3 DataTables
+      div.module-body.table
+        div(role="grid")#DataTables_Table_0_wrapper.dataTables_wrapper
+          table(width="100%",aria-describedby="DataTables_Table_0_info").datatable-1.table.table-bordered.table-striped.display.dataTable
+            thead
+              tr(role="row")
+                th.sorting_asc Rendering engine
+                th.sorting Browser
+                th.sorting Platform(s)
+                th.sorting Engine version
+                th.sorting CSS grade
+            
+            tfoot
+              th.sorting_asc Rendering engine
+              th.sorting Browser
+              th.sorting Platform(s)
+              th.sorting Engine version
+              th.sorting CSS grade
+            
+            tbody(role="alert",aria-live="polite",aria-relevant="all")
+              tr.gradeC.odd
+                td test1
+                td test2
+                td test3
+                td test4
+                td test5
+              tr.gradeA.even
+                td test1
+                td test2
+                td test3
+                td test4
+                td test5
+              
+            
