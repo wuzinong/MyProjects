@@ -1,0 +1,57 @@
+extends ../layout
+
+block content
+  div.module.message
+    div.module-head
+      h3 Message
+    div.module-option.clearfix
+      div.pull-left
+        div.btn-group
+          button.btn Inbox:
+          button(data-toggle="dropdown").btn.dropdown-toggle
+            span.caret
+          ul.dropdown-menu
+            li
+              a(href="#") Inbox(11)
+            li
+              a(href="#") Sent
+            li
+              a(href="#") Draft(2)
+            li
+              a(href="#") Trash
+            li.divider
+            li
+              a(href="#") Settings
+      div.pull-right
+        a.btn.btn-primary Compose
+    div.module-body.table
+      table.table.table-message
+        tbody
+          tr.heading
+            td.cell-check
+              input(type="checkbox").inbox-checkbox
+            td.cell-icon
+            td.cell-author.hidden-phone.hidden-tablet Sender
+            td.cell-title
+            td.cell-icon.hidden-phone.hidden-tablet
+            td.cell-time.align-right Date
+          tr.unread
+            td.cell-check
+              input(type="checkbox").inbox-checkbox
+            td.cell-icon
+              i.icon-star
+            td.cell-author.hidden-phone.hidden-tablet Test
+            td.cell-title Sample Work
+            td.cell-icon.hidden-phone.hidden-tablet
+              i.icon-paper-clip
+            td.cell-time.align-right 18:24
+          tr.unread.starred
+            td.cell-check
+              input(type="checkbox").inbox-checkbox
+            td.cell-icon
+              i.icon-star
+            td.cell-author.hidden-phone.hidden-tablet Test
+            td.cell-title Sample Work
+            td.cell-icon.hidden-phone.hidden-tablet
+              i.icon-paper-clip
+            td.cell-time.align-right 18:24
