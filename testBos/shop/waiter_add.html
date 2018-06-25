@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>员工管理</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="../public/admin/plugins/Hplus-v.4.1.0/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link rel="stylesheet" href="../public/admin/plugins/iconfont/iconfont.css">
+    <!--批量上传图片插件-->
+    <link rel="stylesheet" href="../public/admin/plugins/Hplus-v.4.1.0/css/plugins/webuploader/webuploader.css">
+    <link rel="stylesheet" href="../public/admin/plugins/Hplus-v.4.1.0/css/demo/webuploader-demo.css">
+
+    <!--头像裁切上传插件-->
+    <link href="../public/admin/plugins/Hplus-v.4.1.0/css/plugins/cropper/cropper.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="../public/admin/css/p-waiter.css?rev=@@hash">
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content">
+    <form action="">
+        <div class="ibox form-horizontal">
+            <div class="ibox-title back-change">
+                <h5>基本信息</h5>
+                <div class="ibox-tools">
+                    <a class="collapse-link">
+                        <i class="iconfont icon-packup"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="" class="col-sm-4 col-md-2 control-label"><span class="g-c--red">*</span>姓名</label>
+                            <div class="col-sm-8 col-md-10">
+                                <input type="text" class="form-control">
+                                <span class="help-block g-mb--0 hide">提示语句</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-4 col-md-2 control-label"><span class="g-c--red">*</span>手机</label>
+                            <div class="col-sm-8 col-md-10">
+                                <div class="input-group">
+                                    <input type="text" class="form-control js-input-tel">
+                                    <span class="input-group-btn">
+                                            <button type="button" class="btn btn-primary js-btn-get-code">获取验证码</button>
+                                        </span>
+                                </div>
+                                <span class="help-block g-mb--0 hide text-danger js-tel-error">请填写正确的手机号码</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-8 col-md-10 col-sm-offset-4 col-md-offset-2">
+                                <input type="text" class="form-control" placeholder="输入验证码">
+                                <span class="help-block g-mb--0 hide">提示语句</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="" class="col-sm-4 col-md-2 control-label"><span class="g-c--red">*</span>打赏</label>
+                            <div class="col-sm-8 col-md-10">
+                                <div class="input-group">
+                                    <input type="number" class="form-control">
+                                    <span class="input-group-addon">%</span>
+                                </div>
+                                <span class="help-block g-mb--0">员工打赏分成比例，请填写0~100的整数</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="" class="col-sm-4 col-md-2 control-label"><span class="g-c--red">*</span>等级</label>
+                            <div class="col-sm-8 col-md-10">
+                                <input type="text" class="form-control js-input-grade" placeholder="例：金牌员工">
+                                <span class="help-block g-mb--0 hide">提示语句</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="btn-group btn-group-justified js-btns-grade">
+                            <a href="javascript:;" class="btn btn-primary">金牌</a>
+                            <a href="javascript:;" class="btn btn-primary">银牌</a>
+                            <a href="javascript:;" class="btn btn-primary">铜牌</a>
+                            <a href="javascript:;" class="btn btn-success">高级</a>
+                            <a href="javascript:;" class="btn btn-success">中级</a>
+                            <a href="javascript:;" class="btn btn-success">普通</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ibox-footer g-ta--r">
+                <button type="button" class="btn btn-primary">保存</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 col-sm-12">
+                <!--cropper start-->
+                <div class="ibox">
+                    <div class="ibox-title back-change">
+                        <h5>头像上传</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="iconfont icon-packup"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <p>
+                            请上传你的头像
+                        </p>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="image-crop">
+                                    <img src="../public/admin/plugins/Hplus-v.4.1.0/img/a3.jpg">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <h4>头像预览：</h4>
+                                <div class="img-preview img-preview-sm"></div>
+                                <h4>说明：</h4>
+                                <p>
+                                    你可以选择新图片上传
+                                </p>
+                                <div class="g-mb--10">
+                                    <div class="btn-group">
+                                        <label title="上传图片" for="inputImage" class="btn btn-primary">
+                                            <input type="file" accept="image/*" name="file" id="inputImage" class="hide">
+                                            选择新图片
+                                        </label>
+                                        <!--<label title="下载图片" id="download" class="btn btn-primary">下载</label>-->
+                                    </div>
+                                </div>
+                                <!--<h4>其他说明：</h4>
+                                <p>
+                                    你可以使用<code>$({image}).cropper(options)</code>来配置插件
+                                </p>-->
+                                <div class="btn-group">
+                                    <button class="btn btn-white" id="zoomIn" type="button">放大</button>
+                                    <button class="btn btn-white" id="zoomOut" type="button">缩小</button>
+                                    <button class="btn btn-white" id="rotateLeft" type="button">左旋转</button>
+                                    <button class="btn btn-white" id="rotateRight" type="button">右旋转</button>
+                                    <button class="btn btn-primary" id="setDrag" type="button">上传</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--cropper end-->
+            </div>
+            <div class="col-lg-6 col-sm-12">
+                <!--百度Web Uploader start-->
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <h5>照片上传</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="iconfont icon-packup"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content" style="min-height:490px">
+                        <div class="page-container">
+                            <p>您可以尝试文件拖拽，使用QQ截屏工具，然后激活窗口后粘贴，或者点击添加图片按钮，来选择图片.</p>
+                            <div id="uploader" class="wu-example">
+                                <div class="queueList">
+                                    <div id="dndArea" class="placeholder">
+                                        <div id="filePicker"></div>
+                                        <p>或将照片拖到这里，单次最多可选300张</p>
+                                    </div>
+                                </div>
+                                <div class="statusBar" style="display:none">
+                                    <div class="progress">
+                                        <span class="text">0%</span>
+                                        <span class="percentage"></span>
+                                    </div>
+                                    <div class="info"></div>
+                                    <div class="btns">
+                                        <div id="filePicker2"></div>
+                                        <div class="uploadBtn">开始上传</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--百度Web Uploader end-->
+            </div>
+        </div>
+        <div class="g-ta--c">
+            <button type="button" class="btn btn-primary btn-lg">全部保存</button>
+        </div>
+    </form>
+</div>
+
+<!-- 全局js -->
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/jquery.min.js?v=2.1.4"></script>
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/bootstrap.min.js?v=3.3.6"></script>
+
+<!-- 自定义js -->
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/content.js?v=1.0.0"></script>
+
+<!-- Web Uploader -->
+<script>
+    // 添加全局站点信息
+    var BASE_URL = '../public/admin/plugins/Hplus-v.4.1.0/js/plugins/webuploader';
+</script>
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/plugins/webuploader/webuploader.min.js"></script>
+
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/demo/webuploader-demo.js"></script>
+
+<!-- Image cropper -->
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/plugins/cropper/cropper.min.js"></script>
+<script src="../public/admin/js/m-ibox.js"></script>
+<script src="../public/admin/js/cripper-demo.js"></script>
+</body>
+</html>

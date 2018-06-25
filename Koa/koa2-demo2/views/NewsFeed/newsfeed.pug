@@ -1,0 +1,90 @@
+extends ../layout
+
+block content
+  div.module
+    div.module-head
+      h3 News Feed
+    div.module-body
+      div.stream-composer.media
+        a.media-avatar.medium.pull-left
+          img(src="images/user.png")
+        div.media-body
+            div.row-fluid
+              textarea(style="height:70px;resize:none;").span12
+            div.clearfix
+              a.btn.btn-primary.pull-right Update Status
+              a.btn.btn-small
+                i.icon-camera.shaded
+              a.btn.btn-small
+                i.icon-facetime-video.shaded
+              a.btn.btn-small
+                i.icon-map-marker.shaded
+      div.stream-list
+        div.media.stream.new-update
+          a(href="#")
+            i.icon-refresh.shaded 11 updates
+        div.media.stream
+          a.media-avatar.medium.pull-left
+            img(src="images/user.png")
+          div.media-body
+            div.stream-headline
+              h5.stream-author Test Author
+                small 08 July,2014
+              div.stream-text Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type.
+              div.stream-attachment.photo
+                div.responsive-photo
+                  img(src="images/img.jpg")
+            div.stream-options
+              a.btn.btn-small
+                i.icon-thumbs-up.shaded Like
+              a.btn.btn-small
+                i.icon-reply.shaded Reply
+              a.btn.btn-small
+                i.icon-retweet.shaded Repost
+        div.media.stream
+          a.media-avatar.medium.pull-left
+            img(src="images/user.png")
+          div.media-body
+            div.stream-headline
+              h5.stream-author Test Author
+                small 08 July,2014
+              div.stream-text Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type.
+            div.stream-options
+              a.btn.btn-small
+                i.icon-thumbs-up.shaded Like
+              a.btn.btn-small
+                i.icon-reply.shaded Reply
+              a.btn.btn-small
+                i.icon-retweet.shaded Repost
+            div.stream-respond
+              div.media.stream
+                a.media-avatar.small.pull-left
+                  img(src="images/user.png")
+                div.media-body
+                  div.stream-headline
+                    h5.stream-author test author
+                      small 10 July 14
+                    div.stream-text Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+              div.media.stream
+                a.media-avatar.small.pull-left
+                  img(src="images/user.png")
+                div.media-body
+                  div.stream-headline
+                    h5.stream-author test author
+                      small 10 July 14
+                    div.stream-text Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+        div.media.stream.load-more
+          a(href="#")
+            i.icon-refresh.shaded show more...
+
+                  
+
+
+
+              
+
+
+
+
+
+

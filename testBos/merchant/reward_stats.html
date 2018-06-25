@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>打赏统计</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="../public/admin/plugins/Hplus-v.4.1.0/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link rel="stylesheet" href="../public/admin/plugins/iconfont/iconfont.css">
+
+    <link href="../public/admin/plugins/Hplus-v.4.1.0/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../public/admin/plugins/bootstrap3-editable/css/bootstrap-editable.css">
+
+    <link rel="stylesheet" href="../public/admin/css/p-waiter.css?rev=@@hash">
+</head>
+<body class="gray-bg">
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-9">
+        <h2>打赏统计<small class="g-ml--5"><?php echo $shop_name?>（<?php echo $shop_address?>）</small></h2>
+        <!--<ol class="breadcrumb">
+            <li>
+                <a href="index.html">主页</a>
+            </li>
+            <li class="active">
+                <strong>打赏统计</strong>
+            </li>
+        </ol>-->
+    </div>
+    <div class="col-sm-3 g-clearfix">
+        <a href="javascript:;" onclick="window.history.back();" class="btn btn-primary pull-right g-mt--20">返回</a>
+    </div>
+</div>
+<div class="wrapper wrapper-content">
+    <!--打赏数据图表 start-->
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title"><span class="label label-success pull-right">日</span>
+                    <h5>今日打赏</h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins"><?php echo (empty($todayReward) ? 0 : $todayReward)?></h1>
+                    <small class="stat-title">金额</small>
+<!--                     <div class="stat-percent font-bold text-success">同比昨天：2%<i class="iconfont icon-level-up"></i></div> -->
+
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title"><span class="label label-success pull-right">周</span>
+                    <h5>本周打赏</h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins"><?php echo (empty($weekReward) ? 0 : $weekReward)?></h1>
+                    <small class="stat-title">金额</small>
+<!--                     <div class="stat-percent font-bold text-success">同比上周：98%<i class="iconfont icon-level-up"></i>
+</div> -->
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title"><span class="label label-danger pull-right">月</span>
+                    <h5>本月打赏</h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins"><?php echo (empty($monthReward) ? 0 : $monthReward)?></h1>
+                    <small class="stat-title">金额</small>
+<!--                     <div class="stat-percent font-bold text-danger">同比上月：20%<i class="iconfont icon-leveldown"></i>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title"><span class="label label-info pull-right">总</span>
+                    <h5>累计打赏</h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins"><?php echo (empty($totalReward) ? 0 : $totalReward)?></h1>
+                    <small class="stat-title">金额</small>
+<!--                     <div class="stat-percent font-bold text-info">当前余额：2000.00<i class="iconfont icon-bolt"></i></div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--打赏数据图表 end-->
+    <!--打赏统计 start-->
+    <div class="ibox">
+        <div class="ibox-title">
+            <h5>打赏统计</h5>
+            <div class="ibox-tools">
+                <a class="collapse-link">
+                    <i class="iconfont icon-packup"></i>
+                </a>
+            </div>
+        </div>
+        <div class="ibox-content">
+            <div class="row g-mb--10">
+                <div class="col-md-3 col-md-offset-9 col-sm-6 col-sm-offset-6">
+<!--                     <div class="input-group">
+    <input class="form-control" type="text" placeholder="请输入搜索内容">
+    <span class="input-group-btn">
+        <button class="btn btn-primary" type="button">搜索</button>
+      </span>
+</div> -->
+                </div>
+            </div>
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>员工姓名</th>
+                    <th>员工工号</th>
+                    <th>总打赏次数</th>
+                    <th>总打赏金额（元）</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <?php if(!empty($orderStatsList)): foreach($orderStatsList as $orderStats):?>
+                    <tr>
+                        <td><?php echo $orderStats['name']?></td>
+                        <td><?php echo $orderStats['number']?></td>
+                        <td><?php echo $orderStats['reward_num']?></td>
+                        <td><?php echo $orderStats['total_fee_sum']?></td>
+                    </tr>
+                    <?php endforeach;endif;?>
+                </tbody>
+            </table>
+            <div class="m-table-pagination g-clearfix g-m--0">
+<!--                 <div class="pull-left m-pagination-detail">
+                    <span class="m-pagination-info">显示第 1 到第 3 条记录，总共 11 条记录</span>
+                    <div class="m-page-list">每页显示
+                        <span class="btn-group dropup">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <span class="page-size">10</span>
+                            <span class="caret"></span>
+                        </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li class="active">
+                                    <a href="javascript:;">10</a></li>
+                                <li>
+                                    <a href="javascript:;">25</a>
+                                </li>
+                            </ul>
+                        </span> 条记录
+                    </div>
+                </div> -->
+                <div class="pull-right pagination">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--打赏统计 end-->
+</div>
+<!--弹出层-->
+<!--礼物设置-->
+<div id="gift-site" class="modal fade">
+    <form action="">
+        <div class="modal-dialog">
+            <div class="modal-content form-horizontal animated flipInY">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">礼物设置</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">礼物</label>
+                                <div class="col-sm-8">
+                                    <!--新增工号是自动生成的-->
+                                    <select name="" class="form-control">
+                                        <option value="">礼物01</option>
+                                        <option value="">礼物02</option>
+                                        <option value="">礼物03</option>
+                                        <option value="">礼物04</option>
+                                        <option value="">礼物05</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">价格</label>
+                                <div class="col-sm-8">
+                                    <input type="number" class="form-control" placeholder="请设置金额">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">保存</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- 全局js -->
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/jquery.min.js?v=2.1.4"></script>
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/bootstrap.min.js?v=3.3.6"></script>
+
+
+<!--ECharts-->
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/plugins/echarts/echarts.js?v=3.6"></script>
+
+<!-- 自定义js -->
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/content.js?v=1.0.0"></script>
+
+<!-- GITTER -->
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/plugins/gritter/jquery.gritter.min.js"></script>
+
+<!-- Bootstrap table -->
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+
+<script src="../public/admin/plugins/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+
+<!--bootstrap dropdown-->
+<!--<script src="../public/admin/plugins/bootstrap/js/bootstrap-hover-dropdown.min.js"></script>-->
+
+<!-- layerDate plugin javascript -->
+<script src="../public/admin/plugins/laydate/laydate.js"></script>
+<script src="../public/admin/plugins/layer/layer.js"></script>
+
+<script src="../public/admin/js/m-ibox.js"></script>
+<!--<script src="../public/admin/js/p-withdrawals.js"></script>-->
+<script type="text/javascript" src="../public/js/admin_pagination.js"></script>
+<script>
+    $(function () {
+        setPage(document.getElementById('pagination_container'), <?php echo $pagecount?>, <?php echo $curpage?>, '/merchantAdmin/reward/stats', []);
+    });
+</script>
+</body>
+</html>

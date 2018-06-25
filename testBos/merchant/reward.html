@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>打赏明细</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="../public/admin/plugins/Hplus-v.4.1.0/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link rel="stylesheet" href="../public/admin/plugins/iconfont/iconfont.css">
+
+    <link href="../public/admin/plugins/Hplus-v.4.1.0/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../public/admin/plugins/bootstrap3-editable/css/bootstrap-editable.css">
+
+    <link rel="stylesheet" href="../public/admin/css/p-waiter.css?rev=@@hash">
+</head>
+<body class="gray-bg">
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-9">
+        <h2>打赏流水<small class="g-ml--5"><?php if(!empty($shop_id)){ echo $shop_name.'（'.$shop_address.'）';}?></small></h2>
+        <!--<ol class="breadcrumb">
+            <li>
+                <a href="index.html">主页</a>
+            </li>
+            <li class="active">
+                <strong>打赏明细</strong>
+            </li>
+        </ol>-->
+    </div>
+    <div class="col-sm-3 g-clearfix">
+        <a href="javascript:;" onclick="window.history.back();" class="btn btn-primary pull-right g-mt--20">返回</a>
+    </div>
+</div>
+<div class="wrapper wrapper-content">
+    <!--打赏数据图表 start-->
+        <div class="ibox">
+        <div class="ibox-content form-inline">
+        <input id="js-date-input-start" class="form-control js-data-select" type="text" placeholder="开始时间" value="<?php echo $this->input->get('start_date', true) ? $this->input->get('start_date', true) : ''?>">
+        <input id="js-date-input-end" class="form-control js-data-select" type="text" placeholder="结束时间" value="<?php echo $this->input->get('end_date', true) ? $this->input->get('end_date', true) : ''?>">
+        <input type="hidden" id="date-start" class="start_date" value='<?php echo $this->input->get('start_date', true) ? $this->input->get('start_date', true) : ''?>'>
+        <input type="hidden" id="date-end" class="end_date" value='<?php echo $this->input->get('end_date', true) ? $this->input->get('end_date', true) : ''?>'>
+        <button id="js-search-date" type="button" class="btn btn-primary">查询</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title"><span class="label label-success pull-right">日</span>
+                    <h5>今日打赏</h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins"><?php echo (empty($todayOrderInfo['total_reward']) ? 0 : $todayOrderInfo['total_reward'])?></h1>
+                    <small class="stat-title">次数<span class="text-info g-ml--5"><?php echo (empty($todayOrderInfo['total_count']) ? 0 : $todayOrderInfo['total_count'])?></span></small>
+                    <!-- <div class="stat-percent font-bold text-success">同比昨天：2%<i class="iconfont icon-level-up"></i></div> -->
+
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title"><span class="label label-success pull-right">日</span>
+                    <h5>今日店长分成</h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins"><?php echo (empty($todayOrderInfo['total_manager_earn']) ? 0 : $todayOrderInfo['total_manager_earn'])?></h1>
+                    <small class="stat-title">次数<span class="text-info g-ml--5"><?php echo (empty($todayOrderInfo['total_count']) ? 0 : $todayOrderInfo['total_count'])?></span></small>
+                    <!-- <div class="stat-percent font-bold text-success">同比上周：98%<i class="iconfont icon-level-up"></i>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title"><span class="label label-danger pull-right">总</span>
+                    <h5>累计打赏</h5>
+                </div>
+                <div class="ibox-content">
+                    
+                    <h1 class="no-margins"><?php echo (empty($totalOrderInfo['total_reward']) ? 0 : $totalOrderInfo['total_reward'])?></h1>
+                    <small class="stat-title">次数<span class="text-info g-ml--5"><?php echo (empty($totalOrderInfo['total_count']) ? 0 : $totalOrderInfo['total_count'])?></span></small>
+<!--                     <div class="stat-percent font-bold text-danger">同比上月：20%<i class="iconfont icon-leveldown"></i>
+</div> -->
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                <span class="label label-info pull-right">总</span>
+                    <h5>累计店长分成</h5>
+                </div>
+                <div class="ibox-content">
+                
+                    <h1 class="no-margins"><?php echo (empty($totalOrderInfo['total_manager_earn']) ? 0 : $totalOrderInfo['total_manager_earn'])?></h1>
+                    <small class="stat-title">次数<span class="text-info g-ml--5"><?php echo (empty($totalOrderInfo['total_count']) ? 0 : $totalOrderInfo['total_count'])?></span></small>
+<!--                     <div class="stat-percent font-bold text-info">当前余额：2000.00<i class="iconfont icon-bolt"></i></div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--打赏数据图表 end-->
+    <div class="row">
+        <div class="col-md-12">
+            <!--最新打赏 start-->
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>打赏流水</h5>
+
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="iconfont icon-packup"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="row g-mb--10">
+                        <div class="col-md-6">
+<!--                             <div class="input-group">
+    <input class="form-control js-data-select" type="text" placeholder="请选择时间范围">
+    <span class="input-group-btn">
+            <button class="btn btn-primary" type="button">查询</button>
+          </span>
+</div> -->
+                        </div>
+                    </div>
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>订单编号</th>
+                            <th>员工工号</th>
+                            <th>员工姓名</th>
+                            <th>打赏金额（元）</th>
+                            <th>店长分成（元）</th>
+                            <th>打赏日期</th>
+                            <th>打赏人信息</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php if(!empty($orderList)):foreach($orderList as $order):?>
+                        <tr>
+                            <td><?php echo $order['order_sn']?></td>
+                            <td><?php echo $order['number']?></td>
+                            <td><div class="m-avatar m-avatar-sm"><img class="img-rounded" src="<?php echo image_processor($order['technician_avatar'])?>" alt=""></div> <?php echo $order['technician_name'] ?></td>
+                            <td><?php echo $order['total_fee']?></td>
+                            <td><?php echo $order['manager_earn']; if(!empty($order['manager_earn'])){echo '（'.$order['manager_earn'].'）';}?></td>
+                            <td><?php echo date('Y-m-d H:i:s', $order['created_time'])?></td>
+                            <td>
+                                <div class="btn-group">
+                                    <a href="javascript:;" data-toggle="dropdown" data-hover="dropdown" class="btn btn-link btn-xs">
+                                        <?php echo $order['nickname']?><span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="javascript:;">
+                                                <div class="m-avatar m-avatar-sm g-mr--5"><img class="img-circle" src="<?php echo image_processor($order['avatar'])?>" alt=""></div>
+                                                <span><?php echo $order['nickname']?></span>
+                                            </a>
+                                        </li>
+                                        <li class="divider"></li>
+<!--                                         <li><a href="javascript:;"><strong>微信ID：</strong><span>qwer1231</span></a></li> -->
+                                        <li><a href="javascript:;"><strong>手机：</strong><span><?php echo $order['mobile'] ? $order['mobile'] : ''?></span></a></li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                        <?php endforeach;endif;?>
+                        </tbody>
+                    </table>
+                    <div class="m-table-pagination g-clearfix g-m--0">
+<!--                         <div class="pull-left m-pagination-detail">
+    <span class="m-pagination-info">显示第 1 到第 3 条记录，总共 11 条记录</span>
+    <div class="m-page-list">每页显示
+        <span class="btn-group dropup">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+            <span class="page-size">10</span>
+            <span class="caret"></span>
+        </button>
+            <ul class="dropdown-menu" role="menu">
+                <li class="active">
+                    <a href="javascript:;">10</a></li>
+                <li>
+                    <a href="javascript:;">25</a>
+                </li>
+            </ul>
+        </span> 条记录
+    </div>
+</div> -->
+                        <div id="pagination_container" class="pull-right pagination">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--最新打赏 end-->
+        </div>
+    </div>
+</div>
+<!--弹出层-->
+<!--礼物设置-->
+<div id="gift-site" class="modal fade">
+    <form action="">
+        <div class="modal-dialog">
+            <div class="modal-content form-horizontal animated flipInY">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">礼物设置</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">礼物</label>
+                                <div class="col-sm-8">
+                                    <!--新增工号是自动生成的-->
+                                    <select name="" class="form-control">
+                                        <option value="">礼物01</option>
+                                        <option value="">礼物02</option>
+                                        <option value="">礼物03</option>
+                                        <option value="">礼物04</option>
+                                        <option value="">礼物05</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="" class="col-sm-4 control-label">图片</label>
+                                <div class="col-sm-8">
+                                    <div class="m-avatar m-avatar-sm g-ml--5">
+                                        <img class="img-rounded" src="../public/admin/plugins/Hplus-v.4.1.0/img/a1.jpg" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">价格</label>
+                                <div class="col-sm-8">
+                                    <input type="number" class="form-control" placeholder="请设置金额">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">保存</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- 全局js -->
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/jquery.min.js?v=2.1.4"></script>
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/bootstrap.min.js?v=3.3.6"></script>
+
+
+<!--ECharts-->
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/plugins/echarts/echarts.js?v=3.6"></script>
+
+<!-- 自定义js -->
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/content.js?v=1.0.0"></script>
+
+<!-- GITTER -->
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/plugins/gritter/jquery.gritter.min.js"></script>
+
+<!-- Bootstrap table -->
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+
+<script src="../public/admin/plugins/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+
+<!--bootstrap dropdown-->
+<script src="../public/admin/plugins/bootstrap/js/bootstrap-hover-dropdown.min.js"></script>
+
+<!-- layerDate plugin javascript -->
+<script src="../public/admin/plugins/laydate/laydate.js"></script>
+<script src="../public/admin/plugins/layer/layer.js"></script>
+
+<script src="../public/admin/js/m-ibox.js"></script>
+<script>
+    $(function () {
+        /*时间选择*/
+        //日期范围
+        var start = {  
+            elem: '#js-date-input-start',
+            min: '1990-06-16', //设定最小日期为当前日期  
+            max: '2099-06-16', //最大日期  
+            done: function(value){  
+                 end.min = value; //开始日选好后，重置结束日的最小日期  
+                 end.start = value; //将结束日的初始值设定为开始日  
+                 $("#date-start").val(value);
+            }  
+        };  
+        var end = {  
+            elem: '#js-date-input-end',
+            min: '1990-06-16',  
+            max: '2099-06-16',  
+            done: function(value){  
+                start.max = value; //结束日选好后，重置开始日的最大日期  
+                $("#date-end").val(value);
+            }  
+        };  
+        laydate.render(start);  
+        laydate.render(end);  
+       
+        $("#js-search-date").on('click',function(){
+            var startDate=$("#date-start").val();
+            var endDate=$("#date-end").val();
+            var href_date='/merchantAdmin/reward/index/<?php echo $shop_id?>?start_date='+startDate+'&end_date='+endDate;
+            window.location.href=href_date;
+
+        });
+    });
+</script>
+<script src="../public/admin/js/admin_pagination.js"></script>
+<script>
+$(function () {
+    setPage(document.getElementById('pagination_container'), <?php echo $pagecount?>, <?php echo $curpage?>, '/merchantAdmin/reward/index/<?php echo $shop_id?>', ['start_date', 'end_date']);
+});
+</script>
+</body>
+</html>

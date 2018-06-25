@@ -1,0 +1,38 @@
+@keyframes yun {
+    0%{
+        left:0
+    }
+    100%{
+        left:-100%
+    }
+}
+@keyframes fly {
+    0%{
+        top:90px
+    }
+    100%{
+        top:105px;
+    }
+}
+@keyframes xia {
+    0%{
+        top:60px;
+        opacity:1;
+    }
+    100%{
+        top:66px;
+        opacity:0.6;
+    }
+}
+@keyframes rotate {
+    0%{
+        transform: rotateY(0deg);
+		-moz-transform: rotateY(0deg);
+		-webkit-transform: rotateY(0deg);
+    }
+    100%{
+        transform: rotateY(360deg);
+		-moz-transform: rotateY(360deg);
+		-webkit-transform: rotateY(360deg);
+    }
+}

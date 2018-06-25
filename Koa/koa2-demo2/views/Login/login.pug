@@ -2,26 +2,56 @@ doctype html
 html
   head
     title= title
-    link(rel='stylesheet', href='/stylesheets/bootstrap.min.css') 
-    link(rel='stylesheet', href='/stylesheets/reset.css')
-    link(rel='stylesheet', href='/stylesheets/style.css')
-    link(rel='stylesheet', href='/stylesheets/supersized.css')
+        meta(http-equiv="Content-Type",context="text/html;charset=utf-8")
+    meta(name="viewport",content="width=device-width,initial-scale=1,maximun-scale=1,userscalable=no")
+    link(rel='stylesheet', href='bootstrap/css/bootstrap.min.css') 
+    link(rel='stylesheet', href='bootstrap/css/bootstrap-responsive.min.css') 
+    link(rel='stylesheet', href='css/theme.css')
+    link(rel='stylesheet', href='/images/icons/css/font-awesome.css')
+    link(rel="stylesheet", href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600")
   body
-
-    div.page-container
-      h1 Login
-      form(method="post")
-        input(type="text",name="userid",placeholder="username")
-        input(type="password",name="password",placeholder="password")
-        button.sign-in Sign In
-      div.connect
-        p Or connect with:
-          p
-            a.facebook
-            a.twitter
-    script(type='text/javascript', src='/javascripts/jquery-1.8.2.min.js')
-    script(type='text/javascript', src='/javascripts/supersized.3.2.7.min.js')
-    script(type='text/javascript', src='/javascripts/supersized-init.js')
-    script(type='text/javascript', src='/javascripts/scripts.js')
+    div.navbar.navbar-fixed-top
+      div.navbar-inner
+        div.container
+          a(data-toggle="collapse",data-target=".navbar-inverse-collapse").btn.btn-navbar
+            i.icon-reorder.shaded
+          a(href="/dashboard").brand Admin
+          div.nav-collapse.collapse.navbar-inverse-collapse
+            ul.nav.pull-right
+              li
+                a Sign up
+              li
+                a Forot your password?
+    div.wrapper
+      div.container
+        div.row
+          div.module.module-login.span4.offset4
+            form.form-vertical
+              div.module-head
+                h3 Sign In
+              div.module-body
+                div.control-group
+                  div.controls.row-fluid
+                    input(type="text",placeholder="Username").span12#inputEmail
+                div.control-group
+                  div.controls.row-fluid
+                    input(type="password",placeholder="Password").span12#inputPassword
+              div.module-foot
+                div.control-group
+                  div.controls.clearfix
+                    //- button(type="submit").btn.btn-primary.pull-right Login
+                    a(href="/home").btn.btn-primary.pull-right Login
+                    label.checkbox
+                      input(type="checkbox")
+                      |Remember me
+                
+     
+    script(type='text/javascript', src='/scripts/jquery-1.9.1.min.js')
+    script(type='text/javascript', src='/scripts/jquery-ui-1.10.1.custom.min.js')
+    script(type='text/javascript', src='/bootstrap/js/bootstrap.min.js')
+    script(type='text/javascript', src='/scripts/flot/jquery.flot.js')
+    script(type='text/javascript', src='/scripts/flot/jquery.flot.resize.js')
+    script(type='text/javascript', src='/scripts/datatables/jquery.dataTables.js')
+    script(type='text/javascript', src='/scripts/common.js') 
     script(type='text/javascript', src='/javascripts/commonTools.js')
       

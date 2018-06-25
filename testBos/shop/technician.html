@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="renderer" content="webkit">
+    <title>员工管理</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="../public/admin/plugins/Hplus-v.4.1.0/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link rel="stylesheet" href="../public/admin/plugins/iconfont/iconfont.css">
+
+    <!-- Morris -->
+    <!--<link href="../public/admin/plugins/Hplus-v.4.1.0/css/plugins/morris/morris-0.4.3.min.css" rel="stylesheet">-->
+
+    <!-- Gritter -->
+    <!--<link href="../public/admin/plugins/Hplus-v.4.1.0/js/plugins/gritter/jquery.gritter.css" rel="stylesheet">-->
+
+    <link href="../public/admin/plugins/Hplus-v.4.1.0/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../public/admin/plugins/bootstrap3-editable/css/bootstrap-editable.css">
+
+    <!--<link href="../public/admin/plugins/Hplus-v.4.1.0/css/style.css" rel="stylesheet">-->
+    <!--<link href="../public/admin/plugins/Hplus-v.4.1.0/css/animate.css" rel="stylesheet">-->
+    <link rel="stylesheet" href="../public/admin/css/p-waiter.css?rev=1019">
+    <style>
+        .js-worker-QRcode{
+            width:100%;
+            padding:10px;
+        }
+        td>.js-worker-QRcode{
+            width:70px;
+            height:70px;
+            padding:0px;
+        }
+        .js-worker-QRcode canvas{
+            display:block;
+            width:100%;
+            height:100%;
+        }
+    </style>
+</head>
+<body class="gray-bg">
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-9">
+            <h2>员工管理<small class="g-fs--12 text-muted">（添加员工后，请在右侧“工牌管理”中创建工号，并绑定员工；没绑定员工的工牌扫码后无法正常显示。）</small></h2>
+            <!--<ol class="breadcrumb">
+                <li>
+                    <a href="index.html">主页</a>
+                </li>
+                <li class="active">
+                    <strong>员工管理</strong>
+                </li>
+            </ol>-->
+        </div>
+    </div>
+    <div class="wrapper wrapper-content">
+        <!--员工数据展示 start-->
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <p class="g-fs--14 g-ta--c"><b>员工：有工牌</b><b class="g-text-primary g-ml--5 g-mr--5"><?php echo $badgeTechnicianCount?>/<?php echo $technicianCount?></b>人</p>
+                        <input id="badgeTechnicianCount" type="hidden" value="<?php echo $badgeTechnicianCount?>">
+                        <input id="unBadgeTechnicianCount" type="hidden" value="<?php echo $unBadgeTechnicianCount?>">
+                        <div class="p-chart--pie" id="js-chart--waiter1"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4" style="<?php if(!$is_paizhong_open):?>display:none;<?php endif;?>">
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <p class="g-fs--14 g-ta--c"><b>员工：空闲中</b><b class="g-text-primary g-ml--5 g-mr--5"><?php echo $freeTechnicianCount?>/<?php echo $technicianCount?></b>人</p>
+                        <input id="freeTechnicianCount" type="hidden" value="<?php echo $freeTechnicianCount?>">
+                        <input id="workingTechnicianCount" type="hidden" value="<?php echo $workingTechnicianCount?>">
+                        <input id="leavingTechnicianCount" type="hidden" value="<?php echo $leavingTechnicianCount?>">
+                        <div class="p-chart--pie" id="js-chart--waiter2"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <p class="g-fs--14 g-ta--c"><b>工牌：使用率</b><b class="g-text-primary g-ml--5 g-mr--5"><?php echo $usedBadgeCount?>/<?php echo $badgeCount?></b>人</p>
+                        <input id="usedBadgeCount" type="hidden" value="<?php echo $usedBadgeCount?>">
+                        <input id="unUsedBadgeCount" type="hidden" value="<?php echo $unUsedBadgeCount?>">
+                        <div class="p-chart--pie" id="js-chart--waiter3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--员工数据展示 end-->
+
+        <div class="row">
+            <div class="col-md-8">
+                <!--员工上下钟表格 start-->
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <h5>员工<?php if($is_paizhong_open):?><small class="ibox-title_help"><i class="iconfont icon-time_fill text-success g-mr--5"></i>表示空闲中；<i class="iconfont icon-time_fill g-c--red g-mr--5"></i>表示已上钟；<i class="iconfont icon-offline_fill text-muted g-mr--5"></i>表示休假中</small><?php endif;?></h5>
+                        <div class="ibox-tools">
+                            <a class="js-worker-add">
+                                <i class="iconfont icon-add"></i>
+                                增加员工
+                            </a>
+                            <a class="collapse-link">
+                                <i class="iconfont icon-packup"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content m-ibox-overflow-y">
+                        <div class="m-overflow_inner">
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>员工</th>
+                                    <th>头像</th>
+                                    <th>工号</th>
+                                    <th>员工分成比例</th>
+                                    <th>手机</th>
+                                    <th>照片上传情况</th>
+                                    <th>操作</th>
+                                    <?php if($is_paizhong_open):?>
+                                    <th>是否加入排钟</th>
+                                    <?php endif;?>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?php if(!empty($technicianList['technicianList'])): foreach($technicianList['technicianList'] as $technician):?>
+                                <tr data-password="<?php echo $technician['password']?>" data-technicianId="<?php echo $technician['technician_id']?>">
+                                    <td><?php echo $technician['name']?> <?php if($is_paizhong_open):?><i class="iconfont icon-time_fill <?php if($technician['working_status'] == 'free'){
+                                        echo 'text-success';
+                                    }elseif($technician['working_status'] == 'working'){
+                                        echo 'text-danger';
+                                    }else{
+                                        echo 'text-muted';
+                                    }
+
+                                    ?> g-ml--5"></i><?php endif;?></td>
+                                    <td>
+                                        <div class="m-avatar m-avatar-sm"><img class="img-circle" src="<?php echo image_processor($technician['avatar'])?>" alt=""></div>
+                                    </td>
+                                    <td><?php echo $technician['number']?></td>
+                                    <td><?php echo $technician['share']*100?>%</td>
+                                    <td><?php echo $technician['mobile']?></td>
+                                    <td><?php echo count(explode('|', $technician['pictures']))?>/9张</td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">操作<span class="caret"></span></button>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="js-worker-site" href="javascript:;">修改</a></li>
+                                                <li><a class="js-worker-del" href="javascript:;">删除</a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <?php if($is_paizhong_open):?>
+                                    <td>
+                                        <select name="" id="" class="form-control js-technician-display">
+                                            <option value="1" <?php if($technician['is_display'] == '1'):?>selected<?php endif;?>>加入排钟</option>
+                                            <option value="0" <?php if($technician['is_display'] == '0'):?>selected<?php endif;?>>不加入排钟</option>
+                                        </select>
+                                    </td>
+                                    <?php endif;?> 
+                                </tr>
+                                <?php endforeach;endif;?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="ibox-footer g-ta--r">
+                        <div class="m-table-pagination g-clearfix g-m--0">
+                            <div id="pagination_container" class="pull-right pagination">
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-primary js-worker-add">增加员工</button>
+                    </div>
+                </div>
+                <!--员工上下钟表格 end-->
+            </div>
+            <div class="col-md-4">
+                <!--工牌管理 start-->
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <h5>工牌管理</h5>
+                        <div class="ibox-tools">
+                            <a class="js-workerNum-add">
+                                <i class="iconfont icon-add"></i>
+                                增加工牌
+                            </a>
+                            <a class="collapse-link">
+                                <i class="iconfont icon-packup"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content m-ibox-overflow-y">
+                        <div class="m-overflow_inner">
+                            <table class="table table-bordered">
+                                <colgroup>
+                                    <col style="width:60px">
+                                    <col>
+                                    <col>
+                                    <col>
+                                </colgroup>
+                                <thead>
+                                <tr>
+                                    <th>二维码</th>
+                                    <th>工牌</th>
+                                    <th>绑定员工</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?php if(!empty($badgeList['badgeList'])):foreach($badgeList['badgeList'] as $badge):?>
+                                <tr data-badgeId="<?php echo $badge['badge_id']?>">
+                                    <td><div class="js-worker-QRcode" id="badge-<?php echo $badge['badge_id']?>" badge-id="<?php echo $badge['badge_id']?>"></div>
+                                    </td>
+                                    <td><?php echo $badge['number']?></td>
+                                    <td><?php echo $badge['name']?></td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">操作<span class="caret"></span></button>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="js-workerNum-site" href="javascript:;">修改</a></li>
+                                                <li><a class="js-workerNum-del" href="javascript:;">删除</a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <?php endforeach;endif;?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="ibox-footer g-ta--r">
+                        <div class="m-table-pagination g-clearfix g-m--0">
+                            <div id="pagination_container1" class="pull-right pagination">
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-primary btn-sm js-workerNum-add">增加工牌</button>
+                    </div>
+                </div>
+                <!--工牌管理 end-->
+            </div>
+        </div>
+
+    </div>
+    <!--模态框------------------------------------------------------------------>
+    <!--新增工号-->
+    <div id="workerNum" class="modal fade">
+        <form action="">
+        <div class="modal-dialog">
+            <div class="modal-content form-horizontal animated flipInY">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">增加工牌</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <!--<div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="" class="col-sm-6 control-label">二维码</label>
+                                <div class="col-sm-6">
+                                    <img class="g-img--50" src="../public/admin/plugins/Hplus-v.4.1.0/img/qr_code.png" alt="">
+                                </div>
+                            </div>
+                        </div>-->
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label js-badge-add-number" for="badge-add-number">工牌名称</label>
+                                <div class="col-sm-8">
+                                    <input id="badge-add-number" type="text" placeholder="例,001" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">绑定员工</label>
+                                <div class="col-sm-8">
+                                    <select name="waiter_name" class="form-control js-UnBindedTechnicianList">
+                                        <option value="">暂不绑定</option>
+                                        <option value="">王毅</option>
+                                        <option value="">王而</option>
+                                        <option value="">王潵</option>
+                                        <option value="">王思</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button id="js-btn-badge-add" type="button" class="btn btn-primary">保存</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+        </form>
+    </div>
+    <!--修改工号-->
+    <div id="workerNum-site" class="modal fade">
+        <form action="">
+            <div class="modal-dialog">
+                <div class="modal-content form-horizontal animated flipInY">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">修改绑定信息</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">工牌名称</label>
+                                    <div class="col-sm-8">
+                                        <input id="badge-site-number" type="text" placeholder="例，001" class="form-control">
+                                    </div>
+                                </div>
+                                <input type="hidden" name="" id="js-badge-site_id">
+                            </div>
+                            <div class="col-sm-6">
+
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">绑定员工</label>
+                                    <div class="col-sm-8">
+                                        <select name="waiter_name" class="form-control js-UnBindedTechnicianList">
+                                            <option value="">暂不绑定</option>
+                                            <option value="">王毅</option>
+                                            <option value="">王而</option>
+                                            <option value="">王潵</option>
+                                            <option value="">王思</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button id="js-btn-badge-site" type="button" class="btn btn-primary">保存</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+    <!-- 全局js -->
+    <script src="../public/admin/plugins/Hplus-v.4.1.0/js/jquery.min.js?v=2.1.4"></script>
+    <script src="../public/admin/plugins/Hplus-v.4.1.0/js/bootstrap.min.js?v=3.3.6"></script>
+
+
+    <!--ECharts-->
+    <script src="../public/admin/plugins/Hplus-v.4.1.0/js/plugins/echarts/echarts.js?v=3.6"></script>
+
+    <!-- 自定义js -->
+    <script src="../public/admin/plugins/Hplus-v.4.1.0/js/content.js?v=1.0.0"></script>
+
+    <!-- GITTER -->
+    <script src="../public/admin/plugins/Hplus-v.4.1.0/js/plugins/gritter/jquery.gritter.min.js"></script>
+
+    <!-- Bootstrap table -->
+    <script src="../public/admin/plugins/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+
+    <!--layer-->
+    <script src="../public/admin/plugins/layer/layer.js"></script>
+
+    <!--m-ibox通用模块-->
+    <script src="../public/admin/js/m-ibox.js?ver=0930"></script>
+
+
+    <script src="../public/admin/js/p-waiter.js?ver=1012"></script>
+    <script src="../public/js/jquery.qrcode.min.js"></script>
+    <script src="../public/admin/js/admin_pagination.js"></script>
+    <script>
+var params = new Array();
+var url = '';
+function setPage1(container, count, pageindex, url, $params) {
+    if(count == 0)return;
+    var container = container;
+    var count = parseInt(count);
+    var pageindex = parseInt(pageindex);
+    var a = [];
+    params = $params;
+    url = url;
+    a[a.length] = '<ul class="pagination">';
+    if (pageindex == 1) {
+        a[a.length] = '<li class="prev disabled"><a class="paginate_button previous">« 上一页</a></li>';
+    } else {
+        a[a.length] = "<li class='prev'><a class='paginate_button previous'>« 上一页</a>";
+    }
+    function setPageList() {
+        if (pageindex == i) {
+            a[a.length] = '<li class="disabled current"><a class="paginate_button">'+i+'</a></li>';
+        } else {
+            a[a.length] = '<li class=""><a class="paginate_button">' + i + '</a></li>';
+        }
+    }
+    if (count <= 10) {
+        for (var i = 1; i <= count; i++) {
+            setPageList();
+        }
+    } else {
+        if (pageindex <= 4) {
+            for (var i = 1; i <= 5; i++) {
+                setPageList();
+            }
+            a[a.length] = '&nbsp;&nbsp;<li class=""><a class="paginate_button">' + count + '</a></li>';
+        } else if (pageindex >= count - 3) {
+            a[a.length] = "<li class=''><a class='paginate_button'>1</a></li>&nbsp;&nbsp;";
+            for (var i = count - 4; i <= count; i++) {
+                setPageList();
+            }
+        } else {
+            a[a.length] = "<li class=''><a class='paginate_button'>1</a></li>  ";
+            for (var i = pageindex - 2; i <= pageindex + 2; i++) {
+                setPageList();
+            }
+            a[a.length] = "&nbsp;&nbsp;<li class=''><a class='paginate_button'>" + count + "</a></li>";
+        }
+    }
+    if (pageindex == count) {
+        a[a.length] = "<li class='next disabled'><a class='paginate_button'>下一页 »</a></li>";
+    } else {
+        a[a.length] = "<li class='next'><a class='paginate_button'>下一页 »</a></li>";
+    }
+    a[a.length] = '</ul>';
+    container.innerHTML = a.join("");
+    
+    $('#pagination_container1 li:not(.disabled)').on('click', function(){
+        if($(this).hasClass('next')){
+            pageindex = parseInt($('#pagination_container1 .current').text()) + 1;
+        }
+        else if($(this).hasClass('prev')){
+            pageindex = parseInt($('#pagination_container1 .current').text()) - 1;
+        }
+        else{
+            pageindex = $(this).text();
+        }
+        page_redirect1(pageindex, params);
+    })
+}
+
+var page_redirect1 = function(pageindex, params){
+    var param = '?badge_curpage='+pageindex;
+    for(key in params){
+        if($('.'+params[key]).val() != '' && $('.'+params[key]).val() != undefined)param += '&'+params[key]+'='+$('.'+params[key]).val();
+    }
+    window.location.href = url+param;
+}
+
+        $(function () {
+            setPage(document.getElementById('pagination_container'), <?php echo $technicianList['pagecount']?>, <?php echo $technicianList['curpage']?>, '/shopAdmin/technicianList', []);
+            setPage1(document.getElementById('pagination_container1'), <?php echo $badgeList['pagecount']?>, <?php echo $badgeList['curpage']?>, '/shopAdmin/shopAdmin/technicianList', []);
+          <?php if(!empty($badgeList['badgeList'])): foreach($badgeList['badgeList'] as $badge):?>
+          $("#badge-<?php echo $badge['badge_id']?>").qrcode({
+            render: "canvas",
+            width: 500,
+            height:500,
+            text: 'https://www.bossshangba.com/technician/badge/'+$("#badge-<?php echo $badge['badge_id']?>").attr('badge-id')
+          });
+          <?php endforeach;endif;?>
+        /*排班开启关闭设置*/
+        (function(){
+            $(".js-technician-display").each(function(){
+                var this_val=$(this).val();
+                var this_tr=$(this).closest('tr');
+                if(this_val==1){
+                    this_tr.addClass('success');
+                }
+            });
+        }());
+        /*是否加入排钟*/
+        $('table').on('change','.js-technician-display',function(){
+            var this_tr=$(this).closest('tr');
+            var $this_val=$(this).val();
+            var technician_id=$(this).closest('tr').attr('data-technicianid');
+            var msg,addClass,removeClass;
+            console.log($this_val);
+            if($this_val==0){
+                msg='已退出排钟';
+                addClass='';
+                removeClass='success';
+            }else{
+                msg='已加入排钟';
+                addClass='success';
+                removeClass='';
+            }
+            $.ajax({
+                type:'POST',
+                url:'/shopAdmin/technician/updateTechnicianIsDisplay',
+                data:{
+                    is_display:$this_val,
+                    technician_id:technician_id,
+                },
+                success:function(data){
+                    var data=$.parseJSON(data);
+                    console.log(data);
+                    this_tr.removeClass(removeClass).addClass(addClass);
+                    if(data.code===200){
+                        layer.msg(msg,{
+                            time:1000,
+                            anim:0
+                        })
+                    }else if(data.code===400){
+                        layer.msg(data.message,{
+                            time:1000
+                        });
+                    }
+                },
+                error:function(jqXHR){
+                    console.log(jqXHR.status);
+                }
+            });
+        });
+        /*二维码展示*/
+        $(".js-worker-QRcode").on('click',function(){
+            var $this=$(this);
+            QRcode($this);
+        });
+        function QRcode($this){
+            var thisID=$this.attr('id');
+            var $this_tr=$this.closest('tr');
+            var name=$this_tr.find('td:eq(2)').text() || '未绑定';
+            layer.open({
+                type: 1,
+                shadeClose:true,
+                scrollbar: false,
+                title:name+'的二维码（右键“图片另存为”，可以下载保存当前二维码）',
+                content: $('#'+thisID), //捕获的元素，注意：最好该指定的元素要存放在body最外层，否则可能被其它的相对元素所影响
+                area:['500px','542px'],
+                success:function () {
+                    $(".layui-layer-shade").css('z-index','2000');
+                    $this.off('click');
+                },
+                end: function(){
+                    $this.show().on('click',function () {
+                        QRcode($this);
+                    });
+                }
+            });
+        }
+            /*增加员工-弹出层*/
+            $(".js-worker-add").on('click',function () {
+                var la_worker_add=layer.open({
+                    type:2,
+                    title:'增加员工',
+                    area:['800px','500px'],
+                    maxmin: true,
+                    scrollbar: false,
+                    content:'/shopAdmin/technician/technicianAdd'
+                });
+                layer.full(la_worker_add);
+            });
+            /*修改员工信息*/
+            $(".table").on('click','.js-worker-site',function () {
+                var technician_id=$(this).closest("tr").attr('data-technicianId');
+                var la_worker_add=layer.open({
+                    type:2,
+                    title:'修改员工信息',
+                    area:['800px','500px'],
+                    maxmin: true,
+                    scrollbar: false,
+                    content:'/shopAdmin/technician/technicianAdd?technician_id='+technician_id
+                });
+                layer.full(la_worker_add);
+            });
+            /*删除员工信息*/
+            $(".table").on('click','.js-worker-del',function () {
+                var $this_tr=$(this).closest("tr");
+                var technician_id=$this_tr.attr('data-technicianId');
+                layer.confirm('确定要删除这个员工吗？', {icon: 3}, function(index){
+                    $.ajax({
+                        type:'GET',
+                        url:'/shopAdmin/technician/deleteTechnician',
+                        dataType:'json',
+                        data:{
+                            technician_id:technician_id,
+                        },
+                        success:function(data){
+                            console.log(data);
+                            if(data.code===200){
+                                $this_tr.remove();
+                                layer.close(index);
+
+                                layer.msg('该员工已删除',{
+                                    anim:0,
+                                    time:1000
+                                },function () {
+
+                                });
+
+                            }else if(data.code===400){
+                                layer.msg(data.message);
+                            }
+                        },
+                        error:function (jqXHR) {
+                            console.log("发生错误"+jqXHR.status);
+                        }
+                    });
+                    //删除tr
+
+
+                });
+            });
+            /* 新增工号*/
+//
+            $(".js-workerNum-add").on('click',function () {
+                $("#workerNum").modal();
+
+            });
+            $("#workerNum").on('shown.bs.modal',function(){
+//                $('.js-badge-add-number').trigger('click');
+                $('#badge-add-number').focus();
+                console.log('focus')
+            });
+            /* 修改工号信息*/
+            $(".table").on('click','.js-workerNum-site',function () {
+                var $this_tr=$(this).closest('tr');
+                var badge_id=$this_tr.attr('data-badgeId');
+                var QRcode=$this_tr.find("td:eq(0)").html();
+                var number=$this_tr.find('td:eq(1)').text();
+                $("#js-badge-site_id").val(badge_id);
+                $("#badge-site-number").val(number);
+                $("#js-QRcode").html(QRcode);
+                $("#workerNum-site").modal();
+            });
+            /* 删除工号*/
+            $(".table").on('click','.js-workerNum-del',function () {
+                var $this_tr=$(this).closest("tr");
+                var badge_id=$this_tr.attr('data-badgeid');
+                console.log(badge_id);
+                layer.confirm('确定要删除这个工号吗？', {icon: 3}, function(index){
+                    $.ajax({
+                        type:'POST',
+                        url:'/shopAdmin/badge/delete',
+                        dataType:'json',
+                        data:{
+                            badge_id:badge_id,
+                        },
+                        success:function(data){
+                            if(data.code===200){
+                                $this_tr.remove();
+                                layer.close(index);
+                                layer.msg('该工牌已删除',{
+                                    anim:0,
+                                    time:1000
+                                },function () {
+                                    window.location.reload(true);
+                                });
+                            }else if(data.code===400){
+                                layer.msg(data.message);
+                            }
+                        }
+                    });
+                });
+            });
+            /*获取未绑定员工列表*/
+            $.ajax({
+                type:'GET',
+                url:'/shopAdmin/technician/getUnBindedTechnicianList',
+                dataType:'json',
+                success:function (data) {
+                    if(data.code===200){
+//                        console.log(data);
+                        var i;
+                        var unList=$(".js-UnBindedTechnicianList");
+                        var technicianList=data.technicianList;
+                        unList.html('');
+                        for(i=0;i<technicianList.length;i++){
+                            var option_add='<option value="'+technicianList[i].technician_id+'">'+technicianList[i].name+'</option>';
+                            unList.append(option_add);
+                        }
+                        unList.prepend('<option selected value="">暂不绑定</option>');
+                    }else if(data.code===400){
+                        layer.msg(data.message);
+                    }
+                },
+                error:function (jqXHR) {
+                    console.log("发生错误"+jqXHR.status);
+                }
+            });
+            /*添加工牌*/
+            $("#js-btn-badge-add").on('click',function () {
+                var number=$("#badge-add-number").val();
+                var technician_id=$(this).closest(".modal-content").find(".js-UnBindedTechnicianList").val();
+                console.log(number+"||"+technician_id);
+                $.ajax({
+                    type:'POST',
+                    url:'/shopAdmin/badge/add',
+                    dataType:'json',
+                    data:{
+                        number:number,
+                        technician_id:technician_id,
+                    },
+                    success:function(data){
+                        console.log(data.code);
+                        if(data.code===200){
+                            $("#workerNum").modal('hide');
+                            layer.msg('添加工牌成功',
+                                {
+                                  anim:0,
+                                    time:1000
+                                },
+                                function(){
+                                window.location.reload(true);
+                            });
+                        }else if(data.code===400){
+                            layer.msg(data.message);
+                        }
+                    },
+                    error:function(jqXHR){
+                        console.log("发生错误"+jqXHR.status);
+                    }
+                });
+            });
+            /*按回车键触发$("#js-btn-badge-add")*/
+            $("body").keydown(function() {
+                if (event.keyCode == "13") {//keyCode=13是回车键
+                    $("#js-btn-badge-add").click();
+                }
+            });
+            /*修改工牌*/
+            $("#js-btn-badge-site").on('click',function () {
+                var number=$("#badge-site-number").val();
+                var technician_id=$(this).closest(".modal-content").find(".js-UnBindedTechnicianList").val();
+               var badge_id=$(this).closest(".modal-content").find("#js-badge-site_id").val();
+               console.log(number+"||"+technician_id+"||"+badge_id);
+               $.ajax({
+                   type:'POST',
+                   url:'/shopAdmin/badge/edit',
+                   datType:'json',
+                   data:{
+                       number:number,
+                       technician_id:technician_id,
+                       badge_id:badge_id,
+                   },
+                   success:function (data) {
+                       var data = $.parseJSON(data);
+//                       console.log(data);
+                        if(data.code===200){
+                            $("#workerNum-site").modal('hide');
+                            layer.msg('修改工牌成功',{
+                                anim:0,
+                                time:1000
+                            },function () {
+                                $("#workerNum-site").modal();
+                                window.location.reload(true);
+                            });
+                        }else if(data.code===400){
+                            layer.msg(data.message);
+                        }
+                   },
+                   error:function(jqXHR){
+                       console.log("发生错误"+jqXHR.status);
+                   }
+               });
+            });
+
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>评论管理</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="../public/admin/plugins/Hplus-v.4.1.0/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link rel="stylesheet" href="../public/admin/plugins/iconfont/iconfont.css">
+
+    <!-- Morris -->
+    <!--<link href="../public/admin/plugins/Hplus-v.4.1.0/css/plugins/morris/morris-0.4.3.min.css" rel="stylesheet">-->
+
+    <!-- Gritter -->
+    <!--<link href="../public/admin/plugins/Hplus-v.4.1.0/js/plugins/gritter/jquery.gritter.css" rel="stylesheet">-->
+
+    <link href="../public/admin/plugins/Hplus-v.4.1.0/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../public/admin/plugins/bootstrap3-editable/css/bootstrap-editable.css">
+
+    <link rel="stylesheet" href="../public/admin/css/p-waiter.css?rev=@@hash">
+</head>
+<body class="gray-bg">
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-9">
+        <h2>评论管理<small class="g-ml--5"><?php echo $shop_name?>（<?php echo $shop_address?>）</small></h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="index.html">主页</a>
+            </li>
+            <li class="active">
+                <strong>评论管理</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-sm-3 g-clearfix">
+        <a href="javascript:;" onclick="window.history.back();" class="btn btn-primary pull-right g-mt--20">返回</a>
+    </div>
+</div>
+<div class="wrapper wrapper-content">
+    <!--数据展示-->
+    <div class="row">
+        <div class="col-sm-8">
+            <!--最新评论 start-->
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>最新评论</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="iconfont icon-packup"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content m-ibox-overflow-y">
+                    <div class="m-list-group m-overflow_inner p-chat-message--color">
+                        <?php if (!empty($evaluationList)): foreach ($evaluationList as $evaluation): ?>
+                            <div class="chat-message chat-message--left chat-message--condensed"
+                                 data-evaluationId="<?php echo $evaluation['evaluation_id'] ?>">
+                                <img class="message-avatar"
+                                     src="<?php echo image_processor($evaluation['client_avatar']) ?>" alt="">
+                                <div class="message">
+                                    <a class="message-author" href="#"> <?php echo $evaluation['client_name'] ?>
+                                        <small class="g-c--red">@<?php echo $evaluation['technician_number'] ?></small>
+                                    </a>
+                                    <span class="g-c--pink g-ml--10">评分：<?php echo $evaluation['score'] ?></span>
+                                    <span class="message-date"><?php echo date('Y-m-d H:i:s', $evaluation['created_time']) ?></span>
+                                    <span class="message-content"><?php echo $evaluation['content'] ?></span>
+                                </div>
+                            </div>
+                        <?php endforeach;endif; ?>
+                    </div>
+
+                </div>
+                <div class="ibox-footer g-ta--r">
+                    <div id="pagination_container" class="g-ta--c">
+                    </div>
+                </div>
+                <!--最新评论 end-->
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>评论统计</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="iconfont icon-packup"></i>
+                        </a>
+                    </div>
+                </div>
+                <input id="evaluationListDays" type="hidden" value="<?php echo implode(',', array_keys($fiveEvaluationList))?>">
+                <input id="fiveEvaluationListValues" type="hidden" value="<?php echo implode(',', array_values($fiveEvaluationList))?>">
+                <input id="sixEvaluationListValues" type="hidden" value="<?php echo implode(',', array_values($sixEvaluationList))?>">
+                <input id="sevenEvaluationListValues" type="hidden" value="<?php echo implode(',', array_values($sevenEvaluationList))?>">
+                <input id="eightEvaluationListValues" type="hidden" value="<?php echo implode(',', array_values($eightEvaluationList))?>">
+                <input id="nineEvaluationListValues" type="hidden" value="<?php echo implode(',', array_values($nineEvaluationList))?>">
+                <div class="ibox-content">
+                    <div class="m-chart" id="js-comment" style="height:460px"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- 全局js -->
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/jquery.min.js?v=2.1.4"></script>
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/bootstrap.min.js?v=3.3.6"></script>
+
+
+<!--ECharts-->
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/plugins/echarts/echarts.js?v=3.6"></script>
+
+<!-- 自定义js -->
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/content.js?v=1.0.0"></script>
+
+<!-- GITTER -->
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/plugins/gritter/jquery.gritter.min.js"></script>
+
+
+<!--bootstrap dropdown-->
+<script src="../public/admin/plugins/bootstrap/js/bootstrap-hover-dropdown.min.js"></script>
+
+<!-- layerDate plugin javascript -->
+<script src="../public/admin/plugins/laydate/laydate.js"></script>
+<script src="../public/admin/plugins/layer/layer.js"></script>
+
+<script src="../public/admin/js/m-ibox.js"></script>
+
+<script src="../public/admin/js/p-comment.js"></script>
+<script src="../public/admin/js/admin_pagination.js"></script>
+<script>
+setPage(document.getElementById('pagination_container'), <?php echo $pagecount?>, <?php echo $curpage?>, '/merchantAdmin/evaluation', []);
+</script>
+</body>
+</html>

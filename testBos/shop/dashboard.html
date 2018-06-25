@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="renderer" content="webkit">
+    <title>排钟管理</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="../public/admin/plugins/Hplus-v.4.1.0/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link rel="stylesheet" href="../public/admin/plugins/iconfont/iconfont.css">
+    <link rel="stylesheet" href="../public/admin/plugins/Hplus-v.4.1.0/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css">
+    <!-- Morris -->
+    <!--<link href="../public/admin/plugins/Hplus-v.4.1.0/css/plugins/morris/morris-0.4.3.min.css" rel="stylesheet">-->
+
+    <!-- Gritter -->
+    <link href="../public/admin/plugins/Hplus-v.4.1.0/js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
+
+    <!--<link href="../public/admin/plugins/Hplus-v.4.1.0/css/style.css" rel="stylesheet">-->
+    <!--<link href="../public/admin/plugins/Hplus-v.4.1.0/css/animate.css" rel="stylesheet">-->
+    <link rel="stylesheet" href="../public/admin/css/p-waiter.css?rev=1009">
+    <style>
+    .sortable-list li{
+        height:230px;
+    }
+    </style>
+</head>
+<body class="gray-bg">
+    <div class="wrapper wrapper-content">
+        <?php if($is_paizhong_open):?>
+        <!--上下钟管理 start-->
+        <div class="row">
+            <div class="col-sm-12 ui-sortable">
+                <div class="ibox float-e-margins">
+                    <!--盒子头部-->
+                    <div class="ibox-title">
+                        <h5><i class="iconfont icon-time g-mr--5"></i>员工排钟管理 <small>（当前时间：<?php echo date('Y年m月d日', time())?>）</small></h5>
+                        <p class="g-f--l g-ml--20">选择“休假中”的员工将不排入上钟列表，请及时更改员工服务状态，以免影响客户选择</p>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="iconfont icon-packup"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <!--盒子内容-->
+                    <!--空闲-->
+                    <div class="ibox-content">
+                        <ul class="sortable-list g-clearfix row form-inline js-sortable-free">
+                            <?php if(!empty($freeTechnicianList)): foreach($freeTechnicianList as $freeTechnician):?>
+                            <li id="waiter-<?php echo $freeTechnician['technician_id']?>" data-technicianId="<?php echo $freeTechnician['technician_id']?>" class="m-element-free col-sm-3 col-md-2">
+                                <div class="m-waiter-group m-waiter-group--sortable">
+                                    <div class="m-waiter-avatar g-img-circle m-avatar--100">
+                                        <span class="m-working-icon"><i class="iconfont icon-time"></i></span>
+                                        <img src="<?php echo image_processor($freeTechnician['avatar'])?>" alt="头像">
+                                    </div>
+                                    <p class="g-fw--600 m-waiter-number">工号：<?php echo $freeTechnician['number']?></p>
+                                    <p><?php echo $freeTechnician['name']?><!-- <span class="g-ml--10">女</span> --></p>
+                                    <div class="form-group m-waiter-states">
+                                        <label for="">状态：</label>
+                                        <select name="" class="form-control">
+                                            <option value="free" selected>空闲中</option>
+                                            <option value="working">已上钟</option>
+                                            <option value="leaving">休假中</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </li>
+                            <?php endforeach;endif;?>
+                        </ul>
+                    </div>
+                    <!--已上钟-->
+                    <div class="ibox-content">
+                        <ul class="sortable-list g-clearfix row form-inline js-sortable-working">
+                            <?php if(!empty($workingTechnicianList)): foreach($workingTechnicianList as $workingTechnician):?>
+                            <li id="waiter-<?php echo $workingTechnician['technician_id']?>" data-technicianId="<?php echo $workingTechnician['technician_id']?>" class="m-element-working col-sm-3 col-md-2">
+                                <div class="m-waiter-group m-waiter-group--sortable">
+                                    <div class="m-waiter-avatar g-img-circle m-avatar--100">
+                                        <span class="m-working-icon"><i class="iconfont icon-time"></i></span>
+                                        <img src="<?php echo image_processor($workingTechnician['avatar'])?>" alt="头像">
+                                    </div>
+                                    <p class="g-fw--600 m-waiter-number">工号：<?php echo $workingTechnician['number']?></p>
+                                    <p><?php echo $workingTechnician['name']?><!-- <span class="g-ml--10">女</span> --></p>
+                                    <div class="form-group m-waiter-states">
+                                        <label for="">状态：</label>
+                                        <select name="" class="form-control">
+                                            <option value="free">空闲中</option>
+                                            <option value="working" selected>已上钟</option>
+                                            <option value="leaving">休假中</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </li>
+                            <?php endforeach;endif;?>
+                        </ul>
+                    </div>
+                    <!--已休假-->
+                    <div class="ibox-content">
+                        <ul class="sortable-list g-clearfix row form-inline js-sortable-rest">
+                            <?php if(!empty($leavingTechnicianList)): foreach($leavingTechnicianList as $leavingTechnician):?>
+                            <li id="waiter-<?php echo $leavingTechnician['technician_id']?>" data-technicianId="<?php echo $leavingTechnician['technician_id']?>" class="m-element-rest col-sm-3 col-md-2">
+                                <div class="m-waiter-group m-waiter-group--sortable">
+                                    <div class="m-waiter-avatar g-img-circle m-avatar--100">
+                                        <span class="m-working-icon"><i class="iconfont icon-time"></i></span>
+                                        <img src="<?php echo image_processor($leavingTechnician['avatar'])?>" alt="头像">
+                                    </div>
+                                    <p class="g-fw--600 m-waiter-number">工号：<?php echo $leavingTechnician['number']?></p>
+                                    <p><?php echo $leavingTechnician['name']?><!-- <span class="g-ml--10">女</span> --></p>
+                                    <div class="form-group m-waiter-states">
+                                        <label for="">状态：</label>
+                                        <select name="" class="form-control">
+                                            <option value="free">空闲中</option>
+                                            <option value="working">已上钟</option>
+                                            <option value="leaving" selected>休假中</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </li>
+                            <?php endforeach;endif;?>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!--上下钟管理 end-->
+        <?php endif;?>
+        <div class="row">
+            <div class="col-sm-4 col-lg-2">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title"><span class="label label-success pull-right">日</span>
+                        <h5>今日打赏</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <h1 class="no-margins"><?php echo ($todayOrderInfo['total_reward'] ? $todayOrderInfo['total_reward'] : 0)?></h1>
+                        <small class="stat-title">次数<?php echo ($todayOrderInfo['reward_count'] ? $todayOrderInfo['reward_count'] : 0)?></small>
+                        <!-- <div class="stat-percent font-bold text-success">同比昨天：98%<i class="iconfont icon-level-up"></i></div> -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-4 col-lg-2">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title"><span class="label label-danger pull-right">日</span>
+                        <h5>今日分成</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <h1 class="no-margins"><?php echo ($todayOrderInfo['total_earn'] ? $todayOrderInfo['total_earn'] : 0)?></h1>
+                        <small>次数<?php echo ($todayOrderInfo['reward_count'] ? $todayOrderInfo['reward_count'] : 0)?></small>
+                        <!-- <div class="stat-percent font-bold text-danger">98%<i class="iconfont icon-leveldown"></i></div> -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4 col-lg-2">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title"><span class="label label-info pull-right">累</span>
+                        <h5>累计打赏</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <h1 class="no-margins"><?php echo ($totalOrderInfo['total_reward'] ? $totalOrderInfo['total_reward'] : 0)?></h1>
+                        <small class="stat-title">次数<?php echo ($totalOrderInfo['reward_count'] ? $totalOrderInfo['reward_count'] : 0)?></small>
+                        <!-- <div class="stat-percent font-bold text-info">当前余额：2000.00<i class="iconfont icon-bolt"></i></div> -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4 col-lg-2">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title"><span class="label label-success pull-right">累</span>
+                        <h5>累计分成</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <h1 class="no-margins"><?php echo ($totalOrderInfo['total_earn'] ? $totalOrderInfo['total_earn'] : 0)?></h1>
+                        <small class="stat-title">次数<?php echo ($totalOrderInfo['reward_count'] ? $totalOrderInfo['reward_count'] : 0)?></small>
+                        <!-- <div class="stat-percent font-bold text-success">同比昨天：98%<i class="iconfont icon-level-up"></i></div> -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4 col-lg-2">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title"><span class="label label-success pull-right">今日</span>
+                        <h5>今日评论</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <h1 class="no-margins"><?php echo ($todayEvaluationInfo['evaluation_count'] ? $todayEvaluationInfo['evaluation_count'] : 0)?></h1>
+                        <small class="stat-title"></small>
+                        <!-- <div class="stat-percent font-bold text-success">同比昨天：98%<i class="iconfont icon-level-up"></i></div> -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4 col-lg-2">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title"><span class="label label-info pull-right">总计</span>
+                        <h5>累计评论</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <h1 class="no-margins"><?php echo ($totalEvaluationInfo['evaluation_count'] ? $totalEvaluationInfo['evaluation_count'] : 0)?></h1>
+                        <small class="stat-title"></small>
+                        <!-- <div class="stat-percent font-bold text-info">当前余额：2000/3000<i class="iconfont icon-bolt"></i></div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <!--本周数据统计 start-->
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <h5>本周数据统计</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="iconfont icon-packup"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content m-ibox-overflow-y">
+                        <div class="m-list-group m-overflow_inner">
+                            <div class="g-flex m-list_item m-list--chart">
+<!--                                 <div class="g-pr--10">
+                                    <span class="js-line">5,3,2,-1,-3,-2,2,3,5,2</span>
+                                </div> -->
+                                <div class="g-flex_item">本周打赏统计</div>
+                                <div class="g-flex_item g-ta--r">
+                                    <span class="g-c--red g-fw--600">￥<?php echo ($weekOrderInfo['total_reward'] ? $weekOrderInfo['total_reward'] : 0)?></span>
+                                </div>
+                            </div>
+                            <div class="g-flex m-list_item m-list--chart">
+<!--                                 <div class="g-pr--10">
+                                    <span class="js-line">5,3,2,-1,-3,-2,2,3,5,2</span>
+                                </div> -->
+                                <div class="g-flex_item">本周打赏次数</div>
+                                <div class="g-flex_item g-ta--r">
+                                    <span class="g-c--red g-fw--600"><?php echo $weekOrderInfo['reward_count']?></span>
+                                </div>
+                            </div>
+                            <div class="g-flex m-list_item m-list--chart">
+<!--                                 <div class="g-pr--10">
+                                    <span class="js-line">5,3,2,-1,-3,-2,2,3,5,2</span>
+                                </div> -->
+                                <div class="g-flex_item">本周打赏收入</div>
+                                <div class="g-flex_item g-ta--r">
+                                    <span class="g-c--red g-fw--600">￥<?php echo ($weekOrderInfo['total_earn'] ? $weekOrderInfo['total_earn'] : 0)?></span>
+                                </div>
+                            </div>
+                            <div class="g-flex m-list_item m-list--chart">
+<!--                                 <div class="g-pr--10">
+                                    <span class="js-line">5,3,2,-1,-3,-2,2,3,5,2</span>
+                                </div> -->
+                                <div class="g-flex_item">本周评论次数</div>
+                                <div class="g-flex_item g-ta--r">
+                                    <span class="g-c--red g-fw--600"><?php echo $weekEvaluationCount?></span>
+                                </div>
+                            </div>
+                            <div class="g-flex m-list_item m-list--chart">
+<!--                                 <div class="g-pr--10">
+                                    <span class="js-line">5,3,2,-1,-3,-2,2,3,5,2</span>
+                                </div> -->
+                                <div class="g-flex_item">本周抽奖次数</div>
+                                <div class="g-flex_item g-ta--r">
+                                    <span class="g-c--red g-fw--600"><?php echo $weekLotteryCount?></span>
+                                </div>
+                            </div>
+                            <div class="g-flex m-list_item m-list--chart">
+<!--                                 <div class="g-pr--10">
+                                    <span class="js-line">5,3,2,-1,-3,-2,2,3,5,2</span>
+                                </div> -->
+                                <div class="g-flex_item">本周领奖次数</div>
+                                <div class="g-flex_item g-ta--r">
+                                    <span class="g-c--red g-fw--600"><?php echo $weekAcceptedLotteryCount?></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--本周数据统计 end-->
+            </div>
+            <div class="col-md-8">
+                <!--打赏统计 start-->
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <h5>近一周打赏统计</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="iconfont icon-packup"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <input id="weekOrderListDays" type="hidden" value="<?php echo implode(',', array_keys($weekOrderList))?>">
+                        <input id="weekOrderListValues" type="hidden" value="<?php echo implode(',', array_values($weekOrderList))?>">
+                        <div class="m-chart g-ht--400" id="js-reward"></div>
+                    </div>
+                </div>
+                <!--打赏统计 end-->
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <!--最新打赏 start-->
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <h5>最新打赏</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="iconfont icon-packup"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content m-ibox-overflow-y">
+                        <div class="m-list-group m-overflow_inner">
+                            <?php if(!empty($orderList['orderList'])):foreach($orderList['orderList'] as $key=>$order):if($key==8)break;?>
+                            <div class="m-msg m-list_item g-clearfix">
+                                <a href="javascript:;" class="m-avatar m-avatar--sm g-mr--10 pull-left">
+                                    <img alt="image" src="<?php echo image_processor($order['client_avatar'])?>">
+                                </a>
+                                <div class="media-body">
+                                    <a href="#"><?php echo $order['client_name']?></a>
+                                    <small class="pull-right text-muted"><?php echo date('Y-m-d H:i:s', $order['created_time'])?></small>
+                                    <p>打赏了<strong class="text-danger">@<?php echo $order['technician_number']?></strong><!-- 一个戒指（ --><strong class="text-danger">￥<?php echo $order['total_fee']?>元</strong><!-- ） -->
+                                    </p>
+                                </div>
+                            </div>
+                            <?php endforeach;endif;?>
+                        </div>
+                    </div>
+                    <div class="ibox-footer g-ta--r">
+                        <a href="/shopAdmin/reward" target="_blank" class="btn btn-default">+查看更多</a>
+                    </div>
+                </div>
+                <!--最新打赏 end-->
+            </div>
+            <div class="col-sm-8">
+                <!--最新评论 start-->
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <h5>最新评论</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="iconfont icon-packup"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content m-ibox-overflow-y">
+                        <div class="m-list-group m-overflow_inner p-chat-message--color">
+                            <?php if(!empty($evaluationList['evaluationList'])):foreach($evaluationList['evaluationList'] as $evaluation):?>
+                            <div class="chat-message chat-message--left chat-message--condensed">
+                                <img class="message-avatar" src="<?php echo image_processor($evaluation['client_avatar'])?>" alt="">
+                                <div class="message">
+                                    <a class="message-author" href="#"> <?php echo $evaluation['client_name']?> <small class="g-c--red">@<?php echo $evaluation['technician_number']?></small></a>
+                                    <span class="g-c--pink g-ml--10">评分：<?php echo $evaluation['score']?></span>
+                                    <span class="message-date"> <?php echo date('Y-m-d H:i:s', $evaluation['created_time'])?> </span>
+                                    <span class="message-content"><?php echo $evaluation['content']?></span>
+<!--                                     <div class="g-ta--r"><a class="js-comment-del" data-toggle="tooltip" data-placement="top" title="删除" href="javascript:;"><i class="iconfont icon-empty"></i></a>
+</div> -->
+                                </div>
+                            </div>
+                            <?php endforeach; endif;?>
+                        </div>
+                    </div>
+                    <div class="ibox-footer g-ta--r">
+                        <a href="/shopAdmin/evaluation" target="_blank" class="btn btn-default">+查看更多</a>
+                    </div>
+                    <!--最新评论 end-->
+                </div>
+                <!--最新评论 end-->
+            </div>
+        </div>
+        <!--<div class="row">
+    <div class="col-sm-6">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h5>安卓/苹果系统访问对比</h5>
+                <div class="ibox-tools">
+                    <a class="collapse-link">
+                        <i class="iconfont icon-packup"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="ibox-content">
+                <div class="m-chart" id="js-visit"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h5>浏览器访问情况</h5>
+                <div class="ibox-tools">
+                    <a class="collapse-link">
+                        <i class="iconfont icon-packup"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="ibox-content">
+                <p class="text-muted g-ta--c">客户使用的浏览器情况</p>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>浏览器</th>
+                        <th>浏览数</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>浏览器名称</td>
+                        <td>531</td>
+                    </tr>
+                    <tr>
+                        <td>浏览器名称</td>
+                        <td>531</td>
+                    </tr>
+                    <tr>
+                        <td>浏览器名称</td>
+                        <td>531</td>
+                    </tr>
+                    <tr>
+                        <td>浏览器名称</td>
+                        <td>531</td>
+                    </tr>
+                    <tr>
+                        <td>浏览器名称</td>
+                        <td>531</td>
+                    </tr>
+                    <tr>
+                        <td>浏览器名称</td>
+                        <td>531</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h5>最多访问</h5>
+                <div class="ibox-tools">
+                    <a class="collapse-link">
+                        <i class="iconfont icon-packup"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="ibox-content">
+                <p class="text-muted g-ta--c">客户浏览最多的员工详情页</p>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>工号</th>
+                        <th>浏览数</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>005</td>
+                        <td>531</td>
+                    </tr>
+                    <tr>
+                        <td>005</td>
+                        <td>531</td>
+                    </tr>
+                    <tr>
+                        <td>005</td>
+                        <td>531</td>
+                    </tr>
+                    <tr>
+                        <td>005</td>
+                        <td>531</td>
+                    </tr>
+                    <tr>
+                        <td>005</td>
+                        <td>531</td>
+                    </tr>
+                    <tr>
+                        <td>005</td>
+                        <td>531</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+        </div>-->
+    </div>
+
+    <!-- 全局js -->
+    <script src="../public/admin/plugins/Hplus-v.4.1.0/js/jquery.min.js?v=2.1.4"></script>
+    <script src="../public/admin/plugins/Hplus-v.4.1.0/js/bootstrap.min.js?v=3.3.6"></script>
+
+    <!-- Peity -->
+    <script src="../public/admin/plugins/Hplus-v.4.1.0/js/plugins/peity/jquery.peity.min.js"></script>
+    <!--<script src="../public/admin/plugins/Hplus-v.4.1.0/js/demo/peity-demo.js"></script>-->
+
+    <!--ECharts-->
+    <script src="../public/admin/plugins/Hplus-v.4.1.0/js/plugins/echarts/echarts.js?v=3.6"></script>
+
+    <!-- 自定义js -->
+    <script src="../public/admin/plugins/Hplus-v.4.1.0/js/content.js?v=1.0.0"></script>
+
+
+    <script src="../public/admin/plugins/Hplus-v.4.1.0/js/plugins/jquery-ui/jquery-ui.min.js"></script>
+
+
+    <!-- GITTER -->
+    <script src="../public/admin/plugins/Hplus-v.4.1.0/js/plugins/gritter/jquery.gritter.min.js"></script>
+
+    <script src="../public/admin/plugins/layer/layer.js"></script>
+    <!-- jQuery UI -->
+    <script src="../public/admin/js/m-ibox.js"></script>
+    <script src="../public/admin/js/p-index.js?ver=093010"></script>
+
+</body>
+</html>

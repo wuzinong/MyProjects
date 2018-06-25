@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="renderer" content="webkit">
+    <title>评论管理</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="../public/admin/plugins/Hplus-v.4.1.0/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link rel="stylesheet" href="../public/admin/plugins/iconfont/iconfont.css">
+
+    <!-- Morris -->
+    <!--<link href="../public/admin/plugins/Hplus-v.4.1.0/css/plugins/morris/morris-0.4.3.min.css" rel="stylesheet">-->
+
+    <!-- Gritter -->
+    <!--<link href="../public/admin/plugins/Hplus-v.4.1.0/js/plugins/gritter/jquery.gritter.css" rel="stylesheet">-->
+
+    <link href="../public/admin/plugins/Hplus-v.4.1.0/css/plugins/bootstrap-table/bootstrap-table.min.css"
+          rel="stylesheet">
+    <link rel="stylesheet" href="../public/admin/plugins/bootstrap3-editable/css/bootstrap-editable.css">
+
+    <link rel="stylesheet" href="../public/admin/css/p-waiter.css?rev=@@hash">
+    <style>
+    .g-bb--d{
+        border-bottom:1px dotted #ddd;
+    }
+    .p-comment-one{
+        position:relative;
+        min-height:70px;
+    }
+    .p-comment-one p{
+        padding-right:100px;
+    }
+    .p-comment-one ul{
+        position:absolute;
+        right:0;
+        top:0;
+        padding:0;
+    }
+    .p-comment-one ul a{
+        display:block;
+        padding:0 5px;
+        margin:4px 0;
+    }
+    </style>
+</head>
+<body class="gray-bg">
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-9">
+        <h2>评论管理
+            <small class="g-fs--12 text-muted">（点击每条评论右下角删除按钮，可删除此评论；如遇到恶意评论，可及时处理）</small>
+        </h2>
+        <!--<ol class="breadcrumb">
+            <li>
+                <a href="index.html">主页</a>
+            </li>
+            <li class="active">
+                <strong>评论管理</strong>
+            </li>
+        </ol>-->
+    </div>
+</div>
+<div class="wrapper wrapper-content">
+    <!--打赏数据图表 start-->
+    <div class="ibox">
+        <div class="ibox-content form-inline">
+        <input id="js-date-input-start" class="form-control js-data-select" type="text" placeholder="开始时间" value="<?php echo $this->input->get('start_date', true) ? $this->input->get('start_date', true) : ''?>">
+        <input id="js-date-input-end" class="form-control js-data-select" type="text" placeholder="结束时间" value="<?php echo $this->input->get('end_date', true) ? $this->input->get('end_date', true) : ''?>">
+        <input type="hidden" id="date-start" class="start_date" value='<?php echo $this->input->get('start_date', true) ? $this->input->get('start_date', true) : ''?>'>
+        <input type="hidden" id="date-end" class="end_date" value='<?php echo $this->input->get('end_date', true) ? $this->input->get('end_date', true) : ''?>'>
+        <button id="js-search-date" type="button" class="btn btn-primary">查询</button>
+        </div>
+    </div>
+    <!--数据展示-->
+    <div class="row">
+        <div class="col-sm-8">
+            <!--最新评论 start-->
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>最新评论</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="iconfont icon-packup"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content m-ibox-overflow-y">
+                    <div class="m-list-group m-overflow_inner p-chat-message--color">
+                        <?php if (!empty($evaluationList)): foreach ($evaluationList as $evaluation): ?>
+                            <div class="chat-message chat-message--left chat-message--condensed"
+                                 data-evaluationId="<?php echo $evaluation['evaluation_id'] ?>">
+                                <img class="message-avatar"
+                                     src="<?php echo image_processor($evaluation['client_avatar']) ?>" alt="">
+                                <div class="message">
+                                    <a class="message-author" href="#"> <?php echo $evaluation['client_name'] ?>
+                                        <small class="g-c--red">@<?php echo $evaluation['technician_number'] ?></small>
+                                    </a>
+                                    <span class="g-c--pink g-ml--10">评分：<?php echo $evaluation['score'] ?></span>
+                                    <span class="message-date"><?php echo date('Y-m-d H:i:s', $evaluation['created_time']) ?></span>
+                                    <span class="message-content"><?php echo $evaluation['content'] ?></span>
+                                    <div class="g-ta--r"><a class="js-comment-del" data-toggle="tooltip"
+                                                            data-placement="top" title="删除" href="javascript:;"><i
+                                                    class="iconfont icon-empty"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endforeach;endif; ?>
+                    </div>
+
+                </div>
+                <div class="ibox-footer g-ta--r">
+                    <div id="pagination_container" class="g-ta--c">
+                        <!--                         <ul class="pagination g-m--0">
+                            <li class="page-first disabled"><a href="javascript:;">«</a></li>
+                            <li class="page-pre disabled"><a href="javascript:;">‹</a></li>
+                            <li class="page-number active"><a href="javascript:;">1</a></li>
+                            <li class="page-number"><a href="javascript:;">2</a></li>
+                            <li class="page-next"><a href="javascript:;">›</a></li>
+                            <li class="page-last"><a href="javascript:;">»</a></li>
+                        </ul> -->
+                    </div>
+                </div>
+                <!--最新评论 end-->
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>一句话评论</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="iconfont icon-packup"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content m-ibox-overflow-y">
+                    <div id="js-comment-wrap" class="m-overflow_inner" style="height:439px;">
+                        <?php if(empty($defaultEvaluationList)):?>
+                        <div class="g-ta--r g-bb--d g-pt--10 g-pb--5 g-clearfix p-comment-one">
+                            <p class="g-ta--l">也就这样吧~</p>
+                            <ul class="">
+                                <li><a href="javascript:;" class="js-move-up">上移</a></li>
+                                <li><a href="javascript:;" class="js-del-comment-one">删除</a></li>
+                                <li><a href="javascript:;" class="js-move-down">下移</a></li>
+                            </ul>
+                        </div>
+                        <div class="g-ta--r g-bb--d g-pt--10 g-pb--5 g-clearfix p-comment-one">
+                            <p class="g-ta--l">服务态度欠佳~</p>
+                            <ul class="">
+                                <li><a href="javascript:;" class="js-move-up">上移</a></li>
+                                <li><a href="javascript:;" class="js-del-comment-one">删除</a></li>
+                                <li><a href="javascript:;" class="js-move-down">下移</a></li>
+                            </ul>
+                        </div>
+                        <div class="g-ta--r g-bb--d g-pt--10 g-pb--5 g-clearfix p-comment-one">
+                            <p class="g-ta--l">长得不错鼓励一下~</p>
+                            <ul class="">
+                                <li><a href="javascript:;" class="js-move-up">上移</a></li>
+                                <li><a href="javascript:;" class="js-del-comment-one">删除</a></li>
+                                <li><a href="javascript:;" class="js-move-down">下移</a></li>
+                            </ul>
+                        </div>
+                        <div class="g-ta--r g-bb--d g-pt--10 g-pb--5 g-clearfix p-comment-one">
+                            <p class="g-ta--l">人美，劲足，手法赞~</p>
+                            <ul class="">
+                                <li><a href="javascript:;" class="js-move-up">上移</a></li>
+                                <li><a href="javascript:;" class="js-del-comment-one">删除</a></li>
+                                <li><a href="javascript:;" class="js-move-down">下移</a></li>
+                            </ul>
+                        </div>
+                        <div class="g-ta--r g-bb--d g-pt--10 g-pb--5 g-clearfix p-comment-one">
+                            <p class="g-ta--l">多一星怕你骄傲呐~</p>
+                            <ul class="">
+                                <li><a href="javascript:;" class="js-move-up">上移</a></li>
+                                <li><a href="javascript:;" class="js-del-comment-one">删除</a></li>
+                                <li><a href="javascript:;" class="js-move-down">下移</a></li>
+                            </ul>
+                        </div>
+                        <?php else:$defaultEvaluationList = explode('|', $defaultEvaluationList);foreach($defaultEvaluationList as $defaultEvaluation):?>
+                        <div class="g-ta--r g-bb--d g-pt--10 g-pb--5 g-clearfix p-comment-one">
+                            <p class="g-ta--l"><?php echo $defaultEvaluation?></p>
+                            <ul class="">
+                                <li><a href="javascript:;" class="js-move-up">上移</a></li>
+                                <li><a href="javascript:;" class="js-del-comment-one">删除</a></li>
+                                <li><a href="javascript:;" class="js-move-down">下移</a></li>
+                            </ul>
+                        </div>
+                        <?php endforeach;endif;?>
+                    </div>
+                    
+                </div>
+                <div class="ibox-footer g-ta--r">
+                    <a href="javascript:;" class="btn btn-primary" data-toggle="modal" data-target="#commet-one">增加评论</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox">
+                    <div class="ibox-title">
+                        <h5>近一周评论统计图</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="iconfont icon-packup"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <input id="evaluationListDays" type="hidden" value="<?php echo implode(',', array_keys($fiveEvaluationList))?>">
+                    <input id="fiveEvaluationListValues" type="hidden" value="<?php echo implode(',', array_values($fiveEvaluationList))?>">
+                    <input id="sixEvaluationListValues" type="hidden" value="<?php echo implode(',', array_values($sixEvaluationList))?>">
+                    <input id="sevenEvaluationListValues" type="hidden" value="<?php echo implode(',', array_values($sevenEvaluationList))?>">
+                    <input id="eightEvaluationListValues" type="hidden" value="<?php echo implode(',', array_values($eightEvaluationList))?>">
+                    <input id="nineEvaluationListValues" type="hidden" value="<?php echo implode(',', array_values($nineEvaluationList))?>">
+                    <div class="ibox-content">
+                        <div class="m-chart" id="js-comment" style="height:460px"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- 一句话评论 -->
+<div id="commet-one" class="modal fade">
+    <form action="">
+        <div class="modal-dialog">
+            <div class="modal-content form-horizontal animated flipInY">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">一句话评论</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">评论内容</label>
+                                <div class="col-sm-10">
+                                    <input id="js-comment-one" class="form-control" type="text">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="js-btn-save-comment" class="btn btn-primary">保存</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- 全局js -->
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/jquery.min.js?v=2.1.4"></script>
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/bootstrap.min.js?v=3.3.6"></script>
+
+
+<!--ECharts-->
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/plugins/echarts/echarts.js?v=3.6"></script>
+
+<!-- 自定义js -->
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/content.js?v=1.0.1"></script>
+
+<!-- GITTER -->
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/plugins/gritter/jquery.gritter.min.js"></script>
+
+
+<!--bootstrap dropdown-->
+<script src="../public/admin/plugins/bootstrap/js/bootstrap-hover-dropdown.min.js"></script>
+
+<!-- layerDate plugin javascript -->
+<script src="../public/admin/plugins/laydate/laydate.js"></script>
+<script src="../public/admin/plugins/layer/layer.js"></script>
+
+<script src="../public/admin/js/m-ibox.js?ver=1004"></script>
+
+<script src="../public/admin/js/p-comment.js"></script>
+<script src="../public/admin/js/admin_pagination.js"></script>
+<script>
+    var start = {  
+        elem: '#js-date-input-start',
+        min: '1990-06-16', //设定最小日期为当前日期  
+        max: '2099-06-16', //最大日期  
+        done: function(value){  
+             end.min = value; //开始日选好后，重置结束日的最小日期  
+             end.start = value; //将结束日的初始值设定为开始日  
+             $("#date-start").val(value);
+        }  
+    };  
+    var end = {  
+        elem: '#js-date-input-end',
+        min: '1990-06-16',  
+        max: '2099-06-16',  
+        done: function(value){  
+            start.max = value; //结束日选好后，重置开始日的最大日期  
+            $("#date-end").val(value);
+        }  
+    };  
+    laydate.render(start);  
+    laydate.render(end);  
+   
+    $("#js-search-date").on('click',function(){
+        var startDate=$("#date-start").val();
+        var endDate=$("#date-end").val();
+        var href_date='/shopAdmin/evaluation?start_date='+startDate+'&end_date='+endDate;
+        window.location.href=href_date;
+    });
+    setPage(document.getElementById('pagination_container'), <?php echo $pagecount?>, <?php echo $curpage?>, '/shopAdmin/evaluation', ['start_date', 'end_date']);
+    $(function () {
+        /* 一句话评论 */
+        function commentGroup($wrap,changetext){
+            var $item=$wrap.find(".p-comment-one");
+            var len=$item.length;
+            var i,arr_text=[];
+            for(i=0;i<len;i++){
+                var text=$item.eq(i).find("p").text();
+                arr_text.push(text);
+                // console.log(text);
+            }
+            var text_all=arr_text.join('|');
+            // console.log(arr_text);
+            $.ajax({
+                type:'POST',
+                url:'/shopAdmin/evaluation/setEvaluationList',
+                dataType:'json',
+                data:{
+                    evaluationList:text_all,
+                },
+                success:function(data){
+                    if(data.code===200){
+                        layer.msg(changetext+'成功',{time:1000},function(){
+                            window.location.reload(true);
+                        });
+                    }
+                }
+            });
+        }
+        $(".ibox").on('click','.js-move-up',function(){
+            var $wrap = $("#js-comment-wrap");
+            // console.log("上移");
+            var $this_comment=$(this).closest(".p-comment-one");
+            var this_eq=$this_comment.index();
+            var $before_item=$this_comment.prev();
+            // console.log();
+            if(!this_eq=='0'){
+                $before_item.before($this_comment);
+                commentGroup($wrap,'上移');
+            }
+            
+        });
+        $(".ibox").on('click','.js-move-down',function(){
+            // console.log("下移");
+            var $wrap = $("#js-comment-wrap");
+            var len=$(this).closest(".m-overflow_inner").find(".p-comment-one").length;
+            var $this_comment=$(this).closest(".p-comment-one");
+            var this_eq=$this_comment.index();
+            var $after_item=$this_comment.next();
+            // console.log(len);
+            if(!this_eq==len - 1){
+                $after_item.after($this_comment);
+                commentGroup($wrap,'下移');
+            }
+        });
+        $(".ibox").on('click','.js-del-comment-one',function(){
+            var $this=$(this);
+            var $wrap = $("#js-comment-wrap");
+            layer.confirm('确定要删除吗？', {icon: 3, title:'提示'}, function(index){
+                $this.closest(".p-comment-one").remove();
+                
+                layer.close(index);
+                commentGroup($wrap,'删除');
+            });
+        });
+        $("#js-btn-save-comment").on('click',function(){
+            var $wrap = $("#js-comment-wrap");
+            var text=$("#js-comment-one").val();
+            var html_add=`<div class="g-ta--r g-bb--d g-pt--10 g-pb--5 g-clearfix p-comment-one">
+                            <p class="g-ta--l">${text}</p>
+                            <ul class="">
+                                <li><a href="javascript:;" class="js-move-up">上移</a></li>
+                                <li><a href="javascript:;" class="js-del-comment-one">删除</a></li>
+                                <li><a href="javascript:;" class="js-move-down">下移</a></li>
+                            </ul>
+                        </div>`;
+            if(!text==''){
+                $("#commet-one").modal('hide');
+                $("#js-comment-wrap").append(html_add);
+                commentGroup($wrap,'新增');
+            }
+        });
+        /*评论删除按钮*/
+        $(".ibox").on('click','.js-comment-del',function () {
+            var $this_comment=$(this).closest(".chat-message");
+            var evaluation_id = $this_comment.attr('data-evaluationId');
+            console.log(evaluation_id);
+            layer.confirm('确定要删除这条评论吗？',{icon:3},function (index) {
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/shopAdmin/evaluation/deleteEvaluation',
+                    dataType: 'json',
+                    data: {
+                        evaluation_id: evaluation_id,
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        $this_comment.remove();
+                        if (data.code === 200) {
+                            layer.msg('删除成功', {
+                                time: 1000,
+                                anim: 0
+                            }, function () {
+                                layer.close(index);
+                                window.location.reload(true);
+                            });
+                        } else if (data.code === 400) {
+                            layer.msg(data.message, {
+                                time: 1000
+                            });
+                        }
+                    },
+                    error: function (jqXHR) {
+                        console.log("发生错误" + jqXHR.status)
+                    }
+                });
+            });
+        });
+    });
+</script>
+</body>
+</html>

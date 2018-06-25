@@ -1,0 +1,62 @@
+extends ../layout
+
+block content
+  div.module
+    div.module-head
+      h3 All Members
+    div.module-option.clearfix
+      form
+        div.input-append.pull-left
+          input(type="text",placeholder="Filter by name...").span3
+          button(type="submit").btn
+            i.icon-search
+      div.btn-group.pull-right
+        button.btn All
+        button.btn Male
+        button.btn Female
+    div.module-body
+      div.row-fluid
+        div.span6
+          div.media.user
+            a.media-avatar.pull-left
+              img(src="images/user.png")
+            div.media-body
+              h3.media-title Test user
+              p
+                small.muted Pakistan
+              div.media-option.btn-group.shaded-icon
+                button.btn.btn-small
+                  i.icon-envelope
+                button.btn.btn-small
+                  i.icon-share-alt
+        div.span6
+          div.media.user
+            a.media-avatar.pull-left
+              img(src="images/user.png")
+            div.media-body
+              h3.media-title Test user
+              p
+                small.muted Pakistan
+              div.media-option.btn-group.shaded-icon
+                button.btn.btn-small
+                  i.icon-envelope
+                button.btn.btn-small
+                  i.icon-share-alt
+      div.pagination.pagination-centered
+        ul
+          li
+            a
+              i.icon-double-angle-left
+          li
+            a 1
+          li
+            a 2
+          li
+            a
+              i.icon-double-angle-right
+
+
+
+
+                
+        
