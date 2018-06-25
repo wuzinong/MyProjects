@@ -1,0 +1,45 @@
+.m-login-wrap{display:block;position:fixed;top:100px;right:100px;width:310px;z-index:99;background-color:rgba(255,255,255,.9);border-radius:4px;-webkit-box-shadow:1px 1px 15px 1px rgba(0,0,0,.3);box-shadow:1px 1px 15px 1px rgba(0,0,0,.3);padding:25px 20px}.m-login-wrap .btn{height:auto;position:static}.js-input-tel{padding-right:5px}
+/*# sourceMappingURL=maps/p-login-new.css.map */
+body{
+    min-height: 500px;
+    position: relative;
+}
+.out{
+    position: relative;
+    background:url('/public/images/login-bg-01.png');
+    background-size:cover;
+}
+.m-login-wrap{
+    position: absolute;
+    /*top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);*/
+    top:15%;
+    right:10%;
+}
+.p-login-bg-icon{
+    position: absolute;
+    width:450px;
+    left:50%;
+    margin-left:-225px;
+    bottom:50px;
+}
+.p-login-bg-icon-2{
+    position: absolute;
+    width:400px;
+    top:5%;
+    left:5%;
+}
+.p-login-logo{
+    position: absolute;
+    bottom:100px;
+    height:26%;
+    left:50%;
+    transform:translateX(-50%);
+}
+.p-login-title{
+    font-size:20px;
+    text-align: center;
+    margin-bottom:20px;
+    font-weight: 600;
+}

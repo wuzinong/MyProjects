@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <title>员工后台管理-登陆</title>
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="yes" name="apple-touch-fullscreen">
+    <meta content="telephone=no,email=no" name="format-detection">
+    <!--以显示网页的屏幕宽度定义了视窗宽度。网页的比例和最大比例被设置为100%-->
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <link rel="stylesheet" href="../public/plugins/weui/css/weui.min.css">
+    <link rel="stylesheet" href="../public/plugins/jquery-weui/css/jquery-weui.min.css">
+    <link rel="stylesheet" href="../public/plugins/iconfont/iconfont.css">
+
+    <link rel="stylesheet" href="../public/css/p-personal-center.css?ver=1014">
+</head>
+<body class="p-waiter-login">
+<h1 class="p-login-logo">boss赏吧 <img src="../public/images/waiter-login/icon_logo.png?ver=1014" alt=""></h1>
+<h2 class="p-login-title">员工端后台管理 <img src="../public/images/waiter-login/icon_1.png" alt=""></h2>
+<div class="m-login-warp">
+    <img class="p-login-warp_bg" src="../public/images/waiter-login/icon_2.png" alt="">
+    <div class="m-box-login">
+        <div class="weui-cells weui-cells_form">
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label for="" class="weui-label"><i class="icon-shouji iconfont"></i></label>
+                </div>
+                <div class="weui-cell__bd">
+                    <input id="js-mobile" class="weui-input js-login-tel" type="tel" placeholder="请输入手机号">
+                </div>
+            </div>
+
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label for="" class="weui-label"><i class="iconfont icon-mima"></i></label>
+                </div>
+                <div class="weui-cell__bd">
+                    <input id="js-password" class="weui-input" type="password" placeholder="请输入密码">
+                </div>
+            </div>
+        </div>
+        <div class="weui-flex g-mt--5 g-mb--10">
+            <div class="weui-flex__item">
+                <div class="weui-cells__tips js-tel-error" style="display:none">
+                    <span class="g-c--red">手机号格式有误。</span>
+                </div>
+            </div>
+            <div>
+                <a class="m-btn-orange m-btn-link m-login-forget" href="/technicianAdmin/login/modifyPassword">忘记密码？</a>
+            </div>
+        </div>
+        <button id="js-btn-login" type="button" class="weui-btn weui-btn_orange">登陆</button>
+    </div>
+</div>
+<h3 class="p-login-text">多一星怕你骄傲~ <img src="../public/images/waiter-login/icon_3.png?ver=1014" alt=""></h3>
+<script src="../public/plugins/jquery/jquery-2.1.4.js"></script>
+<script src="../public/plugins/jquery-weui/js/jquery-weui.min.js"></script>
+<script src="../public/js/m-inputs.js"></script>
+<script>
+$(function(){
+    /*登陆------------------------------------------*/
+    $("#js-btn-login").on('click',function () {
+        var $tel_error=$(".js-tel-error");
+        var mobile=$("#js-mobile").val();
+        var password=$("#js-password").val();
+        if($tel_error.is(":hidden") && !mobile=='' && !password==''){
+            console.log("mobile:"+mobile+"||password:"+password);
+            $.ajax({
+                type:'POST',
+                url:'/technicianAdmin/login/doLogin',
+                dataType:'json',
+                data:{
+                    mobile:mobile,
+                    password:password,
+                },
+                success:function (data) {
+//                 登陆成功后跳转
+                    if(data.code===200){
+                        $.toast("操作成功",function () {
+                            window.location.href='/technicianAdmin/index';
+                        });
+
+                    }else if(data.code===400){
+                        $.toast(data.message, "forbidden")
+                    }
+                },
+                error:function (jqXHR) {
+//                    $.alert("发生错误"+jqXHR.status);
+                }
+            });
+        }else{
+            $.alert("请正确填写手机号和密码");
+        }
+    });
+    /*修改密码---------------------------------------------*/
+
+});
+</script>
+</body>
+</html>
