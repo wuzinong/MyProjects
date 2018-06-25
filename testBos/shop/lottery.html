@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>抽奖设置</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="../public/admin/plugins/Hplus-v.4.1.0/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link rel="stylesheet" href="../public/admin/plugins/iconfont/iconfont.css">
+    <link href="../public/admin/plugins/Hplus-v.4.1.0/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../public/admin/plugins/bootstrap3-editable/css/bootstrap-editable.css">
+
+    
+    
+    <link rel="stylesheet" href="../public/admin/css/p-waiter.css?rev=@@hash">
+</head>
+<body class="gray-bg">
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-9">
+            <h2>抽奖设置</h2>
+            <!--<ol class="breadcrumb">
+                <li>
+                    <a href="index.html">主页</a>
+                </li>
+                <li class="active">
+                    <strong>奖品管理</strong>
+                </li>
+            </ol>-->
+        </div>
+    </div>
+    <div class="wrapper wrapper-content">
+        
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <p class="g-fs--14 g-ta--c"><b>累计获奖人次</b><b id="lotteryCount" class="g-text-primary g-ml--5 g-mr--5"><?php echo $clientLotteryCount?></b></p>
+                        <div class="p-chart--pie" id="js-chart--total_num"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <p class="g-fs--14 g-ta--c"><b>已领奖品人次</b><b id="acceptedLotteryCount" class="g-text-primary g-ml--5 g-mr--5"><?php echo $acceptedLotteryCount?></b></p>
+                        <input id="unacceptedLotteryCount" type="hidden" value="<?php echo $unacceptedLotteryCount?>">
+                        <div class="p-chart--pie" id="js-chart--win_num"></div>
+                    </div>
+                </div>
+            </div>
+<!--             <div class="col-sm-4">
+    <div class="ibox">
+        <div class="ibox-content">
+            <p class="g-fs--14 g-ta--c"><b>已绑定奖品项</b><b class="g-text-primary g-ml--5 g-mr--5">12/15</b></p>
+            <div class="p-chart--pie" id="js-chart--prize_item"></div>
+        </div>
+    </div>
+</div> -->
+        </div>
+        
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>奖品管理</h5>
+                    <div class="ibox-tools">
+                        <?php if(!$is_lottery_open):?>
+                        <span id="js-lottery-status">当前已关闭抽奖功能</span>
+                        <a href="javascript:;" class="btn btn-primary btn-sm" id="js-btn-draw-select" style="margin-top:-10px;color:#fff;">开启抽奖</a>
+                        <?php else:?>
+                        <span id="js-lottery-status">当前已开启抽奖功能</span>
+                        <a href="javascript:;" class="btn btn-default btn-sm" id="js-btn-draw-select" style="margin-top:-10px;color:#fff;">关闭抽奖</a>
+                        <?php endif;?>
+                        <a href="javascript:;" class="collapse-link"><i class="iconfont icon-packup"></i></a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>打赏类型</th>
+                            <th>图片</th>
+                            <th>价格（元）</th>
+                            <th>奖品设置</th>
+                            <!-- <th>数量/金额</th> -->
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php if(!empty($presentList)): foreach($presentList as $present):?>
+                        <tr data-presentId="<?php echo $present['present_id']?>" data-lotteryId="<?php echo $present['lottery_id']?>">
+                            <td><?php echo $present['name']?></td>
+                            <td>
+                                <div class="m-avatar m-avatar-sm g-ml--5">
+                                    <img class="img-rounded" src="<?php echo image_processor($present['picture'])?>" alt="">
+                                </div>
+                            </td>
+                            <td><?php echo $present['money']?></td>
+                            <td>
+                                <?php echo $present['lottery_name']?>
+                                <div class="m-avatar m-avatar-sm g-ml--5">
+                                    <img class="img-rounded" src="<?php echo image_processor($present['lottery_picture'])?>" alt="">
+                                </div>
+                            </td>
+                            <!-- <td><?php echo $present['count']?></td> -->
+                            <td>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-primary btn-sm js-prize-site">修改</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <?php endforeach;endif;?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+    </div>
+    
+    
+    <div id="prize-site" class="modal fade">
+        <form action="">
+            <div class="modal-dialog">
+                <div class="modal-content form-horizontal animated flipInY">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">礼物设置</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <input type="hidden" name="" id="js-presentid"><input type="hidden" name="" id="js-lotteryid">
+                                <div class="form-group">
+                                    <label for="" class="col-sm-4 control-label">打赏类型</label>
+                                    <div class="col-sm-8"><p class="form-control-static" id="js-name">玫瑰花</p></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="" class="col-sm-4 control-label">图片</label>
+                                    <div class="col-sm-8">
+                                        <div class="m-avatar m-avatar-sm g-ml--5">
+                                            <img id="js-pictrue" class="img-rounded" src="../public/admin/plugins/Hplus-v.4.1.0/img/a1.jpg" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">奖品设置</label>
+                                    <div class="col-sm-8">
+                                        
+                                        <select id="js-gift-name" name="" class="form-control js-prize-select">
+                                            <option picture="" value="0">不绑定</option>
+                                            <?php if(!empty($lotteryList)):foreach($lotteryList as $lottery):?>
+                                            <option picture="<?php echo image_processor($lottery['picture'])?>" value="<?php echo $lottery['lottery_id']?>"><?php echo $lottery['name']?></option>
+                                            <?php endforeach;endif;?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="" class="col-sm-4 control-label">图片</label>
+                                    <div class="col-sm-8">
+                                        <div class="m-avatar m-avatar-sm g-ml--5">
+                                            <img id="js-gift-pictrue" class="img-rounded" src="" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                       <!--  <div class="row">
+                            <div class="col-sm-6 js-prize-select_number">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">数量</label>
+                                    <div class="col-sm-8">
+                                        <input id="js-count" type="number" min="0" step="1" class="form-control" placeholder="请设置数量">
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="js-btn-setShopLottery" class="btn btn-primary">保存</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    
+    <script src="../public/admin/plugins/Hplus-v.4.1.0/js/jquery.min.js?v=2.1.4"></script>
+    <script src="../public/admin/plugins/Hplus-v.4.1.0/js/bootstrap.min.js?v=3.3.6"></script>
+
+
+    
+    <script src="../public/admin/plugins/Hplus-v.4.1.0/js/plugins/echarts/echarts.js?v=3.6"></script>
+
+    
+    <script src="../public/admin/plugins/Hplus-v.4.1.0/js/content.js?v=1.0.0"></script>
+
+
+    
+    <script src="../public/admin/plugins/bootstrap/js/bootstrap-hover-dropdown.min.js"></script>
+
+    
+    <script src="../public/admin/plugins/laydate/laydate.js"></script>
+    <script src="../public/admin/plugins/layer/layer.js"></script>
+
+    <script src="../public/admin/js/m-ibox.js"></script>
+    <script src="../public/admin/js/p-draw.js?rev=1010"></script>
+<script>
+$(function(){
+    /* 控制抽奖 */
+    $("#js-btn-draw-select").on('click',function(){
+        var this_text=$(this).text();
+        var is_open;
+        if(this_text=='开启抽奖'){
+            $(this).text('关闭抽奖').removeClass('btn-primary').addClass('btn-default');
+            is_open='1';
+        }else{
+            $(this).text('开启抽奖').removeClass('btn-default').addClass('btn-primary');
+            is_open='0';
+        }
+        $.ajax({
+            type:'POST',
+            url:'/shopAdmin/lottery/setLotteryOpen',
+            dataType:'json',
+            data:{
+                is_open:is_open,
+            },
+            success:function(data){
+                if(data.code===200 && is_open=='1'){
+                    layer.msg('抽奖已开启');
+                    $("#js-lottery-status").text('当前已开启抽奖功能');
+                }else if(data.code===200 && is_open=='0'){
+                    layer.msg('抽奖已关闭');
+                    $("#js-lottery-status").text('当前已关闭抽奖功能');
+                }else if(data.code===400){
+                    layer.msg(data.message);
+                }
+            }
+        });
+    });
+    $(".table").on('click','.js-prize-site',function(){
+        var $this_tr=$(this).closest('tr');
+        var this_lottery_id=$this_tr.attr('data-lotteryid');
+        if(this_lottery_id==''){
+            this_lottery_id=0;
+        }
+        console.log(this_lottery_id);
+        var this_present_id=$this_tr.attr('data-presentid');
+        var this_count=$.trim($this_tr.find('td:eq(3)').text());
+        var this_gift_picture=$("#js-gift-name option[value='"+this_lottery_id+"']").attr('picture');
+        var this_gift_img=$this_tr.find('td:eq(1) img').attr('src');
+        var this_name=$.trim($this_tr.find('td:eq(0)').text());
+
+        $("#js-name").text(this_name);
+        $("#js-pictrue").attr('src',this_gift_img);
+        $("#js-gift-name option[value='"+this_lottery_id+"']").attr("selected", true);
+        // $("#js-count").val(this_count);
+        $("#js-count").val('1');
+        $("#js-presentid").val(this_present_id);
+        $("#js-lotteryid").val(this_lottery_id);
+        $("#js-gift-pictrue").attr('src',this_gift_picture);
+    });
+    $("#js-gift-name").on('change',function () {
+       var $this_val=$(this).val();
+       var $this_picture=$(this).find("option[value='"+$this_val+"']").attr('picture');
+//       console.log($this_val);
+//       console.log($this_picture);
+        $("#js-gift-pictrue").attr('src',$this_picture);
+        $("#js-lotteryid").val($this_val);
+    });
+    $("#js-btn-setShopLottery").on('click',function () {
+       var presentid=$("#js-presentid").val();
+       var lottery=$("#js-lotteryid").val();
+       var count=$("#js-count").val();
+       console.log('presentid:'+presentid);
+       console.log('lottery:'+lottery);
+       console.log(count);
+       /* if(!count==''){ */
+           $.ajax({
+               type:'POST',
+               url:'/shopAdmin/lottery/setShopLottery',
+               dataType:'json',
+               data:{
+                   present_id:presentid,
+                   lottery_id:lottery,
+                //    count:count,
+               },
+               success:function (data) {
+                   console.log(data);
+                    if(data.code===200){
+                        $("#prize-site").modal('hide');
+                        layer.msg('修改成功', {
+                            anim: 0,
+                            time: 1000
+                        }, function () {
+                            window.location.reload(true);
+                        });
+                    }else if(data.code===400){
+                        layer.msg(data.message,{
+                            time:1000
+                        });
+                    }
+               },
+               error: function (jqXHR) {
+                   console.log("发生错误" + jqXHR.status);
+               }
+           });
+       /* } else {
+           layer.msg('请正确填选选项');
+       } */
+
+    });
+});
+</script>
+
+</body>
+</html>

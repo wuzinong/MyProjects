@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh=Hans">
+<head>
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="renderer" content="webkit">
+    <title>boss赏吧二级合作商端后台管理</title>
+
+    <!-- CSS文件 -->
+    <link href="../public/admin/plugins/Hplus-v.4.1.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../public/admin/plugins/Hplus-v.4.1.0/css/font-awesome.css" rel="stylesheet">
+    <link rel="stylesheet" href="../public/admin/plugins/iconfont/iconfont.css">
+    <link rel="stylesheet" href="../public/admin/css/l-index.css?rev=@@hash">
+
+</head>
+<body class="fixed-sidebar full-height-layout gray-bg">
+<div id="wrapper">
+    <!-- 左侧导航 start-->
+    <nav class="navbar-default navbar-static-side">
+        <div class="nav-close"><i class="fa fa-times-circle"></i></div>
+        <div class="sidebar-collapse">
+            <ul class="nav" id="side-menu">
+                <!--用户头像 start-->
+                <li class="nav-header">
+                    <div class="dropdown profile-element p-profile--agent">
+                        <div class="g-flex">
+                            <div class="nav-header_avatar">
+                                <img src="../public/admin/plugins/Hplus-v.4.1.0/img/p1.jpg" alt="image" class="img-circle">
+                            </div>
+                            <div class="g-flex_item g-pl--10">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <span class="clear"></span>
+                                    <span class="block m-t-xs"><strong class="font-bold"><?php echo $mobile?></strong></span>
+                                    <span class="text-muted text-xs block">设置<b class="caret"></b></span>
+                                </a>
+                                <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                                    <li><a href="/sellerAdmin/login/forgetPassword">修改密码</a></li>
+                                    <li><a  class="J_menuItem" href="/sellerAdmin/seller/modifyMobile" data-index="20">修改手机号</a></li>
+                                    <li><a href="/sellerAdmin/login/logout">退出</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="p-profile_text">
+                            <p>级别：二级合作商</p>
+                        </div>
+
+                    </div>
+                    <div class="logo-element">boss赏吧</div>
+                </li>
+                <!--用户头像 end-->
+                <!--首页 start-->
+                <!--<li>
+                    <a class="J_menuItem" href="agent-i-business.html" data-index="0">
+                        <i class="iconfont icon-homepage"></i>
+                        <span class="nav-label">二级合作商管理</span>
+                    </a>
+                </li>-->
+                <!--首页 end-->
+                <!--店铺管理 start-->
+                <li>
+                    <a class="J_menuItem" href="/sellerAdmin/index/shop" data-index="1">
+                        <i class="iconfont icon-homepage"></i>
+                        <span class="nav-label">店铺管理</span>
+                    </a>
+                </li>
+                <!--店铺管理 end-->
+                <!--员工管理 start-->
+                <li>
+                    <a href="/sellerAdmin/withdraw" class="J_menuItem" data-index="2">
+                        <i class="iconfont icon-customerservice"></i>
+                        <span class="nav-label">我的账户</span>
+                    </a>
+                </li>
+                <!--员工管理 end-->
+                <li>
+                    <a href="/sellerAdmin/reward" class="J_menuItem" data-index="3">
+                        <i class="iconfont icon-transaction_fill"></i>
+                        <span class="nav-label">打赏流水</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/sellerAdmin/reward/shopStats" class="J_menuItem" data-index="4">
+                        <i class="iconfont icon-transaction_fill"></i>
+                        <span class="nav-label">打赏统计</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!--左侧导航 end-->
+    <!--右侧部分 start-->
+    <div id="page-wrapper" class="gray-bg dashbard-1">
+        <div class="row border-bottom">
+            <!--置顶工具栏-->
+            <nav class="navbar navbar-static-top" style="margin-bottom:0">
+                <div class="navbar-header">
+                    <!--导航宽度切换按钮-->
+                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary" href="#"><i class="fa fa-bars"></i>
+                    </a>
+                    <p class="p-tel-custom" style="display:inline-block;margin: 14px 0 0 20px;font-size:20px;color: #1AB394;">客服热线：400-157-5898</p>
+                    <!--搜索框-->
+<!--                     <form role="search" class="navbar-form-custom" method="post" action="search_results.html">
+    <div class="form-group">
+        <input type="text" placeholder="请输入您需要查找的内容 …" class="form-control" name="top-search" id="top-search">
+    </div>
+</form> -->
+                </div>
+                <!-- <ul class="nav navbar-top-links navbar-right">
+                    邮件 start
+                    <li class="dropdown">
+                        <a href="javascript:;" class="dropdown-toggle count-info" data-toggle="dropdown">
+                            <i class="fa fa-envelope"></i>
+                            <span class="label label-warning">16</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-messages">
+                            <li>
+                                <div class="dropdown-messages-box">
+                                    <a href="javascript:;" class="pull-left"><img src="" alt="" class="img-circle"></a>
+                                    <div class="media-body">
+                                        <small class="pull-right text-navy">25小时前</small>
+                                        <strong>发件人名称</strong>
+                                        <p>如何看待“男子不满自己爱犬被称为狗，刺伤路人”？——这人比犬还凶</p>
+                                        <small class="text-muted">昨天</small>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <div class="dropdown-messages-box">
+                                    <a href="javascript:;" class="pull-left"><img src="" alt="" class="img-circle"></a>
+                                    <div class="media-body">
+                                        <small class="pull-right text-navy">25小时前</small>
+                                        <strong>发件人名称</strong>
+                                        <p>如何看待“男子不满自己爱犬被称为狗，刺伤路人”？——这人比犬还凶</p>
+                                        <small class="text-muted">昨天</small>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="text-center link-block">
+                                    <a class="J_menuItem" href="javascript:;" data-index="88">
+                                        <i class="fa fa-envelope"></i> <strong> 查看所有消息</strong>
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    邮件 end
+                    消息提醒 start
+                    <li class="dropdown">
+                        <a href="javascript:;" class="dropdown-toggle count-info" data-toggle="dropdown">
+                            <i class="fa fa-bell"></i>
+                            <span class="label label-primary">8</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-alerts">
+                            <li>
+                                <a class="J_menuItem" href="javascript:;" data-index="89">
+                                    <div>
+                                        <i class="fa fa-envelope fa-fw"></i>
+                                        您有16条未读消息
+                                        <span class="pull-right text-muted small">4星钟前</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a class="J_menuItem" href="javascript:;" data-index="89">
+                                    <div>
+                                        <i class="fa fa-qq fa-fw"></i>
+                                        您有17条未读消息
+                                        <span class="pull-right text-muted small">4星钟前</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <div class="text-center link-block">
+                                    <a class="J_menuItem" href="javascript:;" data-index="89">
+                                        <strong>查看所有</strong>
+                                        <i class="fa fa-angle-right"></i>
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    消息提醒 end
+                </ul> -->
+            </nav>
+        </div>
+        <!--tabs栏 start-->
+        <div class="row content-tabs">
+            <!--选项卡过多时向左切换-->
+            <button type="button" class="roll-nav roll-left J_tabLeft">
+                <i class="fa fa-angle-double-left"></i>
+            </button>
+            <nav class="page-tabs J_menuTabs">
+                <div class="page-tabs-content">
+                    <!--默认主页需在对应的选项卡a元素上添加data-id="默认主页的url"-->
+                    <a href="javascript:;" class="active J_menuTab" data-id="/sellerAdmin/index/shop">首页</a>
+                </div>
+            </nav>
+            <!--选项卡过多时向右切换-->
+            <button class="roll-nav roll-right J_tabRight">
+                <i class="fa fa-angle-double-right"></i>
+            </button>
+            <!--选项卡切换及关闭操作-->
+            <div class="btn-group roll-nav roll-right">
+                <button type="button" class="dropdown J_tabClose" data-toggle="dropdown">关闭操作<span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li class="J_tabShowActive"><a href="javascript:;">定位当前选项卡</a></li>
+                    <li class="divider"></li>
+                    <li class="J_tabCloseAll"><a href="javascript:;">关闭全部选项卡</a></li>
+                    <li class="J_tabCloseOther"><a href="javascript:;">关闭其他选项卡</a></li>
+                </ul>
+            </div>
+            <!--退出系统-->
+            <a href="login.html" class="roll-nav roll-right J_tabExit">
+                <i class="fa fa-sign-out"></i>
+                退出
+            </a>
+        </div>
+        <!--tabs栏 end-->
+        <!--内容iframe start-->
+        <div class="row J_mainContent" id="content-main">
+            <!--默认主页需在对应的页面显示iframe元素上添加name="iframe0"和data-id="默认主页的url"-->
+            <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="/sellerAdmin/index/shop" frameborder="0" data-id="/sellerAdmin/index/shop"></iframe>
+        </div>
+        <!--内容iframe end-->
+        <!--page-footer start-->
+        <div class="footer">
+            <div class="pull-right">© 2018 <a href="javascript:;" target="_blank">boss赏吧二级合作商端后台管理</a>
+            </div>
+        </div>
+        <!--page-footer end-->
+    </div>
+    <!--右侧部分 end-->
+</div>
+<!-- 全局js -->
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/jquery.min.js?v=2.1.4"></script>
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/plugins/layer/layer.min.js"></script>
+
+<!-- 自定义js -->
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/hplus.js?v=4.1.0"></script>
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/contabs.js"></script>
+
+<!-- 第三方插件 -->
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/plugins/pace/pace.min.js"></script>
+<script>
+    $(function () {
+        $(".J_menuItem").on('click',function () {
+            var src=$(this).attr("href");
+            var $iframe=$('.J_iframe[src="'+src+'"]');
+            $($iframe).attr('src', $($iframe).attr('src'));
+        });
+    });
+</script>
+</body>
+</html>

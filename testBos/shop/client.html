@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="renderer" content="webkit">
+    <title>营销功能</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="../public/admin/plugins/Hplus-v.4.1.0/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link rel="stylesheet" href="../public/admin/plugins/iconfont/iconfont.css">
+
+
+    <link href="../public/admin/plugins/Hplus-v.4.1.0/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../public/admin/plugins/bootstrap3-editable/css/bootstrap-editable.css">
+
+    
+    
+    <link rel="stylesheet" href="../public/admin/css/p-waiter.css?rev=@@hash">
+</head>
+<body class="gray-bg">
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-9">
+            <h2>营销功能</h2>
+            <!--<ol class="breadcrumb">
+                <li>
+                    <a href="index.html">主页</a>
+                </li>
+                <li class="active">
+                    <strong>营销功能</strong>
+                </li>
+            </ol>-->
+        </div>
+    </div>
+    <div class="wrapper wrapper-content">
+        
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <p class="g-fs--14 g-ta--c"><b>累计用户</b><b id="shopClientCount" class="g-text-primary g-ml--5 g-mr--5"><?php echo $shopClientCount?></b>人</p>
+                        <div class="p-chart--pie" id="js-chart--user_all"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <p class="g-fs--14 g-ta--c"><b>已抽奖人次</b><b id="clientLotteryCount" class="g-text-primary g-ml--5 g-mr--5"><?php echo $clientLotteryCount?></b>人</p>
+                        <div class="p-chart--pie" id="js-chart--phone"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <p class="g-fs--14 g-ta--c"><b>已领奖人次</b><b id="acceptedLotteryCount" class="g-text-primary g-ml--5 g-mr--5"><?php echo $acceptedLotteryCount?></b>人</p>
+                        <input id="unacceptedLotteryCount" type="hidden" value="<?php echo $unacceptedLotteryCount?>">
+                        <div class="p-chart--pie" id="js-chart--win_num"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ibox">
+            <div class="ibox-title">
+                <h5>用户统计<small class="g-ml--10">综合评分 最高为“五星”；“四星”为满意；“三星”为中评；“二星”为及格；“一星”为差评</small></h5>
+
+                <div class="ibox-tools">
+                    <a class="collapse-link">
+                        <i class="iconfont icon-packup"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="ibox-content">
+                <div class="row g-mb--10">
+                    <div class="col-md-3 col-md-offset-9 col-sm-6 col-sm-offset-6">
+<!--                         <div class="input-group">
+    <input class="form-control" type="text" placeholder="请输入搜索内容">
+    <span class="input-group-btn">
+        <button class="btn btn-primary" type="button">搜索</button>
+      </span>
+</div> -->
+                    </div>
+                </div>
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>微信头像</th>
+                        <th>微信昵称</th>
+                        <th>手机号码</th>
+                        <th>本店内评论次数</th>
+                        <th>本店内打赏次数</th>
+                        <th>本店内抽奖次数</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php if(!empty($shopClientList)): foreach($shopClientList as $client):?>
+                    <tr>
+                        <td>
+                            <div class="m-avatar m-avatar-sm g-ml--5">
+                                <img class="img-rounded" src="<?php echo image_processor($client['avatar'])?>" alt="">
+                            </div>
+                        </td>
+                        <td><?php echo $client['nickname']?></td>
+                        <td><?php echo $client['mobile']?></td>
+                        <td><?php echo $client['evaluation_num']?></td>
+                        <td><?php echo $client['reward_num']?></td>
+                        <td><?php echo $client['lottery_num']?></td>
+                    </tr>
+                    <?php endforeach;endif;?>
+                    </tbody>
+                </table>
+                <div class="m-table-pagination g-clearfix g-m--0">
+           <!--          <div class="pull-left m-pagination-detail">
+               <span class="m-pagination-info">显示第 1 到第 3 条记录，总共 11 条记录</span>
+               <div class="m-page-list">每页显示
+                   <span class="btn-group dropup">
+                       <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                           <span class="page-size">10</span>
+                           <span class="caret"></span>
+                       </button>
+                           <ul class="dropdown-menu" role="menu">
+           <li class="active">
+               <a href="javascript:;">10</a></li>
+           <li>
+               <a href="javascript:;">25</a>
+           </li>
+                           </ul>
+                       </span> 条记录
+               </div>
+           </div> -->
+                    <div id="pagination_container" class="pull-right pagination">
+<!--                         <ul class="pagination">
+    <li class="page-first disabled"><a href="javascript:;">«</a></li>
+    <li class="page-pre disabled"><a href="javascript:;">‹</a></li>
+    <li class="page-number active"><a href="javascript:;">1</a></li>
+    <li class="page-number"><a href="javascript:;">2</a></li>
+    <li class="page-next"><a href="javascript:;">›</a></li>
+    <li class="page-last"><a href="javascript:;">»</a></li>
+</ul> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+<!--         <div class="row">
+    <div class="col-sm-6">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h5>安卓/苹果系统访问对比</h5>
+                <div class="ibox-tools">
+                    <a class="collapse-link">
+                        <i class="iconfont icon-packup"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="ibox-content">
+                <div class="m-chart" id="js-visit"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h5>浏览器访问情况</h5>
+                <div class="ibox-tools">
+                    <a class="collapse-link">
+                        <i class="iconfont icon-packup"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="ibox-content">
+                <p class="text-muted g-ta--c">客户使用的浏览器情况</p>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>浏览器</th>
+                        <th>浏览数</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>浏览器名称</td>
+                        <td>531</td>
+                    </tr>
+                    <tr>
+                        <td>浏览器名称</td>
+                        <td>531</td>
+                    </tr>
+                    <tr>
+                        <td>浏览器名称</td>
+                        <td>531</td>
+                    </tr>
+                    <tr>
+                        <td>浏览器名称</td>
+                        <td>531</td>
+                    </tr>
+                    <tr>
+                        <td>浏览器名称</td>
+                        <td>531</td>
+                    </tr>
+                    <tr>
+                        <td>浏览器名称</td>
+                        <td>531</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h5>最多访问</h5>
+                <div class="ibox-tools">
+                    <a class="collapse-link">
+                        <i class="iconfont icon-packup"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="ibox-content">
+                <p class="text-muted g-ta--c">客户浏览最多的员工详情页</p>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>工号</th>
+                        <th>浏览数</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>005</td>
+                        <td>531</td>
+                    </tr>
+                    <tr>
+                        <td>005</td>
+                        <td>531</td>
+                    </tr>
+                    <tr>
+                        <td>005</td>
+                        <td>531</td>
+                    </tr>
+                    <tr>
+                        <td>005</td>
+                        <td>531</td>
+                    </tr>
+                    <tr>
+                        <td>005</td>
+                        <td>531</td>
+                    </tr>
+                    <tr>
+                        <td>005</td>
+                        <td>531</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div> -->
+        </div>
+    </div>
+
+
+    
+    <script src="../public/admin/plugins/Hplus-v.4.1.0/js/jquery.min.js?v=2.1.4"></script>
+    <script src="../public/admin/plugins/Hplus-v.4.1.0/js/bootstrap.min.js?v=3.3.6"></script>
+
+
+    
+    <script src="../public/admin/plugins/Hplus-v.4.1.0/js/plugins/echarts/echarts.js?v=3.6"></script>
+
+    
+    <script src="../public/admin/plugins/Hplus-v.4.1.0/js/content.js?v=1.0.0"></script>
+
+    <script src="../public/admin/js/p-marketing.js?ver=1010"></script>
+    <script src="../public/admin/js/admin_pagination.js"></script>
+    <script>
+        setPage(document.getElementById('pagination_container'), <?php echo $pagecount?>, <?php echo $curpage?>, '/shopAdmin/client', []);
+
+
+    </script>
+</body>
+</html>

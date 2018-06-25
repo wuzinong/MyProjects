@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>员工管理</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="../public/admin/plugins/Hplus-v.4.1.0/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link rel="stylesheet" href="../public/admin/plugins/iconfont/iconfont.css">
+    <!--批量上传图片插件-->
+    <link rel="stylesheet" href="../public/admin/plugins/Hplus-v.4.1.0/css/plugins/webuploader/webuploader.css">
+    <link rel="stylesheet" href="../public/admin/plugins/Hplus-v.4.1.0/css/demo/webuploader-demo.css">
+
+    <!--头像裁切上传插件-->
+    <!--    <link href="../public/admin/plugins/Hplus-v.4.1.0/css/plugins/cropper/cropper.min.css" rel="stylesheet">-->
+    <link rel="stylesheet" href="../public/plugins/cropper/cropper.min.css">
+
+    <link rel="stylesheet" href="../public/admin/css/p-waiter.css?rev=100601">
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content">
+    <form action="">
+        <div class="ibox ">
+            <div class="ibox-title back-change">
+                <h5>基本信息</h5>
+                <div class="ibox-tools">
+                    <a class="collapse-link">
+                        <i class="iconfont icon-packup"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="col-sm-6 form-horizontal">
+                        <div class="form-group">
+                            <label for="" class="col-sm-4 col-md-2 control-label"><span
+                                        class="g-c--red">*</span>店名</label>
+                            <div class="col-sm-8 col-md-10">
+                                <input id="name" type="text" class="form-control"
+                                       value="<?php echo isset($name) ? $name : '' ?>">
+                                <span class="help-block g-mb--0 hide">提示语句</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 form-horizontal">
+                        <div class="form-group">
+                            <label for="" class="col-sm-4 col-md-2 control-label"><span
+                                        class="g-c--red">*</span>预约热线</label>
+                            <div class="col-sm-8 col-md-10">
+                                <input id="phone" type="tel" class="form-control"
+                                       value="<?php echo isset($link_number) ? $link_number : '' ?>">
+                                <span class="help-block g-mb--0 hide">提示语句</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 form-horizontal">
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 col-md-2 control-label"><span
+                                        class="g-c--red">*</span>选择地区</label>
+                            <div class="col-sm-10 col-md-10">
+                                <div class="form-inline">
+                                    <div data-toggle="distpicker">
+                                        <select id="js-address1" data-province="<?php echo isset($province) ? $province : ''?>" class="form-control"></select>
+                                        <select id="js-address2" data-city="<?php echo isset($city) ? $city : '' ?>" class="form-control"></select>
+                                        <select id="js-address3" data-district="<?php echo isset($area) ? $area : '' ?>" class="form-control"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 form-horizontal">
+                        <div class="form-group">
+                            <label for="" class="col-sm-4 col-md-2 control-label"><span
+                                        class="g-c--red">*</span>详细地址</label>
+                            <div class="col-sm-8 col-md-10">
+                                <input id="js-address4" type="text" class="form-control" value="<?php echo isset($address) ? $address : '' ?>">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 form-horizontal">
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 col-md-1 control-label"><span
+                                        class="g-c--red">*</span>简介</label>
+                            <div class="col-sm-10 col-md-11">
+                                <textarea name="" id="js-description" cols="30" rows="5"
+                                          class="form-control"><?php echo isset($description) ? $description : '' ?></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <h5>已上传照片
+                            <small class="g-mr--5"><span id="js-picture_len"><?php echo isset($pictures) ? count(explode('|', $pictures)) : 0 ?></span>/9张</small>
+                        </h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="iconfont icon-packup"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row g-row--ib js-picture-inner g-mt--10" id="js-img-uploadList">
+                            <?php if(!empty($pictures)):foreach(explode('|', $pictures) as $picture):?>
+                            <div class="col-sm-4 col-lg-2 col-md-3 js-img-upload g-mb--10">
+                                <div class="m-img-list_item img-thumbnail">
+                                    <a href="javascript:;" class="m-list_item-del js-img-item-del">
+                                        <i class="iconfont icon-trash g-mr--5"></i>删除图片
+                                    </a>
+                                    <img src="<?php echo image_processor($picture)?>"
+                                         alt=""
+                                         class=""></div>
+                            </div>
+                            <?php endforeach;endif;?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-sm-12">
+                <!--cropper start-->
+                <div class="ibox">
+                    <div class="ibox-title back-change">
+                        <h5>头像上传</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="iconfont icon-packup"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content" style="height:490px;">
+                        <p>
+                            请上传你的头像
+                        </p>
+                        <div class="row">
+                            <div class="col-sm-6">  
+                                <div class="image-crop"
+                                     style="width:100%;height:400px;overflow: hidden;background-color: #E6E6E6;">
+                                    <!-- <img src="<?php echo isset($cover) ? image_processor($cover) : '' ?>"> -->
+                                    <img src="">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <h4>头像预览：</h4>
+                                <div class="img-preview img-preview-sm">
+                                <img style="width:100%;" src="<?php echo isset($cover) ? image_processor($cover) : '' ?>">
+                                </div>
+                                <h4>说明：</h4>
+                                <p class="g-c--red">
+                                设置/修改头像后，请点击【选择新图片】下面一行靠右边的【上传】按钮，然后再点击底部的【确认提交】按钮
+                                </p>
+                                <div class="g-mb--10">
+                                    <div class="btn-group">
+                                        <label title="上传图片" for="inputImage" class="btn btn-primary">
+                                            <input type="file" accept="image/*" name="file" id="inputImage"
+                                                   class="hide">
+                                            选择新图片
+                                        </label>
+                                        <!--<label title="下载图片" id="download" class="btn btn-primary">下载</label>-->
+                                    </div>
+                                </div>
+                                <!--<h4>其他说明：</h4>
+                                <p>
+                                    你可以使用<code>$({image}).cropper(options)</code>来配置插件
+                                </p>-->
+                                <div class="btn-group">
+                                    <button class="btn btn-white" id="zoomIn" type="button">放大</button>
+                                    <button class="btn btn-white" id="zoomOut" type="button">缩小</button>
+                                    <button class="btn btn-white" id="rotateLeft" type="button">左旋转</button>
+                                    <button class="btn btn-white" id="rotateRight" type="button">右旋转</button>
+                                    <!--                                    <button class="btn btn-primary" id="setDrag" type="button">上传</button>-->
+                                    <button class="btn btn-primary" id="image_save" type="button">上传</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--cropper end-->
+            </div>
+            <div class="col-lg-6 col-sm-12">
+                <!--百度Web Uploader start-->
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <h5>照片上传</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="iconfont icon-packup"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content" style="min-height:490px">
+                        <div class="page-container">
+                            <p class="g-c--red">设置/修改相册后，请点击【开始上传】按钮，然后再点击底部的【确认提交】按钮</p>
+                            <div id="uploader" class="wu-example">
+                                <div class="queueList">
+                                    <div id="dndArea" class="placeholder">
+                                        <div id="filePicker"></div>
+                                        <p>或将照片拖到这里，单次最多可选<span id="js-len-max"></span>张</p>
+                                    </div>
+                                </div>
+                                <div class="statusBar" style="display:none">
+                                    <div class="progress">
+                                        <span class="text">0%</span>
+                                        <span class="percentage"></span>
+                                    </div>
+                                    <div class="info"></div>
+                                    <div class="btns">
+                                        <div id="filePicker2"></div>
+                                        <div class="uploadBtn">开始上传</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--百度Web Uploader end-->
+            </div>
+        </div>
+        <div class="g-ta--c">
+            <input type="hidden" name="" id="js-avatar" value="<?php echo isset($cover) ? $cover : '' ?>">
+            <input type="hidden" name="" id="js-pictures" value="<?php echo isset($pictures) ? $pictures : '' ?>">
+            <input type="hidden" name="" id="technician_id"
+                   value="<?php echo $this->input->get('technician_id', true) ? $this->input->get('technician_id', true) : '' ?>">
+            <button type="button" class="js-btn-doModifyShop btn btn-primary btn-lg">确认提交</button>
+        </div>
+    </form>
+</div>
+
+<!-- 全局js -->
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/jquery.min.js?v=2.1.4"></script>
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/bootstrap.min.js?v=3.3.6"></script>
+
+<!-- 自定义js -->
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/content.js?v=1.0.0"></script>
+<!--layer-->
+<script src="../public/admin/plugins/layer/layer.js"></script>
+<script src="../public/admin/plugins/jQueryDistpicker/distpicker.data.min.js"></script>
+<script src="../public/admin/plugins/jQueryDistpicker/distpicker.min.js"></script>
+<!-- Web Uploader -->
+<script>
+    // 添加全局站点信息
+    var BASE_URL = '../public/admin/plugins/Hplus-v.4.1.0/js/plugins/webuploader';
+</script>
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/plugins/webuploader/webuploader.min.js"></script>
+
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/demo/webuploader-demo-shop.js?ver=112102"></script>
+
+<!-- Image cropper -->
+<!--<script src="../public/admin/plugins/Hplus-v.4.1.0/js/plugins/cropper/cropper.min.js"></script>-->
+<script src="../public/plugins/cropper/cropper.min.js"></script>
+<script src="../public/admin/js/m-ibox.js"></script>
+<script src="../public/admin/js/cripper-demo-shop.js?ver=100606"></script>
+<script>
+    $(function () {
+        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+
+        /*添加员工*/
+        $(".js-btn-doModifyShop").on('click', function () {
+
+            var name = $("#name").val();
+            var cover = $("#js-avatar").val();
+            var description = $("#js-description").val();
+            var pictures = $("#js-pictures").val();
+//            var area_name = $("#js-address1").val() + $("#js-address2").val() + $("#js-address3").val();
+            var province=$("#js-address1").val();
+            var city=$("#js-address2").val();
+            var area=$("#js-address3").val();
+            var address=$("#js-address4").val();
+            var phone=$("#phone").val();
+//        var technician_id=$("#technician_id").val();
+            console.log(name);
+            console.log(cover);
+            console.log(description);
+            console.log(pictures);
+            console.log(address);
+            console.log(phone);
+            console.log(province);
+            console.log(city);
+            console.log(area);
+            var arr_msg=[name,cover,description,pictures,address,phone,province,city,area],
+                arr_msg_text=['请填写姓名','请上传商家头像','请填写简介','请上传照片','请填写详细地址','请填写预约热线','请选择省份','请选择城市','请选择区'],i;
+
+            for(i=0;i<arr_msg.length;i++){
+//                    if(i==4){continue};
+                if(arr_msg[i]==''){
+                    layer.msg(arr_msg_text[i]);
+                    return false;
+                }
+            }
+//            if (!name == ''&& !cover==''&&!description==''&&!address==''&&!province==''&&!city==''&&!area=='') {
+                $.ajax({
+                    type: 'POST',
+                    url: '/shopAdmin/manager/doModifyShop',
+                    dataType: 'json',
+                    data: {
+                        name: name,
+                        cover: cover,
+                        description: description,
+                        pictures: pictures,
+                        address: address,
+                        link_number:phone,
+                        province: province,
+                        city:city,
+                        area:area,
+                    },
+                    success: function (data) {
+                        if (data.code === 200) {
+                            layer.msg('操作成功', {
+                                anim: 0,
+                                time: 1000
+                            }, function () {
+                                parent.layer.close(index);
+                                parent.location.reload(true);
+                            });
+
+                        } else if (data.code === 400) {
+                            layer.msg(data.message);
+                        }
+                    },
+                    error: function (jqXHR) {
+                        console.log("发生错误" + jqXHR.status);
+                    }
+                });
+            /*}else{
+
+//                layer.msg('请正确填写全部选项',{time:1000});
+            }*/
+
+        });
+
+    });
+</script>
+</body>
+</html>

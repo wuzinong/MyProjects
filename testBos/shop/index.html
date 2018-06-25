@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh=cn">
+<head>
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="renderer" content="webkit">
+    <title>boss赏吧商家端后台管理</title>
+
+    <!-- CSS文件 -->
+    <link href="../public/admin/plugins/Hplus-v.4.1.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../public/admin/plugins/Hplus-v.4.1.0/css/font-awesome.css" rel="stylesheet">
+    <link rel="stylesheet" href="../public/admin/plugins/iconfont/iconfont.css">
+    <link rel="stylesheet" href="../public/admin/css/l-index.css?rev=1004">
+    <style>
+        .p-index-QRcode{
+            padding:20px 0;
+            text-align:center;
+
+        }
+        .p-index-QRcode p{
+            color:#fff;
+        }
+        .p-index-QRcode canvas{
+            width:100%;
+            display: block;
+        }
+        body.mini-navbar .p-QRcode_inner{
+            padding:5px;
+        }
+        body.mini-navbar .p-index-QRcode p{
+            display:none;
+        }
+        .p-QRcode_inner{
+            width:100%;
+            display:inline-block;
+            padding:10px;
+            background-color:#fff;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+        }
+        .p-index-QRcode>.p-QRcode_inner{
+            max-width:150px;
+        }
+    </style>
+
+</head>
+<body class="fixed-sidebar full-height-layout gray-bg">
+    <div id="wrapper">
+        <!-- 左侧导航 start-->
+        <nav class="navbar-default navbar-static-side">
+            <div class="nav-close"><i class="fa fa-times-circle"></i></div>
+            <div class="sidebar-collapse">
+                <ul class="nav" id="side-menu">
+                    <!--用户头像 start-->
+                    <li class="nav-header">
+                        <div class="dropdown profile-element">
+                            <div class="nav-header_avatar">
+                                <img src="<?php echo image_processor($cover)?>" alt="image" class="img-circle">
+                            </div>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <span class="clear"></span>
+                                <span class="block m-t-xs"><strong class="font-bold"><?php echo $name?></strong></span>
+                                <span class="text-muted text-xs block">设置<b class="caret"></b></span>
+                            </a>
+                            <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                                <li><a href="/shopAdmin/manager/modifyShop" data-index="1" class="J_menuItem">修改商家基本信息</a></li>
+                                <li><a href="/shopAdmin/login/forgetPassword">修改密码</a></li>
+                                <li><a  class="J_menuItem" href="/shopAdmin/manager/modifyMobile" data-index="20">修改手机号</a></li>
+                                <li><a href="/shopAdmin/login/logout">退出</a></li>
+                            </ul>
+                        </div>
+                        <div class="logo-element">boss赏吧</div>
+                    </li>
+                    <!--用户头像 end-->
+                    <!--首页 start-->
+                    <li>
+                        <a class="J_menuItem" href="/shopAdmin/index/dashboard" data-index="0">
+                            <i class="iconfont icon-homepage"></i>
+                            <span class="nav-label"><?php echo $is_paizhong_open ? '排钟管理' : '首页'?></span>
+                        </a>
+                    </li>
+                    <!--首页 end-->
+                    <!--员工管理 start-->
+                    <li>
+                        <a href="/shopAdmin/technician" class="J_menuItem" data-index="2">
+                            <i class="iconfont icon-group"></i>
+                            <span class="nav-label">员工管理</span>
+                        </a>
+                    </li>
+                    <!--员工管理 end-->
+                    <!--我的钱包 start-->
+                    <li>
+                        <a href="/shopAdmin/withdraw" class="J_menuItem" data-index="4">
+                            <i class="iconfont icon-transaction_fill"></i>
+                            <span class="nav-label">我的账户</span>
+                        </a>
+                    </li>
+                    <!--我的钱包 end-->
+                    <!--礼物管理 start-->
+                    <li>
+                        <a href="/shopAdmin/present" class="J_menuItem" data-index="2">
+                            <i class="iconfont icon-shangjin"></i>
+                            <span class="nav-label">打赏设置</span>
+                        </a>
+                    </li>
+                    <!--礼物管理 end-->
+                    
+                    <!--打赏管理 start-->
+                    
+                    <li>
+                        <a href="/shopAdmin/reward" class="J_menuItem" data-index="31">
+                            <i class="iconfont icon-redpacket"></i>
+                            <span class="nav-label">打赏流水</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/shopAdmin/reward/stats" class="J_menuItem" data-index="32">
+                            <i class="iconfont icon-redpacket_fill"></i>
+                            <span class="nav-label">打赏统计</span>
+                        </a>
+                    </li>
+                    <!--打赏管理 end-->
+                    
+                    <!--抽奖管理 start-->
+                    <li>
+                        <a href="/shopAdmin/lottery" class="J_menuItem" data-index="32">
+                            <i class="iconfont icon-financial_fill"></i>
+                            <span class="nav-label">抽奖设置</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/shopAdmin/lottery/stats" class="J_menuItem" data-index="32">
+                            <i class="iconfont icon-financial_fill"></i>
+                            <span class="nav-label">抽奖统计</span>
+                        </a>
+                    </li>
+                    <!--抽奖管理 end-->
+                    <!--评论管理 start-->
+                    <li>
+                        <a href="javascript:;">
+                            <i class="iconfont icon-interactive"></i>
+                            <span class="nav-label">评论管理</span>
+                            <span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-second-level">
+                            <li><a href="/shopAdmin/evaluation" class="J_menuItem" data-index="6">评论管理</a></li>
+                            <li><a href="/shopAdmin/evaluation/stats" class="J_menuItem" data-index="12">评论统计</a></li>
+                        </ul>
+                    </li>
+                    <!--评论管理 end-->
+                    
+                    <!--营销功能 start-->
+                    <li>
+                        <a href="/shopAdmin/client" class="J_menuItem" data-index="7">
+                            <i class="iconfont icon-customerservice"></i>
+                            <span class="nav-label">营销功能</span>
+                        </a>
+                    </li>
+                    <?php if($is_paizhong_open):?>
+                    <!--营销功能 end-->
+                    <li>
+                        <div class="p-index-QRcode" >
+                            <p class="g-ml--10 g-ta--c">店铺二维码</p>
+                            <p class="g-ml--10 g-ta--c">(点击可以放大哦~)</p>
+                            <div class="p-QRcode_inner" id="p-index-QRcode"></div>
+                        </div>
+                    </li>
+                    <?php endif;?>
+                </ul>
+            </div>
+        </nav>
+        <!--左侧导航 end-->
+        <!--右侧部分 start-->
+        <div id="page-wrapper" class="gray-bg dashbard-1">
+            <div class="row border-bottom">
+                <!--置顶工具栏-->
+                <nav class="navbar navbar-static-top" style="margin-bottom:0">
+                    <div class="navbar-header">
+                        <!--导航宽度切换按钮-->
+                        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary" href="#"><i class="fa fa-bars"></i> </a>
+                        <p class="p-tel-custom" style="display:inline-block;margin: 14px 0 0 20px;font-size:20px;color: #1AB394;">客服热线：400-157-5898</p>
+                        <!--搜索框-->
+<!--                         <form role="search" class="navbar-form-custom" method="post" action="search_results.html">
+    <div class="form-group">
+        <input type="text" placeholder="请输入您需要查找的内容 …" class="form-control" name="top-search" id="top-search">
+    </div>
+</form> -->
+                    </div>
+
+                </nav>
+            </div>
+            <!--tabs栏 start-->
+            <div class="row content-tabs">
+                <!--选项卡过多时向左切换-->
+                <button type="button" class="roll-nav roll-left J_tabLeft">
+                    <i class="fa fa-angle-double-left"></i>
+                </button>
+
+                <nav class="page-tabs J_menuTabs">
+                    <div class="page-tabs-content">
+                        <!--默认主页需在对应的选项卡a元素上添加data-id="默认主页的url"-->
+                        <a href="javascript:;" class="active J_menuTab" data-id="/shopAdmin/index/dashboard">首页</a>
+                    </div>
+                </nav>
+                <!--选项卡过多时向右切换-->
+                <button class="roll-nav roll-right J_tabRight">
+                    <i class="fa fa-angle-double-right"></i>
+                </button>
+                <!--选项卡切换及关闭操作-->
+                <div class="btn-group roll-nav roll-right">
+                    <button type="button" class="dropdown J_tabClose" data-toggle="dropdown">关闭操作<span class="caret"></span></button>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li class="J_tabShowActive"><a href="javascript:;">定位当前选项卡</a></li>
+                        <li class="divider"></li>
+                        <li class="J_tabCloseAll"><a href="javascript:;">关闭全部选项卡</a></li>
+                        <li class="J_tabCloseOther"><a href="javascript:;">关闭其他选项卡</a></li>
+                    </ul>
+                </div>                
+<!--退出系统-->
+                <a href="/shopAdmin/login/logout" class="roll-nav roll-right J_tabExit">
+                    <i class="fa fa-sign-out"></i>
+                    退出
+                </a>
+            </div>
+            <!--tabs栏 end-->
+            <!--内容iframe start-->
+            <div class="row J_mainContent" id="content-main">
+                <!--默认主页需在对应的页面显示iframe元素上添加name="iframe0"和data-id="默认主页的url"-->
+                <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="/shopAdmin/index/dashboard" frameborder="0" data-id="/shopAdmin/index/dashboard"></iframe>
+            </div>
+            <!--内容iframe end-->
+            <!--page-footer start-->
+            <div class="footer">
+                <div class="pull-right">© 2018 <a href="javascript:;" target="_blank">boss赏吧商家端后台管理</a>
+                </div>
+            </div>
+            <!--page-footer end-->
+        </div>
+        <!--右侧部分 end-->
+    </div>
+<!-- 全局js -->
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/jquery.min.js?v=2.1.4"></script>
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/plugins/layer/layer.min.js"></script>
+    <script src="../public/js/jquery.qrcode.min.js"></script>
+
+<!-- 自定义js -->
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/hplus.js?v=4.1.0"></script>
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/contabs.js"></script>
+
+<!-- 第三方插件 -->
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/plugins/pace/pace.min.js"></script>
+<script>
+$(function () {
+/*二维码*/
+    $("#p-index-QRcode").qrcode({
+        render: "canvas",
+        width: 500,
+        height:500,
+        text: 'https://www.bossshangba.com/shop/'+<?php echo $_SESSION['SHOP_ID']?>
+    });
+    $(".J_menuItem").on('click',function () {
+        var src=$(this).attr("href");
+        var $iframe=$('.J_iframe[src="'+src+'"]');
+        $($iframe).attr('src', $($iframe).attr('src'));
+    });
+    $("#p-index-QRcode").on('click',function(){
+        var $this=$(this);
+        QRcode($this);
+    });
+    function QRcode($this){
+        layer.open({
+            type: 1,
+            shadeClose:true,
+            scrollbar: false,
+            title:'店铺二维码（右键“图片另存为”，可以下载保存当前二维码）',
+            content: $this, //捕获的元素，注意：最好该指定的元素要存放在body最外层，否则可能被其它的相对元素所影响
+            area:['500px','542px'],
+            success:function () {
+                $(".layui-layer-shade").css('z-index','2000');
+                $this.off('click');
+            },
+            end: function(){
+                $this.show().on('click',function () {
+                    QRcode($this);
+                });
+            }
+        });
+    }
+
+});
+</script>
+</body>
+</html>

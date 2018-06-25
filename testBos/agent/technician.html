@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>员工统计</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="../public/admin/plugins/Hplus-v.4.1.0/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link rel="stylesheet" href="../public/admin/plugins/iconfont/iconfont.css">
+
+    <!-- Morris -->
+    <!--<link href="../public/admin/plugins/Hplus-v.4.1.0/css/plugins/morris/morris-0.4.3.min.css" rel="stylesheet">-->
+
+    <!-- Gritter -->
+    <!--<link href="../public/admin/plugins/Hplus-v.4.1.0/js/plugins/gritter/jquery.gritter.css" rel="stylesheet">-->
+
+    <link href="../public/admin/plugins/Hplus-v.4.1.0/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../public/admin/plugins/bootstrap3-editable/css/bootstrap-editable.css">
+
+    <!--<link href="../public/admin/plugins/Hplus-v.4.1.0/css/style.css" rel="stylesheet">-->
+    <!--<link href="../public/admin/plugins/Hplus-v.4.1.0/css/animate.css" rel="stylesheet">-->
+    <link rel="stylesheet" href="../public/admin/css/p-waiter.css?rev=100601">
+</head>
+<body class="gray-bg">
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-9">
+        <h2>员工统计<small class="g-ml--5"><?php echo $shop_name?>（<?php echo $shop_address?>）</small></h2>
+        <!--<div class="form-inline p-page-header_form">
+            <div class="form-group"><select name="" id="" class="form-control">
+                <option value="">天天足浴01（袍江世纪街111号）</option>
+                <option value="">天天足浴02（袍江世纪街112号）</option>
+                <option value="">天天足浴03（袍江世纪街113号）</option>
+                <option value="">天天足浴04（袍江世纪街114号）</option>
+                <option value="">天天足浴05（袍江世纪街115号）</option>
+            </select></div>
+        </div>-->
+        <ol class="breadcrumb">
+            <li>
+                <a href="index.html">主页</a>
+            </li>
+            <li class="active">
+                <strong>员工统计</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-sm-3 g-clearfix">
+        <a href="javascript:;" onclick="window.history.back();" class="btn btn-primary pull-right g-mt--20">返回</a>
+    </div>
+</div>
+<div class="wrapper wrapper-content">
+    <!--员工数据展示 start-->
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <p class="g-fs--14 g-ta--c"><b>员工：有工牌</b><b class="g-text-primary g-ml--5 g-mr--5"><?php echo $badgeTechnicianCount?>/<?php echo $technicianCount?></b>人</p>
+                        <input id="badgeTechnicianCount" type="hidden" value="<?php echo $badgeTechnicianCount?>">
+                        <input id="unBadgeTechnicianCount" type="hidden" value="<?php echo $unBadgeTechnicianCount?>">
+                        <div class="p-chart--pie" id="js-chart--waiter1"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4" style="<?php if(!$is_paizhong_open):?>display:none;<?php endif;?>">
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <p class="g-fs--14 g-ta--c"><b>员工：空闲中</b><b class="g-text-primary g-ml--5 g-mr--5"><?php echo $freeTechnicianCount?>/<?php echo $technicianCount?></b>人</p>
+                        <input id="freeTechnicianCount" type="hidden" value="<?php echo $freeTechnicianCount?>">
+                        <input id="workingTechnicianCount" type="hidden" value="<?php echo $workingTechnicianCount?>">
+                        <input id="leavingTechnicianCount" type="hidden" value="<?php echo $leavingTechnicianCount?>">
+                        <div class="p-chart--pie" id="js-chart--waiter2"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <p class="g-fs--14 g-ta--c"><b>工牌：使用率</b><b class="g-text-primary g-ml--5 g-mr--5"><?php echo $usedBadgeCount?>/<?php echo $badgeCount?></b>人</p>
+                        <input id="usedBadgeCount" type="hidden" value="<?php echo $usedBadgeCount?>">
+                        <input id="unUsedBadgeCount" type="hidden" value="<?php echo $unUsedBadgeCount?>">
+                        <div class="p-chart--pie" id="js-chart--waiter3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!--员工数据展示 end-->
+
+    <div class="row">
+        <div class="col-md-8">
+            <!--员工上下钟表格 start-->
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>员工
+                    <?php if($is_paizhong_open):?>
+                        <small class="ibox-title_help"><i class="iconfont icon-time_fill text-success g-mr--5"></i>表示空闲中；<i class="iconfont icon-time_fill g-c--red g-mr--5"></i>表示已上钟；<i class="iconfont icon-offline_fill text-muted g-mr--5"></i>表示休假中
+                        </small>
+                    <?php endif;?>
+                    </h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="iconfont icon-packup"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content m-ibox-overflow-y">
+                    <div class="m-overflow_inner">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>员工</th>
+                                <th>头像</th>
+                                <th>工号</th>
+                                <th>员工分成比例</th>
+                                <th>手机</th>
+                                <th>照片上传情况</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <?php if(!empty($technicianList)): foreach($technicianList as $technician):?>
+                                <tr data-technicianId="<?php echo $technician['technician_id']?>">
+                                    <td><?php echo $technician['name']?> <?php if($is_paizhong_open):?><i class="iconfont icon-time_fill <?php if($technician['working_status'] == 'free'){
+                                        echo 'text-success';
+                                    }elseif($technician['working_status'] == 'working'){
+                                        echo 'text-danger';
+                                    }else{
+                                        echo 'text-muted';
+                                    }
+
+                                    ?> g-ml--5"></i><?php endif;?></td>
+                                    <td>
+                                        <div class="m-avatar m-avatar-sm"><img class="img-circle" src="<?php echo image_processor($technician['avatar'])?>" alt=""></div>
+                                    </td>
+                                    <td><?php echo $technician['number']?></td>
+                                    <td><?php echo $technician['share']*100?>%</td>
+                                    <td><?php echo substr_replace($technician['mobile'],'****',3,4)?></td>
+                                    <td><?php echo count(explode('|', $technician['pictures']))?>/9张</td>
+                                    <td>
+                                        <button type="button" class="btn btn-primary btn-sm js-btn-getTechnicianDetail" data-toggle="modal" data-target="#waiter-info">查看</button>
+                                    </td>
+                                </tr>
+                                <?php endforeach;endif;?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!--员工上下钟表格 end-->
+        </div>
+        <div class="col-md-4">
+            <!--工牌管理 start-->
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>工牌管理</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="iconfont icon-packup"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content m-ibox-overflow-y">
+                    <div class="m-overflow_inner">
+                        <table class="table table-bordered">
+                            <colgroup>
+                                <col style="width:60px">
+                                <col>
+                                <col>
+                                <col>
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th>二维码</th>
+                                <th>工号</th>
+                                <th>绑定员工</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <?php if(!empty($badgeList)):foreach($badgeList as $badge):?>
+                                <tr data-badgeId="<?php echo $badge['badge_id']?>">
+                                    <td><div id="badge-<?php echo $badge['badge_id']?>" badge-id="<?php echo $badge['badge_id']?>"></div>
+                                    </td>
+                                    <td><?php echo $badge['number']?></td>
+                                    <td><?php echo $badge['name']?></td>
+                                </tr>
+                                <?php endforeach;endif;?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!--工牌管理 end-->
+        </div>
+    </div>
+
+    <!-- <div class="row">
+        <div class="col-sm-6">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>安卓/苹果系统访问对比</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="iconfont icon-packup"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="m-chart" id="js-visit"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>浏览器访问情况</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="iconfont icon-packup"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <p class="text-muted g-ta--c">客户使用的浏览器情况</p>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>浏览器</th>
+                            <th>浏览数</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>浏览器名称</td>
+                            <td>531</td>
+                        </tr>
+                        <tr>
+                            <td>浏览器名称</td>
+                            <td>531</td>
+                        </tr>
+                        <tr>
+                            <td>浏览器名称</td>
+                            <td>531</td>
+                        </tr>
+                        <tr>
+                            <td>浏览器名称</td>
+                            <td>531</td>
+                        </tr>
+                        <tr>
+                            <td>浏览器名称</td>
+                            <td>531</td>
+                        </tr>
+                        <tr>
+                            <td>浏览器名称</td>
+                            <td>531</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>最多访问</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="iconfont icon-packup"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <p class="text-muted g-ta--c">客户浏览最多的员工详情页</p>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>工号</th>
+                            <th>浏览数</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>005</td>
+                            <td>531</td>
+                        </tr>
+                        <tr>
+                            <td>005</td>
+                            <td>531</td>
+                        </tr>
+                        <tr>
+                            <td>005</td>
+                            <td>531</td>
+                        </tr>
+                        <tr>
+                            <td>005</td>
+                            <td>531</td>
+                        </tr>
+                        <tr>
+                            <td>005</td>
+                            <td>531</td>
+                        </tr>
+                        <tr>
+                            <td>005</td>
+                            <td>531</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div> -->
+</div>
+<!--模态框------------------------------------------------------------------>
+<!--查看员工-->
+<div id="waiter-info" class="modal fade">
+    <form action="">
+        <div class="modal-dialog">
+            <div class="modal-content form-horizontal animated flipInY">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">员工详情</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group g-m--0">
+                                <label class="col-sm-4 control-label">员工</label>
+                                <div class="col-sm-8">
+                                    <p id="js-name" class="form-control-static">张三</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group g-m--0">
+                                <label for="" class="col-sm-4 control-label">头像</label>
+                                <div class="col-sm-8">
+                                    <div class="m-avatar m-avatar-sm"><img id="js-avatar" class="img-circle" src="../public/admin/plugins/Hplus-v.4.1.0/img/a1.jpg" alt=""></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group g-m--0">
+                                <label class="col-sm-4 control-label">工号</label>
+                                <div class="col-sm-8">
+                                    <p id="js-number" class="form-control-static">002</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group g-m--0">
+                                <label class="col-sm-4 control-label">打赏比例</label>
+                                <div class="col-sm-8">
+                                    <p id="js-share" class="form-control-static">10%</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group g-m--0">
+                                <label class="col-sm-4 control-label">手机</label>
+                                <div class="col-sm-8">
+                                    <p id="js-mobile" class="form-control-static">13855661122</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="m-hr g-bb--d g-mt--10">
+                    <h4>上传照片<small class="g-ml--5"><span id="js-picture-num"></span>/9张</small></h4>
+                    <div class="row g-mt--10 g-row--ib" id="js-picture-inner">
+                        <div class="col-sm-4 g-mb--10">
+                            <img src="../public/admin/plugins/Hplus-v.4.1.0/img/p_big1.jpg" alt="" class="img-thumbnail">
+                        </div>
+                        <div class="col-sm-4 g-mb--10">
+                            <img src="../public/admin/plugins/Hplus-v.4.1.0/img/p_big2.jpg" alt="" class="img-thumbnail">
+                        </div>
+                        <div class="col-sm-4 g-mb--10">
+                            <img src="../public/admin/plugins/Hplus-v.4.1.0/img/p_big3.jpg" alt="" class="img-thumbnail">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<!--修改工号-->
+<div id="workerNum-site" class="modal fade">
+    <form action="">
+        <div class="modal-dialog">
+            <div class="modal-content form-horizontal animated flipInY">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">修改绑定信息</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="" class="col-sm-6 control-label">二维码</label>
+                                <div class="col-sm-6">
+                                    <img class="g-img--50" src="../public/admin/plugins/Hplus-v.4.1.0/img/qr_code.png" alt="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">工号</label>
+                                <div class="col-sm-8">
+                                    <input type="number" placeholder="请输入工号" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">绑定员工</label>
+                                <div class="col-sm-8">
+                                    <select name="waiter_name" class="form-control">
+                                        <option value="">暂不绑定</option>
+                                        <option value="">王毅</option>
+                                        <option value="">王而</option>
+                                        <option value="">王潵</option>
+                                        <option value="">王思</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">保存</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<!-- 全局js -->
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/jquery.min.js?v=2.1.4"></script>
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/bootstrap.min.js?v=3.3.6"></script>
+
+
+<!--ECharts-->
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/plugins/echarts/echarts.js?v=3.6"></script>
+
+<!-- 自定义js -->
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/content.js?v=1.0.0"></script>
+
+<!-- GITTER -->
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/plugins/gritter/jquery.gritter.min.js"></script>
+
+<!-- Bootstrap table -->
+<script src="../public/admin/plugins/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+
+<!--layer-->
+<script src="../public/admin/plugins/layer/layer.js"></script>
+
+<!--m-ibox通用模块-->
+<script src="../public/admin/js/m-ibox.js"></script>
+
+
+<script src="../public/admin/js/p-waiter.js"></script>
+    <script src="../public/js/jquery.qrcode.min.js"></script>
+<script>
+$(function () {
+  <?php if(!empty($badgeList)): foreach($badgeList as $badge):?>
+  $("#badge-<?php echo $badge['badge_id']?>").qrcode({
+    render: "canvas",
+    width: 78,
+    height:78,
+    text: 'https://www.bossshangba.com/technician/badge/'+$("#badge-<?php echo $badge['badge_id']?>").attr('badge-id')
+  });
+  <?php endforeach;endif;?>
+    /*查看员工信息*/
+    $('.table').on('click','.js-btn-getTechnicianDetail',function(){
+        var technician_id=$(this).closest('tr').attr('data-technicianid');
+        $("#js-picture-inner").html('');
+        $.ajax({
+            type:'GET',
+            url:'/agentAdmin/technician/getTechnicianDetail',
+            dataType:'json',
+            data:{
+                technician_id:technician_id,
+            },
+            success:function(data){
+                if(data.code===200){
+                    var arr_picture=data.pictures;
+                    var i;
+                    console.log(data);
+                    $("#js-name").text(data.name);
+                    $("#js-avatar").attr('src',data.avatar);
+                    $("#js-number").text(data.number);
+                    $("#js-share").text(data.share*10000/100 + "%");
+                    $("#js-mobile").text(data.mobile);
+                    $("#js-picture-num").text(arr_picture.length);
+                    for(i=0;i<arr_picture.length;i++){
+                        var html_add=`<div class="col-sm-4 g-mb--10">
+                                            <img src="${arr_picture[i]}" alt="" class="img-thumbnail">
+                                        </div>`;
+                        $("#js-picture-inner").append(html_add);
+                    }
+                }else if(data.code===400){
+                    layer.msg(data.message,{
+                        time:1000
+                    });
+                }
+            },
+            error:function(jqXHR){
+                console.log("发生错误"+jqXHR.status);
+            }
+        });
+
+    });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>手机号修改</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="../public/admin/plugins/Hplus-v.4.1.0/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link rel="stylesheet" href="../public/admin/plugins/iconfont/iconfont.css">
+    <!--批量上传图片插件-->
+    <link rel="stylesheet" type="text/css" href="../public/admin/plugins/Hplus-v.4.1.0/css/plugins/webuploader/webuploader.css">
+    <link rel="stylesheet" type="text/css" href="../public/admin/plugins/Hplus-v.4.1.0/css/demo/webuploader-demo.css">
+
+    <!--头像裁切上传插件-->
+    <link href="../public/admin/plugins/Hplus-v.4.1.0/css/plugins/cropper/cropper.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="../public/admin/css/p-waiter.css?rev=@@hash">
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content">
+    <form action="" class="">
+        <div class="ibox form-horizontal">
+            <div class="ibox-title  back-change">
+                <h5>基本信息</h5>
+                <div class="ibox-tools">
+                    <a class="collapse-link">
+                        <i class="iconfont icon-packup"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="col-sm-6">
+
+                        <div class="form-group">
+                            <label for="" class="col-sm-4 col-md-2 control-label"><span
+                                    class="g-c--red">*</span>手机</label>
+                            <div class="col-sm-8 col-md-10">
+                                <div class="input-group">
+                                    <input id="mobile" type="tel" class="form-control js-input-tel" placeholder="请输入新的手机号">
+                                    <span class="input-group-btn">
+                                            <button id="js-modifyMobile" type="button" class="btn btn-primary js-btn-get-code">获取验证码</button>
+                                        </span>
+                                </div>
+                                <span class="help-block g-mb--0 hide text-danger js-tel-error">请填写正确的手机号码</span>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="" class="col-sm-4 col-md-2 control-label"><span
+                                    class="g-c--red">*</span>验证码</label>
+                            <div class="col-sm-8 col-md-10">
+                                <input id="text_code" type="text" class="form-control" placeholder="输入验证码">
+                                <span class="help-block g-mb--0 hide">提示语句</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="ibox-footer g-ta--r">
+                <button id="js-btn-change-mobile" type="button" class="btn btn-primary">保存</button>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+<!-- 全局js -->
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/jquery.min.js?v=2.1.4"></script>
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="../public/admin/plugins/layer/layer.js"></script>
+<!-- 自定义js -->
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/content.js?v=1.0.0"></script>
+
+<script src="../public/admin/js/m-ibox.js"></script>
+<script>
+    $(function(){
+        $("#js-modifyMobile").on('click',function () {
+            var $tel_error=$(".js-tel-error");
+            var mobile=$("#mobile").val();
+            if($tel_error.is(":hidden") &&!mobile==''){
+                $.ajax({
+                    type:'POST',
+                    url:'/shopAdmin/login/sendTextCode',
+                    dataType:'json',
+                    data:{
+                        mobile:mobile,
+                        type:'modifyMobile',
+                    },
+                    success:function (data) {
+                        if(data.code===200){
+                            layer.msg('验证码正在发送中',{
+                                time:1000
+                            })
+                        }else if(data.code===400){
+                            layer.msg(data.message);
+                        }
+                    }
+                });
+            }else{
+                layer.msg("请正确填写选项");
+            }
+        });
+        $("#js-btn-change-mobile").on('click',function () {
+            var $tel_error=$(".js-tel-error");
+            var mobile=$("#mobile").val();
+            var text_code=$.trim($("#text_code").val());
+            console.log(text_code);
+            if($tel_error.is(":hidden") &&!mobile==''&&!text_code==''){
+                $.ajax({
+                    type:'POST',
+                    url:'/shopAdmin/manager/doModifyMobile',
+                    dataType:'json',
+                    data:{
+                        mobile:mobile,
+                        text_code:text_code,
+                    },
+                    success:function (data) {
+                        if(data.code===200){
+                            layer.msg('修改成功',{
+                                time:1000,
+                                anim:0
+                            },function () {
+                                parent.location.reload(true);
+                            });
+                        }else if(data.code===400){
+                            layer.msg(data.message);
+                        }
+                    },
+                    error:function(jqXHR){
+                        console.log('发生错误：'+jqXHR.status);
+                    }
+                });
+            }else{
+                layer.msg("请正确填写选项");
+            }
+
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>抽奖统计</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="../public/admin/plugins/Hplus-v.4.1.0/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link rel="stylesheet" href="../public/admin/plugins/iconfont/iconfont.css">
+
+    
+    
+
+    
+    
+
+    <link href="../public/admin/plugins/Hplus-v.4.1.0/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../public/admin/plugins/bootstrap3-editable/css/bootstrap-editable.css">
+
+    
+    
+    <link rel="stylesheet" href="../public/admin/css/p-waiter.css?rev=@@hash">
+</head>
+<body class="gray-bg">
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-9">
+            <h2>抽奖统计</h2>
+            <!--<ol class="breadcrumb">
+                <li>
+                    <a href="index.html">主页</a>
+                </li>
+                <li class="active">
+                    <strong>奖品管理</strong>
+                </li>
+            </ol>-->
+        </div>
+    </div>
+    <div class="wrapper wrapper-content">
+        
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <p class="g-fs--14 g-ta--c"><b>累计获奖人次</b><b id="lotteryCount" class="g-text-primary g-ml--5 g-mr--5"><?php echo $clientLotteryCount?></b></p>
+                        <div class="p-chart--pie" id="js-chart--total_num"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <p class="g-fs--14 g-ta--c"><b>已领奖品人次</b><b id="acceptedLotteryCount" class="g-text-primary g-ml--5 g-mr--5"><?php echo $acceptedLotteryCount?></b></p>
+                        <input id="unacceptedLotteryCount" type="hidden" value="<?php echo $unacceptedLotteryCount?>">
+                        <div class="p-chart--pie" id="js-chart--win_num"></div>
+                    </div>
+                </div>
+            </div>
+<!--             <div class="col-sm-4">
+    <div class="ibox">
+        <div class="ibox-content">
+            <p class="g-fs--14 g-ta--c"><b>已绑定奖品项</b><b class="g-text-primary g-ml--5 g-mr--5">12/15</b></p>
+            <div class="p-chart--pie" id="js-chart--prize_item"></div>
+        </div>
+    </div>
+</div> -->
+        </div>
+
+        <div class="ibox">
+            <div class="ibox-title">
+                <h5>中奖统计</h5>
+                <div class="ibox-tools">
+                    <a class="collapse-link">
+                        <i class="iconfont icon-packup"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="ibox-content">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>中奖名单</th>
+                        <th>中奖物品</th>
+                        <th>中奖时间</th>
+                        <th>领取时间</th>
+                        <th>是否领取</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php if(!empty($clientLotteryList)): foreach($clientLotteryList as $clientLottery):?>
+                    <tr data-clientLotteryId="<?php echo $clientLottery['client_lottery_id']?>">
+                        <td><?php echo $clientLottery['nickname']?></td>
+                        <td><?php echo $clientLottery['name']?>&nbsp;&nbsp;&nbsp;&nbsp;<img class="img-rounded" src="<?php echo $clientLottery['picture']?>"></td>
+                        <td><?php echo date('Y-m-d H:i:s', $clientLottery['created_time'])?></td>
+                        <td><?php echo ($clientLottery['accepted_time'] == 0 ? '' :date('Y-m-d H:i:s', $clientLottery['accepted_time']))?></td>
+                        <td>
+                            <?php if($clientLottery['lottery_id'] != 0):?>
+                            <select name="" class="form-control js-get-select">
+                                <option <?php if($clientLottery['is_accepted'] == '1'):?>selected<?php endif;?> value="get">已领取</option>
+                                <option <?php if($clientLottery['is_accepted'] == '0'):?>selected<?php endif;?> value="not_get">未领取</option>
+                            </select>
+                            <?php endif;?>
+                        </td>
+                    </tr>
+                    <?php endforeach;endif;?>
+                    </tbody>
+                </table>
+                <div class="m-table-pagination g-clearfix g-m--0">
+                    <div id="pagination_container" class="pull-right pagination">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    
+    <script src="../public/admin/plugins/Hplus-v.4.1.0/js/jquery.min.js?v=2.1.4"></script>
+    <script src="../public/admin/plugins/Hplus-v.4.1.0/js/bootstrap.min.js?v=3.3.6"></script>
+
+
+    
+    <script src="../public/admin/plugins/Hplus-v.4.1.0/js/plugins/echarts/echarts.js?v=3.6"></script>
+
+    
+    <script src="../public/admin/plugins/Hplus-v.4.1.0/js/content.js?v=1.0.0"></script>
+
+    
+    <script src="../public/admin/plugins/bootstrap/js/bootstrap-hover-dropdown.min.js"></script>
+    
+    
+    <script src="../public/admin/plugins/laydate/laydate.js"></script>
+    <script src="../public/admin/plugins/layer/layer.js"></script>
+
+    <script src="../public/admin/js/m-ibox.js"></script>
+
+    <script src="../public/admin/js/p-draw.js?rev=@@hash"></script>
+    <script type="text/javascript" src="../public/admin/js/admin_pagination.js"></script>
+<script>
+$(function () {
+    setPage(document.getElementById('pagination_container'), <?php echo $pagecount?>, <?php echo $curpage?>, '/shopAdmin/lottery/stats', []);
+    /*中奖统计，领取操作----------------------------------------------------------*/
+    // console.log($(".js-prize-select").length);
+    function prizeSelect($this) {
+        var i;
+        var len= $this.length;
+
+        // $.each();
+        for(i=0;i<len;i++){
+            var option_selected=$this.eq(i).val();
+            var $this_tr=$this.eq(i).closest("tr");
+            console.log(option_selected);
+            if(option_selected==="get"){
+                $this.eq(i).prop({disabled: true});
+                $this_tr.addClass("success");
+            }else{
+                $this_tr.removeClass("success");
+            }
+        }
+
+    }
+    var $this_select=$(".js-get-select");
+    prizeSelect($this_select);
+
+    $(".table").on("change",".js-get-select",function () {
+        var $this=$(this);
+        var client_lottery_id=$this.closest("tr").attr('data-clientlotteryid');
+        var this_val=$this.val();
+        layer.confirm('确定已经领取？', {icon: 3}, function(index){
+            $.ajax({
+                type:'POST',
+                url:'/shopAdmin/lottery/setLotteryAccepted',
+                dataType:'json',
+                data:{
+                    client_lottery_id:client_lottery_id,
+                },
+                success:function (data) {
+                    if(data.code===200){
+                        layer.msg('领取成功',{
+                            time:1000
+                        },function () {
+                            //删除tr
+                            prizeSelect($this);
+                            layer.close(index);
+                            window.location.reload(true);
+                        });
+                    }else if(data.code===400){
+                        layer.msg(data.message);
+                    }
+                },
+                error: function (jqXHR) {
+                    console.log("发生错误" + jqXHR.status);
+                }
+            });
+
+        },function (index) {
+            $this.val("not_get");
+            layer.close(index);
+        });
+    });
+
+});
+</script>
+</body>
+</html>

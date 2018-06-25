@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>合作商管理</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="../public/admin/plugins/Hplus-v.4.1.0/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link rel="stylesheet" href="../public/admin/plugins/iconfont/iconfont.css">
+
+    <link href="../public/admin/plugins/Hplus-v.4.1.0/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../public/admin/plugins/bootstrap3-editable/css/bootstrap-editable.css">
+
+    <link rel="stylesheet" href="../public/admin/css/p-waiter.css?rev=@@hash">
+</head>
+<body class="gray-bg">
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-9">
+        <h2>合作商管理</h2>
+    </div>
+</div>
+<div class="wrapper wrapper-content">
+    
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title"><span class="label label-info pull-right">总</span>
+                    <h5>合作商总数</h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins"><?php echo $totalAgentCount?></h1>
+                    <small class="stat-title">个数</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title"><span class="label label-success pull-right">日</span>
+                    <h5>今日新增</h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins"><?php echo $todayAgentCount?></h1>
+                    <small class="stat-title">个数</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title"><span class="label label-success pull-right">周</span>
+                    <h5>本周新增</h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins"><?php echo $weekAgentCount?></h1>
+                    <small class="stat-title">个数</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title"><span class="label label-success pull-right">月</span>
+                    <h5>本月新增</h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins"><?php echo $monthAgentCount?></h1>
+                    <small class="stat-title">个数</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div class="ibox">
+        <div class="ibox-title">
+            <h5>合作商管理</h5>
+            <div class="ibox-tools">
+                <a class="collapse-link">
+                    <i class="iconfont icon-packup"></i>
+                </a>
+            </div>
+        </div>
+        <div class="ibox-content">
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>一级合作商ID</th>
+                    <th>一级合作商姓名</th>
+                    <th>一级合作商手机</th>
+                    <th>地址</th>
+                    <th>关联店铺数</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php if(!empty($agentList)): foreach($agentList as $agent):?>
+                <tr data-agentId="<?php echo $agent['agent_id']?>" data-province="<?php echo $agent['province']?>" data-city="<?php echo $agent['city']?>" data-area="<?php echo $agent['area']?>" data-address="<?php echo $agent['address']?>" data-rank="<?php echo $agent['rank']?>" data-range="<?php echo $agent['range']?>">
+                    <td><?php echo $agent['agent_id']?></td>
+                    <td><?php echo $agent['name']?></td>
+                    <td><?php echo $agent['mobile']?></td>
+                    <td><?php echo $agent['area_name'].$agent['address']?></td>
+                    <td><?php echo ($agent['shop_count'] ? $agent['shop_count'] : 0)?></td>
+                    <td>
+                        <a href="javascript:;" class="btn btn-primary btn-sm js-btn-agentSite" data-toggle="modal" data-target="#bossSite">编辑</a>
+                        <a href="https://www.bossshangba.com/agentAdmin/login" target="_blank" class="btn btn-primary btn-sm">查看TA的店铺</a>
+                    </td>
+                </tr>
+                <?php endforeach;endif;?>
+                </tbody>
+            </table>
+            <div class="m-table-pagination g-clearfix g-m--0">
+
+                <div id="pagination_container" class="pull-right pagination">
+                </div>
+            </div>
+        </div>
+        <div class="ibox-footer g-ta--r">
+            <button type="button" class="btn btn-primary js-agent-add" data-toggle="modal" data-target="#bossSite">创建一级合作商帐户</button>
+        </div>
+    </div>
+    
+</div>
+
+
+<div id="bossSite" class="modal fade">
+    <form action="">
+        <div class="modal-dialog">
+            <div class="modal-content form-horizontal animated flipInY">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                    <h4 id="js-site-title" class="modal-title">店铺信息</h4>
+                    <input type="hidden" name="" id="js-agentId">
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label"><span class="g-c--red">*</span>姓名</label>
+                                <div class="col-sm-8">
+                                    <input id="js-name" type="text" class="form-control" placeholder="请设置姓名">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label"><span class="g-c--red">*</span>一级合作商手机</label>
+                                <div class="col-sm-8">
+                                    <input id="js-mobile" type="tel" class="form-control" placeholder="请设置一级合作商手机">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label"><span class="g-c--red">*</span>等级</label>
+                                <div class="col-sm-8">
+                                    <input id="js-rank" type="text" class="form-control" value="一级合作商">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label"><span class="g-c--red">*</span>范围</label>
+                                <div class="col-sm-8">
+                                    <input id="js-range" type="text" class="form-control" placeholder="请设置范围">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label"><span class="g-c--red">*</span>地址</label>
+                                <div class="col-sm-8">
+                                    <div id="js-distpicker" class="form-inline">
+                                        <select id="js-province" class="form-control" style="width:110px"></select>
+                                        <select id="js-city" class="form-control" style="width:110px"></select>
+                                        <select id="js-area" class="form-control" style="width:110px"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label"><span class="g-c--red">*</span>详细地址</label>
+                                <div class="col-sm-8">
+                                    <input id="js-address" type="text" class="form-control" placeholder="请设置详细地址">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button id="js-agent-save" type="button" class="btn btn-primary">保存</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/jquery.min.js?v=2.1.4"></script>
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/bootstrap.min.js?v=3.3.6"></script>
+
+
+
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/plugins/echarts/echarts.js?v=3.6"></script>
+
+
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/content.js?v=1.0.0"></script>
+
+
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/plugins/gritter/jquery.gritter.min.js"></script>
+
+
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="../public/admin/plugins/Hplus-v.4.1.0/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+
+<script src="../public/admin/plugins/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+
+
+
+
+
+<script src="../public/admin/plugins/laydate/laydate.js"></script>
+<script src="../public/admin/plugins/layer/layer.js"></script>
+<script src="../public/admin/plugins/jQueryDistpicker/distpicker.data.min.js"></script>
+<script src="../public/admin/plugins/jQueryDistpicker/distpicker.min.js"></script>
+
+
+<script src="../public/admin/js/m-ibox.js"></script>
+<script src="../public/admin/js/admin_pagination.js"></script>
+<script>
+$(function () {
+    setPage(document.getElementById('pagination_container'), <?php echo $pagecount?>, <?php echo $curpage?>, '/admin/agent', []);
+
+    $('#js-distpicker').distpicker({
+        province: '浙江省',
+        city: '绍兴市',
+        district: '越城区'
+    });
+    $(".js-agent-add").on('click',function(){
+        $("#js-site-title").text('新增一级合作商');
+        $("#bossSite").find('input.form-control').val('');
+        $("#js-rank").val("一级合作商");
+    });
+    $(".table").on('click','.js-btn-agentSite',function(){
+        $("#js-site-title").text('修改一级合作商');
+        var $this_tr=$(this).closest('tr');
+        var old_range=$.trim($this_tr.attr('data-range'));
+        var old_agentId=$.trim($this_tr.attr('data-agentId'));
+        var old_name=$.trim($this_tr.find("td:eq(1)").text());
+        var old_mobile=$.trim($this_tr.find("td:eq(2)").text());
+        var old_province=$.trim($this_tr.attr("data-province"));
+        var old_city=$.trim($this_tr.attr("data-city"));
+        var old_area=$.trim($this_tr.attr("data-area"));
+        var old_address=$.trim($this_tr.attr("data-address"));
+//        console.log(old_province+';'+old_city+';'+old_area);
+        $("#js-agentId").val(old_agentId);
+        $("#js-name").val(old_name);
+        $("#js-mobile").val(old_mobile);
+        $("#js-range").val(old_range);
+        $("#js-address").val(old_address);
+        $('#js-distpicker').distpicker('destroy');
+        $('#js-distpicker').distpicker({
+            province: old_province,
+            city: old_city,
+            district: old_area
+        });
+    });
+    /*提交集团商家信息*/
+    $("#js-agent-save").on('click',function(){
+        var agent_id=$("#js-agentId").val();
+        var name=$("#js-name").val();
+        var mobile=$("#js-mobile").val();
+        var rank=$("#js-rank").val();
+        var range=$("#js-range").val();
+        var province=$("#js-province").val();
+        var city=$("#js-city").val();
+        var area=$("#js-area").val();
+        var address=$("#js-address").val();
+        var title=$("#js-site-title").text();
+        var msg,url,datas;
+        var arr_msg=[name,mobile,province,city,area,address],
+            arr_msg_text=['请填写姓名','请填写一级合作商手机','请选择省份','请选择城市','请选择区','请填写详细地址'],i;
+        /*console.log(agent_id);
+        console.log(name);
+        console.log(mobile);
+        console.log(rank);
+        console.log(range);
+        console.log(province);
+        console.log(city);
+        console.log(area);
+        console.log(address);*/
+        if(title=='新增一级合作商'){
+            msg='新增成功';
+            url='/admin/agent/addAgent';
+            datas={
+                name:name,
+                mobile:mobile,
+                rank:rank,
+                range:range,
+                province:province,
+                city:city,
+                area:area,
+                address:address,
+            };
+        }else{
+            msg='修改成功';
+            url='/admin/agent/editAgent';
+            datas={
+                agent_id:agent_id,
+                name:name,
+                mobile:mobile,
+                rank:rank,
+                range:range,
+                province:province,
+                city:city,
+                area:area,
+                address:address,
+            };
+
+        }
+        console.log(url);
+        console.log(datas);
+        for(i=0;i<arr_msg.length;i++){
+//            if(i==4){continue};
+            if(arr_msg[i]==''){
+                layer.msg(arr_msg_text[i]);
+                return false;
+            }
+        }
+        $.ajax({
+            type:'POST',
+            url:url,
+            dataType:'json',
+            data:datas,
+            success:function(data){
+                console.log(data);
+                if(data.code===200){
+                    $("#bossSite").modal('hide');
+                    layer.msg(msg,{
+                        time:1000
+                    },function(){
+                        window.location.reload(true);
+                    });
+                }else if(data.code===400){
+                    layer.msg(data.message,{
+                        time:1000
+                    },function(){
+                        window.location.reload(true);
+                    });
+                }
+            },
+            error:function(jqXHR){
+                console.log("发生错误"+jqXHR.status);
+            }
+        });
+    });
+
+});
+</script>
+</body>
+</html>
