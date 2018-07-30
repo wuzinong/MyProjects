@@ -10,6 +10,14 @@ const index = require('./routes/index')
 const users = require('./routes/users')
 
 const route = require('./routes/route');
+
+const mongoose = require('mongoose');
+const db = 'mongodb://localhost:27017';
+
+//connect db
+mongoose.Promise = require('bluebird');
+mongoose.connect(db,{useMongoClient:true});
+
  
 // error handler
 onerror(app)
