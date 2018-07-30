@@ -5,6 +5,13 @@ router.get('/home', async (ctx, next) => {
       title: 'Hello Koa 2!'
     })
 });
+
+router.get('/Dashboard',async (ctx,next)=>{
+  await ctx.render("../views/Dashboard/dashboard", {
+      title: 'dashboard page'
+    })
+});
+
 router.get('/catalog',async (ctx,next)=>{
   await ctx.render("../views/Catalog/catalog", {
       title: 'catelog page'
