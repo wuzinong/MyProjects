@@ -1,0 +1,16 @@
+@import './normalize.css';
+
+main{
+    margin:0 auto;
+    max-width:1200px;
+    padding:20px;
+}
+:global{
+    .page-title{
+        text-align: center;
+        font-size:30px;
+    }
+    h2{
+        font-size:26px;
+    }
+}

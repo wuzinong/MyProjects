@@ -1,0 +1,147 @@
+$dnvgl-colors: (
+
+  // PRIMARY COLORS
+  cyan:                #009fda,
+  dark-blue:           #0f204b,
+  land-green:          #36842d,
+  sea-blue:            #003591,
+  digital-blue:        #0067c5,
+  white:       #fff,
+  black:       #000,
+
+  // SUPPORTING COLORS
+  orange:              #e98300,
+  yellow:              #fecb00,
+  violet:              #6e5091,
+  red:                 #c4262e,
+  warm-grey:           #988f86,
+
+  // CYAN TINTS
+  sky-blue-lightest:   #e5f5fb,
+  sky-blue-light:      #ccecf8,
+  sky-blue:            #99d9f0,
+  cyan-lightest:       #66c5e9,
+  cyan-light:          #33b2e1,
+  // cyan:             #009fda,  // Already declared
+  cyan-dark:           #005e80,
+
+  // DARK BLUE TINTS
+  dark-blue-lightest:  #ced5e6,
+  dark-blue-light:     #24365c,
+  // dark-blue:        #0f204b,  // Already declared
+  dark-blue-dark:      #0b1838,
+  dark-blue-darkest:   #09122b,
+
+  // LAND GREEN TINTS
+  land-green-lightest: #bae6b0,
+  land-green-light:    #4f9946,
+  // land-green:       #36842d,  // Already declared
+  land-green-dark:     #307528,
+  land-green-darkest:  #276121,
+
+  // SEA BLUE TINTS
+  sea-blue-lightest:   #b7c9ea,
+  sea-blue-light:      #1f51a8,
+  // sea-blue:         #003591,  // Already declared
+  sea-blue-dark:       #002d7a,
+  sea-blue-darkest:    #002669,
+
+  // NEUTRAL SCALE
+  neutral-05:          #f2f2f2,
+  neutral-10:          #e5e5e5,
+  neutral-20:          #ccc,
+  neutral-40:          #999,
+  neutral-60:          #666,
+  neutral-80:          #333,
+
+  // ORANGE TINTS
+  orange-lightest:     #f7cf99,
+  orange-light:        #ed9d34,
+  // orange:           #e98300,  // Already declared
+  orange-dark:         #d97700,
+  orange-darkest:      #8a4c00,
+
+  // YELLOW TINTS
+  yellow-lightest:     #ffeca0,
+  yellow-light:        #ffd83a,
+  // yellow:           #fecb00,  // Already declared
+  yellow-dark:         #edbe00,
+  yellow-darkest:      #806600,
+
+  // VIOLET TINTS
+  violet-lightest:     #b8a8ca,
+  violet-light:        #8369a1,
+  // violet:           #6e5091,  // Already declared
+  violet-dark:         #5d437a,
+  violet-darkest:      #4d3866,
+
+  // RED TINTS
+  red-lightest:        #ffc5c7,
+  red-light:           #cc4148,
+  // red:              #c4262e,  // Already declared
+  red-dark:            #ad2128,
+  red-darkest:         #941c22,
+
+  // WARM GREY TINTS
+  warm-grey-lightest:  #ccc7c2,
+  warm-grey-light:     #a8a099,
+  // warm-grey:        #988f86,  // Already declared
+  warm-grey-dark:      #807870,
+  warm-grey-darkest:   #56524d
+
+);
+
+// -----------------------------------------------------------------------------
+$new-colors: (
+	// PRIMARY COLORS
+	primary1: #D6E9F1,
+	// primary2: #005e80,
+	primary3: #5ba7c7,
+	primary4: #94cadf,
+	primary5: #b8e0f0,
+	primary6: #d4edf6,
+    primary7: #e2f3f9,
+    primary8:#dc7c45,
+    primary9:#002a3e,
+    primary10:#79A5C4,
+    primary11:#34495A,
+    primary12:#ADB690,
+    primary13:#6B836E,
+    primary14:#7497AD,
+    primary15:#007ba8,
+    primary16:#5C9CD4,
+    primary17:#d9e8ed,
+    primary18:#f5f9fa,
+    primary19:#bbdaa7,
+    primary20:#8cc1d7,
+    primary21:#667f8b,
+    primary22:#509c20,
+    primary23:#d0555a,
+
+	// SECONDARY COLORS
+	secondary1: #ffffff,
+	secondary2: #f2f2f2,
+	secondary3: #e5e5e5,
+	secondary4: #cccccc,
+	secondary5: #9b9b9b,
+	secondary6: #6b747a,
+	secondary7: #333333,
+    secondary8: #000000,
+    secondary9:#949B9F,
+    secondary10:#EDEDED,
+    secondary11:#6E7479,
+    secondary12:#979EA2,
+    secondary13:#B5B8BC,
+    secondary14:#CDD4DA,
+    secondary15:#979797,
+    secondary16:#4a4a4a,
+    secondary17:#4c6978,
+    secondary18:#d9d9d9,
+    secondary19:#7B8995
+);
+
+$all-colors: map-merge($dnvgl-colors, $new-colors);
+
+@function color($color) {
+	@return map-get($all-colors, $color);
+}

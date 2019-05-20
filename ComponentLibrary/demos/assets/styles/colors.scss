@@ -1,0 +1,16 @@
+$common-colors: (
+
+  cyan:  #009fda,
+  
+);
+
+// -----------------------------------------------------------------------------
+$new-colors: (
+	
+);
+
+$all-colors: map-merge($dnvgl-colors, $new-colors);
+
+@function color($color) {
+	@return map-get($all-colors, $color);
+}

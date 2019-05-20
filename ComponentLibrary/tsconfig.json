@@ -1,0 +1,41 @@
+{
+    "compilerOptions": {
+        "outDir":"./dist/", 
+        "sourceMap": true,
+        "noImplicitAny": false,
+        "allowSyntheticDefaultImports":true,
+        "module":"esnext", 
+        "target": "es5", 
+        "jsx":"react",
+        "removeComments": false,
+        "lib":[
+         "dom",
+         "es6",
+         "dom.iterable",
+         "scripthost"   
+        ],
+        "baseUrl": "src",
+        "paths": {
+           "commonRedux/*":["redux/*"],
+           "libs/*":["libs/*"],
+           "*":["*"]
+        },
+        "plugins": [
+            {
+              "name": "typescript-tslint-plugin",
+              "alwaysShowRuleFailuresAsWarnings": false,
+              "ignoreDefinitionFiles": true,
+              "configFile": "./tslint.json",
+              "suppressWhileTypeErrorsPresent": false,
+              "mockTypeScriptVersion": false
+            }
+          ],
+        "moduleResolution": "node"
+    },
+    "include": [
+        "./src/**/*"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}

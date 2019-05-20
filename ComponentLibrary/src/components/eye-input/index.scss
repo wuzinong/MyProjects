@@ -1,0 +1,79 @@
+@import '~styles/colors.scss';
+:local{
+    .error-info{
+        color: color(cyan);
+        margin: 10px 0 3px 0;
+        font-style: italic;
+      }
+      .common_star{
+        content: '*';
+        color: #dc7c45;
+        position: absolute;
+        font-size: 18px;
+      }
+    .input_required {
+        position: relative;
+      
+        &:before {
+          @extend .common_star;
+          bottom: 6px;
+          left: -9px;
+          
+        }
+      }
+    .eye-container{
+     width:100%;
+     margin-top:7px; 
+    .btnEye-area{
+        position: relative;
+        input{
+          padding:8px 0;
+          width:100%;
+          border:1px solid color(primary9);
+          text-indent: 5px;
+          color:color(primary9);
+          &::placeholder{
+            font-style: italic;
+            background-color: transparent;
+            color:color(secondary17);
+          }
+          &:focus{
+              box-shadow: 0 0 8px 0 color(primary20);
+              border:1px solid color(primary3);
+          }
+        }
+        input:disabled{
+          color:color(secondary17);
+          font-style: italic;
+          background-color:transparent;
+        }
+
+        
+            svg{
+                cursor: pointer;
+                position: absolute;
+                right: 21px;
+                top: 10px;
+                width: 30px;
+                height: 24px;
+                color:#7497AD;
+            }
+       
+     }
+
+     .valid{
+      input:focus{
+        box-shadow: 0 0 8px 0 #9ecb82;
+        border:1px solid #9ecb82;
+        }
+      }
+      .invalid{
+        input:focus{
+          box-shadow: 0 0 8px 0 #e5a2a5;
+          border:1px solid #d0555a;
+        }
+        
+      }
+
+    }
+}
