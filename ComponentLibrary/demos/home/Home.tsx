@@ -36,7 +36,7 @@ class Home extends React.Component{
                 isDisabled = {true}
             />
             <h2>Eye input</h2>
-            
+            <EyeInput/>
         </main>
     }
 }

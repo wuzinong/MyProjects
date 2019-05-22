@@ -23,7 +23,7 @@ module.exports = {
             Common: srcPath('components/Common'),
             Forms: srcPath('components/Forms'),
             consts: srcPath('consts.ts'),
-            imgs: srcPath('assets/images'),
+            svgs:path.resolve(__dirname,'../assets/svgs'),
             styles: path.resolve(__dirname,'../assets/styles'),
             commonRedux: srcPath("redux"),
             store: srcPath('redux/store'),
@@ -91,9 +91,8 @@ module.exports = {
                         'sass-loader'
                     ]
                 })
-            }
-            , {
-                test: /\.(jpe?g|png|gif|svg)$/i,
+            }, {
+                test: /\.(jpe?g|png|gif)$/i,
                 use: [
                     {
                         loader: 'url-loader',
@@ -103,6 +102,9 @@ module.exports = {
                         }
                     }
                 ]
+            },{
+                test: /\.(svg)$/i,
+                loader: 'svg-inline-loader?classPrefix'
             }
         ]
     }
