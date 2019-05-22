@@ -12,7 +12,7 @@ const config = {
             index: '/'
         },
         //contentBase: './',
-        port: process.env.PORT || 3001,
+        port: process.env.PORT || 3003,
         host: '127.0.0.1',
         hot: true,
         inline: true,

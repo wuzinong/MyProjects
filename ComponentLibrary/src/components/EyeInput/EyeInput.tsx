@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {IEyeInputState,EEyeInput} from './EyeInput.types';
 var eyeSvg = require('svgs/eye.svg');
 var eyeSlashSvg = require('svgs/eye-slash.svg');
-const styles = require('./index.scss');
+const styles = require('./EyeInput.scss');
 
 function EyeInput(){
     let eyeState:IEyeInputState;

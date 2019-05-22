@@ -1,0 +1,24 @@
+
+:local{
+    .card-simple-wrapper{
+        width:280px;
+        height: 220px;
+        padding:14px 24px 15px;
+        color:#002a3e;
+        font-size: 14px;
+        display:flex;
+        flex-flow: column;
+        text-align: left;
+        overflow: hidden;
+        background-image: linear-gradient(to bottom, #e8f1f4, #ccdfe6);
+        strong{
+            font-size:20px;
+            padding:17px 0;
+            font-weight: 600;
+        }
+        img{
+            width:70px;
+            height: 70px;
+        }
+    }
+}

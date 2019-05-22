@@ -1,0 +1,72 @@
+
+@import '~styles/variables.scss';
+@import '~styles/mixins.scss';
+:local{
+    .wrapper{
+        background-color:#f5f9fa;
+        padding:16px;
+        
+        :global(.item-wrapper){
+            margin-bottom:36px;
+        }
+    } 
+    .item-wrapper{
+        display: flex;
+        flex-flow:row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        color:#002a3e;
+        max-height: 735px;
+        overflow-y: auto;
+        padding-right:20px;
+
+        &::-webkit-scrollbar{
+            width:10px;
+            background-color:#fff;
+            border:1px solid #ccd4d8;
+            border-radius: 20px;
+        }
+        &::-webkit-scrollbar-thumb{
+            background-color:#d8d8d8;
+            border-radius: 20px;
+            width:8px;
+            height: 240px;
+        }
+    }
+    .title{
+        width:100%;
+        margin-bottom:30px;
+        border-bottom:1px solid #99aab2;
+        text-align: left;
+        font-size: 14px;
+        padding-bottom:40px;
+        strong{
+            font-size:20px;
+            padding-bottom:12px;
+            display:inline-block;
+        }
+        p{
+            column-count:2;
+            column-gap:20px;
+        }
+    }  
+
+    // @include maxSize($screen_lg) {
+    //     .wrapper{
+    //         width:800px;
+    //     }
+    // }
+    @include maxSize($screen_md) {
+        .wrapper{
+            justify-content: space-around;
+        }
+    }
+    @include maxSize($screen_sm) {
+        .wrapper{
+            justify-content: space-around;
+            :global(.item-wrapper>div){
+                    width:100%;
+            }
+        }
+    }
+}

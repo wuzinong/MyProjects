@@ -1,6 +1,6 @@
 import React from 'react';
 import {ICheckboxProps,ICheckboxStates} from './Checkbox.types';
-const styles = require('./index.scss');
+const styles = require('./Checkbox.scss');
 
 export class Checkbox extends React.PureComponent<ICheckboxProps, ICheckboxStates> {
     constructor(props: ICheckboxProps) {
