@@ -1,16 +1,21 @@
 @import './normalize.css';
 
-main{
-    margin:0 auto;
-    max-width:1200px;
-    padding:50px;
-}
+
 :global{
+    main{
+        margin:0 auto;
+        max-width:1200px;
+        padding:50px;
+        &>h2{
+            color:purple;
+        }
+    }
     .page-title{
         text-align: center;
         font-size:30px;
     }
     h2{
         font-size:26px;
+       
     }
 }
