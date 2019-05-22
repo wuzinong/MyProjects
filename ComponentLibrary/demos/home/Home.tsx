@@ -36,7 +36,11 @@ class Home extends React.Component{
                 isDisabled = {true}
             />
             <h2>Eye input</h2>
+            <div style={{
+                width:"400px"
+            }}>
             <EyeInput/>
+            </div>
         </main>
     }
 }
