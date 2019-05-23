@@ -1,0 +1,18 @@
+@import '~styles/colors.scss';
+@import '~styles/variables.scss';
+@import '~styles/mixins.scss';
+
+:global{
+    .vui-iframe-video{
+        width: 750px;
+        max-width: 100%;
+        height:450px;
+    }
+}
+
+@include maxSize($screen_sm) {
+    .vui-iframe-video{
+        width: 310px;
+        height:450px;
+    }
+}

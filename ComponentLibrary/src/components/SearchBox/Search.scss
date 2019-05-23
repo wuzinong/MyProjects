@@ -1,0 +1,52 @@
+
+@import '~styles/colors.scss';
+@import '~styles/variables.scss';
+@import '~styles/mixins.scss';
+:global{
+   .search-wrapper{
+       width:436px;
+       height:43px;
+       padding:8px 0 8px 10px;
+       background-color:color(primary23);
+       align-self: flex-end;
+       .search-area{
+           height:100%;
+           display: flex;
+           justify-content: space-between;
+           
+           %common-button {
+                background-color:transparent;
+                border:none;
+                outline: none;
+           }
+
+           &>input{
+              @extend %common-button;
+              width:80%;
+           }
+           &>button{
+              @extend %common-button;
+              width:42px;
+              border-left:1px solid color(primary3);
+              cursor:pointer;
+
+              svg{
+                  width:20px;
+                  height:26px;
+                  color:color(primary3);
+              }
+           }
+       }
+   }
+
+    @include maxSize($screen_xl) {
+    }
+    @include maxSize($screen_md) {
+        .search-wrapper{
+            width:100%;
+            .search-area{
+                
+            }
+        }
+    }
+}

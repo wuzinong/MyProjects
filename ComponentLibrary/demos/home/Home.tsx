@@ -1,5 +1,5 @@
 import React from 'react';
-import { Checkbox, EyeInput, Card, CardSimple, CardWrapper } from 'Components';
+import { Checkbox, EyeInput, Card, CardSimple, CardWrapper, Checkbox2,Video,ResponsiveImg } from 'Components';
 class Home extends React.Component {
     constructor(props: any) {
         super(props)
@@ -20,6 +20,65 @@ class Home extends React.Component {
             available to customers over the Internet SaaS is one of three main categories of cloud computing, alongside infrastructure as
             a service (IaaS) and platform as a service (PaaS).
             `
+        }
+
+        let checkObj2 = {
+            labelText: 'test label',
+            name: 'SaaS',
+            isChecked: true,
+            checkboxChange: (name: string, newState: boolean, event: any) => {
+                console.log(name);
+                console.log(newState);
+                console.log('-----')
+                console.log(event);
+            }
+        }
+
+        let imageUrl = "https://cdn.sanity.io/images/yk5gp8um/marketplace-dev/1b4ce41ba9368f3c0d9ac73f894338a1e2ac6c0f-6000x4000.jpg";
+        let imgProps = {
+            imgArr:[
+                { 
+                    imgUrl:imageUrl,
+                    imgQuery:"?fm=webp&w=340",
+                    mediaQuery:"(max-width: 400px)",
+                    imgType:"image/webp"
+                },
+                { 
+                    imgUrl:imageUrl,
+                    imgQuery:"?fm=webp&w=440",
+                    mediaQuery:"(max-width: 800px)",
+                    imgType:"image/webp"
+                },
+                { 
+                    imgUrl:imageUrl,
+                    imgQuery:"?fm=webp&w=540",
+                    mediaQuery:"(max-width: 1200px)",
+                    imgType:"image/webp"
+                },
+                { 
+                    imgUrl:imageUrl,
+                    imgQuery:"?fm=webp",
+                    mediaQuery:"",
+                    imgType:"image/webp"
+                },
+                {
+                    imgUrl:imageUrl,
+                    imgQuery:"?w=340",
+                    mediaQuery:"(max-width: 400px)"
+                },
+                { 
+                    imgUrl:imageUrl,
+                    imgQuery:"?w=440",
+                    mediaQuery:"(max-width: 800px)"
+                },
+                { 
+                    imgUrl:imageUrl,
+                    imgQuery:"?w=540",
+                    mediaQuery:"(max-width: 1200px)"
+                }
+            ],
+            defaultUrl:imageUrl,
+            alt:'test alt'
         }
 
         return <main>
@@ -53,6 +112,11 @@ class Home extends React.Component {
                 isDisabled={true}
             />
 
+            <h2>Checkbox2</h2>
+            <Checkbox2
+                {...checkObj2}
+            />
+
             <h2>Eye input</h2>
             <div style={{
                 width: "400px"
@@ -66,7 +130,7 @@ class Home extends React.Component {
             <Card
                 {...cardObj}
             />
-            <br/>
+            <br />
 
             <h2>Card</h2>
             <CardSimple
@@ -74,21 +138,35 @@ class Home extends React.Component {
             />
 
             <h2>Card wrapper</h2>
-            <div style={{width:"1000px"}}>
-                            <CardWrapper
-                            {
-                                ...cardWrapperObj
-                            }
-                            >
-                            
-                            {[1,2,3,4,5,6,7,1,1,1,1,1,1,1,1].map(()=>{
-                                        return <div className="item-wrapper"><Card 
-                                            {...cardObj}
-                                            /></div>
-                                        })}
-                                
-                            
-                            </CardWrapper>
+            <div style={{ width: "1000px" }}>
+                <CardWrapper
+                    {
+                    ...cardWrapperObj
+                    }
+                >
+
+                    {[1, 2, 3, 4, 5, 6, 7, 1, 1, 1, 1, 1, 1, 1, 1].map(() => {
+                        return <div className="item-wrapper"><Card
+                            {...cardObj}
+                        /></div>
+                    })}
+
+
+                </CardWrapper>
+            </div>
+
+
+            <h2>Video Iframe</h2>
+            <Video videoUrl="https://production.presstogo.com/mars/embed?o=766116EDAD37954F&c=10651&a=N" />
+
+            <h2>Video h5</h2>
+            <Video useOrigin={true} videoUrl="https://www.w3schools.com/HTML/mov_bbb.mp4" />
+
+            <h2>Responsive images</h2>
+            <div style={{width:"1200px",height:"800px",overflow:"hidden"}}>
+            <ResponsiveImg 
+                        {...imgProps}
+                    />
             </div>
         </main>
     }
