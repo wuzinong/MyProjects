@@ -1,0 +1,12 @@
+@import "./_fontFace";
+@import "../variables.scss";
+$broaderView: (
+  eot:      $cdn_url+'/fonts/broaderview-medium-webfont.eot?#iefix',
+  woff:     $cdn_url+'/fonts/broaderview-medium-webfont.woff',
+  truetype: $cdn_url+'/fonts/broaderview-medium-webfont.ttf',
+  svg:      $cdn_url+'/fonts/broaderview-medium-webfont.svg'
+);
+
+@mixin fontface-broaderView(){
+	@include fontFace('Broader View', $broaderView)
+}

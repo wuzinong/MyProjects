@@ -1,0 +1,52 @@
+@import "./_fontFace.scss";
+@import "../variables.scss";
+$avenir:(
+    name: 		'Avenir Next',
+    weight: 400,
+    srcs: (
+        eot:      $cdn_url+'fonts/avenir-regular-lat-ext.eot',
+        woff:     $cdn_url+'fonts/avenir-regular-lat-ext.woff',
+        truetype: $cdn_url+'fonts/avenir-regular-lat-ext.ttf',
+        svg:      $cdn_url+'fonts/avenir-regular-lat-ext.svg',
+    )
+),
+(
+    name: 		'Avenir Next',
+    weight:		500, // medium
+    srcs: (
+        eot:      $cdn_url+'fonts/avenir-medium-lat-ext.eot',
+        woff:     $cdn_url+'fonts/avenir-medium-lat-ext.woff',
+        truetype: $cdn_url+'fonts/avenir-medium-lat-ext.ttf',
+        svg:      $cdn_url+'fonts/avenir-medium-lat-ext.svg'
+    )
+),
+(
+    name: 		'Avenir Next',
+    weight:		600, // demi
+    srcs: (
+        eot:      $cdn_url+'fonts/avenir-demi-lat-ext.eot',
+        woff:     $cdn_url+'fonts/avenir-demi-lat-ext.woff',
+        truetype: $cdn_url+'fonts/avenir-demi-lat-ext.ttf',
+        svg:      $cdn_url+'fonts/avenir-demi-lat-ext.svg'
+    )
+),
+(
+    name: 		'Avenir Next',
+    weight:		700, // bold
+    srcs: (
+        eot:      $cdn_url+'fonts/avenir-bold-lat-ext.eot',
+        woff:     $cdn_url+'fonts/avenir-bold-lat-ext.woff',
+        truetype: $cdn_url+'fonts/avenir-bold-lat-ext.ttf',
+        svg:      $cdn_url+'fonts/avenir-bold-lat-ext.svg'
+    )
+);
+$avenir_fontFamily: "Avenir Next";
+@mixin font-face-avenir(){
+    @each $font in $avenir{
+        @include fontFace(
+            map-get($font,name),
+            map-get($font,src),
+            map-get($font,weight)
+        )
+    }
+}

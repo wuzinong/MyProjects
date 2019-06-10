@@ -1,0 +1,17 @@
+@mixin fontFace($family, $srcs, $weight: false){
+	@font-face {
+		font-family: $family;
+		src: url(map-get($srcs, 'eot')) 
+						format('eot'), 
+			 url(map-get($srcs, 'woff')) 
+						format('woff'), 
+			 url(map-get($srcs, 'truetype')) 
+						format('truetype'), 
+			 url(map-get($srcs, 'svg')) 
+						format('svg'); 
+
+		@if $weight{
+			font-weight: $weight
+		}
+	}
+}
