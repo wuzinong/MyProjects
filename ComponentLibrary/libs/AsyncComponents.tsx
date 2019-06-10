@@ -38,3 +38,5 @@ export default function asyncComponent(getComponent: any): any  {
     return AsyncComponent;
 
 }
+// const HomePage = asyncComponent(() => import('./pages/HomePage'));
+
