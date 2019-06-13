@@ -1,5 +1,5 @@
 import React from 'react';
-import { Checkbox, EyeInput, Card, CardSimple, CardWrapper, Checkbox2,Video,ResponsiveImg } from 'Components';
+import { Checkbox, EyeInput, Card, CardSimple, CardWrapper, Checkbox2,Video,ResponsiveImg,ResponsiveTable } from 'Components';
 class Home extends React.Component {
     constructor(props: any) {
         super(props)
@@ -156,7 +156,7 @@ class Home extends React.Component {
             </div>
 
 
-            <h2>Video Iframe</h2>
+            {/* <h2>Video Iframe</h2>
             <Video videoUrl="https://production.presstogo.com/mars/embed?o=766116EDAD37954F&c=10651&a=N" />
 
             <h2>Video h5</h2>
@@ -167,7 +167,10 @@ class Home extends React.Component {
             <ResponsiveImg 
                         {...imgProps}
                     />
-            </div>
+            </div> */}
+
+            <h2>Responsive table</h2>
+            <ResponsiveTable/>
         </main>
     }
 }
