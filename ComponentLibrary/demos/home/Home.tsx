@@ -170,7 +170,20 @@ class Home extends React.Component {
             </div>
 
             <h2>Responsive table</h2>
-            <ResponsiveTable/>
+            <div style={{width:"600px",height:"200px",overflowY:"scroll"}}>
+                <ResponsiveTable
+                items = {
+                    {
+                        "head":["head1","head2","head3","head4"],
+                        "body":[["asdfasdfa","sdfsdf","asdfasdfa","sdfsdf"],["asdfasdfa","sdfsdf","asdfasdfa","sdfsdf"],["asdfasdfa","sdfsdf","asdfasdfa","sdfsdf"]
+                        ,["asdfasdfa","sdfsdf","asdfasdfa","sdfsdf"],["asdfasdfa","sdfsdf","asdfasdfa","sdfsdf"],["asdfasdfa","sdfsdf","asdfasdfa","sdfsdf"]
+                        ,["asdfasdfa","sdfsdf","asdfasdfa","sdfsdf"],["asdfasdfaasdfasdfaasdfasdfa","sdfsdf","asdfasdfa","sdfsdf"]
+                        ,["asdfasdfaasdfasdfaasdfasdfa","sdfsdf","asdfasdfa","sdfsdf"],["asdfasdfaasdfasdfaasdfasdfa","sdfsdf","asdfasdfa","sdfsdf"]
+                        ,["asdfasdfaasdfasdfaasdfasdfa","sdfsdf","asdfasdfa","sdfsdf"],["asdfasdfaasdfasdfaasdfasdfa","sdfsdf","asdfasdfa","sdfsdf"]]
+                    }
+                }
+                />
+            </div>
         </main>
     }
 }
