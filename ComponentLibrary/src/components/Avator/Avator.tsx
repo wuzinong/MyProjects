@@ -7,9 +7,7 @@ let style = require('./Avator.scss');
 const Avator = (props:IAvatorProps) =>{
 
     const uploadImg =()=>{
-        
         var inputObj = document.createElement('input');
-        
         inputObj.addEventListener('change',readFile,false);
         inputObj.type = 'file';
         inputObj.accept = 'image/*';
@@ -31,7 +29,7 @@ const Avator = (props:IAvatorProps) =>{
                  drawToCanvas(this.result);
             }
     }
-    
+
     function drawToCanvas(imgData){
         var cvs = document.createElement("canvas");
             (cvs as any).width=300;
@@ -45,12 +43,22 @@ const Avator = (props:IAvatorProps) =>{
                     ctx.drawImage(img,0,0,300,400);
                     let strDataURI = (cvs as any).toDataURL();//获取canvas base64数据
                 }
+        
+        cvs.addEventListener("mousedown",(e)=>{
+            console.log(e)
+        });
+        cvs.addEventListener("mouseleave",(e)=>{
+            console.log(e)
+        })
+
     }
 
-    return <div id="cvs" className={style['avator-wrapper']}>
-                To be done
-                <button onClick={()=>{uploadImg()}}>Upload image</button>
+    return <>
+        <div id="cvs" className={style['avator-wrapper']}>
+            <div className={style['avator-clipper']}></div>
         </div>
+        <button onClick={()=>{uploadImg()}}>Upload image</button>
+    </>
  }
  
  export default Avator;

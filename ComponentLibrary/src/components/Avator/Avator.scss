@@ -1,6 +1,9 @@
 :local{
     .avator-wrapper{
-        
+        position: relative;
+        .avator-clipper{
+            position: absolute;
+        }
     }
 
 
