@@ -119,7 +119,7 @@ const Avator = (props:IAvatorProps) =>{
         let cxt = canvas.getContext("2d");
 
         if(tempArea){
-            let temp = tempArea.style
+            let temp = tempArea.style;
             let imgData = cxt.getImageData(parseInt(temp.left),parseInt(temp.top),parseInt(temp.width),parseInt(temp.height));
             let tempCanvas = document.createElement("canvas");
             tempCanvas.width = parseInt(temp.width);
@@ -128,6 +128,12 @@ const Avator = (props:IAvatorProps) =>{
             tempCxt.putImageData(imgData,0,0);
             getResultContainer().innerHTML = "";
             getResultContainer().appendChild(tempCanvas);
+
+            //转换成图片
+            // let strDataURI = (tempCanvas as any).toDataURL();
+            // var a = document.createElement("img");
+            // a.src = strDataURI;
+            // document.querySelector("body").appendChild(a);
         }
         
     }
@@ -156,6 +162,7 @@ const Avator = (props:IAvatorProps) =>{
     }
 
     const readFile = (obj:any)=>{
+        console.log("jinle")
         getContainer().querySelector("canvas") && getContainer().removeChild(getContainer().querySelector("canvas"));
         var file = obj.srcElement.files[0];//获取input输入的图片
         if(!/image\/\w+/.test(file.type)){
@@ -171,15 +178,17 @@ const Avator = (props:IAvatorProps) =>{
 
     function drawToCanvas(imgData){
         var cvs = document.createElement("canvas");
-            (cvs as any).width=300;
-            (cvs as any).height=400;
+           
+        //  cvs.style.cssText = "width:100%;height:100%;";
         let wrapper = getContainer();
         wrapper.appendChild(cvs);
         var ctx = (cvs as any).getContext('2d');
         var img = new Image;
                 img.src = imgData;
                 img.onload = function(){//必须onload之后再画
-                    ctx.drawImage(img,0,0,300,400);
+                    (cvs as any).width=img.width;
+                    (cvs as any).height=img.height;
+                    ctx.drawImage(img,0,0,img.width,img.height);
                     let strDataURI = (cvs as any).toDataURL();//获取canvas base64数据
                 }
         
@@ -192,7 +201,7 @@ const Avator = (props:IAvatorProps) =>{
 
     return <>
         <div id="cvs" className={style['avator-wrapper']}>
-            <div className={style['avator-clipper']}></div>
+            
         </div>
         <div id="result">
 
