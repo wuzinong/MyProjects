@@ -1,5 +1,5 @@
 import React from 'react';
-import { Checkbox, EyeInput, Card, CardSimple, CardWrapper, Checkbox2,Video,ResponsiveImg,ResponsiveTable,Avator } from 'Components';
+import { Checkbox, EyeInput, Card, CardSimple, CardWrapper, Checkbox2,Video,ResponsiveImg,Avator,ResponsiveTable } from 'Components';
 class Home extends React.Component {
     constructor(props: any) {
         super(props)
@@ -171,14 +171,14 @@ class Home extends React.Component {
                         {...imgProps}
                     />
             </div>
-
+            
             <h2>Responsive table</h2>
             <div style={{width:"600px",height:"200px",overflowY:"scroll"}}>
                 <ResponsiveTable
                 items = {
                     {
                         "head":["head1","head2","head3","head4"],
-                        "body":[["asdfasdfa","sdfsdf","asdfasdfa","sdfsdf"],["asdfasdfa","sdfsdf","asdfasdfa","sdfsdf"],["asdfasdfa","sdfsdf","asdfasdfa","sdfsdf"]
+                        "body":[["col1_head1","col2_head1","col3_head1","col4_head1"],["head2_","sdfsdf","asdfasdfa","sdfsdf"],["asdfasdfa","sdfsdf","asdfasdfa","sdfsdf"]
                         ,["asdfasdfa","sdfsdf","asdfasdfa","sdfsdf"],["asdfasdfa","sdfsdf","asdfasdfa","sdfsdf"],["asdfasdfa","sdfsdf","asdfasdfa","sdfsdf"]
                         ,["asdfasdfa","sdfsdf","asdfasdfa","sdfsdf"],["asdfasdfaasdfasdfaasdfasdfa","sdfsdf","asdfasdfa","sdfsdf"]
                         ,["asdfasdfaasdfasdfaasdfasdfa","sdfsdf","asdfasdfa","sdfsdf"],["asdfasdfaasdfasdfaasdfasdfa","sdfsdf","asdfasdfa","sdfsdf"]
@@ -187,7 +187,6 @@ class Home extends React.Component {
                 }
                 />
             </div>
-
             <h2>Avator</h2>
             <Avator/>
             

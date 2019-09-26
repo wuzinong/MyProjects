@@ -162,7 +162,6 @@ const Avator = (props:IAvatorProps) =>{
     }
 
     const readFile = (obj:any)=>{
-        console.log("jinle")
         getContainer().querySelector("canvas") && getContainer().removeChild(getContainer().querySelector("canvas"));
         var file = obj.srcElement.files[0];//获取input输入的图片
         if(!/image\/\w+/.test(file.type)){

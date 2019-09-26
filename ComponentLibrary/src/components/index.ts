@@ -6,5 +6,5 @@ export { default as CardSimple } from './CardSimple/CardSimple';
 export { default as CardWrapper } from './CardWrapper/CardWrapper';
 export { default as Video } from './Video/Video';
 export { default as Checkbox2 } from './Checkbox2/Checkbox2';
-export { default as ResponsiveTable} from './ResponsiveTable/ResponsiveTable';
 export { default as Avator} from './Avator/Avator';
+export {default as ResponsiveTable} from './ResponsiveTable/ResponsiveTable';
