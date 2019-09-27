@@ -1,0 +1,17 @@
+:local{
+    .table-wrapper{
+        width:800px;
+        position: relative;
+        overflow: hidden;
+        table{
+            width:100%;
+            thead{
+                th:nth-child(odd){
+                    background:olive;
+                    color:white;
+                }
+            }
+        }
+        
+    }
+}
