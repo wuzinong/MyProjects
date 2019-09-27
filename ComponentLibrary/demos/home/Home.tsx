@@ -20,6 +20,7 @@ class Home extends React.Component {
             available to customers over the Internet SaaS is one of three main categories of cloud computing, alongside infrastructure as
             a service (IaaS) and platform as a service (PaaS).
             `
+            
         }
 
         let checkObj2 = {
