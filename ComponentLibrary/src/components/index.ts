@@ -9,3 +9,4 @@ export { default as Checkbox2 } from './Checkbox2/Checkbox2';
 export { default as Avator} from './Avator/Avator';
 export { default as ResponsiveTable} from './ResponsiveTable/ResponsiveTable';
 export { default as EmphasisTable} from './EmphasisTable/EmphasisTable';
+export {default as ToolTip} from './ToolTip/ToolTip';

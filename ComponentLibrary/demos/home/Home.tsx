@@ -1,8 +1,11 @@
 import React from 'react';
-import { Checkbox, EyeInput, Card, CardSimple, CardWrapper, Checkbox2,Video,ResponsiveImg,Avator,ResponsiveTable,EmphasisTable } from 'Components';
-class Home extends React.Component {
+import { Checkbox, EyeInput, Card, CardSimple, CardWrapper, Checkbox2,Video,ResponsiveImg,Avator,ResponsiveTable,EmphasisTable,ToolTip } from 'Components';
+class Home extends React.Component<any,{showTips:boolean}>{
     constructor(props: any) {
-        super(props)
+        super(props);
+        this.state = {
+            showTips:false
+        }
     }
     render() {
         let cardObj = {
@@ -206,6 +209,18 @@ class Home extends React.Component {
                 }
                 />
             </div> */}
+            
+                <div
+                  style={{
+                      marginTop:'20px',
+                      position:'relative'
+                  }}
+                  onClick={()=>{
+                      this.setState({
+                          showTips: !this.state.showTips
+                      })
+                  }}
+                >Click to show tips<ToolTip show={this.state.showTips} tips="aaaaaaaaaaaaa"></ToolTip></div>
             
         </main>
     }
