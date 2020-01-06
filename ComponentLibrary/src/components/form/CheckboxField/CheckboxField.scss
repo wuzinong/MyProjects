@@ -1,0 +1,53 @@
+﻿@import 'src/styles/shared/shared.scss'; 
+
+:local {
+
+    label.container {
+        display: block;
+        position: relative;
+        padding-left: 26px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        font-weight: 100;
+
+        a{
+            color:#036ba3;
+            text-decoration: underline;
+        }
+        input {
+            display: none;
+        }
+
+        .check-mark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 16px;
+            height: 16px;
+            padding: 3px;
+            margin: 3px 0;
+            border: 1px solid color(prussian);
+            background-color: transparent;
+            border-radius: 3px;
+            .check {
+                display: none;
+            }
+        }
+
+        .check-mark.checked {
+            /*border: 1px solid #5ba7c7;*/
+            background-color: color(prussian);
+            .check {
+                display: block;
+                border-left: 2px solid #fff;
+                border-bottom: 2px solid #fff;
+                width: 68%;
+                height: 46%;
+                position: absolute;
+                transform: rotate(-45deg);
+            }
+        }
+    }
+}

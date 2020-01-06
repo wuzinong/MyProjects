@@ -1,0 +1,108 @@
+/*
+ *  These are global styles that will be loaded by the application root.
+ *  Its CSS rules can be thus used anywhere in the project.
+ */
+
+// @font-face definitions must be loaded outside of ':global', or PostCSS messes it up
+@import './typography';
+
+:global {
+    @import './lib/normalize.css';
+    @import './layout';
+    @import './grid';
+    @import './misc';
+    @import './react-tooltip-lite';
+    @import './html-content';
+
+
+    #app{
+        .vui-button[data-type=finish]{
+            background-color:#6a9c6c;
+            &:hover{
+                background-color:#5a885c;
+            }
+        }
+    }
+    .app{
+        height: 100%;//do not delete, for cdn fall back
+    }
+    .pointer{
+        cursor: pointer;
+    }
+
+    .vui-modal--animated .vui-modal--open{
+        overflow-x: hidden;
+        background-color: transparent;
+    }
+
+    .vui-footer{
+        h4{
+            display: block;
+            font-size: 16px;
+            line-height: 1.43;
+            font-weight: 600;
+            margin: 1.33rem 0;
+        }
+    }
+    .vui-loading{
+        box-sizing: initial;
+    }
+    .home-selector{
+        .vui-fieldwrapper{  
+            margin:-3px 0 0 0;           
+            .vui-fieldwrapper-label{
+                display: none;
+            }
+            .vui-fieldwrapper-content{
+                width: 160px;
+            }
+        }
+    }
+    .home-filter-selector{
+        padding: 0;
+        .vui-fieldwrapper-label{
+            display: none;
+        }
+        .vui-fieldwrapper{ 
+            margin: 0;
+        }
+    }
+    
+    
+
+
+    .constrain-width {
+        .title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #002a3e;
+            text-align: left;
+            margin-bottom: 18px;
+        }
+
+        &.reverse {
+            display: flex;
+            flex-direction: row-reverse;
+        }
+    }
+
+    .popup-area {
+        text-align: left;
+        background-color: #fff;
+        width: 705px;
+        max-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        padding: 20px 25px 35px 42px;
+    }
+   
+    @include maxSize($screen_sm) {
+        .constrain-width {
+            &.reverse {
+                margin: 0;
+            }
+        }
+    }
+
+}
+

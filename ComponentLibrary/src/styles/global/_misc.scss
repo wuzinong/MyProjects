@@ -1,0 +1,86 @@
+html,
+body {
+    font-family: 'Avenir Next', Verdana, Geneva, sans-serif;
+    height: 100%;
+    font-size: 14px;
+    line-height:1.5;
+}
+
+p, ul {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}
+
+ul {
+    list-style-type: none;
+}
+
+input {
+    outline: none;
+}
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px white inset;
+}
+
+.nomargin {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.back-btn {
+    font-size: 14px;
+}
+
+#container {
+    height: 100%;
+
+    & > div {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .vui-header {
+        flex: 0 0 auto;
+    }
+
+    .common-middle {
+        flex: 1 0 auto;
+    }
+
+    .regist-page {
+        background-color: color(primary11);
+    }
+
+    .vui-footer {
+        flex: 0 0 auto;
+    }
+}
+
+.constrain-width {
+    max-width: 1200px;
+}
+
+.constrain-width.with-margin {
+    padding: 0 20px;
+}
+
+.constrain-width.with-exterior-margin {
+    max-width: 1240px;
+    padding: 0 20px;
+}
+
+.centered {
+    margin: auto;
+}
+
+.auto-margins {
+    margin-left: auto;
+    margin-right: auto;
+}

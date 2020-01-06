@@ -1,0 +1,37 @@
+﻿@import 'src/styles/shared/shared.scss'; 
+
+:local {
+    font-family: "Avenir Next Medium", Verdana, Geneva, sans-serif;
+    font-size: 14px;
+    width: 100%;
+    margin-top: 30px;
+
+    label {
+        display: block;
+        color: color(prussian);
+    }
+
+    textarea {
+        display: block;
+        border: 1px solid #355d7e;
+        font-size: 14px;
+        padding: 9px;
+        color: color(prussian);
+        width: 100%;
+        max-width: 100%;
+        min-width: 100%;
+        min-height: 36px;
+        transition: background-color linear 0.1s;
+        outline: none;
+    }
+
+    textarea.empty {
+        background-color: #f5f9fa;
+    }
+
+    textarea.read-only {
+        background-color: transparent;
+        color: rgb(76, 105, 120);
+        font-style: italic;
+    }
+}

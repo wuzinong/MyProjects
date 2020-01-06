@@ -1,5 +1,7 @@
 import React from 'react';
+import {Link} from 'react-router-dom'
 import { Checkbox, EyeInput, Card, CardSimple, CardWrapper, Checkbox2,Video,ResponsiveImg,Avator,ResponsiveTable,EmphasisTable,ToolTip } from 'Components';
+
 class Home extends React.Component<any,{showTips:boolean}>{
     constructor(props: any) {
         super(props);
@@ -220,8 +222,11 @@ class Home extends React.Component<any,{showTips:boolean}>{
                           showTips: !this.state.showTips
                       })
                   }}
-                >Click to show tips<ToolTip show={this.state.showTips} tips="aaaaaaaaaaaaa"></ToolTip></div>
+                >Click to show tips<ToolTip show={this.state.showTips} tips="ss ss ad sdf asd sdd s ad asd ss ss ad sdf asd sdd s ad asd ss ss ad sdf asd sdd s ad asd ss ss ad sdf asd sdd s ad asd "></ToolTip></div>
             
+
+            <h2>Form</h2>
+            <Link to="./form">go to hooks form</Link>
         </main>
     }
 }

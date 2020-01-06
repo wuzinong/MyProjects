@@ -1,0 +1,115 @@
+﻿@import 'src/styles/shared/shared.scss'; 
+
+:local {
+    font-family: "Avenir Next Medium", Verdana, Geneva, sans-serif;
+    font-size: 14px;
+    width: 100%;
+    margin-top: 30px;
+
+    label {
+        display: block;
+        color: color(prussian);
+        font-size:16px;
+        margin-bottom:8px;
+        font-weight: 600;
+    }
+    .input-wrapper{
+        display: block;
+        border: 1px solid color(indigo30);
+        font-size: 16px;
+        padding: 9px 0 9px 13px;
+        color: color(prussian);
+        width: 100%;
+        transition: background-color linear 0.1s;
+        outline: none;
+        border-radius: 5px;
+        position: relative;
+        background-color:#fff;
+        input{
+            width:calc(100% - 40px);
+            border:none;
+            outline: none;
+        }
+        span{
+            position: absolute;
+            right:7px;
+            top:7px;
+        }
+    }
+    .input-wrapper:focus-within{
+        border: 1px solid color(indigo100);
+    }
+
+    .error {
+        color: color(rubin100);
+        svg{
+            fill:color(rubin100);
+            path{
+                fill:color(rubin100);
+            }
+        }
+    }
+
+    .warning {
+        color: color(prussian);
+        svg{
+            fill:color(prussian);
+            path{
+                fill:color(prussian);
+            }
+        }
+    }
+
+    .info {
+        color: color(indigo100);
+        svg{
+            fill:color(indigo100);
+            path{
+                fill:color(indigo100);
+            }
+        }
+    }
+
+    .success{
+        border:1px solid color(amulet);
+        input{
+            color:color(amulet);
+            border:none;
+        }
+        svg{
+            fill: color(amulet);
+            path{
+                fill:color(amulet);
+            }
+        }
+    }
+
+    // input {
+    //     display: block;
+    //     border: 1px solid #BAD6E6;
+    //     font-size: 16px;
+    //     padding: 9px 0 9px 13px;
+    //     color: #002a3e;
+    //     width: 100%;
+    //     transition: background-color linear 0.1s;
+    //     outline: none;
+    //     border-radius: 5px;
+    // }
+    // input:focus{
+    //     border: 1px solid #036BA3
+    // }
+
+    // input.empty {
+    //     background-color: #f5f9fa;
+    // }
+
+    input.read-only {
+        background-color: transparent;
+        color: rgb(76, 105, 120);
+        font-style: italic;
+    }
+    input:disabled{
+        cursor:not-allowed;
+        background-color: transparent;
+    }
+}

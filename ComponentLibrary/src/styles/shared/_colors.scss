@@ -1,0 +1,60 @@
+$veracity-colors: (
+  prussian:#002A3E,
+  prussian110:#001620,
+  prussian90:#25485B,
+  prussian80:#426072,
+  marine:#005E80,
+  indigo110:#025582,
+  indigo100:#036BA3,
+  indigo60:#68A6C8,
+  indigo40:#A4CADE,
+  indigo30:#BAD6E6,
+  indigo20:#CDE1ED,
+  indigo10:#E6F1F6,
+  indigo5:#F2F7FA,
+  amulet:#6A9C73,
+  amulet10:#F0F5F0,
+  amulet40:#C3D7C7,
+  amulet60:#93B79A,
+  amulet110:#3E714F,
+  pink:#DA00B1,
+  pink10:#FBE5F7,
+  pink40:#F099E0,
+  pinkDark:#A00082,
+  rubin10:#F0D8D9,
+  rubin30:#E5A2A5,
+  rubin60:#CC6E71,
+  rubin100:#B53C40,
+  rubin110:#860B16,
+  yellow:#EEDB83,
+  yellow110:#CBAA27,
+  yellow60:#F5E9B5,
+  yellow40:#F8F1CD,
+  yellow20:#FCF8E6,
+  stateGrey100:#698091,
+  stateGrey80:#8799A7,
+  stateGrey60:#A5B3BD,
+  stateGrey40:#C3CCD3,
+  stateGrey20:#E1E6E9,
+  stateGrey10:#F1F3F5,
+  mineGrey100:#333333,
+  mineGrey80:#646464,
+  mineGrey60:#929292,
+  mineGrey40:#B3B3B3,
+  mineGrey20:#DADADA,
+  mineGrey10:#F6F6F6,
+  mineGrey5:#FBFBFB
+);
+
+// -----------------------------------------------------------------------------
+$new-colors: (
+	// PRIMARY COLORS
+	primary1: #D6E9F1,
+	primary2: #005e80
+);
+
+$all-colors: map-merge($veracity-colors, $new-colors);
+
+@function color($color) {
+	@return map-get($all-colors, $color);
+}

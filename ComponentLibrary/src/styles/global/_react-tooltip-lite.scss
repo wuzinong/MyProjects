@@ -1,0 +1,14 @@
+// Styles that change the appearance of the tooltips of the react-tooltip-lite library
+
+$background-color: #002a3e;
+$text-color: white;
+
+.react-tooltip-lite {
+  background-color: $background-color;
+  color: $text-color;
+  line-height: 1.6;
+}
+
+.react-tooltip-lite-arrow {
+  border-color: $background-color;
+}

@@ -1,0 +1,62 @@
+﻿@import 'src/styles/shared/shared.scss'; 
+
+:local {
+    small {
+        display: block;
+        font-size: 12px;
+        font-style: italic;
+        margin-top: 8px;
+    }
+
+    .msg{
+        font-size:16px;
+        display: flex;
+        align-items: center;
+        margin-top:10px;
+        svg{
+            margin-right:8px;
+        }
+    }
+    .msg-tip{
+        width:calc(100% - 30px);
+    }
+    .error {
+        color: color(rubin100);
+        svg{
+            fill:color(rubin100);
+            path{
+                fill:color(rubin100);
+            }
+        }
+    }
+
+    .warning {
+        color: color(prussian);
+        svg{
+            fill:color(prussian);
+            path{
+                fill:color(prussian);
+            }
+        }
+    }
+
+    .info {
+        color: color(indigo100);
+        svg{
+            fill:color(indigo100);
+            path{
+                fill:color(indigo100);
+            }
+        }
+    }
+
+    .success{
+        color:color(amulet);
+        svg{
+            fill: color(amulet);
+            path{
+                fill:color(amulet);
+            }
+        }
+    }
+}

@@ -1,0 +1,66 @@
+﻿@import 'src/styles/shared/shared.scss';
+
+:local {
+    font-family: "Avenir Next Medium", Verdana, Geneva, sans-serif;
+    font-size: 14px;
+    width: 100%;
+    margin-top: 30px;
+
+    label {
+        display: block;
+        color: color(prussian);
+    }
+
+    select {
+        display: block;
+        width: 100%;
+        padding: 9px 0 9px 13px;
+        border: 1px solid #355d7e;
+        color: color(prussian);
+        outline: none;
+        border-radius:5px;
+    }
+    .disable-style{
+        select option{
+            color:#C8D1D6;
+        }
+        .available-country{
+            color:color(prussian);
+        }
+    }
+    select:-webkit-autofill,
+    select:-webkit-autofill:focus
+    {
+        box-shadow: 0 0 0 1000px #fff inset;
+    }
+    select.read-only {
+        color: rgb(76, 105, 120);
+        font-style: italic;
+    }
+
+    // select.empty {
+    //     background-color: #f5f9fa;
+    // }
+    .arrow-container{
+        position: relative;
+
+        select{
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+        }
+        &::after{
+            content: '';
+            width: 18px;
+            height: 18px;
+            background-color: #fff;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMzAiIGhlaWdodD0iMzAiIHZpZXdCb3g9IjAgMCAzMCAzMCI+CiAgICA8ZGVmcz4KICAgICAgICA8cGF0aCBpZD0iYSIgZD0iTTguNTI0IDEwLjI2M0wuNzM3IDIuMzU0YS44MDYuODA2IDAgMCAxIDAtMS4xNGwuNDc2LS40NzdhLjgwNi44MDYgMCAwIDEgMS4xNDEgMGw2Ljc0IDYuODY3IDYuNzQtNi44NmEuODA2LjgwNiAwIDAgMSAxLjE0MiAwbC40NzYuNDc2YS44MDYuODA2IDAgMCAxIDAgMS4xNDFMOS42NjUgMTAuMjdhLjgxMi44MTIgMCAwIDEtMS4xNDEtLjAwNnoiLz4KICAgIDwvZGVmcz4KICAgIDx1c2UgZmlsbD0iIzAzNkJBMyIgZmlsbC1ydWxlPSJldmVub2RkIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2IDEwKSIgeGxpbms6aHJlZj0iI2EiLz4KPC9zdmc+Cg==');
+            background-size: cover;
+            background-position: center;
+            position: absolute;
+            right: 9px;
+            top: 9px;
+            pointer-events: none;
+        }
+    }
+}

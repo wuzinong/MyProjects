@@ -29,7 +29,9 @@ module.exports = {
             store: srcPath('redux/store'),
             utils: srcPath('utils'),
             types: srcPath('types'),
-            libs: path.resolve(__dirname,'../libs')
+            libs: path.resolve(__dirname,'../libs'),
+            src:path.resolve(__dirname,'../src'),
+            hooks:path.resolve(__dirname,'../hooks'),
         },
         extensions: [".ts", ".tsx", ".jsx", ".js", ".json"]
     },

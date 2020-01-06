@@ -1,0 +1,23 @@
+@import 'src/styles/shared/_colors.scss';
+
+:local {
+
+     .tip-icon{
+         margin-left:3px;
+         svg{
+             vertical-align: middle;
+             cursor: help;
+         }
+     }
+     .tip-msg{
+         border-radius: 5px;
+         margin-bottom:16px;
+         padding:14px 15px;
+         color:#fff;
+         background-color:color(prussian);
+     }
+     .optional{
+         color:#698091;
+     }
+     
+}

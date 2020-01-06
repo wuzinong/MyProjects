@@ -8,6 +8,7 @@
         "target": "es5", 
         "jsx":"react",
         "removeComments": false,
+        "experimentalDecorators":true,
         "lib":[
          "dom",
          "es6",

@@ -1,0 +1,17 @@
+@import './variables.scss';
+
+@function pxTorem($px,$default-font-size: 1440px) {
+    @return $px/$default-font-size * 10rem;
+}
+
+@mixin maxSize($size: $screen_lg) {
+    @media all and (max-width: $size) {
+        @content;
+    }
+}
+
+@mixin minSize($size: $screen_lg) {
+    @media all and (min-width: $size) {
+        @content;
+    }
+}

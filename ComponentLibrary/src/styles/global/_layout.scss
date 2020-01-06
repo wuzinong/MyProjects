@@ -1,0 +1,23 @@
+// Globally scoped utility classes for layouting and spacing
+// ---------------------------------------------------------
+
+// Places content on the center of the page, with padding on the sides for smaller screen sizes.
+.vrc-container {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 20px;
+  padding-right: 20px;
+
+  &.no-padding {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+// Apply on images to make them respect their parents' bounds and not have weird spacing issues
+// due to being inline elements by default.
+.vrc-image {
+  display: block;
+  width: 100%;
+}
