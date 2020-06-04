@@ -1,0 +1,37 @@
+:local {
+  @mixin input-border($border-color, $border-color-focus) {
+    border: 1px solid $border-color;
+
+    &:focus {
+      border-color: $border-color-focus;
+      border-width: 2px;
+      // box-shadow: 0px 0px 0px 1px #f2f7fa;
+      // background-color: #f2f7fa !important;
+      // box-shadow: 0px 0px 0px 1px #f2f7fa;
+    } 
+  }
+
+  .TextInput {
+    display: block;
+    width: 100%;
+    font-family: 'Avenir Next';
+    font-size: 16px;
+    padding: 7px 12px;
+    margin-bottom: 8px;
+    border-radius: 5px;
+    outline: none;
+
+    &[data-nospacing]{
+      margin: 0;
+    }
+
+    @include input-border(#BAD6E6, #0067C5);
+    &[data-state="invalid"]{ @include input-border(#B53C40, #B53C40); }
+    &[data-state="validated"]{ @include input-border(#36842D, #36842D); }
+
+    &:disabled{
+      background-color: #F6F6F6;
+      border: 1px solid #646464;
+    }
+  }
+}

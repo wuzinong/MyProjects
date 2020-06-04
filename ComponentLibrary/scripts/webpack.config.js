@@ -20,7 +20,7 @@ module.exports = {
     resolve: {
         alias: {
             Components: srcPath('components'),
-            // FlexComponents:srcPath('flexComponents/components'),
+            FlexComponents:srcPath('flexComponents/components'),
             Common: srcPath('components/Common'),
             Forms: srcPath('components/Forms'),
             consts: srcPath('consts.ts'),

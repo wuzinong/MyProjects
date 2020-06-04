@@ -1,0 +1,13 @@
+:local {
+  .Label {
+    font-size: 16px;
+    margin-top: 24px;
+    margin-bottom: 8px;
+    display: block;
+    font-weight: 600;
+
+    &[data-nospacing]{
+      margin: 0;
+    }
+  }
+}

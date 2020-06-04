@@ -1,0 +1,21 @@
+:local{
+    .sub-total {
+        padding: 11px 10px;
+        background-color: #c3d7c7;
+        font-size: 20px;
+        font-weight: 600;
+        text-transform: uppercase;
+        padding-left: 40px;
+        position: relative;
+        display: inline-block;
+        &::after{
+            content: "";
+            position: absolute;
+            left: 3px;
+            bottom: -5px;
+            border: 5px solid transparent;
+            border-left-color: #3e714f;
+            transform: rotate(-45deg);
+        }
+    }
+}

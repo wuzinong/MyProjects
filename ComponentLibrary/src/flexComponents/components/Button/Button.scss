@@ -1,0 +1,195 @@
+:local {
+  .Button.Button.Button { // hack for higher specificity (needed for LinkButton and RouterLinkButton)
+    display: inline-flex;  
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    font-family: 'Avenir Next';
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center; 
+    line-height: 1.2;
+    
+    border-radius: 5px;
+    background-color: gray;
+    border: 1px solid gray;
+    color: black;
+    font-size: 16px;
+    cursor: pointer;
+    
+    &:focus {
+      outline: none;
+      box-shadow: 0px 0px 0px 3px #BAD6E6;
+    } 
+
+    // sizing ------------------------------------
+
+    padding: 10px 18px;
+    &[data-icon-padding="true"]{ padding: 10px 15px; }
+
+
+    &[data-size="small"] { 
+      padding: 6px 12px;
+      &[data-icon-padding="true"]{ padding: 6px 10px; }
+    }
+
+    &[data-size="large"] { 
+      padding: 12px 22px;
+      &[data-icon-padding="true"]{ padding: 12px 18px; }
+      font-size: 18px;
+    }
+
+    // variants ------------------------------------
+
+    &[data-variant="blue"] { 
+      $background-color: #0067C5;
+      border-color: #0067C5;
+
+      background-color: $background-color;
+      color: white;
+
+      &:hover {
+        background-color: #075094;
+        border-color: #075094;
+      }
+
+      &:active {
+        background-color: darken($background-color, 10%);
+        border-color: darken($background-color, 10%);
+      }
+    }
+
+    &[data-variant="dark"] { 
+      $background-color: #002A3E;
+      background-color: $background-color;
+      border-color: $background-color;
+
+      color: white;
+
+      &:hover {
+        background-color: #001620;
+        border-color: #001620;
+      }
+
+      &:active {
+        background-color: darken($background-color, 0);
+        border-color: darken($background-color, 0);
+      }
+    }
+
+    &[data-variant="green"] { 
+      $background-color: #36842D;
+
+      background-color: $background-color;
+      border-color: $background-color;
+      color: white;
+
+      &:hover {
+        background-color: #276121;
+        border-color: #276121;
+      }
+
+      &:active {
+        background-color: darken(#276121, 3%);
+        border-color: darken(#276121, 3%);
+      }
+    }
+
+    &[data-variant="red"] { 
+      $background-color: #b53c40;
+
+      background-color: $background-color;
+      border-color: $background-color;
+      color: white;
+
+      &:hover {
+        background-color: #860b16;
+        border-color: #860b16;
+      }
+
+      &:active {
+        background-color: darken(#860b16, 6%);
+        border-color: darken(#860b16, 6%);
+      }
+    }
+
+    &[data-variant="pink"] { 
+      $background-color: #DA00B1;
+
+      background-color: $background-color;
+      border-color: $background-color;
+      color: white;
+
+      &:hover {
+        background-color: #A00082;
+        border-color: #A00082;
+      }
+
+      &:active {
+        background-color: darken($background-color, 15%);
+        border-color: darken($background-color, 15%);
+      }
+    }
+
+    &[data-variant="subtle"] { 
+      $background-color: white;
+
+      background-color: $background-color;
+      color: #025582;;
+      border: 1px solid #0067C5;
+      font-weight: 400;
+
+      &:hover {
+        background-color: #E6F1F6;
+      }
+
+      &:active {
+        background-color: darken(#E6F1F6, 3%);
+      }
+    }
+
+    &[data-variant="text"] { 
+      background-color: transparent;
+      color: #001620;
+      border: 1px solid transparent;
+      font-weight: 400;
+
+      &:hover {
+        background-color: #f3f8fb;
+      }
+
+      &:active {
+        background-color: darken(#f3f8fb, 5%);
+      }
+    }
+
+    // various modifiers ---------------------------
+
+    &[data-fullwidth] {
+      width: 100%;
+    }
+
+    &[disabled] { 
+      $background-color: #ededed;
+
+      background-color: $background-color;
+      border-color: $background-color;
+
+      color: #989898;
+      border: 1px solid #ededed;
+
+      cursor: default;
+
+      &:hover {
+        background-color: $background-color;
+        border-color: $background-color;
+      }
+
+      &:active {
+        background-color: $background-color;
+        border-color: $background-color;
+      }
+    }
+
+  }
+}

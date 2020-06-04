@@ -1,0 +1,28 @@
+$background-color: #002a3e;
+$text-color: white;
+
+:global{
+  .react-tooltip-lite {
+    padding: 14px 20px !important;
+    max-width: 400px !important;
+    background-color: $background-color;
+    border-radius: 6px;
+    color: $text-color;
+    font-size: 16px;
+    line-height: 1.6;
+    font-family: 'Avenir Next';
+
+    a {
+      text-decoration: underline;
+      color: $text-color;
+    }
+
+    strong {
+      font-weight: 600;
+    }
+  }
+
+  .react-tooltip-lite-arrow {
+    border-color: $background-color;
+  }
+}
