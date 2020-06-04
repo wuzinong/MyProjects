@@ -285,6 +285,9 @@ class Home extends React.Component<any,{showTips:boolean}>{
             <h2>Form with hooks</h2>
             <Link to="./form">go to hooks form</Link>
 
+            <h2>Form with mobx</h2>
+            <Link to="./mobxform">go to mobx form</Link>
+
             <h2>Flex Components</h2>
             <Link to='./flexComponents'>building with flex component</Link>
         </main>
