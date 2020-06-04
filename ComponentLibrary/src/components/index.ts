@@ -10,3 +10,4 @@ export { default as Avator} from './Avator/Avator';
 export { default as ResponsiveTable} from './ResponsiveTable/ResponsiveTable';
 export { default as EmphasisTable} from './EmphasisTable/EmphasisTable';
 export {default as ToolTip} from './ToolTip/ToolTip';
+export {default as ToggleSection} from './ToggleSection/ToggleSection';

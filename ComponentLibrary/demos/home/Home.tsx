@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom'
-import { Checkbox, EyeInput, Card, CardSimple, CardWrapper, Checkbox2,Video,ResponsiveImg,Avator,ResponsiveTable,EmphasisTable,ToolTip } from 'Components';
+import { Checkbox, EyeInput, Card, CardSimple, CardWrapper, Checkbox2,Video,ResponsiveImg,Avator,ResponsiveTable,EmphasisTable,ToolTip,ToggleSection } from 'Components';
+
 
 class Home extends React.Component<any,{showTips:boolean}>{
     constructor(props: any) {
@@ -91,110 +92,180 @@ class Home extends React.Component<any,{showTips:boolean}>{
         
 
         return <main>
-            <h1 className="page-title">Common component library</h1>
-            <h2>Checkbox</h2>
-            <Checkbox
-                fieldName={"test"}
-                isChecked={false}
-                onChange={() => { }}
-                isDisabled={false}
-            />
-            <br />
-            <Checkbox
-                fieldName={"test"}
-                isChecked={true}
-                onChange={() => { }}
-                isDisabled={false}
-            />
-            <br />
-            <Checkbox
-                fieldName={"test2"}
-                isChecked={false}
-                onChange={() => { }}
-                isDisabled={true}
-            />
-            <br />
-            <Checkbox
-                fieldName={"test2"}
-                isChecked={true}
-                onChange={() => { }}
-                isDisabled={true}
-            />
-
-            <h2>Checkbox2</h2>
-            <Checkbox2
-                {...checkObj2}
-            />
-
-            <h2>Eye input</h2>
-            <div style={{
-                width: "400px"
-            }}>
-                <EyeInput />
-            </div>
-
-            <br />
-            <h2>Simple Card</h2>
-
-            <Card
-                {...cardObj}
-            />
-            <br />
-
-            <h2>Card</h2>
-            <CardSimple
-                {...cardObj}
-            />
-
-            <h2>Card wrapper</h2>
-            <div style={{ width: "1000px" }}>
-                <CardWrapper
-                    {
-                    ...cardWrapperObj
-                    }
-                >
-
-                    {[1, 2, 3, 4, 5, 6, 7, 1, 1, 1, 1, 1, 1, 1, 1].map(() => {
-                        return <div className="item-wrapper"><Card
-                            {...cardObj}
-                        /></div>
-                    })}
-
-
-                </CardWrapper>
-            </div>
-
-
-            <h2>Video Iframe</h2>
-            <Video videoUrl="https://production.presstogo.com/mars/embed?o=766116EDAD37954F&c=10651&a=N" />
-
-            <h2>Video h5</h2>
-            <Video useOrigin={true} videoUrl="https://www.w3schools.com/HTML/mov_bbb.mp4" />
-
-            <h2>Responsive images</h2>
-            <div style={{width:"1200px",height:"800px",overflow:"hidden"}}>
-            <ResponsiveImg 
-                        {...imgProps}
-                    />
-            </div>
             
-            <h2>Responsive table</h2>
-            <div style={{width:"600px",height:"200px",overflowY:"scroll"}}>
-                <ResponsiveTable
-                items = {
-                    {
-                        "head":["head1","head2","head3","head4"],
-                        "body":[["col1_head1","col2_head1","col3_head1","col4_head1"],["head2_","sdfsdf","asdfasdfa","sdfsdf"],["asdfasdfa","sdfsdf","asdfasdfa","sdfsdf"]
-                        ,["asdfasdfa","sdfsdf","asdfasdfa","sdfsdf"],["asdfasdfa","sdfsdf","asdfasdfa","sdfsdf"],["asdfasdfa","sdfsdf","asdfasdfa","sdfsdf"]
-                        ,["asdfasdfa","sdfsdf","asdfasdfa","sdfsdf"],["asdfasdfaasdfasdfaasdfasdfa","sdfsdf","asdfasdfa","sdfsdf"]
-                        ,["asdfasdfaasdfasdfaasdfasdfa","sdfsdf","asdfasdfa","sdfsdf"],["asdfasdfaasdfasdfaasdfasdfa","sdfsdf","asdfasdfa","sdfsdf"]
-                        ,["asdfasdfaasdfasdfaasdfasdfa","sdfsdf","asdfasdfa","sdfsdf"],["asdfasdfaasdfasdfaasdfasdfa","sdfsdf","asdfasdfa","sdfsdf"]]
-                    }
-                }
-                />
-            </div>
-            <h2>Avator</h2>
-            <Avator/>
+            <h1 className="page-title">Common component library</h1>
+            <ToggleSection
+                  label={<h2>Checkbox</h2>}
+                  content={<>
+                            <Checkbox
+                            fieldName={"test"}
+                            isChecked={false}
+                            onChange={() => { }}
+                            isDisabled={false}
+                            />
+                            <br />
+                            <Checkbox
+                                fieldName={"test"}
+                                isChecked={true}
+                                onChange={() => { }}
+                                isDisabled={false}
+                            />
+                            <br />
+                            <Checkbox
+                                fieldName={"test2"}
+                                isChecked={false}
+                                onChange={() => { }}
+                                isDisabled={true}
+                            />
+                            <br />
+                            <Checkbox
+                                fieldName={"test2"}
+                                isChecked={true}
+                                onChange={() => { }}
+                                isDisabled={true}
+                            />
+
+                            <h2>Checkbox2</h2>
+                            <Checkbox2
+                                {...checkObj2}
+                            />
+                  </>}
+               >
+                
+            </ToggleSection>
+            
+
+            <ToggleSection
+                  label={<h2>Eye input</h2>}
+                  content={<>
+                            <div style={{
+                                width: "400px"
+                            }}>
+                                <EyeInput />
+                            </div>
+                  </>}
+               >
+                
+            </ToggleSection>
+
+            <ToggleSection
+                  label={<h2>Card</h2>}
+                  content={<>
+                            <h3>Simple Card</h3>
+                            <Card
+                                {...cardObj}
+                            />
+                            <br />
+
+                            <h3>Card</h3>
+                            <CardSimple
+                                {...cardObj}
+                            />
+                  </>}
+               >
+                
+            </ToggleSection>
+
+
+            <ToggleSection
+                  label={<h2>Card wrapper</h2>}
+                  content={<>
+                            <div style={{ width: "1000px" }}>
+                                <CardWrapper
+                                    {
+                                    ...cardWrapperObj
+                                    }
+                                >
+
+                                    {[1, 2, 3, 4, 5, 6, 7, 1, 1, 1, 1, 1, 1, 1, 1].map(() => {
+                                        return <div className="item-wrapper"><Card
+                                            {...cardObj}
+                                        /></div>
+                                    })}
+
+
+                                </CardWrapper>
+                            </div>
+                  </>}
+               >
+            </ToggleSection>
+
+            
+            <ToggleSection
+                  label={<h2>Videos</h2>}
+                  content={<>
+                            <h2>Video Iframe</h2>
+                            <Video videoUrl="https://production.presstogo.com/mars/embed?o=766116EDAD37954F&c=10651&a=N" />
+
+                            <h2>Video h5</h2>
+                            <Video useOrigin={true} videoUrl="https://www.w3schools.com/HTML/mov_bbb.mp4" />
+                  </>}
+               >
+            </ToggleSection>
+
+            
+            <ToggleSection
+                  label={<h2>Responsive images</h2>}
+                  content={<>
+                           <div style={{width:"1200px",height:"800px",overflow:"hidden"}}>
+                                <ResponsiveImg 
+                                            {...imgProps}
+                                        />
+                            </div>
+                  </>}
+               >
+            </ToggleSection>
+
+            <ToggleSection
+                  label={<h2>Responsive table</h2>}
+                  content={<>
+                            <div style={{width:"600px",height:"200px",overflowY:"scroll"}}>
+                            <ResponsiveTable
+                            items = {
+                                {
+                                    "head":["head1","head2","head3","head4"],
+                                    "body":[["col1_head1","col2_head1","col3_head1","col4_head1"],["head2_","sdfsdf","asdfasdfa","sdfsdf"],["asdfasdfa","sdfsdf","asdfasdfa","sdfsdf"]
+                                    ,["asdfasdfa","sdfsdf","asdfasdfa","sdfsdf"],["asdfasdfa","sdfsdf","asdfasdfa","sdfsdf"],["asdfasdfa","sdfsdf","asdfasdfa","sdfsdf"]
+                                    ,["asdfasdfa","sdfsdf","asdfasdfa","sdfsdf"],["asdfasdfaasdfasdfaasdfasdfa","sdfsdf","asdfasdfa","sdfsdf"]
+                                    ,["asdfasdfaasdfasdfaasdfasdfa","sdfsdf","asdfasdfa","sdfsdf"],["asdfasdfaasdfasdfaasdfasdfa","sdfsdf","asdfasdfa","sdfsdf"]
+                                    ,["asdfasdfaasdfasdfaasdfasdfa","sdfsdf","asdfasdfa","sdfsdf"],["asdfasdfaasdfasdfaasdfasdfa","sdfsdf","asdfasdfa","sdfsdf"]]
+                                }
+                            }
+                            />
+                        </div>
+                  </>}
+               >
+            </ToggleSection>
+
+            <ToggleSection
+                  label={<h2>Avator</h2>}
+                  content={<>
+                            <Avator/>
+                  </>}
+               >
+            </ToggleSection>
+ 
+           
+            <ToggleSection
+                  label={<h2>Tips</h2>}
+                  content={<>
+                           <div
+                            style={{
+                                marginTop:'20px',
+                                position:'relative'
+                            }}
+                            onClick={()=>{
+                                this.setState({
+                                    showTips: !this.state.showTips
+                                })
+                            }}
+                            >Click to show tips<ToolTip show={this.state.showTips} tips="ss ss ad sdf asd sdd s ad asd ss ss ad sdf asd sdd s ad asd ss ss ad sdf asd sdd s ad asd ss ss ad sdf asd sdd s ad asd "></ToolTip></div>
+
+                  </>}
+               >
+            </ToggleSection>
+ 
+            
             
             {/* <h2>Emphasis table</h2>
             <div style={{width:"600px",height:"200px",overflowY:"scroll"}}>
@@ -210,23 +281,12 @@ class Home extends React.Component<any,{showTips:boolean}>{
                     }
                 }
                 />
-            </div> */}
-            
-                <div
-                  style={{
-                      marginTop:'20px',
-                      position:'relative'
-                  }}
-                  onClick={()=>{
-                      this.setState({
-                          showTips: !this.state.showTips
-                      })
-                  }}
-                >Click to show tips<ToolTip show={this.state.showTips} tips="ss ss ad sdf asd sdd s ad asd ss ss ad sdf asd sdd s ad asd ss ss ad sdf asd sdd s ad asd ss ss ad sdf asd sdd s ad asd "></ToolTip></div>
-            
-
-            <h2>Form</h2>
+            </div>  */}      
+            <h2>Form with hooks</h2>
             <Link to="./form">go to hooks form</Link>
+
+            <h2>Flex Components</h2>
+            <Link to='./flexComponents'>building with flex component</Link>
         </main>
     }
 }

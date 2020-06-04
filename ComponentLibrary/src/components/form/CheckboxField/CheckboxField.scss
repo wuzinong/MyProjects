@@ -16,8 +16,9 @@
             color:#036ba3;
             text-decoration: underline;
         }
-        input {
-            display: none;
+        input[type='checkbox'] {
+            position: absolute;
+            clip: rect(0, 0, 0, 0);
         }
 
         .check-mark {
@@ -34,6 +35,9 @@
             .check {
                 display: none;
             }
+        }
+        input[type='checkbox']:focus + .check-mark {
+            box-shadow: 0 0 0 1px color(prussian);
         }
 
         .check-mark.checked {
