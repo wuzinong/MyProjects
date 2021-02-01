@@ -3,37 +3,40 @@
  * return a list of _Issue_ objects.
  */
 
-import {Validator} from './useForm';
+import {Validator} from './validators.types';
 
-export const validateEmail: Validator<string> = str => {
-  let issues = [];
 
-  if (!str.includes('@')){
-    issues.push({
-      type: 'error',
-      message: 'Not valid. Email addresses should contain the @ symbol...'
-    })
+export const requiredValidator = (invalidMessage: string = 'Value is required.'): Validator<string> => {
+  return {
+      invalidMessage: invalidMessage,
+      validate: (value: string) => {
+          let isEmpty = typeof value === 'undefined' || value === null || value === '';
+          return { isValid: !isEmpty, message: invalidMessage };
+      }
   }
-
-  if (str.length > 15){
-    issues.push({
-      type: 'warning',
-      message: `This email address is really long, that's weird`
-    })
-  }
-
-  return issues;
 }
 
-export const validateUsername: Validator<string> = str => {
-  let issues = [];
 
-  if (str.length < 5){
-    issues.push({
-      type: 'error',
-      message: `Oops, username should be at least 5 characters`
-    })
+export const requiredChecked = (invalidMessage: string = 'Value is required.'): Validator<boolean> => {
+  return {
+      invalidMessage: invalidMessage,
+      validate: (value: boolean) => {
+          let isChecked = value === true;
+          return { isValid: isChecked, message: invalidMessage };
+      }
   }
+}
 
-  return issues;
+export const regexValidator = (regex: RegExp, invalidMessage: string = 'Value is not valid.'): Validator<string> => {
+  return {
+      invalidMessage,
+      validate: (value: string) => {
+          return { isValid: regex.test(value), message: invalidMessage };
+      }
+  }
+}
+
+
+export const emailValidator = (invalidMessage: string = 'Value is not a valid email.'): Validator<string> => {
+  return regexValidator(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i, invalidMessage);
 }
