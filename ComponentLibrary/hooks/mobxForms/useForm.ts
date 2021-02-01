@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useLocalStore, useObserver } from 'mobx-react'
 import { observable, computed } from 'mobx';
-import { Validator } from 'src/components/form/Validators/Validators.types';
+import { Validator } from '../validators.types';
 
 
 export interface FormFieldMessage {

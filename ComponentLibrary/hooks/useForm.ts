@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { Validator } from 'src/components/form/Validators/Validators.types';
+import { Validator } from './validators.types';
 
 /** A warning or error, along with a descriptive message for the user. These are produced by
  * the field's _validators_, and the field's _validationState_ is dedided from the current list of issues.

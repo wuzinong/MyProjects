@@ -10,6 +10,7 @@
     "dev": "cross-env NODE_ENV=development webpack-dev-server --config webpack.config.js --profile --colors"
   },
   "dependencies": {
+    "antd": "^4.7.3",
     "autoprefixer": "^7.2.6",
     "axios": "^0.18.0",
     "babel-cli": "^6.26.0",
