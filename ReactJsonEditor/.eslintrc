@@ -1,0 +1,61 @@
+{
+	"extends": [
+		"plugin:react/recommended",
+		"plugin:react-hooks/recommended",
+		"plugin:@typescript-eslint/recommended",
+		"plugin:prettier/recommended"
+	],
+	"plugins": ["react", "react-hooks", "@typescript-eslint", "prettier", "simple-import-sort", "typescript-sort-keys"],
+	"rules": {
+		"@typescript-eslint/ban-types": 0,
+		"@typescript-eslint/explicit-module-boundary-types": 0,
+		"@typescript-eslint/no-empty-function": 0,
+		"@typescript-eslint/no-empty-interface": 0,
+		"@typescript-eslint/no-explicit-any": 0,
+		"@typescript-eslint/no-unused-vars": 0,
+		"react/no-unknown-property": [1, { "ignore": ["class"] }],
+		"eqeqeq": ["warn"],
+		"linebreak-style": ["warn", "unix"],
+		"no-alert": 2,
+		"no-console": 0,
+		"no-duplicate-imports": 2,
+		"prettier/prettier": "error",
+		"react/display-name": 0,
+		"react/jsx-sort-props": "error",
+		"react/no-danger": 1,
+		"react/prop-types": 0,
+		"react-hooks/rules-of-hooks": 2,
+		"react-hooks/exhaustive-deps": 0,
+		"react/react-in-jsx-scope": "off",
+		"simple-import-sort/imports": [
+			"error",
+			{
+				"groups": [
+					["^@?\\w"], // NPM Packages
+					["^(pages|stores|global|types|utils|apis|queries)(/.*|$)"], // Alias imports
+					["^\\."] // Anything that starts with a dot
+				]
+			}
+		],
+		"typescript-sort-keys/interface": "error",
+		"typescript-sort-keys/string-enum": "error"
+	},
+	"parserOptions": {
+		"sourceType": "module",
+		"ecmaFeatures": {
+			"jsx": true
+		}
+	},
+	"env": {
+		"browser": true,
+		"jest": true,
+		"node": true,
+		"es2020": true // adds ES 2020 globals and sets ecmaVersion to 11
+	},
+	"settings": {
+		"react": {
+			"version": "detect"
+		}
+	},
+	"parser": "@typescript-eslint/parser"
+}
