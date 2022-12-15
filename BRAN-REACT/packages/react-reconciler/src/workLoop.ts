@@ -28,7 +28,7 @@ function markUpdateFromFiberToRoot(fiber: FiberNode) {
   return null;
 }
 
-function renderRoot(root: FiberNode) {
+function renderRoot(root: FiberRootNode) {
   //初始化
   prepareRefreshStack(root);
 
@@ -37,10 +37,17 @@ function renderRoot(root: FiberNode) {
       workLoop();
       break;
     } catch (e) {
-      console.warn("发生错误");
+      if (__DEV__) {
+        console.warn("发生错误");
+      }
       workInProress = null;
     }
   } while (true);
+
+  const finishedWork = root.current.alternate;
+  root.finishedWork = finishedWork;
+  //wip fiberNode树已经书中的flags执行具体的dom操作
+  commitRoot(root);
 }
 
 function workLoop() {
