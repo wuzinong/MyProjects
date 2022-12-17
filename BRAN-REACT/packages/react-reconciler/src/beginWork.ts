@@ -48,9 +48,9 @@ function reconcileChildren(wip: FiberNode, children?: ReactElementType) {
   const current = wip.alternate;
   if (current !== null) {
     //update 流程
-    wip.child = reconcileChildFibers(wip, current?.child, children);
+    wip.child = reconcileChildFibers(wip, current.child, children) ?? null;
   } else {
     //mount 流程
-    wip.child = mountChildFibers(wip, null, children);
+    wip.child = mountChildFibers(wip, null, children) ?? null;
   }
 }
