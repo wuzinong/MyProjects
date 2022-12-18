@@ -14,12 +14,12 @@ export default [
     output: [
       {
         file: `${pkgDistPath}/index.js`,
-        name: "index.js",
+        name: "ReactDOM",
         format: "umd",
       },
       {
         file: `${pkgDistPath}/client.js`,
-        name: "client.js",
+        name: "client",
         format: "umd",
       },
     ],
@@ -48,5 +48,19 @@ export default [
         }),
       }),
     ],
+  },
+  //react-test-utils
+  {
+    input: `${pkgPath}/test-utils.ts`,
+    output: [
+      {
+        file: `${pkgDistPath}/test-utils.js`,
+        name: "testUtils",
+        format: "umd",
+      },
+    ],
+    //不要打包共享层的数据，直接使用react中的共享层数据
+    external: ["react-dom", "react"],
+    plugins: [...getBaseRollupPlugins()],
   },
 ];
