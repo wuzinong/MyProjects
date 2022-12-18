@@ -68,7 +68,6 @@ function commitRoot(root: FiberRootNode) {
   const subtreeHasEffect =
     (finishedWork.subtreeFlags & MutationMask) !== NoFlags;
   const rootHasEffect = (finishedWork.flags & MutationMask) !== NoFlags;
-
   if (subtreeHasEffect || rootHasEffect) {
     //beforemutation
     //mutation    Placement
@@ -76,6 +75,7 @@ function commitRoot(root: FiberRootNode) {
     root.current = finishedWork; //切换
     //layout
   } else {
+    root.current = finishedWork; //切换
   }
 }
 function workLoop() {

@@ -31,6 +31,7 @@ function ChildReconciler(shouldTrackEffects: boolean) {
       //即current fiber === null， 为首屏渲染情况
       fiber.flags |= Placement;
     }
+    return fiber;
   }
 
   return function reconcileChildFibers(

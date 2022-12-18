@@ -5,7 +5,12 @@ import {
 } from "hostConfig";
 import { FiberNode } from "./fiber";
 import { NoFlags } from "./fiberFlags";
-import { HostComponent, HostRoot, HostText } from "./workTags";
+import {
+  FunctionComponent,
+  HostComponent,
+  HostRoot,
+  HostText,
+} from "./workTags";
 import { Container } from "hostConfig";
 
 export const completeWork = (wip: FiberNode) => {
@@ -37,8 +42,11 @@ export const completeWork = (wip: FiberNode) => {
       bubbleProperties(wip);
       return null;
     case HostRoot:
+      bubbleProperties(wip);
       return null;
-
+    case FunctionComponent:
+      bubbleProperties(wip);
+      return null;
     default:
       if (__DEV__) {
         console.warn("未处理的completeWork情况", wip);
