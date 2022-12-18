@@ -19,7 +19,7 @@
     "koa-router": "^7.1.1",
     "koa-static": "^3.0.0",
     "koa-views": "^5.2.1",
-    "mongoose": "^5.0.16",
+    "mongoose": "^5.7.5",
     "pug": "^2.0.0-rc.1",
     "session-mongoose": "^0.5.2"
   },
