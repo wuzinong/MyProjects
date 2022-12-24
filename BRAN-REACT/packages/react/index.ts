@@ -4,7 +4,7 @@ import { jsxDEV, jsx, isValidElement as isValidElementFn } from "./src/jsx";
 //React
 
 export const useState: Dispatcher["useState"] = (initialState) => {
-  const dispatcher = resolveDispatcher();
+  const dispatcher = resolveDispatcher() as Dispatcher;
   return dispatcher.useState(initialState);
 };
 

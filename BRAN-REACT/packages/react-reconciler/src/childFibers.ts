@@ -21,13 +21,14 @@ function ChildReconciler(shouldTrackEffects: boolean) {
       deletions.push(childToDelete);
     }
   }
+
   function reconcileSingleElement(
     returnFiber: FiberNode,
     currentFiber: FiberNode | null,
     element: ReactElementType
   ) {
     const key = element.key;
-    if (currentFiber !== null) {
+    work: if (currentFiber !== null) {
       //update
       if (currentFiber.key === key) {
         //key相同
@@ -40,17 +41,16 @@ function ChildReconciler(shouldTrackEffects: boolean) {
           }
           //删掉旧的
           deleteChild(returnFiber, currentFiber);
-          return;
+          break work;
         } else {
           if (__DEV__) {
             console.warn("还未实现的react类型", element);
-            return null;
+            break work;
           }
         }
       } else {
         //删掉旧的
         deleteChild(returnFiber, currentFiber);
-        return null;
       }
     }
     //根据reactelement 创建 fiber，然后返回
@@ -114,6 +114,9 @@ function ChildReconciler(shouldTrackEffects: boolean) {
       return placeSingleChild(
         reconsileSingleTextNode(returnFiber, currentFiber, newChild)
       );
+    }
+    if (currentFiber !== null) {
+      deleteChild(returnFiber, currentFiber);
     }
 
     if (__DEV__) {

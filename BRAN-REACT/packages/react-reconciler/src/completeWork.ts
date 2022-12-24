@@ -4,7 +4,7 @@ import {
   appendInitialChild,
 } from "hostConfig";
 import { FiberNode } from "./fiber";
-import { NoFlags } from "./fiberFlags";
+import { NoFlags, Update } from "./fiberFlags";
 import {
   FunctionComponent,
   HostComponent,
@@ -12,6 +12,11 @@ import {
   HostText,
 } from "./workTags";
 import { Container } from "hostConfig";
+import { updateFiberProps } from "react-dom/src/SyntheticEvent";
+
+function markUpdate(fiber: FiberNode) {
+  fiber.flags |= Update;
+}
 
 export const completeWork = (wip: FiberNode) => {
   //递归中的归
@@ -21,10 +26,15 @@ export const completeWork = (wip: FiberNode) => {
     case HostComponent:
       if (current !== null && wip.stateNode) {
         //update
+        //1. props是否变化
+        //2. 变了就打update flag
+        updateFiberProps(wip.stateNode, newProps);
+        //其他属性是否变化比如 className， style etc.
       } else {
+        //mount
         //1.构建DOM
         //const instance = createInstance(wip.type, newProps)
-        const instance = createInstance(wip.type); //模拟创建DOM
+        const instance = createInstance(wip.type, newProps); //模拟创建DOM
         //2.将DOM插入DOM树中
         appendAllChildren(instance, wip);
         wip.stateNode = instance;
@@ -34,6 +44,11 @@ export const completeWork = (wip: FiberNode) => {
     case HostText:
       if (current !== null && wip.stateNode) {
         //update
+        const oldText = current.memorizedProps.content;
+        const newText = newProps.content;
+        if (oldText !== newText) {
+          markUpdate(wip);
+        }
       } else {
         //1.构建DOM
         const instance = createTextInstance(newProps.content); //模拟创建DOM
