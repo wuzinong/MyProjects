@@ -86,7 +86,7 @@ export const createWorkInProgress = (
   wip.updateQueue = current.updateQueue;
   wip.child = current.child;
   wip.memorizedProps = current.memorizedProps;
-  wip.memorizedProps = current.memorizedState;
+  wip.memorizedState = current.memorizedState;
   wip.deletions = null;
 
   return wip;
