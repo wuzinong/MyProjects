@@ -1,0 +1,37 @@
+html,body {
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 15px;
+  height: 100%;
+}
+header{
+  background-color:#f3f5f9;
+  position:relative;
+  text-align: center;
+  h1{
+    font-size: 26px;
+  }
+ }
+
+footer{
+  background-color: #1c1b5f;
+  padding:140px 30px 60px;
+  position:relative;
+  font-size: 16px;
+  color:white;
+}
+
+ul{
+  list-style-type: none;
+}
+
+.container{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.middlePart{
+  flex:1 0 auto;
+}
+
+
+

@@ -1,0 +1,45 @@
+{
+  "name": "BTest",
+  "description": "{{description}}",
+  "version": "{{version}}",
+  "author": "{{author}}",
+  "private": true,
+  "scripts": {
+    "start": "vite --open",
+    "build": "tsc && vite build",
+    "eslint": "eslint \"src/**/*.{ts,tsx}\" --fix",
+    "prettier": "prettier --write --loglevel warn \"src/**/*.{js,json,tsx,css,less,scss,html,md}\"",
+    "lint": "eslint \"src/**/*.{ts,tsx}\"",
+    "clean-npm": "rimraf node_modules",
+    "tslint": "tsc"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^4.26.1",
+    "@tanstack/react-query-devtools": "^4.26.1",
+    "axios": "^1.3.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.9.0",
+    "sass": "1.67.0",
+    "zustand": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/node": "^18.15.2",
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "@types/react-router-dom": "5.3.3",
+    "@typescript-eslint/eslint-plugin": "^5.55.0",
+    "@typescript-eslint/parser": "^5.55.0",
+    "@vitejs/plugin-react": "^3.1.0",
+    "eslint": "^8.36.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-simple-import-sort": "^10.0.0",
+    "eslint-plugin-typescript-sort-keys": "^2.1.0",
+    "prettier": "^2.8.4",
+    "typescript": "^4.9.5",
+    "vite": "^4.1.4"
+  }
+}

@@ -1,0 +1,6 @@
+root = true                          # top-most EditorConfig file
+
+[*]
+charset = utf-8                      # Default charset
+trim_trailing_whitespace = true      # Trim end line whitespace
+insert_final_newline = true          # Inset a new line at the end of file
