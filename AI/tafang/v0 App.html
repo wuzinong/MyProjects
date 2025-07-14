@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<!-- saved from url=(0045)https://v0-tower-defense-game-phi.vercel.app/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="./v0 App_files/d6f9305aeb56d50f.css" data-precedence="next"><link rel="preload" as="script" fetchpriority="low" href="./v0 App_files/webpack-26dee044c1a0f8be.js.download"><script src="./v0 App_files/4bd1b696-d1ae06f4567d17e3.js.download" async=""></script><script src="./v0 App_files/684-b09cd19a72ef8585.js.download" async=""></script><script src="./v0 App_files/main-app-c9779a9cf3f89b5e.js.download" async=""></script><script src="./v0 App_files/889-3e82b4aac382b093.js.download" async=""></script><script src="./v0 App_files/page-b625941777d45988.js.download" async=""></script><title>v0 App</title><meta name="description" content="Created with v0"><meta name="generator" content="v0.dev"><script src="./v0 App_files/polyfills-42372ed130431b0a.js.download" nomodule=""></script></head><body><div class="flex flex-col xl:flex-row gap-6 p-4 bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 min-h-screen"><canvas width="800" height="800" style="display:none"></canvas><div class="flex-1"><div class="rounded-lg border text-card-foreground shadow-sm bg-slate-800/90 border-slate-700 backdrop-blur-sm"><div class="flex flex-col space-y-1.5 p-6 pb-3"><div class="flex justify-between items-center"><div class="font-semibold tracking-tight text-white text-xl flex items-center gap-2">🏰 魔兽塔防 - 终极挑战</div><div class="flex gap-2"><button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 text-primary-foreground h-10 px-4 py-2 bg-green-600 hover:bg-green-700"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-play w-4 h-4 mr-2"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg>开始游戏</button><button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 text-primary-foreground h-10 px-4 py-2 bg-purple-600 hover:bg-purple-700"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-gift w-4 h-4 mr-2"><rect x="3" y="8" width="18" height="4" rx="1"></rect><path d="M12 8v13"></path><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"></path><path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"></path></svg>口令兑换</button><button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border hover:text-accent-foreground h-10 px-4 py-2 border-slate-600 text-slate-300 bg-transparent hover:bg-slate-700"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-rotate-ccw w-4 h-4 mr-2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>重置</button></div></div></div><div class="p-6 pt-0"><div class="flex flex-wrap gap-3 mb-4"><div class="inline-flex items-center rounded-full border text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-red-500 text-red-400 bg-red-500/20 px-3 py-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart w-4 h-4 mr-1"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>生命: <!-- -->50</div><div class="inline-flex items-center rounded-full border text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-yellow-500 text-yellow-400 bg-yellow-500/20 px-3 py-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-coins w-4 h-4 mr-1"><circle cx="8" cy="8" r="6"></circle><path d="M18.09 10.37A6 6 0 1 1 10.34 18"></path><path d="M7 6h1v4"></path><path d="m16.71 13.88.7.71-2.82 2.82"></path></svg>金币: <!-- -->500</div><div class="inline-flex items-center rounded-full border text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-blue-500 text-blue-400 bg-blue-500/20 px-3 py-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield w-4 h-4 mr-1"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg>波次: <!-- -->0<!-- -->/100</div><div class="inline-flex items-center rounded-full border text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-purple-500 text-purple-400 bg-purple-500/20 px-3 py-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trophy w-4 h-4 mr-1"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path></svg>分数: <!-- -->0</div></div><div class="border-2 border-slate-600 rounded-lg overflow-hidden shadow-2xl"><canvas width="800" height="800" class="cursor-pointer" style="background:#0f172a"></canvas></div><div class="mt-3 text-sm text-slate-400"><p>💡 选择建筑类型，点击掉落物品拾取，点击建筑进行升级管理</p></div></div></div></div><div class="w-full xl:w-96 space-y-4"><div dir="ltr" data-orientation="horizontal" class="w-full"><div role="tablist" aria-orientation="horizontal" class="h-10 items-center justify-center rounded-md p-1 text-muted-foreground grid w-full grid-cols-3 bg-slate-800/90 border-slate-700" tabindex="0" data-orientation="horizontal" style="outline:none"><button type="button" role="tab" aria-selected="true" aria-controls="radix-«Rprb»-content-towers" data-state="active" id="radix-«Rprb»-trigger-towers" class="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:text-foreground data-[state=active]:shadow-sm data-[state=active]:bg-slate-700" tabindex="-1" data-orientation="horizontal" data-radix-collection-item="">🏗️ 建筑</button><button type="button" role="tab" aria-selected="false" aria-controls="radix-«Rprb»-content-heroes" data-state="inactive" id="radix-«Rprb»-trigger-heroes" class="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:text-foreground data-[state=active]:shadow-sm data-[state=active]:bg-slate-700" tabindex="-1" data-orientation="horizontal" data-radix-collection-item="">👑 英雄</button><button type="button" role="tab" aria-selected="false" aria-controls="radix-«Rprb»-content-stats" data-state="inactive" id="radix-«Rprb»-trigger-stats" class="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:text-foreground data-[state=active]:shadow-sm data-[state=active]:bg-slate-700" tabindex="-1" data-orientation="horizontal" data-radix-collection-item="">📊 统计</button></div><div data-state="active" data-orientation="horizontal" role="tabpanel" aria-labelledby="radix-«Rprb»-trigger-towers" id="radix-«Rprb»-content-towers" tabindex="0" class="mt-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 space-y-4" style="animation-duration:0s"><div class="rounded-lg border text-card-foreground shadow-sm bg-slate-800/90 border-slate-700 backdrop-blur-sm"><div class="flex flex-col space-y-1.5 p-6 pb-3"><div class="font-semibold tracking-tight text-white text-lg">🏗️ 防御建筑</div></div><div class="p-6 pt-0 space-y-3 max-h-96 overflow-y-auto"><button class="inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border hover:text-accent-foreground w-full justify-start p-4 h-auto transition-all bg-slate-700/50 hover:bg-slate-600/70 border-slate-600 text-slate-300"><div class="flex items-center gap-3 w-full"><div class="p-2 rounded-lg text-xl" style="background-color:#22c55e30;border:2px solid #22c55e">🏹</div><div class="text-left flex-1"><div class="font-medium text-white">精灵箭塔</div><div class="text-xs text-slate-400 flex gap-2"><span>💰<!-- -->60</span><span>⚔️<!-- -->35</span><span>📏<!-- -->3.5</span></div><div class="text-xs text-slate-500 mt-1">精准的远程攻击，射程较远</div></div></div></button><button class="inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border hover:text-accent-foreground w-full justify-start p-4 h-auto transition-all bg-slate-700/50 hover:bg-slate-600/70 border-slate-600 text-slate-300"><div class="flex items-center gap-3 w-full"><div class="p-2 rounded-lg text-xl" style="background-color:#dc262630;border:2px solid #dc2626">💣</div><div class="text-left flex-1"><div class="font-medium text-white">矮人火炮</div><div class="text-xs text-slate-400 flex gap-2"><span>💰<!-- -->120</span><span>⚔️<!-- -->80</span><span>📏<!-- -->3</span></div><div class="text-xs text-slate-500 mt-1">强力的溅射伤害</div></div></div></button><button class="inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border hover:text-accent-foreground w-full justify-start p-4 h-auto transition-all bg-slate-700/50 hover:bg-slate-600/70 border-slate-600 text-slate-300"><div class="flex items-center gap-3 w-full"><div class="p-2 rounded-lg text-xl" style="background-color:#8b5cf630;border:2px solid #8b5cf6">🔮</div><div class="text-left flex-1"><div class="font-medium text-white">法师塔</div><div class="text-xs text-slate-400 flex gap-2"><span>💰<!-- -->100</span><span>⚔️<!-- -->50</span><span>📏<!-- -->2.8</span></div><div class="text-xs text-slate-500 mt-1">魔法攻击，无视护甲</div></div></div></button><button class="inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border hover:text-accent-foreground w-full justify-start p-4 h-auto transition-all bg-slate-700/50 hover:bg-slate-600/70 border-slate-600 text-slate-300"><div class="flex items-center gap-3 w-full"><div class="p-2 rounded-lg text-xl" style="background-color:#06b6d430;border:2px solid #06b6d4">❄️</div><div class="text-left flex-1"><div class="font-medium text-white">冰霜要塞</div><div class="text-xs text-slate-400 flex gap-2"><span>💰<!-- -->90</span><span>⚔️<!-- -->25</span><span>📏<!-- -->2.5</span></div><div class="text-xs text-slate-500 mt-1">减缓敌人移动速度</div></div></div></button><button class="inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border hover:text-accent-foreground w-full justify-start p-4 h-auto transition-all bg-slate-700/50 hover:bg-slate-600/70 border-slate-600 text-slate-300"><div class="flex items-center gap-3 w-full"><div class="p-2 rounded-lg text-xl" style="background-color:#eab30830;border:2px solid #eab308">⚡</div><div class="text-left flex-1"><div class="font-medium text-white">雷电神殿</div><div class="text-xs text-slate-400 flex gap-2"><span>💰<!-- -->150</span><span>⚔️<!-- -->60</span><span>📏<!-- -->3.2</span></div><div class="text-xs text-slate-500 mt-1">闪电链攻击</div></div></div></button><button class="inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border hover:text-accent-foreground w-full justify-start p-4 h-auto transition-all bg-slate-700/50 hover:bg-slate-600/70 border-slate-600 text-slate-300"><div class="flex items-center gap-3 w-full"><div class="p-2 rounded-lg text-xl" style="background-color:#84cc1630;border:2px solid #84cc16">☠️</div><div class="text-left flex-1"><div class="font-medium text-white">毒液巢穴</div><div class="text-xs text-slate-400 flex gap-2"><span>💰<!-- -->80</span><span>⚔️<!-- -->20</span><span>📏<!-- -->2.2</span></div><div class="text-xs text-slate-500 mt-1">持续毒伤</div></div></div></button><button class="inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border hover:text-accent-foreground w-full justify-start p-4 h-auto transition-all bg-slate-700/50 hover:bg-slate-600/70 border-slate-600 text-slate-300"><div class="flex items-center gap-3 w-full"><div class="p-2 rounded-lg text-xl" style="background-color:#ef444430;border:2px solid #ef4444">🔴</div><div class="text-left flex-1"><div class="font-medium text-white">激光炮台</div><div class="text-xs text-slate-400 flex gap-2"><span>💰<!-- -->200</span><span>⚔️<!-- -->100</span><span>📏<!-- -->4</span></div><div class="text-xs text-slate-500 mt-1">激光穿透攻击，可穿透多个敌人</div></div></div></button><button class="inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border hover:text-accent-foreground w-full justify-start p-4 h-auto transition-all bg-slate-700/50 hover:bg-slate-600/70 border-slate-600 text-slate-300"><div class="flex items-center gap-3 w-full"><div class="p-2 rounded-lg text-xl" style="background-color:#f9731630;border:2px solid #f97316">🚀</div><div class="text-left flex-1"><div class="font-medium text-white">导弹发射器</div><div class="text-xs text-slate-400 flex gap-2"><span>💰<!-- -->180</span><span>⚔️<!-- -->120</span><span>📏<!-- -->5</span></div><div class="text-xs text-slate-500 mt-1">远程导弹，大范围爆炸</div></div></div></button><button class="inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border hover:text-accent-foreground w-full justify-start p-4 h-auto transition-all bg-slate-700/50 hover:bg-slate-600/70 border-slate-600 text-slate-300"><div class="flex items-center gap-3 w-full"><div class="p-2 rounded-lg text-xl" style="background-color:#3b82f630;border:2px solid #3b82f6">🛡️</div><div class="text-left flex-1"><div class="font-medium text-white">能量屏障</div><div class="text-xs text-slate-400 flex gap-2"><span>💰<!-- -->150</span></div><div class="text-xs text-slate-500 mt-1">阻挡敌人前进，可被摧毁</div></div></div></button><button class="inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border hover:text-accent-foreground w-full justify-start p-4 h-auto transition-all bg-slate-700/50 hover:bg-slate-600/70 border-slate-600 text-slate-300"><div class="flex items-center gap-3 w-full"><div class="p-2 rounded-lg text-xl" style="background-color:#a855f730;border:2px solid #a855f7">✨</div><div class="text-left flex-1"><div class="font-medium text-white">增益神坛</div><div class="text-xs text-slate-400 flex gap-2"><span>💰<!-- -->120</span><span>📏<!-- -->3</span></div><div class="text-xs text-slate-500 mt-1">增强范围内建筑50%攻击力</div></div></div></button><button class="inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border hover:text-accent-foreground w-full justify-start p-4 h-auto transition-all bg-slate-700/50 hover:bg-slate-600/70 border-slate-600 text-slate-300"><div class="flex items-center gap-3 w-full"><div class="p-2 rounded-lg text-xl" style="background-color:#78716c30;border:2px solid #78716c">💥</div><div class="text-left flex-1"><div class="font-medium text-white">地雷阵</div><div class="text-xs text-slate-400 flex gap-2"><span>💰<!-- -->40</span><span>⚔️<!-- -->150</span><span>📏<!-- -->0.5</span></div><div class="text-xs text-slate-500 mt-1">一次性爆炸，对接近敌人造成巨大伤害</div></div></div></button><button class="inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border hover:text-accent-foreground w-full justify-start p-4 h-auto transition-all bg-slate-700/50 hover:bg-slate-600/70 border-slate-600 text-slate-300"><div class="flex items-center gap-3 w-full"><div class="p-2 rounded-lg text-xl" style="background-color:#7c3aed30;border:2px solid #7c3aed">👻</div><div class="text-left flex-1"><div class="font-medium text-white">召唤祭坛</div><div class="text-xs text-slate-400 flex gap-2"><span>💰<!-- -->250</span><span>📏<!-- -->2</span></div><div class="text-xs text-slate-500 mt-1">定期召唤友军单位协助战斗</div></div></div></button><button class="inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border hover:text-accent-foreground w-full justify-start p-4 h-auto transition-all bg-slate-700/50 hover:bg-slate-600/70 border-slate-600 text-slate-300"><div class="flex items-center gap-3 w-full"><div class="p-2 rounded-lg text-xl" style="background-color:#06b6d430;border:2px solid #06b6d4">⚡</div><div class="text-left flex-1"><div class="font-medium text-white">特斯拉线圈</div><div class="text-xs text-slate-400 flex gap-2"><span>💰<!-- -->300</span><span>⚔️<!-- -->150</span><span>📏<!-- -->2.5</span></div><div class="text-xs text-slate-500 mt-1">强力电击，可连锁攻击多个敌人</div></div></div></button><button class="inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border hover:text-accent-foreground w-full justify-start p-4 h-auto transition-all bg-slate-700/50 hover:bg-slate-600/70 border-slate-600 text-slate-300"><div class="flex items-center gap-3 w-full"><div class="p-2 rounded-lg text-xl" style="background-color:#ec489930;border:2px solid #ec4899">🌟</div><div class="text-left flex-1"><div class="font-medium text-white">等离子炮</div><div class="text-xs text-slate-400 flex gap-2"><span>💰<!-- -->400</span><span>⚔️<!-- -->200</span><span>📏<!-- -->4.5</span></div><div class="text-xs text-slate-500 mt-1">等离子束穿透所有敌人</div></div></div></button><button class="inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border hover:text-accent-foreground w-full justify-start p-4 h-auto transition-all bg-slate-700/50 hover:bg-slate-600/70 border-slate-600 text-slate-300"><div class="flex items-center gap-3 w-full"><div class="p-2 rounded-lg text-xl" style="background-color:#7c2d1230;border:2px solid #7c2d12">🌀</div><div class="text-left flex-1"><div class="font-medium text-white">重力井</div><div class="text-xs text-slate-400 flex gap-2"><span>💰<!-- -->350</span><span>📏<!-- -->3</span></div><div class="text-xs text-slate-500 mt-1">减缓并拉拽范围内的敌人</div></div></div></button><button class="inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border hover:text-accent-foreground w-full justify-start p-4 h-auto transition-all bg-slate-700/50 hover:bg-slate-600/70 border-slate-600 text-slate-300"><div class="flex items-center gap-3 w-full"><div class="p-2 rounded-lg text-xl" style="background-color:#581c8730;border:2px solid #581c87">⏰</div><div class="text-left flex-1"><div class="font-medium text-white">时间扭曲器</div><div class="text-xs text-slate-400 flex gap-2"><span>💰<!-- -->500</span><span>📏<!-- -->2.5</span></div><div class="text-xs text-slate-500 mt-1">减缓时间流速，敌人移动极慢</div></div></div></button><button class="inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:text-accent-foreground w-full justify-start p-4 h-auto transition-all opacity-50 cursor-not-allowed" disabled=""><div class="flex items-center gap-3 w-full"><div class="p-2 rounded-lg text-xl" style="background-color:#dc262630;border:2px solid #dc2626">☢️</div><div class="text-left flex-1"><div class="font-medium text-white">核弹发射器</div><div class="text-xs text-slate-400 flex gap-2"><span>💰<!-- -->800</span><span>⚔️<!-- -->500</span><span>📏<!-- -->6</span></div><div class="text-xs text-slate-500 mt-1">终极武器，巨大范围核爆</div></div></div></button><button class="inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border hover:text-accent-foreground w-full justify-start p-4 h-auto transition-all bg-slate-700/50 hover:bg-slate-600/70 border-slate-600 text-slate-300"><div class="flex items-center gap-3 w-full"><div class="p-2 rounded-lg text-xl" style="background-color:#22c55e30;border:2px solid #22c55e">💚</div><div class="text-left flex-1"><div class="font-medium text-white">治疗神殿</div><div class="text-xs text-slate-400 flex gap-2"><span>💰<!-- -->200</span><span>📏<!-- -->3</span></div><div class="text-xs text-slate-500 mt-1">治疗范围内的友军和建筑</div></div></div></button><button class="inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:text-accent-foreground w-full justify-start p-4 h-auto transition-all opacity-50 cursor-not-allowed" disabled=""><div class="flex items-center gap-3 w-full"><div class="p-2 rounded-lg text-xl" style="background-color:#8b5cf630;border:2px solid #8b5cf6">🌀</div><div class="text-left flex-1"><div class="font-medium text-white">传送门</div><div class="text-xs text-slate-400 flex gap-2"><span>💰<!-- -->600</span><span>📏<!-- -->1</span></div><div class="text-xs text-slate-500 mt-1">将敌人传送回起点</div></div></div></button><button class="inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border hover:text-accent-foreground w-full justify-start p-4 h-auto transition-all bg-slate-700/50 hover:bg-slate-600/70 border-slate-600 text-slate-300"><div class="flex items-center gap-3 w-full"><div class="p-2 rounded-lg text-xl" style="background-color:#ec489930;border:2px solid #ec4899">🧠</div><div class="text-left flex-1"><div class="font-medium text-white">心灵控制塔</div><div class="text-xs text-slate-400 flex gap-2"><span>💰<!-- -->450</span><span>📏<!-- -->2</span></div><div class="text-xs text-slate-500 mt-1">控制敌人为我方作战</div></div></div></button></div></div><div class="rounded-lg border text-card-foreground shadow-sm bg-slate-800/90 border-slate-700 backdrop-blur-sm"><div class="flex flex-col space-y-1.5 p-6 pb-3"><div class="font-semibold tracking-tight text-white text-lg">⚔️ 战斗控制</div></div><div class="p-6 pt-0"><div class="space-y-4"><div class="flex justify-between items-center text-slate-300"><span>当前波次:</span><div class="inline-flex items-center rounded-full border text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent hover:bg-primary/80 bg-blue-600 text-white px-3 py-1">0<!-- -->/100</div></div><button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 text-primary-foreground h-10 px-4 w-full bg-green-600 hover:bg-green-700 disabled:bg-slate-600 py-3" disabled="">⚔️ 开始下一波</button><div class="text-xs text-slate-400 text-center bg-slate-700/50 p-2 rounded">下一波奖励: +<!-- -->51<!-- --> 💰<br>难度倍数: x<!-- -->1.0</div></div></div></div></div><div data-state="inactive" data-orientation="horizontal" role="tabpanel" aria-labelledby="radix-«Rprb»-trigger-heroes" hidden="" id="radix-«Rprb»-content-heroes" tabindex="0" class="mt-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 space-y-4"></div><div data-state="inactive" data-orientation="horizontal" role="tabpanel" aria-labelledby="radix-«Rprb»-trigger-stats" hidden="" id="radix-«Rprb»-content-stats" tabindex="0" class="mt-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 space-y-4"></div></div></div></div><div><div id="v0-built-with-button-16e1c7b5-5124-4287-bbe8-4e8b684ff6b2" style="
+border: 1px solid hsl(0deg 0% 100% / 12%);
+position: fixed;
+bottom: 24px;
+right: 24px;
+z-index: 1000;
+background: #121212;
+color: white;
+padding: 8px 12px;
+border-radius: 8px;
+font-weight: 400;
+font-size: 14px;
+box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+letter-spacing: 0.02em;
+transition: all 0.2s;
+display: flex;
+align-items: center;
+gap: 4px;
+font-family: -apple-system, BlinkMacSystemFont, &#39;Segoe UI&#39;, Roboto, sans-serif;
+">
+<a href="https://v0.dev/chat/api/open/built-with-v0/b_E3bLOIPZeSL" target="_blank" rel="noopener noreferrer" style="
+    color: inherit;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  ">
+  Built with
+  <svg fill="currentColor" viewBox="0 0 40 20" xmlns="http://www.w3.org/2000/svg" style="width: 20px; height: 20px;">
+    <path d="M23.3919 0H32.9188C36.7819 0 39.9136 3.13165 39.9136 6.99475V16.0805H36.0006V6.99475C36.0006 6.90167 35.9969 6.80925 35.9898 6.71766L26.4628 16.079C26.4949 16.08 26.5272 16.0805 26.5595 16.0805H36.0006V19.7762H26.5595C22.6964 19.7762 19.4788 16.6139 19.4788 12.7508V3.68923H23.3919V12.7508C23.3919 12.9253 23.4054 13.0977 23.4316 13.2668L33.1682 3.6995C33.0861 3.6927 33.003 3.68923 32.9188 3.68923H23.3919V0Z"></path>
+    <path d="M13.7688 19.0956L0 3.68759H5.53933L13.6231 12.7337V3.68759H17.7535V17.5746C17.7535 19.6705 15.1654 20.6584 13.7688 19.0956Z"></path>
+  </svg>
+</a>
+
+<button onclick="document.getElementById(&#39;v0-built-with-button-16e1c7b5-5124-4287-bbe8-4e8b684ff6b2&#39;).style.display=&#39;none&#39;" onmouseenter="this.style.opacity=&#39;1&#39;" onmouseleave="this.style.opacity=&#39;0.7&#39;" style="
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 2px;
+    margin-left: 4px;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+    transform: translateZ(0);
+  " aria-label="Close">
+  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 6L6 18M6 6l12 12"></path>
+  </svg>
+</button>
+
+<span style="
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+">
+  v0
+</span>
+</div></div><script src="./v0 App_files/webpack-26dee044c1a0f8be.js.download" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:\"$Sreact.fragment\"\n2:I[7555,[],\"\"]\n3:I[1295,[],\"\"]\n5:I[4042,[\"889\",\"static/chunks/889-3e82b4aac382b093.js\",\"974\",\"static/chunks/app/page-b625941777d45988.js\"],\"default\"]\n6:I[9665,[],\"OutletBoundary\"]\n9:I[9665,[],\"ViewportBoundary\"]\nb:I[9665,[],\"MetadataBoundary\"]\nd:I[6614,[],\"\"]\n:HL[\"/_next/static/css/d6f9305aeb56d50f.css\",\"style\"]\n4:T945,"])</script><script>self.__next_f.push([1,"\u003cdiv id=\"v0-built-with-button-16e1c7b5-5124-4287-bbe8-4e8b684ff6b2\" style=\"\nborder: 1px solid hsl(0deg 0% 100% / 12%);\nposition: fixed;\nbottom: 24px;\nright: 24px;\nz-index: 1000;\nbackground: #121212;\ncolor: white;\npadding: 8px 12px;\nborder-radius: 8px;\nfont-weight: 400;\nfont-size: 14px;\nbox-shadow: 0 2px 8px rgba(0,0,0,0.12);\nletter-spacing: 0.02em;\ntransition: all 0.2s;\ndisplay: flex;\nalign-items: center;\ngap: 4px;\nfont-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n\"\u003e\n\u003ca\n  href=\"https://v0.dev/chat/api/open/built-with-v0/b_E3bLOIPZeSL\"\n  target=\"_blank\"\n  rel=\"noopener noreferrer\"\n  style=\"\n    color: inherit;\n    text-decoration: none;\n    display: flex;\n    align-items: center;\n    gap: 4px;\n  \"\n\u003e\n  Built with\n  \u003csvg\n    fill=\"currentColor\"\n    viewBox=\"0 0 40 20\"\n    xmlns=\"http://www.w3.org/2000/svg\"\n    style=\"width: 20px; height: 20px;\"\n  \u003e\n    \u003cpath d=\"M23.3919 0H32.9188C36.7819 0 39.9136 3.13165 39.9136 6.99475V16.0805H36.0006V6.99475C36.0006 6.90167 35.9969 6.80925 35.9898 6.71766L26.4628 16.079C26.4949 16.08 26.5272 16.0805 26.5595 16.0805H36.0006V19.7762H26.5595C22.6964 19.7762 19.4788 16.6139 19.4788 12.7508V3.68923H23.3919V12.7508C23.3919 12.9253 23.4054 13.0977 23.4316 13.2668L33.1682 3.6995C33.0861 3.6927 33.003 3.68923 32.9188 3.68923H23.3919V0Z\" /\u003e\n    \u003cpath d=\"M13.7688 19.0956L0 3.68759H5.53933L13.6231 12.7337V3.68759H17.7535V17.5746C17.7535 19.6705 15.1654 20.6584 13.7688 19.0956Z\" /\u003e\n  \u003c/svg\u003e\n\u003c/a\u003e\n\n\u003cbutton\n  onclick=\"document.getElementById('v0-built-with-button-16e1c7b5-5124-4287-bbe8-4e8b684ff6b2').style.display='none'\"\n  onmouseenter=\"this.style.opacity='1'\"\n  onmouseleave=\"this.style.opacity='0.7'\"\n  style=\"\n    background: none;\n    border: none;\n    color: white;\n    cursor: pointer;\n    padding: 2px;\n    margin-left: 4px;\n    border-radius: 2px;\n    display: flex;\n    align-items: center;\n    opacity: 0.7;\n    transition: opacity 0.2s;\n    transform: translateZ(0);\n  \"\n  aria-label=\"Close\"\n\u003e\n  \u003csvg width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"\u003e\n    \u003cpath d=\"M18 6L6 18M6 6l12 12\"/\u003e\n  \u003c/svg\u003e\n\u003c/button\u003e\n\n\u003cspan style=\"\n  position: absolute;\n  width: 1px;\n  height: 1px;\n  padding: 0;\n  margin: -1px;\n  overflow: hidden;\n  clip: rect(0, 0, 0, 0);\n  white-space: nowrap;\n\"\u003e\n  v0\n\u003c/span\u003e\n\u003c/div\u003e"])</script><script>self.__next_f.push([1,"0:{\"P\":null,\"b\":\"5PxlxhF4Jri-lZfU0Vqkm\",\"p\":\"\",\"c\":[\"\",\"\"],\"i\":false,\"f\":[[[\"\",{\"children\":[\"__PAGE__\",{}]},\"$undefined\",\"$undefined\",true],[\"\",[\"$\",\"$1\",\"c\",{\"children\":[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d6f9305aeb56d50f.css\",\"precedence\":\"next\",\"crossOrigin\":\"$undefined\",\"nonce\":\"$undefined\"}]],[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"children\":[[\"$\",\"$L2\",null,{\"parallelRouterKey\":\"children\",\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L3\",null,{}],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":[[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":404}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],[]],\"forbidden\":\"$undefined\",\"unauthorized\":\"$undefined\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$4\"}}]]}]}]]}],{\"children\":[\"__PAGE__\",[\"$\",\"$1\",\"c\",{\"children\":[[\"$\",\"$L5\",null,{}],\"$undefined\",null,[\"$\",\"$L6\",null,{\"children\":[\"$L7\",\"$L8\",null]}]]}],{},null,false]},null,false],[\"$\",\"$1\",\"h\",{\"children\":[null,[\"$\",\"$1\",\"AIp70aA_a2kiMegrl2RJV\",{\"children\":[[\"$\",\"$L9\",null,{\"children\":\"$La\"}],null]}],[\"$\",\"$Lb\",null,{\"children\":\"$Lc\"}]]}],false]],\"m\":\"$undefined\",\"G\":[\"$d\",\"$undefined\"],\"s\":false,\"S\":true}\n"])</script><script>self.__next_f.push([1,"a:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"meta\",\"1\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}]]\n7:null\n"])</script><script>self.__next_f.push([1,"8:null\nc:[[\"$\",\"title\",\"0\",{\"children\":\"v0 App\"}],[\"$\",\"meta\",\"1\",{\"name\":\"description\",\"content\":\"Created with v0\"}],[\"$\",\"meta\",\"2\",{\"name\":\"generator\",\"content\":\"v0.dev\"}]]\n"])</script><next-route-announcer style="position: absolute;"><template shadowrootmode="open"><div aria-live="assertive" id="__next-route-announcer__" role="alert" style="position: absolute; border: 0px; height: 1px; margin: -1px; padding: 0px; width: 1px; clip: rect(0px, 0px, 0px, 0px); overflow: hidden; white-space: nowrap; overflow-wrap: normal;"></div></template></next-route-announcer></body><rq-implicit-test-rule-widget class="rq-element" draggable="true" style="display: none;"><template shadowrootmode="closed">
+    <style>:host {
+  position: fixed !important;
+  z-index: 2147483647 !important;
+  top: 16px;
+  right: 16px;
+}
+
+#container {
+  border-radius: 1rem;
+  padding: 12px 1rem;
+  display: flex;
+  flex-direction: column;
+  color: #fff;
+  font-family: system-ui;
+  background: #1a1a1a;
+  box-shadow: 0px 0px 0px 4px rgba(255, 255, 255, 0.16), 0px 16px 32px 0px rgba(0, 0, 0, 0.24);
+  border: 1px solid #5c5b5b;
+  cursor: move;
+  width: 420px;
+  transition: all 0.2s;
+  position: relative;
+  overflow-x: hidden;
+}
+
+#container.minimized {
+  width: fit-content;
+  height: 56px;
+  padding: 6px;
+  border-radius: 20px;
+}
+
+#container.minimized #test-rule-container,
+#container.minimized #heading-container,
+#container.minimized #info-container {
+  display: none;
+}
+
+#rule-name {
+  font-size: 12px;
+  margin: 4px 0;
+  font-weight: bolder;
+  line-height: 1.4;
+  max-width: 290px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#heading-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 4px;
+}
+
+#logo-container {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+#heading-container div {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+}
+
+#actions-container {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+}
+
+#actions-container button {
+  width: 32px;
+  height: 32px;
+  background: none;
+  border: none;
+  color: #fff;
+  transition: all 0.2s;
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+#actions-container #close-button svg {
+  width: 10px;
+  height: 10px;
+}
+
+#actions-container button:hover {
+  background: #383838;
+}
+
+#explicit-widget-container {
+  background: #282828;
+  border-radius: 8px;
+  padding: 12px;
+  margin-top: 8px;
+}
+
+#implicit-widget-container {
+  padding: 0 4px;
+  margin-top: 8px;
+}
+
+#rule-status-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#test-rule-details {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+}
+
+#info-container {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+  padding: 8px 0px;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+#info-icon {
+  align-self: flex-start;
+  width: 16px;
+  height: 16px;
+  color: #bbb;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#info-text {
+  color: #fff;
+  font-size: 11px;
+  line-height: 17px;
+}
+
+#info-text .link {
+  color: #639ff9;
+  font-size: inherit;
+  line-height: 17px;
+  text-decoration-line: underline;
+  text-decoration-style: solid;
+}
+
+#rule-status-comment {
+  align-self: center;
+}
+
+#heading-logo {
+  height: 16px;
+  width: 16px;
+}
+
+#logo-text {
+  color: #fff;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+#view-result-btn {
+  all: unset;
+  background: #1e69ff;
+  color: #fff;
+  border-radius: 4px;
+  padding: 4px 12px;
+  font-size: 12px;
+}
+
+#view-result-btn:hover {
+  cursor: pointer;
+  border-color: #0f4cd9;
+  background: #0f4cd9;
+}
+
+#rule-status {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  gap: 4px;
+}
+
+#rule-applied-status,
+#rule-not-applied-status {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  letter-spacing: 1px;
+  font-size: 10px;
+  font-weight: 500;
+  margin-top: -3px;
+}
+
+#rule-applied-status {
+  color: #28c07a;
+}
+
+#rule-not-applied-status {
+  color: #e09400;
+}
+
+#minimized-details {
+  display: none;
+  pointer-events: none;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 3px;
+}
+
+#minimized-details.visible {
+  display: flex;
+  pointer-events: auto;
+}
+
+#minimized-logo svg {
+  height: 16px;
+  width: 16px;
+}
+
+#test-rule-minimized-btn {
+  padding: 0;
+  background: transparent;
+  border: none;
+}
+
+#test-rule-minimized-btn span {
+  padding: 6px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+#test-rule-minimized-btn span svg {
+  height: 20px;
+  width: 20px;
+}
+
+.secondary-text {
+  font-size: 11px;
+  color: #b0b0b5b3;
+}
+
+.hidden {
+  display: none !important;
+}
+
+a {
+  color: #9370db;
+}
+
+.warning {
+  background: #5c3111;
+}
+
+.success {
+  background: #104b2f;
+}
+
+#applied-rules-list {
+  margin-top: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+#applied-rules-list::-webkit-scrollbar {
+  width: 8px;
+  background: transparent;
+}
+
+#applied-rules-list::-webkit-scrollbar-thumb {
+  background: #353535;
+  border-radius: 8px;
+}
+
+#applied-rules-list-header {
+  font-size: 13px;
+  color: #fff;
+  font-weight: 500;
+}
+
+.applied-rule-list-item {
+  border-radius: 8px;
+  background: #282828;
+  padding: 12px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.25px;
+  margin-top: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.applied-rule-list-item:hover {
+  background: #383838;
+}
+
+.applied-rule-list-item:hover .applied-rule-arrow-icon {
+  opacity: 1;
+}
+
+.applied-rule-list-item:first-child {
+  margin-top: 0;
+}
+
+.applied-rule-item-details {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.applied-rule-icon {
+  align-self: center;
+}
+
+.applied-rule-icon svg {
+  width: 14px;
+  height: 14px;
+  position: relative;
+  top: 2px;
+}
+
+.applied-rule-arrow-icon {
+  transform: scale(1.2);
+  align-self: center;
+  transition: 0.2s all;
+  opacity: 0;
+}
+
+.applied-rule-name {
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#settings-button {
+  position: relative;
+}
+
+#settings-button[data-tooltip]:hover::after {
+  content: attr(data-tooltip);
+
+  position: absolute;
+  z-index: 1;
+  right: 0px;
+  top: 34px;
+  width: 158px;
+  max-width: 232px;
+  padding: 6px 12px;
+  color: #fff;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%;
+  border-radius: 4px;
+  background: #000;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.16);
+}
+
+.test-rule-widget-progress-bar {
+  height: 6px;
+  background: #3c7ff3;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+
+  animation-name: progressBar;
+  animation-delay: 50ms;
+  animation-direction: normal;
+  animation-duration: 5s;
+  animation-fill-mode: forwards;
+  animation-play-state: running;
+  animation-timing-function: linear;
+}
+
+#container:hover .test-rule-widget-progress-bar {
+  animation-play-state: paused;
+}
+
+@keyframes progressBar {
+  from {
+    width: 100%;
+  }
+
+  to {
+    width: 0%;
+  }
+}
+</style>
+    <div id="container">
+        <div id="minimized-details">
+            <div id="minimized-logo"><svg width="251" height="251" viewBox="0 0 251 251" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M124.408 245.868V188.238C104.504 188.529 82.7544 186.943 60.1611 182.339L60.0545 182.235V216.575C60.0545 223.437 60.7942 228.978 62.2736 233.201C63.7529 237.423 65.8487 240.722 68.5609 243.097C71.5197 245.472 75.0949 247.055 79.2864 247.847C83.7246 248.903 88.7791 249.43 94.4501 249.43C100.121 249.43 105.792 249.035 111.463 248.243C117.381 247.451 121.695 246.66 124.408 245.868Z" fill="white"></path>
+<path d="M124.408 169.866H127.147C152.451 169.356 180.05 165.599 203.571 154.848L203.554 154.824C214.403 148.49 223.773 139.518 231.663 127.906C239.553 116.295 243.498 102.308 243.498 85.9467C243.498 59.821 234.868 39.1052 217.609 23.7992C200.349 8.4932 174.707 0.84021 140.681 0.84021C128.106 0.84021 116.271 1.6319 105.176 3.21527C94.0803 4.53475 84.341 6.77789 75.9578 9.94465C71.0266 11.7919 67.0816 14.2989 64.1228 17.4657C61.4106 20.3685 60.0545 24.5909 60.0545 30.1327V96.5095C71.3817 98.242 114.382 101.954 124.038 101.543V57.8418C126.75 57.314 129.216 56.9182 131.435 56.6543C133.654 56.3904 136.612 56.2584 140.311 56.2584C153.379 56.2584 162.871 58.8974 168.789 64.1753C174.953 69.1893 178.035 76.7103 178.035 86.7384C178.035 96.7664 175.323 104.419 169.899 109.697C164.474 114.711 157.077 117.218 147.708 117.218H124.038V117.008C123.974 117.109 123.915 117.21 123.861 117.313C87.9797 115.588 66.1922 114.066 60.0404 113.204L60.0399 113.194L42.9936 111.502C41.4373 111.348 40.2998 109.961 40.4529 108.404L41.3754 99.0229C41.6423 96.3086 38.2948 94.8199 36.4615 96.8375L0.888601 135.986C-0.0859492 137.058 -0.0924867 138.694 0.873451 139.776L29.4492 171.786C31.0921 173.627 34.1369 172.635 34.3782 170.181L35.0406 163.445C35.2015 161.809 36.7162 160.655 38.336 160.934L60.0545 164.671V164.802L60.1611 164.695C73.4489 166.933 97.4782 170.207 124.408 169.908V169.866Z" fill="white"></path>
+<path d="M175.076 223.305L153.644 186.439C181.486 183.412 203.494 177.208 215.783 172.246C220.496 178.807 225.172 185.139 229.813 191.241C238.443 202.589 245.224 212.881 250.155 222.117C247.689 231.354 243.128 238.479 236.471 243.493C230.06 248.243 222.786 250.618 214.65 250.618C209.225 250.618 204.541 249.958 200.596 248.639C196.651 247.319 193.199 245.472 190.24 243.097C187.281 240.722 184.569 237.819 182.103 234.388C179.638 230.958 177.295 227.263 175.076 223.305Z" fill="white"></path>
+</svg></div>
+            <button id="test-rule-minimized-btn"><span class="success"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_2834_1705" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="16" height="16">
+<rect width="16" height="16" fill="#D9D9D9"></rect>
+</mask>
+<g mask="url(#mask0_2834_1705)">
+<path d="M7.13333 10.4833L11.1667 6.46667L10.2 5.5L7.13333 8.56667L5.76667 7.2L4.81667 8.16667L7.13333 10.4833ZM8 14.5333C7.1 14.5333 6.25 14.3667 5.45 14.0333C4.66111 13.6889 3.96667 13.2222 3.36667 12.6333C2.77778 12.0333 2.31111 11.3389 1.96667 10.55C1.63333 9.75 1.46667 8.9 1.46667 8C1.46667 7.08889 1.63333 6.23889 1.96667 5.45C2.31111 4.66111 2.77778 3.97222 3.36667 3.38333C3.96667 2.78333 4.66111 2.31667 5.45 1.98333C6.25 1.63889 7.1 1.46667 8 1.46667C8.91111 1.46667 9.76111 1.63889 10.55 1.98333C11.3389 2.31667 12.0278 2.78333 12.6167 3.38333C13.2167 3.97222 13.6833 4.66111 14.0167 5.45C14.3611 6.23889 14.5333 7.08889 14.5333 8C14.5333 8.9 14.3611 9.75 14.0167 10.55C13.6833 11.3389 13.2167 12.0333 12.6167 12.6333C12.0278 13.2222 11.3389 13.6889 10.55 14.0333C9.76111 14.3667 8.91111 14.5333 8 14.5333ZM8 13.15C9.43333 13.15 10.65 12.65 11.65 11.65C12.65 10.65 13.15 9.43333 13.15 8C13.15 6.56667 12.65 5.35 11.65 4.35C10.65 3.35 9.43333 2.85 8 2.85C6.56667 2.85 5.35 3.35 4.35 4.35C3.35 5.35 2.85 6.56667 2.85 8C2.85 9.43333 3.35 10.65 4.35 11.65C5.35 12.65 6.56667 13.15 8 13.15Z" fill="#28C07A"></path>
+</g>
+</svg></span></button>
+        </div>
+        <div id="heading-container">
+            <div id="logo-container">
+                <span id="heading-logo"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+  <path d="M7.98439 15.6591V11.9822C6.71565 12.0008 5.32921 11.8996 3.88899 11.6058L3.8822 11.5992V13.7902C3.8822 14.2279 3.92935 14.5815 4.02366 14.8509C4.11796 15.1203 4.25156 15.3307 4.42445 15.4823C4.61305 15.6338 4.84095 15.7348 5.10814 15.7853C5.39105 15.8527 5.71325 15.8864 6.07475 15.8864C6.43625 15.8864 6.79774 15.8611 7.15924 15.8106C7.53645 15.7601 7.8115 15.7096 7.98439 15.6591Z" fill="url(#paint0_linear_2826_2722)"></path>
+  <path d="M7.98439 10.81H8.15909C9.77207 10.7775 11.5313 10.5378 13.0307 9.85185L13.0296 9.85029C13.7212 9.4462 14.3184 8.87374 14.8214 8.13291C15.3243 7.39208 15.5758 6.49972 15.5758 5.45582C15.5758 3.78896 15.0257 2.46725 13.9255 1.4907C12.8253 0.514153 11.1907 0.0258789 9.02172 0.0258789C8.22015 0.0258789 7.46572 0.0763902 6.75845 0.177412C6.05117 0.261597 5.43035 0.404713 4.89596 0.606758C4.58162 0.724617 4.33014 0.884567 4.14154 1.08661C3.96865 1.27182 3.8822 1.54121 3.8822 1.89479V6.12974C4.60426 6.24028 7.34528 6.47711 7.96081 6.45089V3.66268C8.1337 3.629 8.29087 3.60375 8.43233 3.58691C8.57378 3.57008 8.76239 3.56166 8.99815 3.56166C9.83116 3.56166 10.4363 3.73003 10.8135 4.06677C11.2064 4.38667 11.4029 4.86653 11.4029 5.50633C11.4029 6.14614 11.23 6.63442 10.8842 6.97116C10.5384 7.29106 10.0669 7.45101 9.46966 7.45101H7.96081V7.43758C7.95673 7.44399 7.95296 7.45048 7.94952 7.45705C5.66229 7.347 4.27345 7.24991 3.8813 7.19488L3.88127 7.19426L2.79467 7.08629C2.69546 7.07644 2.62295 6.98802 2.63269 6.88881L2.69152 6.29001C2.70853 6.11695 2.49506 6.02204 2.37823 6.15072L0.11053 8.64856C0.0484818 8.71691 0.0480731 8.82113 0.109583 8.89009L1.93123 10.9325C2.03594 11.0499 2.2301 10.9867 2.24547 10.8302L2.28772 10.4002C2.29797 10.2959 2.39452 10.2223 2.49778 10.2401L3.8822 10.4785V10.4869L3.88899 10.4801C4.73603 10.6229 6.26777 10.8318 7.98439 10.8127V10.81Z" fill="url(#paint1_linear_2826_2722)"></path>
+  <path d="M11.2143 14.2195L9.8481 11.8674C11.6229 11.6743 13.0258 11.2785 13.8091 10.9619C14.1095 11.3805 14.4076 11.7844 14.7035 12.1738C15.2536 12.8978 15.6858 13.5544 16.0002 14.1437C15.843 14.733 15.5522 15.1876 15.1279 15.5075C14.7192 15.8106 14.2556 15.9621 13.7369 15.9621C13.3911 15.9621 13.0925 15.92 12.841 15.8359C12.5895 15.7517 12.3695 15.6338 12.1809 15.4823C11.9923 15.3307 11.8194 15.1455 11.6622 14.9267C11.505 14.7078 11.3557 14.4721 11.2143 14.2195Z" fill="url(#paint2_linear_2826_2722)"></path>
+  <path d="M0.0637207 8.77344C0.0645556 8.81521 0.0798203 8.85677 0.109546 8.8901L1.93119 10.9325C2.03591 11.0499 2.23006 10.9867 2.24543 10.8302L2.28769 10.4002C2.29793 10.2959 2.39449 10.2223 2.49774 10.2401L3.88216 10.4785V10.4869L3.88896 10.4801C4.73599 10.6229 6.26774 10.8318 7.98435 10.8127V10.81H8.01892V9.21903L0.0637207 8.77344Z" fill="url(#paint3_linear_2826_2722)"></path>
+  <path d="M8.01896 9.21922L0.0637569 8.77363C0.0628642 8.72897 0.0784679 8.68408 0.11053 8.64876L2.37823 6.15092C2.49506 6.02224 2.70853 6.11715 2.69152 6.29021L2.63269 6.88901C2.62295 6.98822 2.69546 7.07664 2.79467 7.08649L3.88127 7.19446L3.8813 7.19508C4.27345 7.2501 5.66229 7.3472 7.94952 7.45725C7.95296 7.45068 7.95673 7.44419 7.96081 7.43778V7.45121H8.01896V9.21922Z" fill="url(#paint4_linear_2826_2722)"></path>
+  <defs>
+    <lineargradient id="paint0_linear_2826_2722" x1="3.76992" y1="-1.50587" x2="13.212" y2="19.2702" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1EA0FF"></stop>
+      <stop offset="1" stop-color="#004EEB"></stop>
+    </lineargradient>
+    <lineargradient id="paint1_linear_2826_2722" x1="3.76992" y1="-1.50587" x2="13.212" y2="19.2702" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1EA0FF"></stop>
+      <stop offset="1" stop-color="#004EEB"></stop>
+    </lineargradient>
+    <lineargradient id="paint2_linear_2826_2722" x1="3.76992" y1="-1.50587" x2="13.212" y2="19.2702" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1EA0FF"></stop>
+      <stop offset="1" stop-color="#004EEB"></stop>
+    </lineargradient>
+    <lineargradient id="paint3_linear_2826_2722" x1="11.8972" y1="9.83355" x2="5.27078" y2="8.10349" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1EA0FF"></stop>
+      <stop offset="1" stop-color="#004EEB"></stop>
+    </lineargradient>
+    <lineargradient id="paint4_linear_2826_2722" x1="2.63345" y1="4.98671" x2="14.7158" y2="6.53243" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1EA0FF"></stop>
+      <stop offset="1" stop-color="#004EEB"></stop>
+    </lineargradient>
+  </defs>
+</svg></span>
+                <span id="logo-text">requestly</span>
+            </div>
+            <div id="actions-container">
+                <button id="settings-button" class="" data-tooltip="Hide widget in app settings"><svg width="16" height="13" viewBox="0 0 16 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M10.6167 6.91667L9.58333 5.88333C9.62778 5.46111 9.5 5.1 9.2 4.8C8.9 4.48889 8.53889 4.35556 8.11667 4.4L7.08333 3.36667C7.22778 3.31111 7.37778 3.27222 7.53333 3.25C7.68889 3.21667 7.84444 3.2 8 3.2C8.77778 3.2 9.43889 3.47222 9.98333 4.01667C10.5278 4.56111 10.8 5.22222 10.8 6C10.8 6.15556 10.7833 6.31111 10.75 6.46667C10.7278 6.62222 10.6833 6.77222 10.6167 6.91667ZM12.8333 9.13333L11.9667 8.26667C12.3667 7.95556 12.7278 7.61667 13.05 7.25C13.3833 6.87222 13.6611 6.45556 13.8833 6C13.3389 4.87778 12.5333 4 11.4667 3.36667C10.4111 2.72222 9.25556 2.4 8 2.4C7.71111 2.4 7.42778 2.41667 7.15 2.45C6.87222 2.48333 6.6 2.53889 6.33333 2.61667L5.36667 1.65C5.78889 1.48333 6.21667 1.36667 6.65 1.3C7.09444 1.23333 7.54444 1.2 8 1.2C9.58889 1.2 11.0389 1.63333 12.35 2.5C13.6722 3.35556 14.6222 4.52222 15.2 6C14.9556 6.63333 14.6278 7.21111 14.2167 7.73333C13.8167 8.24444 13.3556 8.71111 12.8333 9.13333ZM12.8 12.5L10.6333 10.3333C10.2111 10.4889 9.77778 10.6056 9.33333 10.6833C8.9 10.7611 8.45556 10.8 8 10.8C6.41111 10.8 4.95556 10.3722 3.63333 9.51667C2.32222 8.65 1.37778 7.47778 0.800001 6C1.04444 5.36667 1.36667 4.78889 1.76667 4.26667C2.16667 3.74444 2.63333 3.27222 3.16667 2.85L1.5 1.18333L2.35 0.333334L13.65 11.65L12.8 12.5ZM4.01667 3.71667C3.62778 4.02778 3.26667 4.37222 2.93333 4.75C2.6 5.11667 2.32778 5.53333 2.11667 6C2.66111 7.12222 3.46111 8.00556 4.51667 8.65C5.58333 9.28333 6.74444 9.6 8 9.6C8.28889 9.6 8.57222 9.58333 8.85 9.55C9.12778 9.50556 9.40556 9.45 9.68333 9.38333L8.93333 8.63333C8.77778 8.68889 8.62222 8.73333 8.46667 8.76667C8.31111 8.78889 8.15556 8.8 8 8.8C7.22222 8.8 6.56111 8.52778 6.01667 7.98333C5.47222 7.43889 5.2 6.77778 5.2 6C5.2 5.84444 5.21667 5.68889 5.25 5.53333C5.29445 5.37778 5.33333 5.22222 5.36667 5.06667L4.01667 3.71667Z" fill="white"></path>
+</svg></button>
+                <button id="minimize-button" class="hidden"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_2826_2732" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="16" height="16">
+<rect width="16" height="16" fill="#D9D9D9"></rect>
+</mask>
+<g mask="url(#mask0_2826_2732)">
+<path d="M6.27083 4.75L8.5 6.95833V5.27083H10V9.5H5.75V8H7.4375L5.22917 5.79167L6.27083 4.75ZM13.75 14C13.125 14 12.5903 13.7847 12.1458 13.3542C11.7153 12.9097 11.5 12.375 11.5 11.75C11.5 11.125 11.7153 10.5972 12.1458 10.1667C12.5903 9.72222 13.125 9.5 13.75 9.5C14.375 9.5 14.9028 9.72222 15.3333 10.1667C15.7778 10.5972 16 11.125 16 11.75C16 12.375 15.7778 12.9097 15.3333 13.3542C14.9028 13.7847 14.375 14 13.75 14ZM1.5 14C1.08333 14 0.729167 13.8542 0.4375 13.5625C0.145833 13.2708 1.78814e-07 12.9167 1.78814e-07 12.5V3.5C1.78814e-07 3.08333 0.145833 2.72917 0.4375 2.4375C0.729167 2.14583 1.08333 2 1.5 2H14.5C14.9167 2 15.2708 2.14583 15.5625 2.4375C15.8542 2.72917 16 3.08333 16 3.5V8H14.5V3.5H1.5V12.5H10V14H1.5Z" fill="white"></path>
+</g>
+</svg>
+                </button><button id="close-button" class=""><svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M0.167368 0.167368C0.390524 -0.0557892 0.752333 -0.0557892 0.97549 0.167368L4 3.19188L7.02451 0.167368C7.24767 -0.0557892 7.60948 -0.0557892 7.83263 0.167368C8.05579 0.390524 8.05579 0.752333 7.83263 0.97549L4.80812 4L7.83263 7.02451C8.05579 7.24767 8.05579 7.60948 7.83263 7.83263C7.60948 8.05579 7.24767 8.05579 7.02451 7.83263L4 4.80812L0.97549 7.83263C0.752333 8.05579 0.390524 8.05579 0.167368 7.83263C-0.0557892 7.60948 -0.0557892 7.24767 0.167368 7.02451L3.19188 4L0.167368 0.97549C-0.0557892 0.752333 -0.0557892 0.390524 0.167368 0.167368Z" fill="#E3E3E3"></path>
+</svg>
+            </button></div>
+        </div>
+        <div id="test-rule-container">
+    <div id="implicit-widget-container">
+    <div id="applied-rules-list-header">Rules applied on this page</div>
+    <div id="applied-rules-list"></div>
+    <div class="test-rule-widget-progress-bar">
+    </div></div></div>
+         <div id="info-container" class="hidden">
+          <div id="info-icon"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none">
+  <path d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20ZM11 7H13V9H11V7ZM11 11H13V17H11V11Z" fill="currentColor"></path>
+</svg></div>
+          <div id="info-text"></div>
+        </div>
+    </div>
+    </template></rq-implicit-test-rule-widget></html>
