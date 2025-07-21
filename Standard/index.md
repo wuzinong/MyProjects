@@ -57,7 +57,7 @@ Deliver features quickly while consuming minimal time and developer effort.
 
 Guidelines:
 
-- Use component libraries (VUI, VUI/util) and raise request to VUI team if some of the key components are missing or lack of functionalities.
+- Use component libraries ( [VUI, VUI/util](https://ui.veracity.com/)) and raise request to VUI team if some of the key components are missing or lack of functionalities.
 - Avoid premature optimization—profile performance first.
 - Use tools like React Profiler or Lighthouse to identify bottlenecks.
 - Favor efficient algorithms and memorization for intensive UI updates.
@@ -246,7 +246,7 @@ Each issue should be a **self-contained, visually distinct block** with clear 
 
 ---
 
-**Issue {Number}: {Title}**  
+**Issue {Number}: {Title}**
 📍 **Location:**
 
 ```typescript
@@ -254,9 +254,9 @@ Each issue should be a **self-contained, visually distinct block** with clear 
 {Relevant code snippet with line numbers}
 ```
 
-💡 **Explanation**:  
+💡 **Explanation**:
 {Detailed reason why the code violates standards, including context and impact}
-🔧 **Suggestion**:  
+🔧 **Suggestion**:
 {Actionable steps to fix the issue}
 🔄 **Fix Code**:
 
@@ -275,7 +275,7 @@ Each issue should be a **self-contained, visually distinct block** with clear 
 
 ### High Issues
 
-**Issue 1: Use === instead of ==**  
+**Issue 1: Use === instead of ==**
 📍 **Location:**
 
 ```typescript
@@ -285,9 +285,9 @@ if (n == true) {
 }
 ```
 
-💡 **Explanation**:  
+💡 **Explanation**:
 Using == will cause unexpected behavior
-🔧 **Suggestion**:  
+🔧 **Suggestion**:
 We hould use === instead
 
 🔄 **Fix Code**:
@@ -301,7 +301,7 @@ if(n===1){
 
 ### Medium Issues
 
-**Issue 2: Write declarative code**  
+**Issue 2: Write declarative code**
 📍 **Location:**
 
 ```typescript
@@ -315,17 +315,16 @@ function GetActiveUsers(users) {
 }
 ```
 
-💡 **Explanation**:  
+💡 **Explanation**:
 It generates too much redundant code and makes logic looks complicated
-🔧 **Suggestion**:  
+🔧 **Suggestion**:
 We should use existing function to cover the needs
 
 🔄 **Fix Code**:
 
 ```typescript
-public User GetActiveUsers(users)
-{
-    const activeUsers = users.filter(user => user. Active);
-    return activeUsers;
+function GetActiveUsers(users) {
+  const activeUsers = users.filter((user) => user.Active);
+  return activeUsers;
 }
 ```
