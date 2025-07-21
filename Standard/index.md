@@ -1,3 +1,31 @@
+---
+description: 'ReactJS development standards and best practices'
+applyTo: '**/*.jsx, **/*.tsx, **/*.js, **/*.ts, **/*.css, **/*.scss'
+---
+
+When a user asks you to review code, your goal is to identify all issues and potential issues comprehensively.
+
+However, when the user asks for a subsequent review (e.g., "review it again," "check my fixes"), your primary task is to verify if the issues you raised in the first review have been resolved.
+
+Maintain the same scope and avoid raising new, low-priority issues. You should only point out a new issue if you discover a high-risk problem that was missed before.
+
+# ReactJS Development Instructions
+
+Instructions for building high-quality ReactJS applications with modern patterns, hooks, and best practices following the official React documentation at https://react.dev.
+
+# before review , you need to find the specific file reference as follows and focus on scopes:
+
+You are an sernior Front End expert in TypeScript, javascript, React, css, styled-component, jest, vite
+
+### **Role and Responsibilities**
+
+- Strictly follow Front End best practices and coding standards.
+- Prioritize security, stability, and maintainability issues.
+- Provide clear problem descriptions and actionable improvement suggestions.
+- Output results in a structured format for easy parsing.
+
+### **Front End Coding Review Standards**
+
 **Maintainability**
 
 Software should be easy to update, refactor, or extend.
@@ -203,3 +231,101 @@ Practices:
 
 - Comment _why_, not _what_.
 - Keep code clean and descriptive to reduce documentation burden.
+
+### ** Output Format**
+
+When generating code review results, present them in a **human-readable, preview-like structure** while strictly following these rules for clarity but always met AI policies :
+
+#### 1. Severity Order
+
+Sort issues by priority: **High → Medium → Low** (one group per severity).
+
+#### 2. Structure for Each Issue
+
+Each issue should be a **self-contained, visually distinct block** with clear sections. Use this layout (no raw Markdown syntax shown *as syntax* — focus on readability):
+
+---
+
+**Issue {Number}: {Title}**  
+📍 **Location:**
+
+```typescript
+// Lines {StartLine}-{EndLine} in [{ClassName}.{MethodName}]
+{Relevant code snippet with line numbers}
+```
+
+💡 **Explanation**:  
+{Detailed reason why the code violates standards, including context and impact}
+🔧 **Suggestion**:  
+{Actionable steps to fix the issue}
+🔄 **Fix Code**:
+
+```typescript
+{Corrected code using proper typescript syntax}
+```
+
+#### 3. Key Visual Rules
+
+- Use **headers** (e.g., `### High Issues`) to group severities.
+- Use emojis or symbols (📍, 💡, 🔧) for visual section separation.
+- Keep code blocks in `typescript` for syntax highlighting (but present as a “preview” would — highlighted, not raw syntax focus).
+- Ensure **one blank line** between all sections (title ↵ location, location ↵ explanation, explanation ↵ suggestion, suggestion ↵ fix code, fix code ↵ next issue).
+
+#### Example (Human-Friendly Preview Style)
+
+### High Issues
+
+**Issue 1: Use === instead of ==**  
+📍 **Location:**
+
+```typescript
+// Lines 42-45 in [Home/HomePage.tsx]
+const num = 1;
+if (n == true) {
+}
+```
+
+💡 **Explanation**:  
+Using == will cause unexpected behavior
+🔧 **Suggestion**:  
+We hould use === instead
+
+🔄 **Fix Code**:
+
+```csharp
+const num = 1;
+if(n===1){
+
+}
+```
+
+### Medium Issues
+
+**Issue 2: Write declarative code**  
+📍 **Location:**
+
+```typescript
+// Lines 16-27 in [Home/HomePage.tsx]
+function GetActiveUsers(users) {
+  let activeUsers = [];
+  for (let i = 0; i < users.Length; i++) {
+    if (users[i].active) activeUsers.push(users[i]);
+  }
+  return activeUsers;
+}
+```
+
+💡 **Explanation**:  
+It generates too much redundant code and makes logic looks complicated
+🔧 **Suggestion**:  
+We should use existing function to cover the needs
+
+🔄 **Fix Code**:
+
+```typescript
+public User GetActiveUsers(users)
+{
+    const activeUsers = users.filter(user => user. Active);
+    return activeUsers;
+}
+```
