@@ -1,0 +1,144 @@
+# WardleyMapMaster - BMad Method Workflow Status
+# Generated: 2026-01-21
+# Track: BMad Method (Greenfield)
+# This tracks progress through BMM methodology Analysis, Planning, and Solutioning phases.
+
+project: 'WardleyMapMaster'
+description: 'Educational website for Wardley Maps, Triple Diamond, DDD, C4, and SWOT with AI-powered analysis'
+selected_track: 'bmad-method'
+field_type: 'greenfield'
+workflow_path_file: 'method-greenfield.yaml'
+generated: '2026-01-21T00:00:00Z'
+
+# STATUS DEFINITIONS:
+# ==================
+# Initial Status (before completion):
+#   - required: Must be completed to progress
+#   - optional: Can be completed but not required
+#   - recommended: Strongly suggested but not required
+#   - conditional: Required only if certain conditions met
+#
+# Completion Status:
+#   - {file-path}: File created/found
+#   - skipped: Optional/conditional workflow that was skipped
+
+workflow_status:
+  phase_1_analysis:
+    phase_name: 'Analysis (Optional)'
+    note: 'Explore ideas, research, and define product vision'
+    status: 'completed'
+
+    brainstorm_project:
+      workflow_id: 'brainstorm-project'
+      status: 'completed'
+      agent: 'analyst'
+      command: '/bmad:bmm:workflows:brainstorming'
+      included_by: 'user_choice'
+      description: 'Creative exploration and ideation for WardleyMapMaster'
+      artifact: 'brainstorming-session-2026-01-21.md'
+
+    research:
+      workflow_id: 'research'
+      status: 'completed'
+      agent: 'analyst'
+      command: '/bmad:bmm:workflows:research'
+      included_by: 'user_choice'
+      description: 'Technical and competitive analysis'
+      artifact: 'research/technical-wardleymap-research-2026-01-21.md'
+
+    product_brief:
+      workflow_id: 'product-brief'
+      status: 'completed'
+      agent: 'analyst'
+      command: '/bmad:bmm:workflows:create-product-brief'
+      included_by: 'user_choice'
+      description: 'Strategic product planning and core features definition'
+      artifact: 'product-brief-WardleyMapMaster-2026-01-21.md'
+
+  phase_2_planning:
+    phase_name: 'Planning'
+    note: 'Define requirements and design'
+    status: 'completed'
+
+    ux_design:
+      workflow_id: 'create-ux-design'
+      status: 'completed'
+      agent: 'ux-designer'
+      command: '/bmad:bmm:workflows:create-ux-design'
+      description: 'UX/UI design for interactive Wardley map playground and learning interface'
+      depends_on: 'product_brief'
+      artifact: 'ux-design-specification.md'
+
+    prd:
+      workflow_id: 'prd'
+      status: 'completed'
+      agent: 'pm'
+      command: '/bmad:bmm:workflows:create-prd'
+      description: 'Product Requirements Document with functional and non-functional requirements'
+      depends_on: ['phase_1_analysis']
+      artifact: 'prd-WardleyMapMaster-2026-01-21.md'
+
+  phase_3_solutioning:
+    phase_name: 'Solutioning'
+    note: 'Design system architecture and implementation plan'
+    status: 'in-progress'
+
+    architecture:
+      workflow_id: 'create-architecture'
+      status: 'completed'
+      agent: 'architect'
+      command: '/bmad:bmm:workflows:create-architecture'
+      description: 'System architecture document - AI integration, database design, frontend architecture'
+      depends_on: ['phase_2_planning']
+      artifact: 'architecture-WardleyMapMaster-2026-01-21.md'
+
+    epics_and_stories:
+      workflow_id: 'create-epics-and-stories'
+      status: 'in-progress'
+      currentStep: 'Step 1 - Requirements Extracted'
+      agent: 'pm'
+      command: '/bmad:bmm:workflows:create-epics-and-stories'
+      description: 'Break down PRD into implementable epics and stories'
+      depends_on: ['prd', 'architecture']
+      artifact: 'epics-WardleyMapMaster-2026-01-21.md'
+
+    test_design:
+      workflow_id: 'test-design'
+      status: 'optional'
+      agent: 'tea'
+      command: '/bmad:bmm:workflows:test-design'
+      description: 'System-level testability review for AI-powered features'
+
+    implementation_readiness:
+      workflow_id: 'implementation-readiness'
+      status: 'required'
+      agent: 'architect'
+      command: '/bmad:bmm:workflows:implementation-readiness'
+      description: 'Validate PRD + Architecture + Epics + UX before implementation'
+      depends_on: ['prd', 'architecture', 'epics_and_stories']
+
+  phase_4_implementation:
+    phase_name: 'Implementation'
+    note: 'Development and deployment'
+
+    sprint_planning:
+      workflow_id: 'sprint-planning'
+      status: 'required'
+      agent: 'sm'
+      command: '/bmad:bmm:workflows:sprint-planning'
+      description: 'Create sprint plan - subsequent work tracked in sprint-status.yaml'
+      depends_on: ['implementation_readiness']
+
+# Next Steps
+next_workflow:
+  id: 'brainstorming'
+  name: 'Brainstorm'
+  agent: 'analyst'
+  command: '/bmad:bmm:workflows:brainstorming'
+  reason: 'Start Phase 1 Analysis - Creative exploration for your product vision'
+
+# Quick Reference
+quick_reference:
+  - 'Check status: Load any BMM agent and run /bmad:bmm:workflows:workflow-status'
+  - 'Next: Start with Brainstorm workflow using analyst agent'
+  - 'Need help? Load any agent and ask for guidance'
