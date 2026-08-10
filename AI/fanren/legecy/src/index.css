@@ -1,0 +1,369 @@
+@import "tailwindcss";
+
+/* --------------------------------------------------
+   1. 炼丹完成 “清香四溢” 涟漪动画 & 浮动粒子 
+   -------------------------------------------------- */
+@keyframes fragrance-ripple {
+  0% {
+    transform: scale(0.3);
+    opacity: 0.95;
+    box-shadow: 0 0 12px rgba(52, 211, 153, 0.9), inset 0 0 12px rgba(250, 204, 21, 0.9);
+  }
+  50% {
+    opacity: 0.7;
+    box-shadow: 0 0 35px rgba(52, 211, 153, 0.7), inset 0 0 25px rgba(250, 204, 21, 0.7);
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+    box-shadow: 0 0 70px rgba(52, 211, 153, 0), inset 0 0 40px rgba(250, 204, 21, 0);
+  }
+}
+
+.animate-fragrance-ripple-1 {
+  animation: fragrance-ripple 1.8s cubic-bezier(0.1, 0.8, 0.3, 1) infinite;
+}
+.animate-fragrance-ripple-2 {
+  animation: fragrance-ripple 1.8s cubic-bezier(0.1, 0.8, 0.3, 1) 0.4s infinite;
+}
+.animate-fragrance-ripple-3 {
+  animation: fragrance-ripple 1.8s cubic-bezier(0.1, 0.8, 0.3, 1) 0.8s infinite;
+}
+
+@keyframes fragrance-float-text {
+  0% {
+    transform: translateY(10px) scale(0.85);
+    opacity: 0;
+  }
+  30% {
+    transform: translateY(-15px) scale(1.05);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-40px) scale(1);
+    opacity: 0;
+  }
+}
+
+.animate-fragrance-text {
+  animation: fragrance-float-text 2.2s ease-out forwards;
+}
+
+/* --------------------------------------------------
+   2. 掌天瓶绿液汇聚光点动画 
+   -------------------------------------------------- */
+@keyframes green-vial-pulse {
+  0%, 100% {
+    box-shadow: 0 0 6px #10b981;
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 28px #34d399, 0 0 45px #059669;
+    transform: scale(1.08);
+  }
+}
+
+.animate-vial-pulse {
+  animation: green-vial-pulse 1.5s ease-in-out infinite;
+}
+
+/* --------------------------------------------------
+   3. 本命飞剑 “剑芒” 属性光影特效 
+   -------------------------------------------------- */
+@keyframes sword-aura-gold {
+  0%, 100% {
+    box-shadow: 0 0 8px #facc15, 0 0 18px #eab308;
+    filter: drop-shadow(0 0 6px #fef08a);
+  }
+  50% {
+    box-shadow: 0 0 22px #facc15, 0 0 38px #eab308, 0 0 55px #ffffff;
+    filter: drop-shadow(0 0 14px #fef08a);
+  }
+}
+
+@keyframes sword-aura-wood {
+  0%, 100% {
+    box-shadow: 0 0 8px #34d399, 0 0 18px #059669;
+    filter: drop-shadow(0 0 6px #a7f3d0);
+  }
+  50% {
+    box-shadow: 0 0 22px #34d399, 0 0 38px #10b981, 0 0 52px #6ee7b7;
+    filter: drop-shadow(0 0 14px #a7f3d0);
+  }
+}
+
+@keyframes sword-aura-water {
+  0%, 100% {
+    box-shadow: 0 0 8px #38bdf8, 0 0 18px #0284c7;
+    filter: drop-shadow(0 0 6px #bae6fd);
+  }
+  50% {
+    box-shadow: 0 0 22px #38bdf8, 0 0 38px #0284c7, 0 0 52px #e0f2fe;
+    filter: drop-shadow(0 0 14px #bae6fd);
+  }
+}
+
+@keyframes sword-aura-fire {
+  0%, 100% {
+    box-shadow: 0 0 8px #f87171, 0 0 18px #dc2626;
+    filter: drop-shadow(0 0 6px #fca5a5);
+  }
+  50% {
+    box-shadow: 0 0 25px #ef4444, 0 0 42px #b91c1c, 0 0 55px #fef08a;
+    filter: drop-shadow(0 0 16px #fca5a5);
+  }
+}
+
+@keyframes sword-aura-earth {
+  0%, 100% {
+    box-shadow: 0 0 8px #fbbf24, 0 0 18px #d97706;
+    filter: drop-shadow(0 0 6px #fde68a);
+  }
+  50% {
+    box-shadow: 0 0 20px #fbbf24, 0 0 35px #b45309, 0 0 48px #fef3c7;
+    filter: drop-shadow(0 0 12px #fde68a);
+  }
+}
+
+@keyframes sword-aura-thunder {
+  0%, 100% {
+    box-shadow: 0 0 10px #c084fc, 0 0 20px #7e22ce;
+    filter: drop-shadow(0 0 8px #e9d5ff);
+  }
+  25% {
+    box-shadow: 0 0 28px #e879f9, 0 0 45px #a855f7, 0 0 60px #ffffff;
+    filter: drop-shadow(0 0 18px #ffffff);
+  }
+  50% {
+    box-shadow: 0 0 12px #a855f7, 0 0 22px #6b21a8;
+  }
+  75% {
+    box-shadow: 0 0 30px #c084fc, 0 0 50px #3b82f6;
+  }
+}
+
+@keyframes sword-aura-wind {
+  0%, 100% {
+    box-shadow: 0 0 8px #2dd4bf, 0 0 18px #0f766e;
+    filter: drop-shadow(0 0 6px #99f6e4);
+  }
+  50% {
+    box-shadow: 0 0 22px #2dd4bf, 0 0 38px #14b8a6, 0 0 50px #ccfbf1;
+    filter: drop-shadow(0 0 14px #99f6e4);
+  }
+}
+
+.sword-aura-gold { animation: sword-aura-gold 1.8s ease-in-out infinite; }
+.sword-aura-wood { animation: sword-aura-wood 1.8s ease-in-out infinite; }
+.sword-aura-water { animation: sword-aura-water 1.8s ease-in-out infinite; }
+.sword-aura-fire { animation: sword-aura-fire 1.8s ease-in-out infinite; }
+.sword-aura-earth { animation: sword-aura-earth 1.8s ease-in-out infinite; }
+.sword-aura-thunder { animation: sword-aura-thunder 1.6s ease-in-out infinite; }
+.sword-aura-wind { animation: sword-aura-wind 1.8s ease-in-out infinite; }
+
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+  20%, 40%, 60%, 80% { transform: translateX(10px); }
+}
+.animate-shake {
+  animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes shatter {
+  0% { transform: scale(1); opacity: 0.8; filter: blur(0px); }
+  40% { transform: scale(1.1) rotate(5deg); opacity: 1; filter: blur(2px) contrast(1.5); }
+  100% { transform: scale(1.5) rotate(-10deg); opacity: 0; filter: blur(10px) contrast(2); }
+}
+.animate-shatter {
+  animation: shatter 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+@keyframes slide-down-fade {
+  0% { transform: translateY(-50px); opacity: 0; }
+  20% { transform: translateY(0); opacity: 1; }
+  80% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(50px); opacity: 0; }
+}
+.animate-slide-down-fade {
+  animation: slide-down-fade 2.5s ease-in-out forwards;
+}
+
+/* --------------------------------------------------
+   4. 3秒终极法宝/符箓/黑风/火龙 专有画面特效动画
+   -------------------------------------------------- */
+
+/* 火龙飞舞 */
+@keyframes dragon-fly-1 {
+  0% {
+    transform: translate(-200px, 200px) rotate(-25deg) scale(0.6);
+    opacity: 0;
+  }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% {
+    transform: translate(120vw, -120vh) rotate(-15deg) scale(1.3);
+    opacity: 0;
+  }
+}
+
+@keyframes dragon-fly-2 {
+  0% {
+    transform: translate(120vw, 150px) rotate(160deg) scale(0.5);
+    opacity: 0;
+  }
+  20% { opacity: 0.9; }
+  80% { opacity: 0.9; }
+  100% {
+    transform: translate(-300px, -100vh) rotate(140deg) scale(1.2);
+    opacity: 0;
+  }
+}
+
+.animate-dragon-1 {
+  animation: dragon-fly-1 2.8s cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
+}
+.animate-dragon-2 {
+  animation: dragon-fly-2 2.6s cubic-bezier(0.2, 0.7, 0.3, 1) 0.2s forwards;
+}
+
+/* 黑风旗 滚滚黑风风暴 */
+@keyframes black-wind-sweep {
+  0% {
+    transform: translateX(-100%) skewX(-20deg);
+    opacity: 0;
+  }
+  30% { opacity: 0.85; }
+  70% { opacity: 0.85; }
+  100% {
+    transform: translateX(100%) skewX(-10deg);
+    opacity: 0;
+  }
+}
+
+@keyframes wind-swirl {
+  0% { transform: rotate(0deg) scale(0.8); opacity: 0.2; }
+  50% { transform: rotate(180deg) scale(1.4); opacity: 0.8; }
+  100% { transform: rotate(360deg) scale(2); opacity: 0; }
+}
+
+.animate-black-wind {
+  animation: black-wind-sweep 2.8s ease-in-out forwards;
+}
+.animate-wind-swirl {
+  animation: wind-swirl 2.5s linear infinite;
+}
+
+/* 剑雨/金蝉符宝 万剑齐发 */
+@keyframes sword-beam-fly {
+  0% {
+    transform: translateY(100vh) rotate(-45deg) scale(0.5);
+    opacity: 0;
+  }
+  30% { opacity: 1; }
+  100% {
+    transform: translateY(-120vh) rotate(-45deg) scale(1.5);
+    opacity: 0;
+  }
+}
+
+.animate-sword-beam {
+  animation: sword-beam-fly 1.8s ease-out forwards;
+}
+
+/* 真言化轮 3D时间轮盘旋转 */
+@keyframes time-wheel-turn {
+  0% {
+    transform: rotate(0deg) scale(0.8);
+    filter: drop-shadow(0 0 20px #facc15);
+  }
+  100% {
+    transform: rotate(360deg) scale(1.15);
+    filter: drop-shadow(0 0 60px #eab308);
+  }
+}
+
+.animate-time-wheel {
+  animation: time-wheel-turn 3s linear infinite;
+}
+
+/* 噬金虫群 漫天飞舞 */
+@keyframes beetle-swarm {
+  0% { transform: translate(0, 0) scale(0.8); }
+  25% { transform: translate(80px, -60px) scale(1.1); }
+  50% { transform: translate(-60px, -120px) scale(0.9); }
+  75% { transform: translate(100px, -180px) scale(1.2); }
+  100% { transform: translate(-40px, -240px) scale(0.7); opacity: 0; }
+}
+
+.animate-beetle {
+  animation: beetle-swarm 2.5s ease-in-out forwards;
+}
+
+/* 五色扇 扇挥五彩羽浪 */
+@keyframes fan-wave-sweep {
+  0% { transform: scale(0.2) rotate(-45deg); opacity: 0; }
+  30% { transform: scale(1.2) rotate(10deg); opacity: 0.95; }
+  80% { transform: scale(1.8) rotate(30deg); opacity: 0.9; }
+  100% { transform: scale(2.5) rotate(45deg); opacity: 0; }
+}
+.animate-fan-wave {
+  animation: fan-wave-sweep 2.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 天戈符 天降黄金神戈 */
+@keyframes halberd-strike-down {
+  0% { transform: translateY(-120vh) rotate(-15deg) scale(0.8); opacity: 0; }
+  40% { transform: translateY(0) rotate(0deg) scale(1.3); opacity: 1; filter: drop-shadow(0 0 50px #eab308); }
+  80% { transform: translateY(0) rotate(0deg) scale(1.3); opacity: 1; }
+  100% { transform: translateY(100px) rotate(5deg) scale(1.5); opacity: 0; }
+}
+.animate-halberd {
+  animation: halberd-strike-down 2.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* 六丁六甲 八卦金柱冲天 */
+@keyframes pillar-rise-up {
+  0% { transform: scaleY(0); opacity: 0; }
+  30% { transform: scaleY(1); opacity: 0.95; filter: drop-shadow(0 0 30px #facc15); }
+  80% { transform: scaleY(1); opacity: 0.9; }
+  100% { transform: scaleY(1.2); opacity: 0; }
+}
+.animate-golden-pillar {
+  animation: pillar-rise-up 2.8s ease-out forwards;
+}
+
+/* 落尘符 绝尘净化仙雨 */
+@keyframes dust-clean-rain {
+  0% { transform: translateY(-100px) scale(0.5); opacity: 0; }
+  50% { opacity: 0.9; }
+  100% { transform: translateY(100vh) scale(1.5); opacity: 0; }
+}
+.animate-dust-rain {
+  animation: dust-clean-rain 2.5s ease-in-out forwards;
+}
+
+/* 玄青翠竹 辟邪电光竹影 */
+@keyframes bamboo-lightning {
+  0% { transform: rotate(-90deg) scale(0.2); opacity: 0; }
+  30% { transform: rotate(0deg) scale(1.1); opacity: 1; filter: drop-shadow(0 0 40px #22c55e); }
+  70% { transform: rotate(10deg) scale(1.1); opacity: 1; }
+  100% { transform: rotate(20deg) scale(1.4); opacity: 0; }
+}
+.animate-bamboo-thunder {
+  animation: bamboo-lightning 2.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+/* 刑天巨猿 变身吼叫震波 */
+@keyframes ape-transform-roar {
+  0% { transform: scale(0.3) translateY(100px); opacity: 0; filter: contrast(150%); }
+  25% { transform: scale(1.2) translateY(0); opacity: 1; filter: drop-shadow(0 0 80px #dc2626); }
+  75% { transform: scale(1.25) translateY(-20px); opacity: 1; }
+  100% { transform: scale(1.8) translateY(-50px); opacity: 0; }
+}
+.animate-ape-roar {
+  animation: ape-transform-roar 2.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+

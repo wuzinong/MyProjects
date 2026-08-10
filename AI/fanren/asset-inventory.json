@@ -1,0 +1,5763 @@
+{
+  "version": 1,
+  "records": [
+    {
+      "path": "assets/animation/code.html",
+      "sha256": "bf7734d8f849408562207c61bc7db1860b220d181afd9c071890fc98f0f7dfb2",
+      "mediaType": "text/html",
+      "bytes": 1325,
+      "width": null,
+      "height": null,
+      "duplicateOf": null,
+      "review": {
+        "category": "reference",
+        "candidateUse": "动效参考（仅供移植 GLSL/SVG，不直接进入运行时）",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "quarantined",
+        "logicalId": null,
+        "targetName": null,
+        "notes": "含 Tailwind CDN 引用，禁止以 HTML 形式进入构建。"
+      }
+    },
+    {
+      "path": "assets/animation/code_133704.html",
+      "sha256": "a35702128ed86e20888b794c2e00f3e8a9893cb843266e9e6b65cc8ce123f15d",
+      "mediaType": "text/html",
+      "bytes": 3918,
+      "width": null,
+      "height": null,
+      "duplicateOf": null,
+      "review": {
+        "category": "reference",
+        "candidateUse": "动效参考（仅供移植 GLSL/SVG，不直接进入运行时）",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "quarantined",
+        "logicalId": null,
+        "targetName": null,
+        "notes": "含 Tailwind CDN 引用，禁止以 HTML 形式进入构建。"
+      }
+    },
+    {
+      "path": "assets/animation/code_135348.html",
+      "sha256": "4905cc33479e29017ef55fd7ddbd3ad77cac0efb83f793360b9191e850ff83a1",
+      "mediaType": "text/html",
+      "bytes": 3885,
+      "width": null,
+      "height": null,
+      "duplicateOf": null,
+      "review": {
+        "category": "reference",
+        "candidateUse": "动效参考（仅供移植 GLSL/SVG，不直接进入运行时）",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "quarantined",
+        "logicalId": null,
+        "targetName": null,
+        "notes": "含 Tailwind CDN 引用，禁止以 HTML 形式进入构建。"
+      }
+    },
+    {
+      "path": "assets/animation/code_16442.html",
+      "sha256": "fac74e250ea7442399bfe5328edba6299a15b8abaf16ff1521b2982b3e67664e",
+      "mediaType": "text/html",
+      "bytes": 3873,
+      "width": null,
+      "height": null,
+      "duplicateOf": null,
+      "review": {
+        "category": "reference",
+        "candidateUse": "动效参考（仅供移植 GLSL/SVG，不直接进入运行时）",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "quarantined",
+        "logicalId": null,
+        "targetName": null,
+        "notes": "含 Tailwind CDN 引用，禁止以 HTML 形式进入构建。"
+      }
+    },
+    {
+      "path": "assets/animation/code_235637.html",
+      "sha256": "0e944d75a7ed481d4372f4f2e70a373fcc8ffd9fb0aafda27bc9ff3bb5e62609",
+      "mediaType": "text/html",
+      "bytes": 1733,
+      "width": null,
+      "height": null,
+      "duplicateOf": null,
+      "review": {
+        "category": "reference",
+        "candidateUse": "动效参考（仅供移植 GLSL/SVG，不直接进入运行时）",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "quarantined",
+        "logicalId": null,
+        "targetName": null,
+        "notes": "含 Tailwind CDN 引用，禁止以 HTML 形式进入构建。"
+      }
+    },
+    {
+      "path": "assets/animation/code_242412.html",
+      "sha256": "c82375498f546b7dc33360d55354683d2192b079dd51ef93c10f4e182bcda7c8",
+      "mediaType": "text/html",
+      "bytes": 4481,
+      "width": null,
+      "height": null,
+      "duplicateOf": null,
+      "review": {
+        "category": "reference",
+        "candidateUse": "动效参考（仅供移植 GLSL/SVG，不直接进入运行时）",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "quarantined",
+        "logicalId": null,
+        "targetName": null,
+        "notes": "含 Tailwind CDN 引用，禁止以 HTML 形式进入构建。"
+      }
+    },
+    {
+      "path": "assets/animation/code_243600.html",
+      "sha256": "f80b2f84cec85d4526a879cdbab3cad1fd412372f373710ef274de82ee2bb651",
+      "mediaType": "text/html",
+      "bytes": 4285,
+      "width": null,
+      "height": null,
+      "duplicateOf": null,
+      "review": {
+        "category": "reference",
+        "candidateUse": "动效参考（仅供移植 GLSL/SVG，不直接进入运行时）",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "quarantined",
+        "logicalId": null,
+        "targetName": null,
+        "notes": "含 Tailwind CDN 引用，禁止以 HTML 形式进入构建。"
+      }
+    },
+    {
+      "path": "assets/animation/code_307458.html",
+      "sha256": "0d76593044c2a8c78167940d5e8c19c52a57c8c2d219774691b0cfc17e9d78bb",
+      "mediaType": "text/html",
+      "bytes": 3844,
+      "width": null,
+      "height": null,
+      "duplicateOf": null,
+      "review": {
+        "category": "reference",
+        "candidateUse": "动效参考（仅供移植 GLSL/SVG，不直接进入运行时）",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "quarantined",
+        "logicalId": null,
+        "targetName": null,
+        "notes": "含 Tailwind CDN 引用，禁止以 HTML 形式进入构建。"
+      }
+    },
+    {
+      "path": "assets/animation/code_346930.html",
+      "sha256": "d5b18276e96437c49dfb1c8044ddc69693a79166c8017074e4773dd2d49d2789",
+      "mediaType": "text/html",
+      "bytes": 34734,
+      "width": null,
+      "height": null,
+      "duplicateOf": null,
+      "review": {
+        "category": "reference",
+        "candidateUse": "动效参考（仅供移植 GLSL/SVG，不直接进入运行时）",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "quarantined",
+        "logicalId": null,
+        "targetName": null,
+        "notes": "含 Tailwind CDN 引用，禁止以 HTML 形式进入构建。"
+      }
+    },
+    {
+      "path": "assets/animation/code_375173.html",
+      "sha256": "f9d7b0f5591372713a30178d0b2516476d86d5ad5fa9805cacd94d4abf1b7ff3",
+      "mediaType": "text/html",
+      "bytes": 3956,
+      "width": null,
+      "height": null,
+      "duplicateOf": null,
+      "review": {
+        "category": "reference",
+        "candidateUse": "动效参考（仅供移植 GLSL/SVG，不直接进入运行时）",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "quarantined",
+        "logicalId": null,
+        "targetName": null,
+        "notes": "含 Tailwind CDN 引用，禁止以 HTML 形式进入构建。"
+      }
+    },
+    {
+      "path": "assets/animation/code_378936.html",
+      "sha256": "b119684dc3e9067b1cba3ef9f948dfb6904769809215b7973e0a2b6f93370679",
+      "mediaType": "text/html",
+      "bytes": 1479,
+      "width": null,
+      "height": null,
+      "duplicateOf": null,
+      "review": {
+        "category": "reference",
+        "candidateUse": "动效参考（仅供移植 GLSL/SVG，不直接进入运行时）",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "quarantined",
+        "logicalId": null,
+        "targetName": null,
+        "notes": "含 Tailwind CDN 引用，禁止以 HTML 形式进入构建。"
+      }
+    },
+    {
+      "path": "assets/animation/code_379613.html",
+      "sha256": "aca1af9e6ecb67c9cf1c4f67831ed5fff9f735d531b42fda3075fafdb513393e",
+      "mediaType": "text/html",
+      "bytes": 3991,
+      "width": null,
+      "height": null,
+      "duplicateOf": null,
+      "review": {
+        "category": "reference",
+        "candidateUse": "动效参考（仅供移植 GLSL/SVG，不直接进入运行时）",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "quarantined",
+        "logicalId": null,
+        "targetName": null,
+        "notes": "含 Tailwind CDN 引用，禁止以 HTML 形式进入构建。"
+      }
+    },
+    {
+      "path": "assets/animation/code_434137.html",
+      "sha256": "9b0fc5eaf0c2dc37c01d4116684ce2fd715fe352ad45d0f85e8f96d383122cdb",
+      "mediaType": "text/html",
+      "bytes": 4335,
+      "width": null,
+      "height": null,
+      "duplicateOf": null,
+      "review": {
+        "category": "reference",
+        "candidateUse": "动效参考（仅供移植 GLSL/SVG，不直接进入运行时）",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "quarantined",
+        "logicalId": null,
+        "targetName": null,
+        "notes": "含 Tailwind CDN 引用，禁止以 HTML 形式进入构建。"
+      }
+    },
+    {
+      "path": "assets/animation/code_434836.html",
+      "sha256": "697665bc1fb13ae04bd2de257a16256be620f55f7e72bff200366c697f0960e0",
+      "mediaType": "text/html",
+      "bytes": 4206,
+      "width": null,
+      "height": null,
+      "duplicateOf": null,
+      "review": {
+        "category": "reference",
+        "candidateUse": "动效参考（仅供移植 GLSL/SVG，不直接进入运行时）",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "quarantined",
+        "logicalId": null,
+        "targetName": null,
+        "notes": "含 Tailwind CDN 引用，禁止以 HTML 形式进入构建。"
+      }
+    },
+    {
+      "path": "assets/animation/code_44635.html",
+      "sha256": "6960d259eca4a5389b5e45940355ed755a4c6d76999e029e3645a4754612422f",
+      "mediaType": "text/html",
+      "bytes": 4272,
+      "width": null,
+      "height": null,
+      "duplicateOf": null,
+      "review": {
+        "category": "reference",
+        "candidateUse": "动效参考（仅供移植 GLSL/SVG，不直接进入运行时）",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "quarantined",
+        "logicalId": null,
+        "targetName": null,
+        "notes": "含 Tailwind CDN 引用，禁止以 HTML 形式进入构建。"
+      }
+    },
+    {
+      "path": "assets/animation/code_463502.html",
+      "sha256": "fd9dd1768f0118c8b84bd0c7026ef26c5d240222b4b3b0ff22292fe556944b9a",
+      "mediaType": "text/html",
+      "bytes": 4828,
+      "width": null,
+      "height": null,
+      "duplicateOf": null,
+      "review": {
+        "category": "reference",
+        "candidateUse": "动效参考（仅供移植 GLSL/SVG，不直接进入运行时）",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "quarantined",
+        "logicalId": null,
+        "targetName": null,
+        "notes": "含 Tailwind CDN 引用，禁止以 HTML 形式进入构建。"
+      }
+    },
+    {
+      "path": "assets/animation/code_507127.html",
+      "sha256": "a1f604841c4b24946c2e61a54dfe77da86cfc4e1665261f933332bb371f0a210",
+      "mediaType": "text/html",
+      "bytes": 1887,
+      "width": null,
+      "height": null,
+      "duplicateOf": null,
+      "review": {
+        "category": "reference",
+        "candidateUse": "动效参考（仅供移植 GLSL/SVG，不直接进入运行时）",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "quarantined",
+        "logicalId": null,
+        "targetName": null,
+        "notes": "含 Tailwind CDN 引用，禁止以 HTML 形式进入构建。"
+      }
+    },
+    {
+      "path": "assets/animation/code_521794.html",
+      "sha256": "8fc2337d0debb4c91990a1b8c33c7d6f5f7ea9fb70c500dd4a11e5fc6397d9ed",
+      "mediaType": "text/html",
+      "bytes": 508,
+      "width": null,
+      "height": null,
+      "duplicateOf": null,
+      "review": {
+        "category": "reference",
+        "candidateUse": "动效参考（仅供移植 GLSL/SVG，不直接进入运行时）",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "quarantined",
+        "logicalId": null,
+        "targetName": null,
+        "notes": "含 Tailwind CDN 引用，禁止以 HTML 形式进入构建。"
+      }
+    },
+    {
+      "path": "assets/animation/code_533365.html",
+      "sha256": "fa56ce60b064e330435c4e6e5aeccd269daba30d856d82610f7e73a8466fb408",
+      "mediaType": "text/html",
+      "bytes": 18978,
+      "width": null,
+      "height": null,
+      "duplicateOf": null,
+      "review": {
+        "category": "reference",
+        "candidateUse": "动效参考（仅供移植 GLSL/SVG，不直接进入运行时）",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "quarantined",
+        "logicalId": null,
+        "targetName": null,
+        "notes": "含 Tailwind CDN 引用，禁止以 HTML 形式进入构建。"
+      }
+    },
+    {
+      "path": "assets/animation/code_566212.html",
+      "sha256": "2e6e17e8b6eca755da5258f9429a8ec026d829f32a7fab802cc2d7580b5f9773",
+      "mediaType": "text/html",
+      "bytes": 3987,
+      "width": null,
+      "height": null,
+      "duplicateOf": null,
+      "review": {
+        "category": "reference",
+        "candidateUse": "动效参考（仅供移植 GLSL/SVG，不直接进入运行时）",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "quarantined",
+        "logicalId": null,
+        "targetName": null,
+        "notes": "含 Tailwind CDN 引用，禁止以 HTML 形式进入构建。"
+      }
+    },
+    {
+      "path": "assets/animation/code_566853.html",
+      "sha256": "37c81a61824a1f8cccdd70f43fb31d8e8540ac347b4c1ec51394f39d6c9c08f3",
+      "mediaType": "text/html",
+      "bytes": 34232,
+      "width": null,
+      "height": null,
+      "duplicateOf": null,
+      "review": {
+        "category": "reference",
+        "candidateUse": "动效参考（仅供移植 GLSL/SVG，不直接进入运行时）",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "quarantined",
+        "logicalId": null,
+        "targetName": null,
+        "notes": "含 Tailwind CDN 引用，禁止以 HTML 形式进入构建。"
+      }
+    },
+    {
+      "path": "assets/animation/code_586126.html",
+      "sha256": "f2c1cb00f3d431f2625d779b22783fe339692843006b6fc97af36cde50254843",
+      "mediaType": "text/html",
+      "bytes": 3885,
+      "width": null,
+      "height": null,
+      "duplicateOf": null,
+      "review": {
+        "category": "reference",
+        "candidateUse": "动效参考（仅供移植 GLSL/SVG，不直接进入运行时）",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "quarantined",
+        "logicalId": null,
+        "targetName": null,
+        "notes": "含 Tailwind CDN 引用，禁止以 HTML 形式进入构建。"
+      }
+    },
+    {
+      "path": "assets/animation/code_609647.html",
+      "sha256": "47200129c5c9f7b72af8b6c724ae5dbf43ecbe03a16100b6b1b88c2319581f10",
+      "mediaType": "text/html",
+      "bytes": 3933,
+      "width": null,
+      "height": null,
+      "duplicateOf": null,
+      "review": {
+        "category": "reference",
+        "candidateUse": "动效参考（仅供移植 GLSL/SVG，不直接进入运行时）",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "quarantined",
+        "logicalId": null,
+        "targetName": null,
+        "notes": "含 Tailwind CDN 引用，禁止以 HTML 形式进入构建。"
+      }
+    },
+    {
+      "path": "assets/animation/code_623882.html",
+      "sha256": "5b112c6cce99d24cf63dea07c06020fe21d11125bdfdf4e91dce862d3f11bce9",
+      "mediaType": "text/html",
+      "bytes": 4139,
+      "width": null,
+      "height": null,
+      "duplicateOf": null,
+      "review": {
+        "category": "reference",
+        "candidateUse": "动效参考（仅供移植 GLSL/SVG，不直接进入运行时）",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "quarantined",
+        "logicalId": null,
+        "targetName": null,
+        "notes": "含 Tailwind CDN 引用，禁止以 HTML 形式进入构建。"
+      }
+    },
+    {
+      "path": "assets/animation/code_709018.html",
+      "sha256": "d84ab02e98e93358e1e480a5f9a07fe087e0293c120ac89a355de5853c2ea3b0",
+      "mediaType": "text/html",
+      "bytes": 3855,
+      "width": null,
+      "height": null,
+      "duplicateOf": null,
+      "review": {
+        "category": "reference",
+        "candidateUse": "动效参考（仅供移植 GLSL/SVG，不直接进入运行时）",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "quarantined",
+        "logicalId": null,
+        "targetName": null,
+        "notes": "含 Tailwind CDN 引用，禁止以 HTML 形式进入构建。"
+      }
+    },
+    {
+      "path": "assets/animation/code_758760.html",
+      "sha256": "50397a060024f6e11b55c545ec06330a9f89ebb25825440fe58b16a1703046fe",
+      "mediaType": "text/html",
+      "bytes": 3784,
+      "width": null,
+      "height": null,
+      "duplicateOf": null,
+      "review": {
+        "category": "reference",
+        "candidateUse": "动效参考（仅供移植 GLSL/SVG，不直接进入运行时）",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "quarantined",
+        "logicalId": null,
+        "targetName": null,
+        "notes": "含 Tailwind CDN 引用，禁止以 HTML 形式进入构建。"
+      }
+    },
+    {
+      "path": "assets/animation/code_802703.html",
+      "sha256": "a329fea9b54bc196c764e07bbd732fa7356fede431e3202be46bafeb215e39d5",
+      "mediaType": "text/html",
+      "bytes": 4224,
+      "width": null,
+      "height": null,
+      "duplicateOf": null,
+      "review": {
+        "category": "reference",
+        "candidateUse": "动效参考（仅供移植 GLSL/SVG，不直接进入运行时）",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "quarantined",
+        "logicalId": null,
+        "targetName": null,
+        "notes": "含 Tailwind CDN 引用，禁止以 HTML 形式进入构建。"
+      }
+    },
+    {
+      "path": "assets/animation/code_812346.html",
+      "sha256": "9933c54e48521c8124f4b42c513f4bb9d61fd1a6866da0ddd78b2ca95f1792f9",
+      "mediaType": "text/html",
+      "bytes": 4041,
+      "width": null,
+      "height": null,
+      "duplicateOf": null,
+      "review": {
+        "category": "reference",
+        "candidateUse": "动效参考（仅供移植 GLSL/SVG，不直接进入运行时）",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "quarantined",
+        "logicalId": null,
+        "targetName": null,
+        "notes": "含 Tailwind CDN 引用，禁止以 HTML 形式进入构建。"
+      }
+    },
+    {
+      "path": "assets/animation/code_893071.html",
+      "sha256": "79e874602f0af51b996b210c6a993a8553fde738a9f2cbd99d8b1341873091bb",
+      "mediaType": "text/html",
+      "bytes": 32647,
+      "width": null,
+      "height": null,
+      "duplicateOf": null,
+      "review": {
+        "category": "reference",
+        "candidateUse": "动效参考（仅供移植 GLSL/SVG，不直接进入运行时）",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "quarantined",
+        "logicalId": null,
+        "targetName": null,
+        "notes": "含 Tailwind CDN 引用，禁止以 HTML 形式进入构建。"
+      }
+    },
+    {
+      "path": "assets/animation/screen_527343.png",
+      "sha256": "6d8622122acd3e1a546e4d072d256803d6d98aed6209894826f7cee72cd871e1",
+      "mediaType": "image/png",
+      "bytes": 434440,
+      "width": 1211,
+      "height": 1600,
+      "duplicateOf": null,
+      "review": {
+        "category": "reference",
+        "candidateUse": "动效参考截图A",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "quarantined",
+        "logicalId": "anim-ref-a",
+        "targetName": "reference/anim-ref-a.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/animation/screen_545949.png",
+      "sha256": "4864a632e3326bacd0466118d70aa084505dec32ef7a7122245f83733cb05ba4",
+      "mediaType": "image/png",
+      "bytes": 212672,
+      "width": 1046,
+      "height": 1600,
+      "duplicateOf": null,
+      "review": {
+        "category": "reference",
+        "candidateUse": "动效参考截图B",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "quarantined",
+        "logicalId": "anim-ref-b",
+        "targetName": "reference/anim-ref-b.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen.png",
+      "sha256": "b0ed669b9bc7391c502de47d714bf5f857c2638a46512509f992a5a75518e96f",
+      "mediaType": "image/png",
+      "bytes": 1542120,
+      "width": 1600,
+      "height": 1280,
+      "duplicateOf": null,
+      "review": {
+        "category": "reference",
+        "candidateUse": "世界地图界面稿",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "quarantined",
+        "logicalId": "world-map-mock",
+        "targetName": "reference/world-map-mock.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_108859.png",
+      "sha256": "b7823f21f6c34b3a106fae5c6dbc66912545e7b40b96dc5d3d2a38bba9110947",
+      "mediaType": "image/png",
+      "bytes": 1244878,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "雷火甲",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "thunderfire-armor",
+        "targetName": "item/thunderfire-armor.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_109117.png",
+      "sha256": "1993da1a6c02320997a3aa71805ede8050313eae0ec6a2d8de0f06096c102605",
+      "mediaType": "image/png",
+      "bytes": 1416113,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "character",
+        "candidateUse": "乾老魔",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "npc-qian-laomo",
+        "targetName": "character/npc-qian-laomo.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_109667.png",
+      "sha256": "17444a9056c61a23a8b006fe76c4e764c5b59a010d00402b8c87f7bd69afa0e0",
+      "mediaType": "image/png",
+      "bytes": 1435059,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "character",
+        "candidateUse": "金光上人",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "npc-jinguang-shangren",
+        "targetName": "character/npc-jinguang-shangren.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_110634.png",
+      "sha256": "dea74af990061f541c164a132dbe06b1b0d91b243e975eb391c50ce1731e4501",
+      "mediaType": "image/png",
+      "bytes": 1173319,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "龙虎丹",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "pill-longhu",
+        "targetName": "item/pill-longhu.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_112650.png",
+      "sha256": "cb38d91359711ca419eaf206dbe4f285763ea1ffbb21364ffd2dc16b35ac0cea",
+      "mediaType": "image/png",
+      "bytes": 1390549,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "九真灵符",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "talisman-jiuzhen",
+        "targetName": "item/talisman-jiuzhen.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_113655.png",
+      "sha256": "8b8c4accb9731a683333de8ecbf73719209c32ccdfa0e72c98ce1a1bcb594c69",
+      "mediaType": "image/png",
+      "bytes": 1672812,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "黄枫谷山门",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-huangfeng-gate",
+        "targetName": "environment/env-huangfeng-gate.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_113958.png",
+      "sha256": "537199b47670eefb425e1c0696e425f2fc70796a789092c5ff97cd89e667d4a4",
+      "mediaType": "image/png",
+      "bytes": 1419648,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "仙灵古松",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-ancient-pine",
+        "targetName": "environment/env-ancient-pine.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_11548.png",
+      "sha256": "bf5cefefb2f3774db906d6e875de05aad5136b1f9ba976cfec2f9bad3b7c3692",
+      "mediaType": "image/png",
+      "bytes": 1169351,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "定星丹",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "pill-dingxing",
+        "targetName": "item/pill-dingxing.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_115557.png",
+      "sha256": "2ac632a5fb319bcf63a0b49226a80f03bcd49e25ba32e051f880567f287739ae",
+      "mediaType": "image/png",
+      "bytes": 1290268,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "enemy",
+        "candidateUse": "血玉蜘蛛",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "enemy-blood-jade-spider",
+        "targetName": "enemy/enemy-blood-jade-spider.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_117335.png",
+      "sha256": "b51f7abd429860300efe6c7a5e35d096b01003722e6b6c735e146fe49cc6adf1",
+      "mediaType": "image/png",
+      "bytes": 1263475,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "蜿蜒灵溪",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-spirit-stream",
+        "targetName": "environment/env-spirit-stream.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_118814.png",
+      "sha256": "5943750642f660182a17e715dec84f9a27a8eded6eb9b3800bd684614bc2c994",
+      "mediaType": "image/png",
+      "bytes": 1356264,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "skill",
+        "candidateUse": "青元剑诀",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "skill-azure-sword-art",
+        "targetName": "skill/skill-azure-sword-art.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_120878.png",
+      "sha256": "4795a521e53655f3f5f17aa456701f39ebdd3c126dbde2247cdbf9f7bcf05e5a",
+      "mediaType": "image/png",
+      "bytes": 1485800,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "蛮荒巨木",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-wild-great-tree",
+        "targetName": "environment/env-wild-great-tree.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_129792.png",
+      "sha256": "904578a0b176c6e32ef969fc1ee231f4fb439372bde7800c6a96d20eeb8d688b",
+      "mediaType": "image/png",
+      "bytes": 1304171,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "灵石矿脉",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-spirit-stone-vein",
+        "targetName": "environment/env-spirit-stone-vein.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_131022.png",
+      "sha256": "dde529a5d0b12461d3e03457f0c3db369bd5ebb43f03ce182df38962bd0902d5",
+      "mediaType": "image/png",
+      "bytes": 1106438,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "上品灵石",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "spirit-stone-high",
+        "targetName": "item/spirit-stone-high.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_132420.png",
+      "sha256": "46eea792304ca9fa9e25420ac28a93049cef23789c01143450ee6dd5faefc0a0",
+      "mediaType": "image/png",
+      "bytes": 1356347,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "悬浮灵岛",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-floating-isle",
+        "targetName": "environment/env-floating-isle.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_138902.png",
+      "sha256": "f503d2f2437f2f054b65714f3719f8b61016af88c18cfaf1839cd857f5a736e5",
+      "mediaType": "image/png",
+      "bytes": 1146599,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "寒晶灵草",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "herb-hanjing",
+        "targetName": "item/herb-hanjing.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_138965.png",
+      "sha256": "8e834457fa40435d0d99def17fad035fa896c7d43556b3d000e06175bf2b54f0",
+      "mediaType": "image/png",
+      "bytes": 1399033,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "风雷翅",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "artifact-windthunder-wings",
+        "targetName": "item/artifact-windthunder-wings.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_13958.png",
+      "sha256": "48c970e083b481c1564e991073048311e4ed04dbca52be52b2d5c1f607c506d7",
+      "mediaType": "image/png",
+      "bytes": 1511141,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "skill",
+        "candidateUse": "紫罗极火",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "skill-ziluo-flame",
+        "targetName": "skill/skill-ziluo-flame.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_141273.png",
+      "sha256": "43c3f64594e077b570f8358ae6eb0f45ee76fd28854b0db8cb957bef0f9d0e9a",
+      "mediaType": "image/png",
+      "bytes": 1194639,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "龙鳞果",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "fruit-dragonscale",
+        "targetName": "item/fruit-dragonscale.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_144809.png",
+      "sha256": "fc5d97c52386697528f66ad68c3a69028cd6bf8eda0f8f6279c42743e8f3e224",
+      "mediaType": "image/png",
+      "bytes": 1173915,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "青光剑符宝",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "talisman-azure-sword",
+        "targetName": "item/talisman-azure-sword.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_148844.png",
+      "sha256": "c5990c6255fe74fe6a3198dfb42915299bea5b36491c2b6ef1695497058885d6",
+      "mediaType": "image/png",
+      "bytes": 1252255,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "修仙坊市",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-market",
+        "targetName": "environment/env-market.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_150280.png",
+      "sha256": "4a8e774a95d229d76d3f4e0ba7da290fca394ed6398a78a604d77bf11067137e",
+      "mediaType": "image/png",
+      "bytes": 1433659,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "火龙符",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "talisman-fire-dragon",
+        "targetName": "item/talisman-fire-dragon.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_151880.png",
+      "sha256": "10845aa5e5c2ca608aae38e306f61afa567aa3b2628f6bd440e1e3682a0e4939",
+      "mediaType": "image/png",
+      "bytes": 1179642,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "禁制残片",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "fragment-seal-a",
+        "targetName": "item/fragment-seal-a.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_155759.png",
+      "sha256": "b6facbbdf3142d16f11e2b70df8d77c5b3007b31d4c7a8bc28eed658990958f7",
+      "mediaType": "image/png",
+      "bytes": 1164754,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "破虚丹",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "pill-poxu",
+        "targetName": "item/pill-poxu.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_156384.png",
+      "sha256": "91d4ab9e0e1947a09cdd43d9a3acba4c8081d96ecbdf3299eefeb61532fa5c99",
+      "mediaType": "image/png",
+      "bytes": 1326299,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "character",
+        "candidateUse": "厉飞雨",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "npc-li-feiyu",
+        "targetName": "character/npc-li-feiyu.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_1578.png",
+      "sha256": "b8e5aa90939391b26b5f4017f55f06f52317e6d58ec19aa613f2baeac38f7c9c",
+      "mediaType": "image/png",
+      "bytes": 1364761,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "character",
+        "candidateUse": "青阳门少主",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "npc-qingyang-heir",
+        "targetName": "character/npc-qingyang-heir.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_16299.png",
+      "sha256": "19ee02e4890ec1cc8ec5076898db2d75029357937c745f41a2ff06fde2e03661",
+      "mediaType": "image/png",
+      "bytes": 1617794,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "enemy",
+        "candidateUse": "刑兽",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "enemy-xing-beast",
+        "targetName": "enemy/enemy-xing-beast.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_167614.png",
+      "sha256": "48524ee1410384e73cf51b613d81c2289137c8e0fcee59892df238ed1ea6727b",
+      "mediaType": "image/png",
+      "bytes": 1110454,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "焦雷木",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-scorched-thunder-tree",
+        "targetName": "environment/env-scorched-thunder-tree.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_16923.png",
+      "sha256": "e794c107ff73d10641dc6675168cf72a78d692d9dc5590cb25c50c192eed7517",
+      "mediaType": "image/png",
+      "bytes": 1681305,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "effect",
+        "candidateUse": "大庚剑网",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "fx-dageng-sword-net-a",
+        "targetName": "effect/fx-dageng-sword-net-a.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_17192.png",
+      "sha256": "d67f994e9087fccbfc707e25682056d494f4f3402e06e8df7973614e5c51788f",
+      "mediaType": "image/png",
+      "bytes": 1286729,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "元磁五极山",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "artifact-five-peaks",
+        "targetName": "item/artifact-five-peaks.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_179552.png",
+      "sha256": "8952ea04b58ecd99ef7c307b6eabf1e0768063033a7178996469848c1c6cf82b",
+      "mediaType": "image/png",
+      "bytes": 1337514,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "character",
+        "candidateUse": "曲魂",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "npc-quhun",
+        "targetName": "character/npc-quhun.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_179834.png",
+      "sha256": "07ba359f54196d52c76789ec4381e3d120b7a0e521e190eb7e53514ffda8c46b",
+      "mediaType": "image/png",
+      "bytes": 1271080,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "化神丹",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "pill-huashen",
+        "targetName": "item/pill-huashen.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_180038.png",
+      "sha256": "4fd8bdb3ebd4b04831be120660a272578cccf0f2e6645cd1e68017174b687476",
+      "mediaType": "image/png",
+      "bytes": 1425517,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "寒泉灵桃",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-cold-spring-peach",
+        "targetName": "environment/env-cold-spring-peach.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_180074.png",
+      "sha256": "b9b36917b3b240962b69d9be126cfc87b5f5e984c306ea1c1af9d9717cfb98a2",
+      "mediaType": "image/png",
+      "bytes": 1314019,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "火弹符",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "talisman-fireball",
+        "targetName": "item/talisman-fireball.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_183874.png",
+      "sha256": "b55e27ab7812f28524e70ab77697a4bcc82104fecbe2697e5d5af20cc179ec2e",
+      "mediaType": "image/png",
+      "bytes": 1035631,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "血灵草",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "herb-blood-spirit",
+        "targetName": "item/herb-blood-spirit.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_184642.png",
+      "sha256": "ab6f3d61abc07e647a4f51656d9613ede309ee2590f0a11b2387af8f1ab3a895",
+      "mediaType": "image/png",
+      "bytes": 1103805,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "定神符",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "talisman-dingshen",
+        "targetName": "item/talisman-dingshen.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_185943.png",
+      "sha256": "f0fbe85eda146636d5c6efd0521d600aa596f9689a876b9716f46618e4dc4c2e",
+      "mediaType": "image/png",
+      "bytes": 1160587,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "enemy",
+        "candidateUse": "骷髅蛛(未标注)",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "enemy-skull-spider",
+        "targetName": "enemy/enemy-skull-spider.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_19167.png",
+      "sha256": "0bb602dbacd78d70480f5908b9adb904d05e0bafecf31606fc31b80610615aaa",
+      "mediaType": "image/png",
+      "bytes": 1195239,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "太一化清符",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "talisman-taiyi-huaqing",
+        "targetName": "item/talisman-taiyi-huaqing.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_19300.png",
+      "sha256": "546f2a6882ae1587b3ec219d1e122c8eb8b3d84722a940b8af658605b04fbd89",
+      "mediaType": "image/png",
+      "bytes": 1020166,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "降魔果",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "fruit-xiangmo",
+        "targetName": "item/fruit-xiangmo.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_193971.png",
+      "sha256": "98b8e633096f7553be1c465df0d3633d9d2cc03ebde91394396c0923c69d83cc",
+      "mediaType": "image/png",
+      "bytes": 1255577,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "skill",
+        "candidateUse": "惊蛰指",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "skill-jingzhe-finger-a",
+        "targetName": "skill/skill-jingzhe-finger-a.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_1954.png",
+      "sha256": "12c106a6b4d36c2d8c4b9632110d0adae8d7bb339ba6b8b0acf48aeb2b6d56df",
+      "mediaType": "image/png",
+      "bytes": 1066106,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "霓裳草",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "herb-nichang",
+        "targetName": "item/herb-nichang.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_19944.png",
+      "sha256": "d60cb95947e4d9c60c3c747280914fee1a33e0f692c4b81a8fa78c03c0bc221e",
+      "mediaType": "image/png",
+      "bytes": 1243653,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "skill",
+        "candidateUse": "乾蓝冰焰",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "skill-qianlan-ice-flame",
+        "targetName": "skill/skill-qianlan-ice-flame.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_211730.png",
+      "sha256": "d1e6655e8bd130686472973705aca5cc68d6a431d92bec59cb98e996b0247774",
+      "mediaType": "image/png",
+      "bytes": 1344949,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "character",
+        "candidateUse": "九曲灵参(化形)",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "pet-jiuqu-ginseng-spirit",
+        "targetName": "character/pet-jiuqu-ginseng-spirit.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_211838.png",
+      "sha256": "201e60b4df81991ac32271ef6cb5911e448abc55edc065f503f641c120f8641b",
+      "mediaType": "image/png",
+      "bytes": 1516346,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "星宫圣山",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-star-palace",
+        "targetName": "environment/env-star-palace.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_211963.png",
+      "sha256": "ad89c20219b3f7b18e7a14c7a0a2748d92847250a64707bbf0b80e2f8eee01d6",
+      "mediaType": "image/png",
+      "bytes": 1372843,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "character",
+        "candidateUse": "石老魔",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "npc-shi-laomo",
+        "targetName": "character/npc-shi-laomo.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_211992.png",
+      "sha256": "a6acd6515e2c13026339499c06ad2500e08d9f250d12ffffaaf3acefbf018ff1",
+      "mediaType": "image/png",
+      "bytes": 1078030,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "银精芝",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "herb-yinjing-zhi",
+        "targetName": "item/herb-yinjing-zhi.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_212611.png",
+      "sha256": "3b5b232f2a9ed840163127f7dd178f1f8205ca2c36c53c68124dc18370117951",
+      "mediaType": "image/png",
+      "bytes": 1086680,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "嗜血珠",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "artifact-bloodthirst-orb",
+        "targetName": "item/artifact-bloodthirst-orb.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_212857.png",
+      "sha256": "15560423633d7bd187cc9dd3121ef6abd2618ee18ef1701f6a1d8aad6b2eb135",
+      "mediaType": "image/png",
+      "bytes": 1306347,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "enemy",
+        "candidateUse": "金瞳火蟾",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "enemy-fire-toad",
+        "targetName": "enemy/enemy-fire-toad.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_213322.png",
+      "sha256": "04efcf4667d196bf14c7bc1674df096a70954426bb98831976a67bac35a411f8",
+      "mediaType": "image/png",
+      "bytes": 1065675,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "金身果",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "fruit-jinshen",
+        "targetName": "item/fruit-jinshen.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_218340.png",
+      "sha256": "47ab3129d730a0754fc3f7fb82cca2098811a70e04a10e7654cd999468e4397a",
+      "mediaType": "image/png",
+      "bytes": 1250155,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "青元巨剑",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "artifact-azure-greatsword-a",
+        "targetName": "item/artifact-azure-greatsword-a.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_219665.png",
+      "sha256": "248f4fe7288deed3ddb328331d5c2cffa450eda0792ea9e6a6365d6d18c75ad1",
+      "mediaType": "image/png",
+      "bytes": 1252736,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "enemy",
+        "candidateUse": "大晋尸皇",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "enemy-corpse-emperor",
+        "targetName": "enemy/enemy-corpse-emperor.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_220276.png",
+      "sha256": "567465b7e91bb490fc52c0fe8ad6377e695a76f63d4df2ad9af9fdc5051d9c29",
+      "mediaType": "image/png",
+      "bytes": 1577874,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "character",
+        "candidateUse": "时间道祖",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "npc-time-patriarch",
+        "targetName": "character/npc-time-patriarch.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_221705.png",
+      "sha256": "28b80976bd153f371d240694416cea60042afa4663cd823d253ddca7c7f86828",
+      "mediaType": "image/png",
+      "bytes": 1349167,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "六丁六甲符",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "talisman-liuding-liujia",
+        "targetName": "item/talisman-liuding-liujia.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_22384.png",
+      "sha256": "16a9aad5adcc1410a0fa8fbe5eb419c76022b590b72754434617c1d118bf2fa5",
+      "mediaType": "image/png",
+      "bytes": 1344067,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "万年玄冰",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "material-xuanbing",
+        "targetName": "item/material-xuanbing.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_226448.png",
+      "sha256": "44398fddbffa682bb8a5b566fbb513b34527c99c0f5a28311eb0628c4222b1c0",
+      "mediaType": "image/png",
+      "bytes": 1100979,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "玄天斩灵剑(激发)",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "artifact-xuantian-sword-active",
+        "targetName": "item/artifact-xuantian-sword-active.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_228843.png",
+      "sha256": "680dea89f96ba6ccd860f06f37a028d121cbe8d710872fd1dd0a20dddc348e3b",
+      "mediaType": "image/png",
+      "bytes": 1102672,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "character",
+        "candidateUse": "瓶灵",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "pet-vial-spirit",
+        "targetName": "character/pet-vial-spirit.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_23977.png",
+      "sha256": "f429535ab8d14496a2bc5e1b1253a580619f18ae1e613fd2eb706555e439c6a5",
+      "mediaType": "image/png",
+      "bytes": 1150456,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "庚精",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "material-gengjing",
+        "targetName": "item/material-gengjing.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_240742.png",
+      "sha256": "eae305868871620bee66237652c3cfac6cd961821b9f74d181bbcf2c5560cdee",
+      "mediaType": "image/png",
+      "bytes": 1339512,
+      "width": 1376,
+      "height": 768,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "神手谷",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-shenshou-valley-a",
+        "targetName": "environment/env-shenshou-valley-a.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_241391.png",
+      "sha256": "9128fc613c4cb8ecedfb9e21b9807231b2ec7c7377186e39ae11a727f168da65",
+      "mediaType": "image/png",
+      "bytes": 1397716,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "enemy",
+        "candidateUse": "成熟期血玉蜘蛛",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "enemy-blood-jade-spider-mature",
+        "targetName": "enemy/enemy-blood-jade-spider-mature.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_243462.png",
+      "sha256": "f75a04d6e67ffa0c058410b43ea238f8155f54c31848b4e32adca710ff70b547",
+      "mediaType": "image/png",
+      "bytes": 1392082,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "虚天鼎",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "artifact-xutian-cauldron-a",
+        "targetName": "item/artifact-xutian-cauldron-a.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_247632.png",
+      "sha256": "af5cfbf9aa22a52fc80a186502195be03aa33425596717840128d40f0f974ac4",
+      "mediaType": "image/png",
+      "bytes": 1272093,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "乱石灵峰",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-rocky-peaks",
+        "targetName": "environment/env-rocky-peaks.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_257308.png",
+      "sha256": "181ea09f35670266cff368f45fb5c03cae0396b729548e7cb9cc0e3215852cfe",
+      "mediaType": "image/png",
+      "bytes": 1358244,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "enemy",
+        "candidateUse": "墨大夫(尸化)",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "enemy-mo-daifu-corpse",
+        "targetName": "enemy/enemy-mo-daifu-corpse.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_257485.png",
+      "sha256": "859ef2549cba3f8d48a069b62c16666a58186b77e177f6ea76af059a81f8ec46",
+      "mediaType": "image/png",
+      "bytes": 1040586,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "斩灵刀",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "artifact-zhanling-blade-a",
+        "targetName": "item/artifact-zhanling-blade-a.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_267869.png",
+      "sha256": "d3f13d9b7712c1b55f46852b83029fd452f693a620a0191e8ee5c1524e51673d",
+      "mediaType": "image/png",
+      "bytes": 1150709,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "禁制残片(蓝盘)",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "fragment-seal-b",
+        "targetName": "item/fragment-seal-b.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_270429.png",
+      "sha256": "a227829c0abd330a837184940420326bc4bc05372f9f40981d834331015b7106",
+      "mediaType": "image/png",
+      "bytes": 1242112,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "五行阵基",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "artifact-five-element-base",
+        "targetName": "item/artifact-five-element-base.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_28113.png",
+      "sha256": "96a0ca6d875cf8f92238d7824dac1f25d2a79734f978be0c547b276adf5e0a72",
+      "mediaType": "image/png",
+      "bytes": 1407370,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "skill",
+        "candidateUse": "大五行幻世诀",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "skill-five-element-illusion",
+        "targetName": "skill/skill-five-element-illusion.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_282403.png",
+      "sha256": "d51f1f060d000f367bdc4d46215d3c01e970a2badc7a2ffddaae97bba5aa47ad",
+      "mediaType": "image/png",
+      "bytes": 1060476,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "玄天斩灵剑(剑柄)",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "artifact-xuantian-sword-hilt",
+        "targetName": "item/artifact-xuantian-sword-hilt.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_285091.png",
+      "sha256": "5831bca476da327b395c9f0456d676800ec98c3950ba46566e4ce3b2d85b4042",
+      "mediaType": "image/png",
+      "bytes": 1308512,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "翠影垂柳",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-jade-willow",
+        "targetName": "environment/env-jade-willow.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_286775.png",
+      "sha256": "dd48a13a9a4eb1ea7c502cc1f62272408b7e7a8687a5bba5ba42f7287dc9832d",
+      "mediaType": "image/png",
+      "bytes": 1191029,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "巨力符",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "talisman-juli",
+        "targetName": "item/talisman-juli.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_290885.png",
+      "sha256": "022b884e20ccb876b4352e3e3baf7c985f6b55265de1b412031b35266795806e",
+      "mediaType": "image/png",
+      "bytes": 1148016,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "空间碎石",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "material-space-shard",
+        "targetName": "item/material-space-shard.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_291759.png",
+      "sha256": "d4cdb67f399815f83e03e41c84dbabdfcefcb30087f6f81187e32d6d71d7b5cf",
+      "mediaType": "image/png",
+      "bytes": 1211967,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "character",
+        "candidateUse": "啼魂兽",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "pet-tihun-beast",
+        "targetName": "character/pet-tihun-beast.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_296401.png",
+      "sha256": "e5383d818e765c06c387be21fd00bf662d63e1dd8df272c7f2efeb00ebe8e2c5",
+      "mediaType": "image/png",
+      "bytes": 1046642,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "五行草",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "herb-five-element",
+        "targetName": "item/herb-five-element.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_298798.png",
+      "sha256": "b7e232cc4d71871c49c86a43e4c6f8840ad2b27cae95a0ff9b513000b3d6f980",
+      "mediaType": "image/png",
+      "bytes": 1063263,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "魔气黑竹",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-demon-bamboo",
+        "targetName": "environment/env-demon-bamboo.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_299561.png",
+      "sha256": "45f744ff4cae078536a7fed7e58657472c9df1c471cf2a6a62b0e04ae45943d4",
+      "mediaType": "image/png",
+      "bytes": 1309241,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "skill",
+        "candidateUse": "大日真魔手",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "skill-dari-demon-hand",
+        "targetName": "skill/skill-dari-demon-hand.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_30213.png",
+      "sha256": "aab4d46c20a75769d23eea6fcd66a0b0849eab1a3571f9c6b3897ad9e80c059f",
+      "mediaType": "image/png",
+      "bytes": 1286454,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "残存古鼎",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "artifact-ancient-cauldron",
+        "targetName": "item/artifact-ancient-cauldron.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_303280.png",
+      "sha256": "b33267c11974e26cdcfb25baf3619b38f6ab50cea7baaaa67316d3af857a5477",
+      "mediaType": "image/png",
+      "bytes": 1350201,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "空间裂缝",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-space-rift",
+        "targetName": "environment/env-space-rift.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_304029.png",
+      "sha256": "00ae916cb18ad6ec770c0f26eb6c9b93fafb5ced2c64d4cbe2fd0527786c7a1e",
+      "mediaType": "image/png",
+      "bytes": 1131729,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "落尘符",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "talisman-luochen",
+        "targetName": "item/talisman-luochen.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_309164.png",
+      "sha256": "a1496434ccff200e2db7700c509ecd19e978f8932a6b7acada9d32fb60567dc5",
+      "mediaType": "image/png",
+      "bytes": 1267118,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "上古传送阵",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-teleport-array",
+        "targetName": "environment/env-teleport-array.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_31091.png",
+      "sha256": "8c02006dcebe1be6a07e85fedf9c2e574a502dbfb18896002e7b1740b95ca118",
+      "mediaType": "image/png",
+      "bytes": 1652047,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "skill",
+        "candidateUse": "梵圣真魔功",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "skill-fansheng-art",
+        "targetName": "skill/skill-fansheng-art.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_322269.png",
+      "sha256": "7d209b97a733b5e5a13b0eb62ec211bea24938088153b7e00fe190571452b672",
+      "mediaType": "image/png",
+      "bytes": 1139439,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "阵法断柱",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-broken-pillar-a",
+        "targetName": "environment/env-broken-pillar-a.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_330428.png",
+      "sha256": "e85231d4c4a22293a886983d3fb6ad24696335c5bd01099ce4c85a8c0c6545ab",
+      "mediaType": "image/png",
+      "bytes": 1543244,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "小极宫",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-xiaoji-palace",
+        "targetName": "environment/env-xiaoji-palace.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_347534.png",
+      "sha256": "fe5e6d779b47323a404d81ef018f41073f4c581c9e80919fa691d59e1d321bfb",
+      "mediaType": "image/png",
+      "bytes": 1208060,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "character",
+        "candidateUse": "呼言道人",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "npc-huyan-daoist",
+        "targetName": "character/npc-huyan-daoist.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_35008.png",
+      "sha256": "a7f3cd4ef9c62a81efa6dfd1a4fff22328ab761377c9518e966ae93e431adedc",
+      "mediaType": "image/png",
+      "bytes": 1107099,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "浮空符石",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "material-floating-runestone",
+        "targetName": "item/material-floating-runestone.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_352782.png",
+      "sha256": "cc2a18a911923087cb5d43dd934d07ed408bad637bfd1b77f176a48cf50bd9a0",
+      "mediaType": "image/png",
+      "bytes": 1492143,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "古魂巨榕",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-soul-banyan",
+        "targetName": "environment/env-soul-banyan.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_353653.png",
+      "sha256": "6188cf1b17da1c4da164e88620934025e1a4bc9a15561ad33afad8e0557c9d4a",
+      "mediaType": "image/png",
+      "bytes": 1184358,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "绝壁灵松",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-cliff-pine",
+        "targetName": "environment/env-cliff-pine.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_354979.png",
+      "sha256": "d0a9cb73b202f93156da84e9fcb8334faf1b9d9509b455c2d6a3f3500adc62a3",
+      "mediaType": "image/png",
+      "bytes": 1207579,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "霜玉花",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "herb-frost-jade-flower",
+        "targetName": "item/herb-frost-jade-flower.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_357219.png",
+      "sha256": "d53779d8b6ea1365644190a80f8336f2d003666b4d532179628cd471116c0079",
+      "mediaType": "image/png",
+      "bytes": 1243836,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "character",
+        "candidateUse": "向之礼",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "npc-xiang-zhili",
+        "targetName": "character/npc-xiang-zhili.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_359756.png",
+      "sha256": "21f7afb80d1659f94b4edf868ec4779c14d5dbbd9ea71d067f920699dda4c489",
+      "mediaType": "image/png",
+      "bytes": 1503399,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "character",
+        "candidateUse": "六道极圣",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "npc-liudao-jisheng",
+        "targetName": "character/npc-liudao-jisheng.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_359861.png",
+      "sha256": "4e62e45f9d84f7532905a9d6990172df2dafe9d933f7770b91762d0aba8160ed",
+      "mediaType": "image/png",
+      "bytes": 1205883,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "无边沙海",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-endless-desert",
+        "targetName": "environment/env-endless-desert.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_359926.png",
+      "sha256": "55c5c169d39339f6feb6574921886b8ef72d73c7045c9d9d342b3ec063a98ce7",
+      "mediaType": "image/png",
+      "bytes": 1280809,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "三焰扇",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "artifact-three-flame-fan",
+        "targetName": "item/artifact-three-flame-fan.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_365377.png",
+      "sha256": "b00c3e7a0ff0aa2066111bf46fa1b3bc887daeecb4d43c0c1cd8ecfdb4570179",
+      "mediaType": "image/png",
+      "bytes": 1349353,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "降雷符",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "talisman-jianglei",
+        "targetName": "item/talisman-jianglei.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_368337.png",
+      "sha256": "937b7d8d7ffdf199d9d4f086376330e9abbedcf6c7486c198ab33fe047205ee2",
+      "mediaType": "image/png",
+      "bytes": 1305996,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "振山珠",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "artifact-zhenshan-orb",
+        "targetName": "item/artifact-zhenshan-orb.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_373244.png",
+      "sha256": "d53796008038f77fa99c7b20a154f042a46154a55285bf7561c7affbffbec856",
+      "mediaType": "image/png",
+      "bytes": 1231098,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "医草晒架",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-herb-rack-a",
+        "targetName": "environment/env-herb-rack-a.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_376355.png",
+      "sha256": "a0e44d0114d1c37ce62576a162857a059b096e4b1e772663a958b48266631755",
+      "mediaType": "image/png",
+      "bytes": 1395147,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "仙宫大门",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-immortal-gate",
+        "targetName": "environment/env-immortal-gate.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_378689.png",
+      "sha256": "d25fd43e5537d54586aa3923f67e5a47fb5ddc23cc99c95aa0a2042e9ef5e4ea",
+      "mediaType": "image/png",
+      "bytes": 1448656,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "蛮荒古藤",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-ancient-vine",
+        "targetName": "environment/env-ancient-vine.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_379704.png",
+      "sha256": "30578173f8430b35dd9fc3f0cda8e1265a5572d6b41eef7c6d13fe749644aa73",
+      "mediaType": "image/png",
+      "bytes": 1151727,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "炼天铜",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "material-liantian-copper",
+        "targetName": "item/material-liantian-copper.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_382393.png",
+      "sha256": "c46f10bfdbc181808bcc12213b0ff2187a7867dde2e5c746a73be287ced13142",
+      "mediaType": "image/png",
+      "bytes": 1315502,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "character",
+        "candidateUse": "银月(狼形)",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "pet-yinyue-wolf",
+        "targetName": "character/pet-yinyue-wolf.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_384082.png",
+      "sha256": "5b11eba9a3d0ac6aafd15825ec7345990855bcf72a4a5f8301261f89216fc7fd",
+      "mediaType": "image/png",
+      "bytes": 1228690,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "天戈符",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "talisman-tiange",
+        "targetName": "item/talisman-tiange.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_387879.png",
+      "sha256": "9d86fe3a2165e06f1a854400f24219ea62839bc7e332c776bda5ecf678ee5047",
+      "mediaType": "image/png",
+      "bytes": 1157841,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "character",
+        "candidateUse": "器灵·银月",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "pet-yinyue-spirit",
+        "targetName": "character/pet-yinyue-spirit.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_388327.png",
+      "sha256": "f1d3ebeb7cec1e332cf6653e444bde736187c7eae196cf0f0c47609f595edc02",
+      "mediaType": "image/png",
+      "bytes": 1259107,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "灵脉露头",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-vein-outcrop",
+        "targetName": "environment/env-vein-outcrop.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_391308.png",
+      "sha256": "8a49047e7253e73072c486c27edec7d3b418e5c394de1960aa8cafa361eae3ca",
+      "mediaType": "image/png",
+      "bytes": 1307571,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "玄玉奇峰",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-xuanyu-peak",
+        "targetName": "environment/env-xuanyu-peak.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_391927.png",
+      "sha256": "a449696e3bfb7f121f5986f5811cf64a04238cf181de578f8df46af6439bfeed",
+      "mediaType": "image/png",
+      "bytes": 1102131,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "避雷丹",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "pill-bilei",
+        "targetName": "item/pill-bilei.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_394378.png",
+      "sha256": "7d238b756586a13f1143e443779896704c5299c4a1327fe46a6d88aa3ed5f001",
+      "mediaType": "image/png",
+      "bytes": 1380063,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "虚天鼎(蓝焰)",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "artifact-xutian-cauldron-b",
+        "targetName": "item/artifact-xutian-cauldron-b.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_396385.png",
+      "sha256": "df2968562dc65233b273507ddc435e3b1e7a8a715b5100f275a7154f64d4f9d7",
+      "mediaType": "image/png",
+      "bytes": 1489426,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "enemy",
+        "candidateUse": "独角银蟒",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "enemy-silver-serpent",
+        "targetName": "enemy/enemy-silver-serpent.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_398716.png",
+      "sha256": "b8e6832248ff943095df24be007485a3c39c4f4ed3ccf8afe41c95d864173bd5",
+      "mediaType": "image/png",
+      "bytes": 1326605,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "封印祭坛",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-seal-altar",
+        "targetName": "environment/env-seal-altar.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_407749.png",
+      "sha256": "2a4d126a71f4c25f61268ca069c85438d9abead704b04282de3402eb8570b546",
+      "mediaType": "image/png",
+      "bytes": 1420156,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "曲径通幽",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-winding-path",
+        "targetName": "environment/env-winding-path.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_4212.png",
+      "sha256": "177754a47203585233d047eeb8876a605b0d5cb79501d4777941f81b02da5b31",
+      "mediaType": "image/png",
+      "bytes": 1093381,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "玄青翠竹",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-azure-bamboo",
+        "targetName": "environment/env-azure-bamboo.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_422209.png",
+      "sha256": "2d4477191555a824b7eba5965e15ef9d2c956f65ccca5b3739589fae66497f42",
+      "mediaType": "image/png",
+      "bytes": 1419531,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "碧水飞瀑",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-jade-waterfall",
+        "targetName": "environment/env-jade-waterfall.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_424287.png",
+      "sha256": "7640a0bdfd1c6eba3c12c50645d1817885acc67ca4fdf77ea446b942598c6b3e",
+      "mediaType": "image/png",
+      "bytes": 1212213,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "skill",
+        "candidateUse": "五行神光",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "skill-five-element-light-a",
+        "targetName": "skill/skill-five-element-light-a.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_426076.png",
+      "sha256": "5ca938e0f32053f108d2f0419abeea2927389aac850aca45f56f2d50feed90cf",
+      "mediaType": "image/png",
+      "bytes": 1175996,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "悬浮翠玉",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "material-floating-jade",
+        "targetName": "item/material-floating-jade.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_428135.png",
+      "sha256": "e2b75a9538feca92680ef2096ef30462b99a2cc14b38671a2bc1de31f7288735",
+      "mediaType": "image/png",
+      "bytes": 1224959,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "木极山",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "artifact-wood-peak",
+        "targetName": "item/artifact-wood-peak.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_429941.png",
+      "sha256": "8570d7d4950ba8f72d48a95502cbf82f08906778c34b9447a74109fdcb178892",
+      "mediaType": "image/png",
+      "bytes": 1592047,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "太南小会",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-tainan-meet-a",
+        "targetName": "environment/env-tainan-meet-a.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_434110.png",
+      "sha256": "0cd9ef80c71719eabf8a1f54f40c6a36899e33d3c0b8c38d3a67fc5f238a3225",
+      "mediaType": "image/png",
+      "bytes": 1542187,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "character",
+        "candidateUse": "车老妖",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "npc-che-laoyao",
+        "targetName": "character/npc-che-laoyao.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_43671.png",
+      "sha256": "61b421ac9f108652ee40a3a87fc9fd904b45bffb51630f2ae03b4ece91423035",
+      "mediaType": "image/png",
+      "bytes": 1575982,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "character",
+        "candidateUse": "闻老魔",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "npc-wen-laomo",
+        "targetName": "character/npc-wen-laomo.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_437900.png",
+      "sha256": "b0ae9bbd1375c3aad946c94a7c3a5697c716bf3e1e6882ed414e337413fc9fd7",
+      "mediaType": "image/png",
+      "bytes": 1113458,
+      "width": 1376,
+      "height": 768,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "坠魔谷",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-zhuimo-valley",
+        "targetName": "environment/env-zhuimo-valley.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_44036.png",
+      "sha256": "d3ae5098a809afc8224e2f1399eb73d03782c0378f4d22d7e291f10aa2b4c239",
+      "mediaType": "image/png",
+      "bytes": 1388831,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "character",
+        "candidateUse": "器灵·鼎灵",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "pet-cauldron-spirit",
+        "targetName": "character/pet-cauldron-spirit.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_446040.png",
+      "sha256": "ad4b8467802172b876714acd0eacd8c91b54d11821bbca6102aba13d1488ccd1",
+      "mediaType": "image/png",
+      "bytes": 1105604,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "魔化黑竹",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-corrupt-bamboo",
+        "targetName": "environment/env-corrupt-bamboo.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_451227.png",
+      "sha256": "da5fe512f2c730335375552343edc6aee6414cf64edaccc09bf217575864cc2d",
+      "mediaType": "image/png",
+      "bytes": 1332914,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "character",
+        "candidateUse": "南宫婉",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "npc-nangong-wan",
+        "targetName": "character/npc-nangong-wan.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_451515.png",
+      "sha256": "776a27dc0acb252bb2817116f1160127d24ef744f759408ac659cc1299a576df",
+      "mediaType": "image/png",
+      "bytes": 1663280,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "character",
+        "candidateUse": "冰魄仙子",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "npc-bingpo-fairy",
+        "targetName": "character/npc-bingpo-fairy.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_457529.png",
+      "sha256": "3b60957f4390931fafaa67932e4e2e0315c20fe38043d88b46a294cc28664571",
+      "mediaType": "image/png",
+      "bytes": 1393293,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "金蜈子母刃符宝",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "talisman-jinwu-blades",
+        "targetName": "item/talisman-jinwu-blades.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_461577.png",
+      "sha256": "98a60da03e2934ccb34452b77bb091937bed3dc7573aeb840a76d83d9c226195",
+      "mediaType": "image/png",
+      "bytes": 1313315,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "养魂木",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "material-soul-wood",
+        "targetName": "item/material-soul-wood.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_466101.png",
+      "sha256": "3d1691c1bbf9b02d0a469653de4a3fa16f12e42ba5128c6db05ac03966d32c82",
+      "mediaType": "image/png",
+      "bytes": 1248829,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "飞剑符宝",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "talisman-flying-sword",
+        "targetName": "item/talisman-flying-sword.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_467108.png",
+      "sha256": "5eb9c20b406457304199871f194e0099981c0a4478540eba5d8c74f75435b37d",
+      "mediaType": "image/png",
+      "bytes": 1128834,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "黑风旗",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "artifact-black-wind-flag",
+        "targetName": "item/artifact-black-wind-flag.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_471046.png",
+      "sha256": "ca5e601b05c055f9e0ad24f749e536b4f9d9514ec3d904afe044a459afc0efee",
+      "mediaType": "image/png",
+      "bytes": 1098905,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "character",
+        "candidateUse": "器灵·血灵",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "pet-blood-spirit",
+        "targetName": "character/pet-blood-spirit.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_480422.png",
+      "sha256": "b0e5e93aeffb474502ac903154fbea0f5baff918d97f52777ae3b9baf12bd77d",
+      "mediaType": "image/png",
+      "bytes": 1158810,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "饲灵丸",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "pill-siling",
+        "targetName": "item/pill-siling.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_482775.png",
+      "sha256": "8a4617178b2a9a414b22847b47ce06e266871e59717b5565a883c4113e53f965",
+      "mediaType": "image/png",
+      "bytes": 1501217,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "三梵雷镜",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "artifact-sanfan-mirror",
+        "targetName": "item/artifact-sanfan-mirror.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_486185.png",
+      "sha256": "329692ac5cff82a87a9c7507c665e39b261df0af3b543e115887d3d38e1c3c76",
+      "mediaType": "image/png",
+      "bytes": 1448130,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "玄冰幽谷",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-ice-valley",
+        "targetName": "environment/env-ice-valley.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_49160.png",
+      "sha256": "289a6ca3518a2e6908ac1336717992b5613a99e9ac11551991a44a373f8d967f",
+      "mediaType": "image/png",
+      "bytes": 1555169,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "skill",
+        "candidateUse": "大庚剑阵",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "skill-dageng-formation",
+        "targetName": "skill/skill-dageng-formation.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_495445.png",
+      "sha256": "d6d078d6b0b7e88907ebcdd0f694403b0fb7674f952316e1e6c39e5bcd909e46",
+      "mediaType": "image/png",
+      "bytes": 1201302,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "character",
+        "candidateUse": "墨大夫",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "npc-mo-daifu",
+        "targetName": "character/npc-mo-daifu.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_498112.png",
+      "sha256": "7884e300dcd86cbb5beafe4acf2e7fa575a8ac2bcf1307edb65e63f3687ea64a",
+      "mediaType": "image/png",
+      "bytes": 1394500,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "character",
+        "candidateUse": "洛虹",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "npc-luohong",
+        "targetName": "character/npc-luohong.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_500025.png",
+      "sha256": "368397f0e092d69a1febd430351f76597e987cad0d4b96513f502afb69a6f709",
+      "mediaType": "image/png",
+      "bytes": 1312107,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "裸露灵脉",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-exposed-vein",
+        "targetName": "environment/env-exposed-vein.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_509509.png",
+      "sha256": "aa00c511332829d1b877503f2b50c2e75626524ca2364328efdd11402fda3711",
+      "mediaType": "image/png",
+      "bytes": 1351571,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "虚空石柱",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-void-pillar",
+        "targetName": "environment/env-void-pillar.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_50969.png",
+      "sha256": "ad2f19932121cc26cf27bdac22e222159b554fb9fd6222a919e7eaffb99135ce",
+      "mediaType": "image/png",
+      "bytes": 1656938,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "character",
+        "candidateUse": "噬金虫王",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "pet-insect-king",
+        "targetName": "character/pet-insect-king.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_514856.png",
+      "sha256": "891437ec04a2673c3d3b4c5fc524981c74b2f1fd7226d4d0aa09eae68f7d8fdd",
+      "mediaType": "image/png",
+      "bytes": 1235686,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "玄天斩灵剑",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "artifact-xuantian-sword",
+        "targetName": "item/artifact-xuantian-sword.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_522381.png",
+      "sha256": "b5d110ee92946393d50df478fd09ee59f0b746ade8f06d88e4f887a6da6c1ca2",
+      "mediaType": "image/png",
+      "bytes": 1092764,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "下品灵石",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "spirit-stone-low",
+        "targetName": "item/spirit-stone-low.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_523146.png",
+      "sha256": "0d0f7e23715995428d20d4c9e2d9aaf354e5ca0369b8a158652537d0d1cf4fc1",
+      "mediaType": "image/png",
+      "bytes": 1448530,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "天渊城",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-tianyuan-city",
+        "targetName": "environment/env-tianyuan-city.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_526313.png",
+      "sha256": "e31100a471ee5f7481b9dfd6d24bed91f72392ecff053481f54f7f379fd4a5f7",
+      "mediaType": "image/png",
+      "bytes": 1441321,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "character",
+        "candidateUse": "极阴祖师",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "npc-jiyin-patriarch",
+        "targetName": "character/npc-jiyin-patriarch.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_526640.png",
+      "sha256": "39f1e540ccbf848afd796e67df199fb9c3e9d7c8bc1704007d78967c75e9c070",
+      "mediaType": "image/png",
+      "bytes": 1416491,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "炼丹阁",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-alchemy-pavilion",
+        "targetName": "environment/env-alchemy-pavilion.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_527550.png",
+      "sha256": "1301d9d93248325c6d86684c20be78f347da8d1e7e4b25f3c1c60c84b1ca10e0",
+      "mediaType": "image/png",
+      "bytes": 1180480,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "传送符",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "talisman-teleport",
+        "targetName": "item/talisman-teleport.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_542023.png",
+      "sha256": "512445c30d74cab414880474f65ac4a75d5774c3a0a2d9a05630f52fc6a42056",
+      "mediaType": "image/png",
+      "bytes": 1393323,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "萤火灵河",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-firefly-river",
+        "targetName": "environment/env-firefly-river.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_547238.png",
+      "sha256": "8f70b5e2f4793541ac8996a8238ddbf8de6fe9da76894a46c037c5e27fe402a3",
+      "mediaType": "image/png",
+      "bytes": 1228351,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "天火液",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "material-skyfire-liquid",
+        "targetName": "item/material-skyfire-liquid.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_548760.png",
+      "sha256": "3846a7e9b2e9f8047197be951e941ceec2dffcd54b53df466eafac4b91858d44",
+      "mediaType": "image/png",
+      "bytes": 1506721,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "skill",
+        "candidateUse": "极寒领域",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "skill-frost-domain",
+        "targetName": "skill/skill-frost-domain.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_549519.png",
+      "sha256": "d729365960b2ed36a0dcb61b7c7f61689df6c6ac664b782ba93aa4fbd0dc221f",
+      "mediaType": "image/png",
+      "bytes": 1145755,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "隐身符",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "talisman-yinshen",
+        "targetName": "item/talisman-yinshen.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_552321.png",
+      "sha256": "49a892a333601201f7b40204bb3edcec7eb7b25e9342ce2c2e72bbd993f45461",
+      "mediaType": "image/png",
+      "bytes": 1209728,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "万年灵草",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "herb-wannian",
+        "targetName": "item/herb-wannian.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_552636.png",
+      "sha256": "73a097d86361ae6a0378ab2053d8f5a31476237e75d56e6451a7f12619a388d7",
+      "mediaType": "image/png",
+      "bytes": 1316747,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "skill",
+        "candidateUse": "五行神光(涡)",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "skill-five-element-light-b",
+        "targetName": "skill/skill-five-element-light-b.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_552949.png",
+      "sha256": "0007e18ab3a5709cc223b7acf567d5c741a3887d5c1ed02ad394acbb4bec1b72",
+      "mediaType": "image/png",
+      "bytes": 1588710,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "skill",
+        "candidateUse": "梵圣真魔法相",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "skill-fansheng-avatar",
+        "targetName": "skill/skill-fansheng-avatar.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_553321.png",
+      "sha256": "c321da7bda2cdf2b011b483d2583a83348799c5dfa93994b1027d827c6e36192",
+      "mediaType": "image/png",
+      "bytes": 1359751,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "冰灵寒莲",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "herb-ice-lotus",
+        "targetName": "item/herb-ice-lotus.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_557304.png",
+      "sha256": "2c7f68d5226ab090a1e2b75ef19213c8d60cad112e140525bc97f15854585df3",
+      "mediaType": "image/png",
+      "bytes": 1003666,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "淬灵丹",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "pill-cuiling",
+        "targetName": "item/pill-cuiling.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_562360.png",
+      "sha256": "11f34a7fef4c93e26de2a372546dafb91c2d514b416b091fa616c9705b93bf2f",
+      "mediaType": "image/png",
+      "bytes": 1191488,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "破界丹",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "pill-pojie",
+        "targetName": "item/pill-pojie.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_565983.png",
+      "sha256": "7bb489151fd137a3b2e742c6031f5cd342a690635c24e866dc161a8d5d512008",
+      "mediaType": "image/png",
+      "bytes": 1012683,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "虚神莲",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "herb-xushen-lotus",
+        "targetName": "item/herb-xushen-lotus.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_571483.png",
+      "sha256": "70500915d3a40c7554222e4b315b968a2e4bba775d8899b09860328d237038fa",
+      "mediaType": "image/png",
+      "bytes": 1420441,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "character",
+        "candidateUse": "紫灵",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "npc-ziling",
+        "targetName": "character/npc-ziling.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_573121.png",
+      "sha256": "565511cfa1f92a3bf3b120a782233920714338cb19b708967926092406424330",
+      "mediaType": "image/png",
+      "bytes": 1292263,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "劈山斧",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "artifact-mountain-axe",
+        "targetName": "item/artifact-mountain-axe.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_576032.png",
+      "sha256": "1fc225b0bf304d109abb22b40bf5e0ff6a743baca2995521ed7b6d9857b9e535",
+      "mediaType": "image/png",
+      "bytes": 1458115,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "effect",
+        "candidateUse": "深海巨爪",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "fx-deep-sea-claw",
+        "targetName": "effect/fx-deep-sea-claw.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_579497.png",
+      "sha256": "e825f4aebd8eefbb09ce8254b787fa4052636761e478e5a8ac51ffbd302f6ec7",
+      "mediaType": "image/png",
+      "bytes": 1506927,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "character",
+        "candidateUse": "元瑶",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "npc-yuanyao-a",
+        "targetName": "character/npc-yuanyao-a.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_58587.png",
+      "sha256": "ba0666419099501e89d462361071ab900c61660184cd68086c669d317786979c",
+      "mediaType": "image/png",
+      "bytes": 1077125,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "阴芝马",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "material-yinzhi-horse",
+        "targetName": "item/material-yinzhi-horse.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_594174.png",
+      "sha256": "b8bc157fa326ae5fc09d8f222fb5460100ea29d0d7d5182bd2b8e0e085d2ff28",
+      "mediaType": "image/png",
+      "bytes": 1426332,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "灵芝花海",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-lingzhi-sea",
+        "targetName": "environment/env-lingzhi-sea.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_596189.png",
+      "sha256": "b130be996dd175855bba69c9a78d74cec5d2957d21a334dd6cf893385cf2af76",
+      "mediaType": "image/png",
+      "bytes": 1121579,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "七叶赤箭",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "herb-qiye-chijian",
+        "targetName": "item/herb-qiye-chijian.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_596566.png",
+      "sha256": "3bc513fffb7c19881cfd13b22f825a08cc84a6e4a1c49ee7df3af1988de5c273",
+      "mediaType": "image/png",
+      "bytes": 1291029,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "skill",
+        "candidateUse": "大衍决",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "skill-dayan-art",
+        "targetName": "skill/skill-dayan-art.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_60108.png",
+      "sha256": "cc38dd53707a147fc4441f0534395740f7ff0f78703f33b5df2fa03c452c83a1",
+      "mediaType": "image/png",
+      "bytes": 1390523,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "雷火古木",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-thunderfire-tree",
+        "targetName": "environment/env-thunderfire-tree.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_60552.png",
+      "sha256": "cff77b88a2106b3904b366696e2ec2142e942e458e461834ed1b3fb5f397f210",
+      "mediaType": "image/png",
+      "bytes": 1163298,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "龙血草",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "herb-dragon-blood",
+        "targetName": "item/herb-dragon-blood.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_610161.png",
+      "sha256": "181a505333b581656f87e52cdbd9dd34aa3a17efef230a696ce6304d64084d4f",
+      "mediaType": "image/png",
+      "bytes": 1074818,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "斩灵刀(黑刃)",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "artifact-zhanling-blade-b",
+        "targetName": "item/artifact-zhanling-blade-b.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_611952.png",
+      "sha256": "c9e8846a65e0843bbda05680daaccc62df29275d90a418cb2c0c325e99b0227a",
+      "mediaType": "image/png",
+      "bytes": 1282721,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "水极山",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "artifact-water-peak",
+        "targetName": "item/artifact-water-peak.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_613804.png",
+      "sha256": "92cce3215662270f7cea6a46feb5826b8abc654f740e317a6a5ce9b0beeedb02",
+      "mediaType": "image/png",
+      "bytes": 1468344,
+      "width": 1376,
+      "height": 768,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "昆吾祭坛",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-kunwu-altar",
+        "targetName": "environment/env-kunwu-altar.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_615128.png",
+      "sha256": "573f11abf2699ed5223f0cccfe36f3e0b262db97d9edd4a92edaad31f7ca3c42",
+      "mediaType": "image/png",
+      "bytes": 1042398,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "寿元果",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "fruit-shouyuan",
+        "targetName": "item/fruit-shouyuan.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_615204.png",
+      "sha256": "387cbab19323d046e35d49c3acf8924cf1f5b567758b493c6801379c67bab9d9",
+      "mediaType": "image/png",
+      "bytes": 1403037,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "灵药园",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-herb-garden",
+        "targetName": "environment/env-herb-garden.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_622075.png",
+      "sha256": "142d975af42b7aae71dd6d86de5db943b9a2812644dbaecf13f88ee6732eced7",
+      "mediaType": "image/png",
+      "bytes": 1480160,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "极寒冰峰",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-frost-peak",
+        "targetName": "environment/env-frost-peak.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_627186.png",
+      "sha256": "1be8e0d3351fbd506bceafceb90eab1aea3fbcb9e5959f8c597cf0f35f7f9966",
+      "mediaType": "image/png",
+      "bytes": 1173736,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "青元剑符宝",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "talisman-qingyuan-sword",
+        "targetName": "item/talisman-qingyuan-sword.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_631513.png",
+      "sha256": "dbdf3135a246aba9a3fdd25b6af65e214a6ed9a11e2465f476c25fbf83ada3ce",
+      "mediaType": "image/png",
+      "bytes": 1325654,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "五色祭坛",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-five-color-altar",
+        "targetName": "environment/env-five-color-altar.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_633713.png",
+      "sha256": "c728cb7a57fc61e0b83c79610e5ebb5be52a947d5002fd4d238118afec7257dd",
+      "mediaType": "image/png",
+      "bytes": 1089993,
+      "width": 1376,
+      "height": 768,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "天星城圣山",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-tianxing-mount",
+        "targetName": "environment/env-tianxing-mount.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_633741.png",
+      "sha256": "93b17921192384f2bd3308d743e126cda731ec91c79f9ac282108822020121cd",
+      "mediaType": "image/png",
+      "bytes": 1461994,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "enemy",
+        "candidateUse": "真灵金龙",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "enemy-golden-dragon",
+        "targetName": "enemy/enemy-golden-dragon.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_635306.png",
+      "sha256": "10b2af7a6f9e0fcd3a13a389f6370504d54ebb36b90b37cd9b44922f6716486a",
+      "mediaType": "image/png",
+      "bytes": 1303777,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "effect",
+        "candidateUse": "辟邪金雷",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "fx-bixie-lightning-a",
+        "targetName": "effect/fx-bixie-lightning-a.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_638814.png",
+      "sha256": "5a90852fb792fa57620d122cece15a52e2d7a36540dfceb43cf8bfc19a693c82",
+      "mediaType": "image/png",
+      "bytes": 1215498,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "七彩瑞莲",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "herb-rainbow-lotus",
+        "targetName": "item/herb-rainbow-lotus.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_641785.png",
+      "sha256": "85128ff355f4305ed54f9fcd586066e2e7b397a718c5f904c72495f12c2ade67",
+      "mediaType": "image/png",
+      "bytes": 1476446,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "character",
+        "candidateUse": "银月(觉醒)",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "pet-yinyue-awakened",
+        "targetName": "character/pet-yinyue-awakened.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_64752.png",
+      "sha256": "f7670355dbe565cd45b41fd75450de53fb8d1dc63a30f1276150aeb1861de7a0",
+      "mediaType": "image/png",
+      "bytes": 1269503,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "飞沙葫芦",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "artifact-sand-gourd",
+        "targetName": "item/artifact-sand-gourd.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_64779.png",
+      "sha256": "04fba98909941aca3f69b45d594d921d9af36019fbb3b7cc065f8cf4917a8637",
+      "mediaType": "image/png",
+      "bytes": 1232206,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "掌天瓶",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "artifact-heaven-vial",
+        "targetName": "item/artifact-heaven-vial.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_648552.png",
+      "sha256": "e368ba1540fe5a7d5a15b8c5bac52858154a2370ff7dc31b044786f4dbee4756",
+      "mediaType": "image/png",
+      "bytes": 1200104,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "skill",
+        "candidateUse": "风雷疾",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "skill-windthunder-dash",
+        "targetName": "skill/skill-windthunder-dash.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_651024.png",
+      "sha256": "39b3a3fb236bb0a890d9ca7b357d30ea2605362bce9d3cad5ed3851dd95ba3aa",
+      "mediaType": "image/png",
+      "bytes": 1380067,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "仙云石桥",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-cloud-bridge",
+        "targetName": "environment/env-cloud-bridge.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_651827.png",
+      "sha256": "4b0b31bfd8cb22175cb693e011c3737f64b89f60b629dd429e186804c2d9867a",
+      "mediaType": "image/png",
+      "bytes": 1366988,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "skill",
+        "candidateUse": "元磁神光",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "skill-yuanci-light",
+        "targetName": "skill/skill-yuanci-light.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_654361.png",
+      "sha256": "376dbc03b0986ddabcdfa19ce23a7bdf229d8e0ae42528a68a38c62d6c936574",
+      "mediaType": "image/png",
+      "bytes": 998110,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "九曲灵参",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "herb-jiuqu-ginseng",
+        "targetName": "item/herb-jiuqu-ginseng.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_659083.png",
+      "sha256": "0eb6592a085dcca0ea33bf60aaab1d9676e3d09ef890386437aa9817f1eeb883",
+      "mediaType": "image/png",
+      "bytes": 1197138,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "effect",
+        "candidateUse": "魔气旋涡",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "fx-demon-vortex",
+        "targetName": "effect/fx-demon-vortex.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_672469.png",
+      "sha256": "3d1f1c2ce4ba6dfc69ee4e4e1a18341fd7e0480c075d6db61943df38f6ac9c90",
+      "mediaType": "image/png",
+      "bytes": 1266005,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "五色扇",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "artifact-five-color-fan",
+        "targetName": "item/artifact-five-color-fan.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_676617.png",
+      "sha256": "9504827a0ab9cd5bec5a754b397d7e1d885f627cbb7fbcd4e33c6bf376d2ece7",
+      "mediaType": "image/png",
+      "bytes": 1122590,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "中品灵石",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "spirit-stone-mid",
+        "targetName": "item/spirit-stone-mid.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_677773.png",
+      "sha256": "95c1322bd9cb1604d8e1ce4db650fb1ab49ee601281ed5257f31fcf7cd187abb",
+      "mediaType": "image/png",
+      "bytes": 1288798,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "character",
+        "candidateUse": "凌玉灵",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "npc-ling-yuling",
+        "targetName": "character/npc-ling-yuling.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_678092.png",
+      "sha256": "f78b8923add8f56e3fb3627eeac356c677132f2e1ee5d052a89886c4dabcec49",
+      "mediaType": "image/png",
+      "bytes": 1348411,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "万剑冢",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-sword-tomb",
+        "targetName": "environment/env-sword-tomb.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_68039.png",
+      "sha256": "7865f657d9a1f9e1cbfd5baf5ad7dffe68981ee927c4c490255877c132fbfc77",
+      "mediaType": "image/png",
+      "bytes": 1151421,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "大鹏真血",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "material-peng-blood",
+        "targetName": "item/material-peng-blood.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_684439.png",
+      "sha256": "c510848248f2aa7de04faed428fd1811e9ec9c54568cea7c531679d749a42639",
+      "mediaType": "image/png",
+      "bytes": 1379064,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "七焰扇",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "artifact-seven-flame-fan",
+        "targetName": "item/artifact-seven-flame-fan.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_685425.png",
+      "sha256": "fe7bc788cfad1d02ccd43bf42347052a370a553f7effafe82de08ac5d25334fa",
+      "mediaType": "image/png",
+      "bytes": 1113417,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "青竹护篱",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-bamboo-fence",
+        "targetName": "environment/env-bamboo-fence.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_690894.png",
+      "sha256": "255a5c00a09ebb3c181570c805f27fcf9e74dae3fc01ed9cc435fd71b0908b05",
+      "mediaType": "image/png",
+      "bytes": 1238578,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "秘境入口",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-realm-portal",
+        "targetName": "environment/env-realm-portal.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_692276.png",
+      "sha256": "c6b6db498c91f413693436d3ed55d66649ff1eea2e15eaaf25ffb7adb1fd9710",
+      "mediaType": "image/png",
+      "bytes": 1430989,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "虚天殿",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-xutian-hall",
+        "targetName": "environment/env-xutian-hall.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_692936.png",
+      "sha256": "09cd0206eabf2268595ff05a4744e9383555c99b843521b4ab3ceed618b9913d",
+      "mediaType": "image/png",
+      "bytes": 1160567,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "character",
+        "candidateUse": "器灵·金龙",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "pet-golden-dragon-spirit",
+        "targetName": "character/pet-golden-dragon-spirit.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_695152.png",
+      "sha256": "12519711fa4e798a8642b8ac10f95ccb9a7b40623ec423152de96fd4459411f5",
+      "mediaType": "image/png",
+      "bytes": 1186560,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "灵泉奇石",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-spring-rock",
+        "targetName": "environment/env-spring-rock.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_706267.png",
+      "sha256": "9647cbb370fcbe8aa3b1f093dfd15071dc40d0e17ad32273700cca922312107b",
+      "mediaType": "image/png",
+      "bytes": 1284472,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "skill",
+        "candidateUse": "惊蛰指(金)",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "skill-jingzhe-finger-b",
+        "targetName": "skill/skill-jingzhe-finger-b.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_707063.png",
+      "sha256": "d18f521f69d96264f37d41c2226aabad6be53b7f4de203940ad051e49a214bc6",
+      "mediaType": "image/png",
+      "bytes": 1634304,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "深海珊瑚林",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-coral-forest",
+        "targetName": "environment/env-coral-forest.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_710629.png",
+      "sha256": "924fdbd9bc30d8557a3a5c554ab19b0de70f06ac56a20e73060e59e27a6b339b",
+      "mediaType": "image/png",
+      "bytes": 1269783,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "effect",
+        "candidateUse": "大庚剑网(金环)",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "fx-dageng-sword-net-b",
+        "targetName": "effect/fx-dageng-sword-net-b.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_712308.png",
+      "sha256": "90d0d84fe2022232691613acf844f72d42b94d65e56e01f48b94100a31e908c9",
+      "mediaType": "image/png",
+      "bytes": 1448499,
+      "width": 1376,
+      "height": 768,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "太南小会(浮岛)",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-tainan-meet-b",
+        "targetName": "environment/env-tainan-meet-b.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_714610.png",
+      "sha256": "2bdc158d562573200e1985508e3ddfbe34a0e74bd22d452530ad037aab409784",
+      "mediaType": "image/png",
+      "bytes": 1401081,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "法则化池",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-law-pool",
+        "targetName": "environment/env-law-pool.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_715341.png",
+      "sha256": "84de200fedcdf54d1a257f687cc366a18f057348e2cebf5cdaa4dd66dcc48a4b",
+      "mediaType": "image/png",
+      "bytes": 1457933,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "宗门大殿",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-sect-hall",
+        "targetName": "environment/env-sect-hall.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_71554.png",
+      "sha256": "df2a68f3145447a48ae2e970b703155d86c53224dd2526d68c9ca8d076fa604b",
+      "mediaType": "image/png",
+      "bytes": 1340708,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "character",
+        "candidateUse": "掩月宗老祖",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "npc-yanyue-ancestor",
+        "targetName": "character/npc-yanyue-ancestor.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_726706.png",
+      "sha256": "01df420a7f5d96158b3f6239a15b4936ac9a5fd61ae85547cf042385016a733e",
+      "mediaType": "image/png",
+      "bytes": 1311597,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "蛮荒骨门",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-bone-gate",
+        "targetName": "environment/env-bone-gate.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_72744.png",
+      "sha256": "3058fb7f1551fd0fdfe204fa8d9a50c8121f7f38bcc68605b249f61dcf0353d5",
+      "mediaType": "image/png",
+      "bytes": 1231641,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "effect",
+        "candidateUse": "辟邪金雷(闪电)",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "fx-bixie-lightning-b",
+        "targetName": "effect/fx-bixie-lightning-b.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_728749.png",
+      "sha256": "f8ee51e23f386b0cca6c0b8f7c53946c5d6734508ca5258f5c99a95bc9935c55",
+      "mediaType": "image/png",
+      "bytes": 1258478,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "火极山",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "artifact-fire-peak",
+        "targetName": "item/artifact-fire-peak.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_731449.png",
+      "sha256": "511e675141f2a42b0dc1d637da90eb6286cbbbdfc433d50330c69c4fcd5d7e86",
+      "mediaType": "image/png",
+      "bytes": 1240597,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "金极山",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "artifact-metal-peak",
+        "targetName": "item/artifact-metal-peak.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_738757.png",
+      "sha256": "25e3672028a63307d5fb23ab3b979a57bd1317d4d4b567cd95385b6003b5ee73",
+      "mediaType": "image/png",
+      "bytes": 1209884,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "降尘丹",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "pill-jiangchen",
+        "targetName": "item/pill-jiangchen.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_738999.png",
+      "sha256": "2b01e36de1bb9bf516d3334271ecdbe55f8c59e962f32462076ee12ec4151cbe",
+      "mediaType": "image/png",
+      "bytes": 1542525,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "enemy",
+        "candidateUse": "吞天巨蟒",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "enemy-sky-serpent",
+        "targetName": "enemy/enemy-sky-serpent.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_740800.png",
+      "sha256": "8805063ce57963f9992e4b9419f2125aedff2ba0f49531aaa24f868018f72cea",
+      "mediaType": "image/png",
+      "bytes": 1276007,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "平天尺符宝",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "talisman-pingtian-ruler",
+        "targetName": "item/talisman-pingtian-ruler.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_743698.png",
+      "sha256": "f922e65add2ed4a77bd50546c9514ae795dc41d07ef3a13293c2edc5e0ee8284",
+      "mediaType": "image/png",
+      "bytes": 1123310,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "天雷竹",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "material-thunder-bamboo",
+        "targetName": "item/material-thunder-bamboo.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_747030.png",
+      "sha256": "815daf38aa8255a221928be689c8cdbe2ef1a36627003d65e3fe408eaf3805a1",
+      "mediaType": "image/png",
+      "bytes": 1164048,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "宗门路标",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-sect-signpost-a",
+        "targetName": "environment/env-sect-signpost-a.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_747455.png",
+      "sha256": "2e933b214749e7b8560901189b03dc4cbc16e4f05cc2b9a060548cfe1a0e4f43",
+      "mediaType": "image/png",
+      "bytes": 1470147,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "真灵穴",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-zhenling-cave",
+        "targetName": "environment/env-zhenling-cave.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_751980.png",
+      "sha256": "c0a6616ed4f68230eaa22148e1ff919c5c2339d9d5a26e3f9f114e60559a955f",
+      "mediaType": "image/png",
+      "bytes": 1267732,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "乾坤塔",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-qiankun-tower-a",
+        "targetName": "environment/env-qiankun-tower-a.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_752682.png",
+      "sha256": "66ca6eb07d424bcb667333b8cedb6c6c1ca4de5f803ee58490d05b07d8ced5ea",
+      "mediaType": "image/png",
+      "bytes": 1367428,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "character",
+        "candidateUse": "银月(人形)",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "pet-yinyue-human",
+        "targetName": "character/pet-yinyue-human.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_753809.png",
+      "sha256": "dfe3de49b78b730e88e63492e2d56e24b341bc8bc584b1e55a0178dc736b8e1a",
+      "mediaType": "image/png",
+      "bytes": 1257998,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "灵源矿区",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-spirit-mine",
+        "targetName": "environment/env-spirit-mine.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_763967.png",
+      "sha256": "6b9453559eedf01a2ec9f9b1a45e856ff53e7f8d2f1bb85cd6ef87e2a5534263",
+      "mediaType": "image/png",
+      "bytes": 1227324,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "紫铖兜",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "artifact-purple-helm",
+        "targetName": "item/artifact-purple-helm.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_765249.png",
+      "sha256": "33616f2833b56935c9d78fb7df05d5f29fdab83f62bd263975e5fd2091bcaaed",
+      "mediaType": "image/png",
+      "bytes": 1139533,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "狼首玉如意",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "artifact-wolf-ruyi",
+        "targetName": "item/artifact-wolf-ruyi.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_77675.png",
+      "sha256": "6d1c437861a6feead74546d3671f7c95e4ec826cc373b70f20846e88df8f8291",
+      "mediaType": "image/png",
+      "bytes": 1364594,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "character",
+        "candidateUse": "天澜圣女",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "npc-tianlan-maiden-a",
+        "targetName": "character/npc-tianlan-maiden-a.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_781464.png",
+      "sha256": "efb853408f0ed31f57df25617364eb7e0b0f6d8e1d5d57e7e1997bd50d62f508",
+      "mediaType": "image/png",
+      "bytes": 1322763,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "剑意残碑",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "material-sword-intent-stele",
+        "targetName": "item/material-sword-intent-stele.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_781744.png",
+      "sha256": "273ce194b89dfc6d5427175b32f96fe501f02791f1f9ddb26db4e8c89523df7e",
+      "mediaType": "image/png",
+      "bytes": 1160955,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "筑基丹",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "pill-zhuji",
+        "targetName": "item/pill-zhuji.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_793306.png",
+      "sha256": "825f4a5530b23d51ee559d286aa8650654f38a988db98ca50dd7e450ba92fbee",
+      "mediaType": "image/png",
+      "bytes": 1173734,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "裂缝碎石",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "material-rift-shard",
+        "targetName": "item/material-rift-shard.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_796293.png",
+      "sha256": "5cb6916af71e35815baa1870d2c3c33435938397b0b45e6e01fe704958577648",
+      "mediaType": "image/png",
+      "bytes": 1372706,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "云雾深壑",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-misty-gorge",
+        "targetName": "environment/env-misty-gorge.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_802172.png",
+      "sha256": "f26fb1572a3f10fef8d762a165dd94807ccc4683956438527e2d9486b40744d1",
+      "mediaType": "image/png",
+      "bytes": 1194633,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "琉璃镜",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "artifact-glass-mirror",
+        "targetName": "item/artifact-glass-mirror.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_813435.png",
+      "sha256": "3ed0d3c6dda8b7b164615b3054d105a03206682e0b722c8844a9dd75c7189bcd",
+      "mediaType": "image/png",
+      "bytes": 1047922,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "掌天瓶(小)",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "artifact-heaven-vial-small",
+        "targetName": "item/artifact-heaven-vial-small.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_816296.png",
+      "sha256": "3ba7be8cb5cc7dfad16a6ddfec35e932bf4492ccb70f13b75ca46955ca876db2",
+      "mediaType": "image/png",
+      "bytes": 1630653,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "character",
+        "candidateUse": "天澜圣女(孔雀)",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "npc-tianlan-maiden-b",
+        "targetName": "character/npc-tianlan-maiden-b.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_818506.png",
+      "sha256": "b4b5b735967d0277ad9f05e957878ab3c027dec05d1c1f68a82d40fb6c0d6d4d",
+      "mediaType": "image/png",
+      "bytes": 1410731,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "金光印",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "artifact-gold-seal-a",
+        "targetName": "item/artifact-gold-seal-a.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_82274.png",
+      "sha256": "ef49e30a54186c0c40f8d0a7cc4a51b2f68d62e0f79eebd1ed0875e214cafd6c",
+      "mediaType": "image/png",
+      "bytes": 1385086,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "金叶灵杏",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-gold-leaf-apricot",
+        "targetName": "environment/env-gold-leaf-apricot.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_825070.png",
+      "sha256": "f75a6b42e25f46c66dd74af0ab3dcd6ff8bcd8c21de549607c1b16ae6eb057a8",
+      "mediaType": "image/png",
+      "bytes": 1448800,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "character",
+        "candidateUse": "青阳门少主(青)",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "npc-qingyang-heir-b",
+        "targetName": "character/npc-qingyang-heir-b.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_827178.png",
+      "sha256": "13d1e687c6cd65c18294e74b94180f77ffb7670bbbf2b79f2b3e0ab084788592",
+      "mediaType": "image/png",
+      "bytes": 1398265,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "金光印(方印)",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "artifact-gold-seal-b",
+        "targetName": "item/artifact-gold-seal-b.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_829310.png",
+      "sha256": "967c1b92b659240d5d81ca3a0b6ef9a35684751233e2e71ac5a4f82c3afea8d8",
+      "mediaType": "image/png",
+      "bytes": 1157860,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "法则晶石",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "material-law-crystal",
+        "targetName": "item/material-law-crystal.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_829767.png",
+      "sha256": "6125948909c41ea98a6f9cf1c49fbfd2cb77a8f1c48edab86a69da5b43ac91fc",
+      "mediaType": "image/png",
+      "bytes": 1222687,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "玄天斩灵尺",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "artifact-xuantian-ruler",
+        "targetName": "item/artifact-xuantian-ruler.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_829972.png",
+      "sha256": "c4d5679618498bdfd7bb09ca4f80676c29b67648983f602d94b30e389e632f3f",
+      "mediaType": "image/png",
+      "bytes": 1231306,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "enemy",
+        "candidateUse": "深海巨鲸",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "enemy-deep-whale",
+        "targetName": "enemy/enemy-deep-whale.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_834601.png",
+      "sha256": "80b9689ed027479b284d9a803d7c05643d498413753f60ea57f499a837fd599f",
+      "mediaType": "image/png",
+      "bytes": 1277906,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "character",
+        "candidateUse": "元瑶(黑衣)",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "npc-yuanyao-b",
+        "targetName": "character/npc-yuanyao-b.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_835869.png",
+      "sha256": "0cd794839af978b6758fbc1b09069ffb2f8aba6cefbbef2c8116bede3c11f0be",
+      "mediaType": "image/png",
+      "bytes": 1472596,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "effect",
+        "candidateUse": "辟邪金雷(雷暴)",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "fx-bixie-lightning-c",
+        "targetName": "effect/fx-bixie-lightning-c.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_847299.png",
+      "sha256": "9d3c40f3ae917f7e77bd8dfdb256e9a1080809a5da5e9f0b1b5a7248ec5c697d",
+      "mediaType": "image/png",
+      "bytes": 1421058,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "灵泉深潭",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-spring-pool",
+        "targetName": "environment/env-spring-pool.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_848564.png",
+      "sha256": "865720c6572472a6899ac5cfbd0c7eb55db76400644bb4206ac2fd32049344c0",
+      "mediaType": "image/png",
+      "bytes": 974903,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "聚灵丹",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "pill-juling",
+        "targetName": "item/pill-juling.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_859263.png",
+      "sha256": "dca7e65aee5cb8b400b5440a7e2c434b8eb83bbf239dc4440d4ed11ed6aa5ce2",
+      "mediaType": "image/png",
+      "bytes": 1463897,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "洞天福地",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-cave-estate",
+        "targetName": "environment/env-cave-estate.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_860304.png",
+      "sha256": "d1abf7515f233e6de15a68434148ceafda26c8ba10b8e275792b95f20af0c86e",
+      "mediaType": "image/png",
+      "bytes": 1409155,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "character",
+        "candidateUse": "妍丽",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "npc-yanli",
+        "targetName": "character/npc-yanli.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_861444.png",
+      "sha256": "e7bf55c5d4ae56357521bbe2fa066fc4cb23e5b3ce2e45ec277c95a308217db6",
+      "mediaType": "image/png",
+      "bytes": 1580463,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "character",
+        "candidateUse": "韩立(元婴期)",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "hero-hanli",
+        "targetName": "character/hero-hanli.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_865960.png",
+      "sha256": "c035f05db1eb6cd04817cf38aa59b1d7e4c823ee8df67e9026090a0b3d6e2da9",
+      "mediaType": "image/png",
+      "bytes": 1013364,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "青元巨剑(翠)",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "artifact-azure-greatsword-b",
+        "targetName": "item/artifact-azure-greatsword-b.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_867090.png",
+      "sha256": "eea57cfa14e2b68376dd818aac1da5aea7fab0161e955f4969227209bd0af2c5",
+      "mediaType": "image/png",
+      "bytes": 1575227,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "character",
+        "candidateUse": "马良",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "npc-maliang",
+        "targetName": "character/npc-maliang.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_868411.png",
+      "sha256": "e5958e244f82993df02763aa8e0545330fb626f31ef1574cefd760d6dd581d12",
+      "mediaType": "image/png",
+      "bytes": 1153288,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "七彩灵瀑",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-rainbow-falls",
+        "targetName": "environment/env-rainbow-falls.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_874950.png",
+      "sha256": "5ff0b76094367b0dafefe74a4d9f49e0934cb0e76144cda156b7d8094e381ab9",
+      "mediaType": "image/png",
+      "bytes": 1291162,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "破甲符",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "talisman-pojia",
+        "targetName": "item/talisman-pojia.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_881258.png",
+      "sha256": "d1c86be71fda73831cfdcb0d250838e9f078d2ff36036b5c408d0843fa52b503",
+      "mediaType": "image/png",
+      "bytes": 1210594,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "character",
+        "candidateUse": "孙二狗",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "npc-sun-ergou",
+        "targetName": "character/npc-sun-ergou.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_886557.png",
+      "sha256": "38729ba4720cb3cf2128f2eed720477fe69a47bae7704f102aa41215fd11dfe2",
+      "mediaType": "image/png",
+      "bytes": 1222455,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "玄天果",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "fruit-xuantian",
+        "targetName": "item/fruit-xuantian.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_887976.png",
+      "sha256": "5883180572e16b3aa1cb2111311d10348257f861d3337450f6e7bc61e9b2604d",
+      "mediaType": "image/png",
+      "bytes": 1296017,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "effect",
+        "candidateUse": "噬金虫群",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "fx-insect-swarm",
+        "targetName": "effect/fx-insect-swarm.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_892339.png",
+      "sha256": "be3c15c131e3349877c346262532ee11c214186afc5b69225d88a79d7fb28f9d",
+      "mediaType": "image/png",
+      "bytes": 1299149,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "effect",
+        "candidateUse": "雷暴雷池",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "fx-thunder-pool",
+        "targetName": "effect/fx-thunder-pool.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_893860.png",
+      "sha256": "45898955655a66c2685e33b288db90009303758996e6961539d333d6c16cc046",
+      "mediaType": "image/png",
+      "bytes": 1417636,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "聚灵巨葫",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "artifact-juling-gourd",
+        "targetName": "item/artifact-juling-gourd.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_901477.png",
+      "sha256": "9325ecd7d140ad7bbfa7d778649292c2c2122ec177863cdf630e6ae8d03912ff",
+      "mediaType": "image/png",
+      "bytes": 1156945,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "药草晾架",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-herb-rack-b",
+        "targetName": "environment/env-herb-rack-b.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_903283.png",
+      "sha256": "1980bed801c4b28685da2646023479f1d2f0496a888d76acc627ded8085e088f",
+      "mediaType": "image/png",
+      "bytes": 1534455,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "神手谷(密林)",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-shenshou-valley-b",
+        "targetName": "environment/env-shenshou-valley-b.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_905885.png",
+      "sha256": "3c6ce6532719d8817c9fe09fc25c3e038e0b7ff71cfd382c62aed7d13dc4e847",
+      "mediaType": "image/png",
+      "bytes": 1308166,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "土极山",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "artifact-earth-peak",
+        "targetName": "item/artifact-earth-peak.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_908208.png",
+      "sha256": "71d9357998eb0db77d4ac7e7e22cd55feb25929ade74f5b29fa09a2f545e5f10",
+      "mediaType": "image/png",
+      "bytes": 1568719,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "仙人石棋",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-stone-go",
+        "targetName": "environment/env-stone-go.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_915256.png",
+      "sha256": "d92736b2827b52b4b9740e8d46f9c08246990010f67aceca0c5a3e2468a469d6",
+      "mediaType": "image/png",
+      "bytes": 1064249,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "阵法断柱(黑)",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-broken-pillar-b",
+        "targetName": "environment/env-broken-pillar-b.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_919781.png",
+      "sha256": "f3a400c1e93ebc7e17cd4dd54049c373ef8ee27e9f573687d2301a3e591ca8b1",
+      "mediaType": "image/png",
+      "bytes": 1212883,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "金蛾胜天刀",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "artifact-jinfu-blade",
+        "targetName": "item/artifact-jinfu-blade.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_9204.png",
+      "sha256": "3c2269a9f91b20cdcf71933f7dd6147321096b336c4857c51fb23d5de60aa45d",
+      "mediaType": "image/png",
+      "bytes": 1489071,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "skill",
+        "candidateUse": "真言化轮功",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "skill-zhenyan-wheel",
+        "targetName": "skill/skill-zhenyan-wheel.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_920614.png",
+      "sha256": "d093b5bba5b339dacb4f545099fa80fa48abca8c05bdec3ef4e9f337a5e48879",
+      "mediaType": "image/png",
+      "bytes": 1436810,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "补天网",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "artifact-butian-net",
+        "targetName": "item/artifact-butian-net.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_922649.png",
+      "sha256": "fb5cde591eb659b7b5d8251b24ba38efe1129cd59aca53b3a27dcbacf52ff001",
+      "mediaType": "image/png",
+      "bytes": 1328933,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "补天丹",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "pill-butian",
+        "targetName": "item/pill-butian.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_922991.png",
+      "sha256": "f41a1db3f5b7d5c43a424b55f7a1d9d662923e6b51ac48c49259158ebfd9b869",
+      "mediaType": "image/png",
+      "bytes": 1130230,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "凶险禁地",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-blood-forbidden-zone",
+        "targetName": "environment/env-blood-forbidden-zone.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_923650.png",
+      "sha256": "980cf0537b5e9599cdb80e76005e2049d9a025d2e45beb205d897ef78a1e7f18",
+      "mediaType": "image/png",
+      "bytes": 1413575,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "石刻棋盘",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-stone-board",
+        "targetName": "environment/env-stone-board.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_926229.png",
+      "sha256": "3426ae6fd2f37b1582b2d76656e3a996a033c34235b03e4dd270e900b0ff53a6",
+      "mediaType": "image/png",
+      "bytes": 1265113,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "乾坤塔(琉璃)",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-qiankun-tower-b",
+        "targetName": "environment/env-qiankun-tower-b.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_930284.png",
+      "sha256": "7fee1f3765c2d9ad06b8b8e1d27d8263aa200a515c3ab4e9a9ca046d23df5c81",
+      "mediaType": "image/png",
+      "bytes": 1289897,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "七彩云台",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-rainbow-terrace",
+        "targetName": "environment/env-rainbow-terrace.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_933879.png",
+      "sha256": "7ee3987c7f8f492550a00426e4e5111e74dabc00d4fc61a35c65b6c161676d50",
+      "mediaType": "image/png",
+      "bytes": 1119841,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "skill",
+        "candidateUse": "血影遁",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "skill-blood-shadow-flash",
+        "targetName": "skill/skill-blood-shadow-flash.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_940105.png",
+      "sha256": "59c87f3df7fb951c8746e6c93daeff74bcb6f0f290bef17d803f112d6101df0b",
+      "mediaType": "image/png",
+      "bytes": 1124058,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "宗门路标(蓝)",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-sect-signpost-b",
+        "targetName": "environment/env-sect-signpost-b.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_952624.png",
+      "sha256": "1b65a020f5e922d52ff8ae9cbdbc805dd019e29d6036638a20590ec8556e2f48",
+      "mediaType": "image/png",
+      "bytes": 1448898,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "character",
+        "candidateUse": "紫灵(灵界)",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "npc-ziling-lingjie",
+        "targetName": "character/npc-ziling-lingjie.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_952851.png",
+      "sha256": "2e91c297488f6272614588b40f0f1680c3379beea8c708f2f3af9c89a096808f",
+      "mediaType": "image/png",
+      "bytes": 1148154,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "极品灵石",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "spirit-stone-top",
+        "targetName": "item/spirit-stone-top.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_957302.png",
+      "sha256": "a16efb0a8860a5d2a0d57e1ba22d0f71edd75466836e5c8bd219bb09be546a17",
+      "mediaType": "image/png",
+      "bytes": 1418363,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "仙域浮岛",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-immortal-isle",
+        "targetName": "environment/env-immortal-isle.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_972467.png",
+      "sha256": "d53663bbab0d3f295d68a4d93d99be6eb3ec34c9ac6d8a5818af149ac3708225",
+      "mediaType": "image/png",
+      "bytes": 1391564,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "enemy",
+        "candidateUse": "骷髅苦王",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "enemy-skeleton-king",
+        "targetName": "enemy/enemy-skeleton-king.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_978353.png",
+      "sha256": "d6313a81503978d105e164c0d2d9a25fd7a96c9a5a5d5a8d8936bef98ed8f272",
+      "mediaType": "image/png",
+      "bytes": 1398792,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "真言宝轮",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "artifact-zhenyan-wheel-a",
+        "targetName": "item/artifact-zhenyan-wheel-a.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_979883.png",
+      "sha256": "756bd83263b54fbd2aa454f39da533390c4f8e87325ab7982639ef885be14e56",
+      "mediaType": "image/png",
+      "bytes": 1193369,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "effect",
+        "candidateUse": "太阳精火",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "fx-solar-flame",
+        "targetName": "effect/fx-solar-flame.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_979928.png",
+      "sha256": "66719d829d6a2ce4a52a840296ff1de30e9f5b5b4c9f607f1224d317c21034c2",
+      "mediaType": "image/png",
+      "bytes": 1287097,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "金光砖符宝",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "talisman-golden-brick",
+        "targetName": "item/talisman-golden-brick.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_982998.png",
+      "sha256": "970a9ebb1b868f80bfe2a325f2f392efa26e5dd40a509f1e4eaea94a9621ca5e",
+      "mediaType": "image/png",
+      "bytes": 1566274,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "真言宝轮(金)",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "artifact-zhenyan-wheel-b",
+        "targetName": "item/artifact-zhenyan-wheel-b.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_988739.png",
+      "sha256": "06cec49d883e23ea1b5101b8916d2f9d996b294f63b5bdc11ae448b6334c35cd",
+      "mediaType": "image/png",
+      "bytes": 1068790,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "item",
+        "candidateUse": "星辰草",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "herb-star",
+        "targetName": "item/herb-star.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_993099.png",
+      "sha256": "e78c6d7d2283b87fe0b29a8b52b9599516f38a7bc73f236e142fdc85a9cd8335",
+      "mediaType": "image/png",
+      "bytes": 1509292,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "environment",
+        "candidateUse": "大晋京城",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "env-dajin-capital",
+        "targetName": "environment/env-dajin-capital.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_993101.png",
+      "sha256": "b631d5933909637d88b254bd9747532e4149d2819be96099f74337f641b4a31a",
+      "mediaType": "image/png",
+      "bytes": 1400821,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "enemy",
+        "candidateUse": "六翼霜蚣",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "enemy-frost-centipede",
+        "targetName": "enemy/enemy-frost-centipede.png",
+        "notes": ""
+      }
+    },
+    {
+      "path": "assets/images/screen_994669.png",
+      "sha256": "ed291e5ef1800de4c45c30c03136f33f1f17c78f2c5adead0e5aba729ca074bc",
+      "mediaType": "image/png",
+      "bytes": 1603302,
+      "width": 1024,
+      "height": 1024,
+      "duplicateOf": null,
+      "review": {
+        "category": "character",
+        "candidateUse": "风希",
+        "source": "project-generated",
+        "license": "project-internal",
+        "approval": "approved",
+        "logicalId": "npc-fengxi",
+        "targetName": "character/npc-fengxi.png",
+        "notes": ""
+      }
+    }
+  ],
+  "generatedAt": "2026-08-10T08:12:42.023Z"
+}

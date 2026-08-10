@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en" style="background-color: transparent;"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VFX Library - A Mortal's Journey to Immortality</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&amp;family=Manrope:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed": "#ffdea5",
+                    "surface-container-low": "#1a1c18",
+                    "on-primary-container": "#9fcfb2",
+                    "error": "#ffb4ab",
+                    "primary": "#a1d1b4",
+                    "on-secondary-fixed-variant": "#5d4201",
+                    "secondary": "#e9c176",
+                    "surface-container-lowest": "#0d0f0b",
+                    "surface-container-highest": "#333531",
+                    "on-tertiary-container": "#9fc6ff",
+                    "on-secondary-fixed": "#261900",
+                    "error-container": "#93000a",
+                    "primary-container": "#2d5a43",
+                    "inverse-on-surface": "#2f312d",
+                    "outline": "#8b938c",
+                    "surface-container": "#1e201c",
+                    "on-secondary-container": "#dab36a",
+                    "secondary-container": "#604403",
+                    "on-primary-fixed-variant": "#224f39",
+                    "on-surface": "#e3e3dc",
+                    "tertiary": "#a4c9ff",
+                    "on-primary": "#063824",
+                    "on-error": "#690005",
+                    "surface-container-high": "#292b26",
+                    "inverse-primary": "#3a674f",
+                    "secondary-fixed-dim": "#e9c176",
+                    "surface-dim": "#121410",
+                    "primary-fixed": "#bceecf",
+                    "on-tertiary-fixed-variant": "#004883",
+                    "background": "#121410",
+                    "inverse-surface": "#e3e3dc",
+                    "outline-variant": "#414943",
+                    "surface": "#121410",
+                    "tertiary-fixed": "#d4e3ff",
+                    "on-error-container": "#ffdad6",
+                    "on-background": "#e3e3dc",
+                    "primary-fixed-dim": "#a1d1b4",
+                    "on-secondary": "#412d00",
+                    "surface-variant": "#333531",
+                    "surface-tint": "#a1d1b4",
+                    "on-tertiary": "#00315d",
+                    "on-tertiary-fixed": "#001c39",
+                    "surface-bright": "#383a35",
+                    "on-surface-variant": "#c0c9c1",
+                    "tertiary-container": "#005295",
+                    "on-primary-fixed": "#002112",
+                    "tertiary-fixed-dim": "#a4c9ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "sm": "8px",
+                    "xs": "4px",
+                    "unit": "4px",
+                    "lg": "24px",
+                    "md": "16px",
+                    "xl": "40px",
+                    "gutter": "16px",
+                    "container-margin": "32px"
+            },
+            "fontFamily": {
+                    "stats-label": ["JetBrains Mono"],
+                    "sect-title-xl-mobile": ["Noto Serif"],
+                    "sect-title-xl": ["Noto Serif"],
+                    "body-sm": ["Manrope"],
+                    "body-regular": ["Manrope"],
+                    "realm-heading-lg": ["Noto Serif"]
+            },
+            "fontSize": {
+                    "stats-label": ["12px", {"lineHeight": "1", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                    "sect-title-xl-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "sect-title-xl": ["48px", {"lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                    "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "body-regular": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "realm-heading-lg": ["24px", {"lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        html, body {
+            background-color: transparent !important;
+            background-image: none !important;
+        }
+        body {
+            color: #e3e3dc;
+        }
+        .glass-card {
+            backdrop-filter: blur(12px);
+            background-color: rgba(26, 28, 24, 0.4); /* Reduced opacity for better layering */
+            border: 1px solid rgba(161, 209, 180, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(233, 193, 118, 0.3), transparent);
+        }
+        .qi-glow {
+            box-shadow: 0 0 20px rgba(161, 209, 180, 0.05);
+        }
+        .notched-corner {
+            clip-path: polygon(8px 0%, calc(100% - 8px) 0%, 100% 8px, 100% calc(100% - 8px), calc(100% - 8px) 100%, 8px 100%, 0% calc(100% - 8px), 0% 8px);
+        }
+        .ink-scroll::-webkit-scrollbar { width: 4px; }
+        .ink-scroll::-webkit-scrollbar-track { background: transparent; }
+        .ink-scroll::-webkit-scrollbar-thumb { background: #414943; border-radius: 2px; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col font-body-regular overflow-x-hidden" style="background-color: transparent; background-image: none;">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 backdrop-blur-xl border-b border-outline-variant/30 shadow-[0_0_15px_rgba(161,209,180,0.15)] bg-transparent">
+<nav class="flex justify-between items-center px-container-margin py-md max-w-full">
+<div class="flex items-center gap-md">
+<span class="font-sect-title-xl text-sect-title-xl-mobile md:text-sect-title-xl text-primary tracking-widest leading-none">A Mortal's Journey to Immortality</span>
+</div>
+<div class="hidden md:flex items-center gap-xl">
+<a class="font-realm-heading-lg text-realm-heading-lg text-on-surface-variant hover:text-primary transition-colors duration-300 ease-out active:scale-95" href="#">Treasury</a>
+<a class="font-realm-heading-lg text-realm-heading-lg text-on-surface-variant hover:text-primary transition-colors duration-300 ease-out active:scale-95" href="#">Arsenal</a>
+<a class="font-realm-heading-lg text-realm-heading-lg text-primary border-b-2 border-primary pb-1 transition-colors duration-300 ease-out active:scale-95" href="#">Alchemy</a>
+<a class="font-realm-heading-lg text-realm-heading-lg text-on-surface-variant hover:text-primary transition-colors duration-300 ease-out active:scale-95" href="#">Cultivation</a>
+</div>
+<div class="flex items-center gap-md">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="bg-surface-container-highest/30 border-none rounded-full py-xs pl-xl pr-md text-body-sm focus:ring-1 focus:ring-primary w-48" placeholder="Seek Knowledge..." type="text"/>
+</div>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-all duration-300 active:scale-95">settings</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-all duration-300 active:scale-95">account_circle</button>
+</div>
+</nav>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow pt-32 pb-xl px-container-margin max-w-7xl mx-auto w-full bg-transparent">
+<!-- Header Section -->
+<div class="mb-xl text-center space-y-sm">
+<h1 class="font-sect-title-xl text-primary tracking-[0.2em] mb-xs">VFX LIVE SHOWCASE</h1>
+<p class="text-on-surface-variant font-body-regular max-w-2xl mx-auto">
+                Discover spiritual emanations crafted for the Dao. These visual effects are optimized for high-performance web integration.
+            </p>
+</div>
+<!-- Animation Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-lg">
+<!-- Card 1: Pill Aura -->
+<div class="glass-card notched-corner qi-glow group transition-all duration-500 hover:brightness-110">
+<div class="aspect-square w-full bg-transparent flex items-center justify-center p-xl relative">
+
+<div class="absolute bottom-md right-md">
+<span class="font-stats-label text-primary opacity-60">ID: PILL-01</span>
+</div>
+</div>
+<div class="p-lg space-y-md">
+<div class="flex justify-between items-center">
+<h3 class="font-realm-heading-lg text-secondary">金丹灵光 <span class="text-body-sm opacity-50 ml-sm">(Pill Aura)</span></h3>
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">auto_fix_high</span>
+</div>
+<p class="text-body-sm text-on-surface-variant leading-relaxed">
+                        An ethereal radiance perfect for Divine-grade items. To use, wrap your icon in a container and position this SVG as an absolute overlay with <code class="text-tertiary-fixed-dim">z-index: 10</code> and <code class="text-tertiary-fixed-dim">mix-blend-mode: screen</code>.
+                    </p>
+<button class="w-full py-sm notched-corner border border-primary/30 bg-primary/10 text-primary font-stats-label hover:bg-primary/20 transition-all active:scale-95 uppercase tracking-widest">Deploy Qi</button>
+</div>
+</div>
+<!-- Card 2: Sword Whirlwind -->
+<div class="glass-card notched-corner qi-glow group transition-all duration-500 hover:brightness-110">
+<div class="aspect-square w-full bg-transparent flex items-center justify-center p-xl relative">
+
+<div class="absolute bottom-md right-md">
+<span class="font-stats-label text-primary opacity-60">ID: SWORD-07</span>
+</div>
+</div>
+<div class="p-lg space-y-md">
+<div class="flex justify-between items-center">
+<h3 class="font-realm-heading-lg text-secondary">青元剑意 <span class="text-body-sm opacity-50 ml-sm">(Sword Whirlwind)</span></h3>
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">swords</span>
+</div>
+<p class="text-body-sm text-on-surface-variant leading-relaxed">
+                        Dynamic swirling Qi for weapon displays. Integrate by scaling the SVG to <code class="text-tertiary-fixed-dim">120%</code> of the parent container to allow the "Qi Trails" to overflow slightly, creating depth.
+                    </p>
+<button class="w-full py-sm notched-corner border border-primary/30 bg-primary/10 text-primary font-stats-label hover:bg-primary/20 transition-all active:scale-95 uppercase tracking-widest">Deploy Qi</button>
+</div>
+</div>
+<!-- Card 3: Demonic Mist -->
+<div class="glass-card notched-corner qi-glow group transition-all duration-500 hover:brightness-110">
+<div class="aspect-square w-full bg-transparent flex items-center justify-center p-xl relative">
+
+<div class="absolute bottom-md right-md">
+<span class="font-stats-label text-primary opacity-60">ID: DEMON-03</span>
+</div>
+</div>
+<div class="p-lg space-y-md">
+<div class="flex justify-between items-center">
+<h3 class="font-realm-heading-lg text-secondary">真魔气息 <span class="text-body-sm opacity-50 ml-sm">(Demonic Mist)</span></h3>
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">cyclone</span>
+</div>
+<p class="text-body-sm text-on-surface-variant leading-relaxed">
+                        Dark, undulating essence for demonic cultivators. Apply as a background element using <code class="text-tertiary-fixed-dim">mask-image</code> to create soft edges, or overlay on portrait masks for corrupted effects.
+                    </p>
+<button class="w-full py-sm notched-corner border border-primary/30 bg-primary/10 text-primary font-stats-label hover:bg-primary/20 transition-all active:scale-95 uppercase tracking-widest">Deploy Qi</button>
+</div>
+</div>
+<!-- Card 4: Lightning Spark -->
+<div class="glass-card notched-corner qi-glow group transition-all duration-500 hover:brightness-110">
+<div class="aspect-square w-full bg-transparent flex items-center justify-center p-xl relative">
+
+<div class="absolute bottom-md right-md">
+<span class="font-stats-label text-primary opacity-60">ID: BOLT-09</span>
+</div>
+</div>
+<div class="p-lg space-y-md">
+<div class="flex justify-between items-center">
+<h3 class="font-realm-heading-lg text-secondary">辟邪金雷 <span class="text-body-sm opacity-50 ml-sm">(Lightning Spark)</span></h3>
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">bolt</span>
+</div>
+<p class="text-body-sm text-on-surface-variant leading-relaxed">
+                        High-voltage spiritual sparks for critical strikes. Use a JS event listener to trigger this component on-click, applying a <code class="text-tertiary-fixed-dim">scale(1.5)</code> and fading it out over <code class="text-tertiary-fixed-dim">300ms</code>.
+                    </p>
+<button class="w-full py-sm notched-corner border border-primary/30 bg-primary/10 text-primary font-stats-label hover:bg-primary/20 transition-all active:scale-95 uppercase tracking-widest">Deploy Qi</button>
+</div>
+</div>
+<!-- Card 5: Law Runes -->
+<div class="glass-card notched-corner qi-glow group transition-all duration-500 hover:brightness-110">
+<div class="aspect-square w-full bg-transparent flex items-center justify-center p-xl relative">
+
+<div class="absolute bottom-md right-md">
+<span class="font-stats-label text-primary opacity-60">ID: RUNE-12</span>
+</div>
+</div>
+<div class="p-lg space-y-md">
+<div class="flex justify-between items-center">
+<h3 class="font-realm-heading-lg text-secondary">法则漂浮 <span class="text-body-sm opacity-50 ml-sm">(Drifting Runes)</span></h3>
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">file_download_done</span>
+</div>
+<p class="text-body-sm text-on-surface-variant leading-relaxed">
+                        Ancient scripts drifting in the void. Ideal for background texture on Modal overlays or Scroll UI components. Set to <code class="text-tertiary-fixed-dim">pointer-events-none</code> to allow interaction with UI below it.
+                    </p>
+<button class="w-full py-sm notched-corner border border-primary/30 bg-primary/10 text-primary font-stats-label hover:bg-primary/20 transition-all active:scale-95 uppercase tracking-widest">Deploy Qi</button>
+</div>
+</div>
+<!-- Custom Slot Placeholder (Standard 6th slot for 3x2) -->
+<div class="glass-card notched-corner border-dashed border-outline/30 bg-transparent flex flex-col items-center justify-center p-xl space-y-md group cursor-pointer hover:border-primary/50 transition-all">
+<div class="w-24 h-24 rounded-full border-2 border-dashed border-outline/30 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+<span class="material-symbols-outlined text-outline group-hover:text-primary text-4xl">add_circle</span>
+</div>
+<div class="text-center">
+<h3 class="font-realm-heading-lg text-outline group-hover:text-primary">Forge New VFX</h3>
+<p class="text-body-sm text-outline/60 px-lg">Connect to the Celestial Engine to synthesize new spiritual effects.</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-lg mt-auto border-t border-outline-variant/10 bg-transparent">
+<div class="flex flex-col items-center justify-center gap-sm">
+<div class="font-stats-label text-stats-label text-primary tracking-widest">© 2024 CELESTIAL STUDIOS</div>
+<div class="flex gap-md">
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-secondary transition-colors" href="#">Terms of Dao</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-secondary transition-colors" href="#">Contact Sect</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-secondary transition-colors" href="#">Divine Support</a>
+</div>
+<p class="font-body-sm text-body-sm text-outline mt-xs">All paths lead to Immortality.</p>
+</div>
+</footer>
+<script>
+        // Micro-interactions for buttons and hover states
+        document.querySelectorAll('.notched-corner button').forEach(button => {
+            button.addEventListener('mouseenter', () => {
+                const glow = button.closest('.glass-card').querySelector('.qi-glow');
+                if (glow) glow.style.boxShadow = '0 0 30px rgba(161, 209, 180, 0.2)';
+            });
+            button.addEventListener('mouseleave', () => {
+                const glow = button.closest('.glass-card').querySelector('.qi-glow');
+                if (glow) glow.style.boxShadow = '0 0 20px rgba(161, 209, 180, 0.05)';
+            });
+        });
+
+        // Atmospheric Particle Effect (Simplified)
+        const createParticle = () => {
+            const particle = document.createElement('div');
+            particle.className = 'fixed pointer-events-none rounded-full bg-primary/20 blur-sm';
+            const size = Math.random() * 4 + 2;
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.left = `${Math.random() * 100}vw`;
+            particle.style.top = `${Math.random() * 100}vh`;
+            particle.style.opacity = '0';
+            document.body.appendChild(particle);
+
+            const anim = particle.animate([
+                { transform: 'translateY(0)', opacity: 0 },
+                { transform: `translateY(-100px) translateX(${Math.random() * 20 - 10}px)`, opacity: 0.5 },
+                { transform: `translateY(-200px) translateX(${Math.random() * 40 - 20}px)`, opacity: 0 }
+            ], {
+                duration: 4000 + Math.random() * 4000,
+                easing: 'ease-out'
+            });
+
+            anim.onfinish = () => particle.remove();
+        };
+
+        setInterval(createParticle, 1000);
+
+        // Ensure WebGL transparent clear color if any scripts use it
+        window.addEventListener('load', () => {
+           // If there are any global WebGL hooks, we set the clear color to transparent here
+           // For standard animated-svg components, they handle their own rendering.
+        });
+    </script>
+</body></html>

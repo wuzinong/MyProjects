@@ -1,0 +1,404 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>VFX Library - A Mortal's Journey to Immortality</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&amp;family=Manrope:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed": "#ffdea5",
+                    "surface-container-low": "#1a1c18",
+                    "on-primary-container": "#9fcfb2",
+                    "error": "#ffb4ab",
+                    "primary": "#a1d1b4",
+                    "on-secondary-fixed-variant": "#5d4201",
+                    "secondary": "#e9c176",
+                    "surface-container-lowest": "#0d0f0b",
+                    "surface-container-highest": "#333531",
+                    "on-tertiary-container": "#9fc6ff",
+                    "on-secondary-fixed": "#261900",
+                    "error-container": "#93000a",
+                    "primary-container": "#2d5a43",
+                    "inverse-on-surface": "#2f312d",
+                    "outline": "#8b938c",
+                    "surface-container": "#1e201c",
+                    "on-secondary-container": "#dab36a",
+                    "secondary-container": "#604403",
+                    "on-primary-fixed-variant": "#224f39",
+                    "on-surface": "#e3e3dc",
+                    "tertiary": "#a4c9ff",
+                    "on-primary": "#063824",
+                    "on-error": "#690005",
+                    "surface-container-high": "#292b26",
+                    "inverse-primary": "#3a674f",
+                    "secondary-fixed-dim": "#e9c176",
+                    "surface-dim": "#121410",
+                    "primary-fixed": "#bceecf",
+                    "on-tertiary-fixed-variant": "#004883",
+                    "background": "#121410",
+                    "inverse-surface": "#e3e3dc",
+                    "outline-variant": "#414943",
+                    "surface": "#121410",
+                    "tertiary-fixed": "#d4e3ff",
+                    "on-error-container": "#ffdad6",
+                    "on-background": "#e3e3dc",
+                    "primary-fixed-dim": "#a1d1b4",
+                    "on-secondary": "#412d00",
+                    "surface-variant": "#333531",
+                    "surface-tint": "#a1d1b4",
+                    "on-tertiary": "#00315d",
+                    "on-tertiary-fixed": "#001c39",
+                    "surface-bright": "#383a35",
+                    "on-surface-variant": "#c0c9c1",
+                    "tertiary-container": "#005295",
+                    "on-primary-fixed": "#002112",
+                    "tertiary-fixed-dim": "#a4c9ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "sm": "8px",
+                    "xs": "4px",
+                    "unit": "4px",
+                    "lg": "24px",
+                    "md": "16px",
+                    "xl": "40px",
+                    "gutter": "16px",
+                    "container-margin": "32px"
+            },
+            "fontFamily": {
+                    "stats-label": ["JetBrains Mono"],
+                    "sect-title-xl-mobile": ["Noto Serif"],
+                    "sect-title-xl": ["Noto Serif"],
+                    "body-sm": ["Manrope"],
+                    "body-regular": ["Manrope"],
+                    "realm-heading-lg": ["Noto Serif"]
+            },
+            "fontSize": {
+                    "stats-label": ["12px", {"lineHeight": "1", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                    "sect-title-xl-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "sect-title-xl": ["48px", {"lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                    "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "body-regular": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "realm-heading-lg": ["24px", {"lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #121410;
+            color: #e3e3dc;
+            background-image: radial-gradient(circle at 50% 50%, rgba(45, 90, 67, 0.05) 0%, transparent 70%);
+        }
+        .glass-card {
+            backdrop-filter: blur(12px);
+            background-color: rgba(26, 28, 24, 0.8);
+            border: 1px solid rgba(161, 209, 180, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(233, 193, 118, 0.3), transparent);
+        }
+        .qi-glow {
+            box-shadow: 0 0 20px rgba(161, 209, 180, 0.05);
+        }
+        .notched-corner {
+            clip-path: polygon(8px 0%, calc(100% - 8px) 0%, 100% 8px, 100% calc(100% - 8px), calc(100% - 8px) 100%, 8px 100%, 0% calc(100% - 8px), 0% 8px);
+        }
+        .ink-scroll::-webkit-scrollbar { width: 4px; }
+        .ink-scroll::-webkit-scrollbar-track { background: transparent; }
+        .ink-scroll::-webkit-scrollbar-thumb { background: #414943; border-radius: 2px; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col font-body-regular overflow-x-hidden" style="background-color: transparent; background-image: none;">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 backdrop-blur-xl border-b border-outline-variant/30 shadow-[0_0_15px_rgba(161,209,180,0.15)]">
+<nav class="flex justify-between items-center px-container-margin py-md max-w-full">
+<div class="flex items-center gap-md">
+<span class="font-sect-title-xl text-sect-title-xl-mobile md:text-sect-title-xl text-primary tracking-widest leading-none">A Mortal's Journey to Immortality</span>
+</div>
+<div class="hidden md:flex items-center gap-xl">
+<a class="font-realm-heading-lg text-realm-heading-lg text-on-surface-variant hover:text-primary transition-colors duration-300 ease-out active:scale-95" href="#">Treasury</a>
+<a class="font-realm-heading-lg text-realm-heading-lg text-on-surface-variant hover:text-primary transition-colors duration-300 ease-out active:scale-95" href="#">Arsenal</a>
+<a class="font-realm-heading-lg text-realm-heading-lg text-primary border-b-2 border-primary pb-1 transition-colors duration-300 ease-out active:scale-95" href="#">Alchemy</a>
+<a class="font-realm-heading-lg text-realm-heading-lg text-on-surface-variant hover:text-primary transition-colors duration-300 ease-out active:scale-95" href="#">Cultivation</a>
+</div>
+<div class="flex items-center gap-md">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="bg-surface-container-highest/50 border-none rounded-full py-xs pl-xl pr-md text-body-sm focus:ring-1 focus:ring-primary w-48" placeholder="Seek Knowledge..." type="text">
+</div>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-all duration-300 active:scale-95">settings</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-all duration-300 active:scale-95">account_circle</button>
+</div>
+</nav>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow pt-32 pb-xl px-container-margin max-w-7xl mx-auto w-full">
+<!-- Header Section -->
+<div class="mb-xl text-center space-y-sm">
+<h1 class="font-sect-title-xl text-primary tracking-[0.2em] mb-xs">VFX LIVE SHOWCASE</h1>
+<p class="text-on-surface-variant font-body-regular max-w-2xl mx-auto">
+                Discover spiritual emanations crafted for the Dao. These visual effects are optimized for high-performance web integration.
+            </p>
+</div>
+<!-- Animation Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-lg">
+<!-- Card 1: Pill Aura -->
+<div class="glass-card notched-corner qi-glow group transition-all duration-500 hover:brightness-110">
+<div class="aspect-square w-full bg-surface-container-lowest/50 flex items-center justify-center p-xl relative">
+<!-- STITCH_SVG_START:ANIMATION_549 class="w-full h-full drop-shadow-[0_0_20px_rgba(161,209,180,0.3)]" --><div class="w-full h-full drop-shadow-[0_0_20px_rgba(161,209,180,0.3)]" id="animated-svg-ANIMATION_549" style="display:block;"><svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<radialGradient cx="50%" cy="50%" id="pillGlow" r="50%">
+<stop offset="0%" stop-color="#fff" stop-opacity="0.8"></stop>
+<stop offset="100%" stop-color="#FFD700" stop-opacity="0"></stop>
+</radialGradient>
+</defs>
+<circle cx="100" cy="100" fill="url(#pillGlow)" r="40">
+<animate attributeName="r" dur="2s" repeatCount="indefinite" values="35;50;35"></animate>
+<animate attributeName="opacity" dur="2s" repeatCount="indefinite" values="0.4;0.9;0.4"></animate>
+</circle>
+<g transform="translate(100,100)">
+<circle fill="none" r="60" stroke="#FFD700" stroke-dasharray="10 20" stroke-width="2">
+<animateTransform attributeName="transform" dur="10s" from="0" repeatCount="indefinite" to="360" type="rotate"></animateTransform>
+</circle>
+<circle fill="none" r="75" stroke="#FFA500" stroke-dasharray="5 15" stroke-width="1">
+<animateTransform attributeName="transform" dur="15s" from="360" repeatCount="indefinite" to="0" type="rotate"></animateTransform>
+</circle>
+</g>
+</svg></div><!-- STITCH_SVG_END:ANIMATION_549 -->
+<div class="absolute bottom-md right-md">
+<span class="font-stats-label text-primary opacity-60">ID: PILL-01</span>
+</div>
+</div>
+<div class="p-lg space-y-md">
+<div class="flex justify-between items-center">
+<h3 class="font-realm-heading-lg text-secondary">金丹灵光 <span class="text-body-sm opacity-50 ml-sm">(Pill Aura)</span></h3>
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">auto_fix_high</span>
+</div>
+<p class="text-body-sm text-on-surface-variant leading-relaxed">
+                        An ethereal radiance perfect for Divine-grade items. To use, wrap your icon in a container and position this SVG as an absolute overlay with <code class="text-tertiary-fixed-dim">z-index: 10</code> and <code class="text-tertiary-fixed-dim">mix-blend-mode: screen</code>.
+                    </p>
+<button class="w-full py-sm notched-corner border border-primary/30 bg-primary/10 text-primary font-stats-label hover:bg-primary/20 transition-all active:scale-95 uppercase tracking-widest">Deploy Qi</button>
+</div>
+</div>
+<!-- Card 2: Sword Whirlwind -->
+<div class="glass-card notched-corner qi-glow group transition-all duration-500 hover:brightness-110">
+<div class="aspect-square w-full bg-surface-container-lowest/50 flex items-center justify-center p-xl relative">
+<!-- STITCH_SVG_START:ANIMATION_548 class="w-full h-full drop-shadow-[0_0_20px_rgba(164,201,255,0.2)]" --><div class="w-full h-full drop-shadow-[0_0_20px_rgba(164,201,255,0.2)]" id="animated-svg-ANIMATION_548" style="display:block;"><svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+<g transform="translate(100,100)">
+<path d="M-80,0 Q-40,-20 0,0 T80,0" fill="none" opacity="0.8" stroke="#00FF7F" stroke-width="4">
+<animateTransform attributeName="transform" dur="1s" from="0" repeatCount="indefinite" to="360" type="rotate"></animateTransform>
+</path>
+<path d="M-60,30 Q-30,10 0,30 T60,30" fill="none" opacity="0.6" stroke="#2D5A43" stroke-width="2">
+<animateTransform attributeName="transform" dur="1.2s" from="120" repeatCount="indefinite" to="480" type="rotate"></animateTransform>
+</path>
+<path d="M-70,-40 Q-35,-60 0,-40 T70,-40" fill="none" opacity="0.7" stroke="#ADFF2F" stroke-width="3">
+<animateTransform attributeName="transform" dur="0.8s" from="240" repeatCount="indefinite" to="600" type="rotate"></animateTransform>
+</path>
+</g>
+<circle cx="100" cy="100" fill="#fff" r="5">
+<animate attributeName="r" dur="0.5s" repeatCount="indefinite" values="3;8;3"></animate>
+</circle>
+</svg></div><!-- STITCH_SVG_END:ANIMATION_548 -->
+<div class="absolute bottom-md right-md">
+<span class="font-stats-label text-primary opacity-60">ID: SWORD-07</span>
+</div>
+</div>
+<div class="p-lg space-y-md">
+<div class="flex justify-between items-center">
+<h3 class="font-realm-heading-lg text-secondary">青元剑意 <span class="text-body-sm opacity-50 ml-sm">(Sword Whirlwind)</span></h3>
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">swords</span>
+</div>
+<p class="text-body-sm text-on-surface-variant leading-relaxed">
+                        Dynamic swirling Qi for weapon displays. Integrate by scaling the SVG to <code class="text-tertiary-fixed-dim">120%</code> of the parent container to allow the "Qi Trails" to overflow slightly, creating depth.
+                    </p>
+<button class="w-full py-sm notched-corner border border-primary/30 bg-primary/10 text-primary font-stats-label hover:bg-primary/20 transition-all active:scale-95 uppercase tracking-widest">Deploy Qi</button>
+</div>
+</div>
+<!-- Card 3: Demonic Mist -->
+<div class="glass-card notched-corner qi-glow group transition-all duration-500 hover:brightness-110">
+<div class="aspect-square w-full bg-surface-container-lowest/50 flex items-center justify-center p-xl relative">
+<!-- STITCH_SVG_START:ANIMATION_550 class="w-full h-full filter saturate-150" --><div class="w-full h-full filter saturate-150" id="animated-svg-ANIMATION_550" style="display:block;"><svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<filter id="blur">
+<feGaussianBlur in="SourceGraphic" stdDeviation="5"></feGaussianBlur>
+</filter>
+</defs>
+<g filter="url(#blur)">
+<circle cx="100" cy="100" fill="#4B0082" opacity="0.6" r="40">
+<animate attributeName="r" dur="3s" repeatCount="indefinite" values="30;60;30"></animate>
+<animate attributeName="cx" dur="4s" repeatCount="indefinite" values="95;105;95"></animate>
+</circle>
+<circle cx="80" cy="80" fill="#000" opacity="0.5" r="25">
+<animate attributeName="cy" dur="2.5s" repeatCount="indefinite" values="70;90;70"></animate>
+</circle>
+<circle cx="120" cy="120" fill="#8A2BE2" opacity="0.4" r="30">
+<animate attributeName="cx" dur="3.5s" repeatCount="indefinite" values="130;110;130"></animate>
+</circle>
+</g>
+</svg></div><!-- STITCH_SVG_END:ANIMATION_550 -->
+<div class="absolute bottom-md right-md">
+<span class="font-stats-label text-primary opacity-60">ID: DEMON-03</span>
+</div>
+</div>
+<div class="p-lg space-y-md">
+<div class="flex justify-between items-center">
+<h3 class="font-realm-heading-lg text-secondary">真魔气息 <span class="text-body-sm opacity-50 ml-sm">(Demonic Mist)</span></h3>
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">cyclone</span>
+</div>
+<p class="text-body-sm text-on-surface-variant leading-relaxed">
+                        Dark, undulating essence for demonic cultivators. Apply as a background element using <code class="text-tertiary-fixed-dim">mask-image</code> to create soft edges, or overlay on portrait masks for corrupted effects.
+                    </p>
+<button class="w-full py-sm notched-corner border border-primary/30 bg-primary/10 text-primary font-stats-label hover:bg-primary/20 transition-all active:scale-95 uppercase tracking-widest">Deploy Qi</button>
+</div>
+</div>
+<!-- Card 4: Lightning Spark -->
+<div class="glass-card notched-corner qi-glow group transition-all duration-500 hover:brightness-110">
+<div class="aspect-square w-full bg-surface-container-lowest/50 flex items-center justify-center p-xl relative">
+<!-- STITCH_SVG_START:ANIMATION_551 class="w-full h-full drop-shadow-[0_0_15px_#ffdea5]" --><div class="w-full h-full drop-shadow-[0_0_15px_#ffdea5]" id="animated-svg-ANIMATION_551" style="display:block;"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+<path d="M50,10 L45,40 L60,35 L40,70 L55,65 L45,90" fill="none" stroke="#FFD700" stroke-width="3">
+<animate attributeName="opacity" dur="0.2s" repeatCount="indefinite" values="0;1;0;1;0"></animate>
+<animate attributeName="stroke-width" dur="0.1s" repeatCount="indefinite" values="1;4;1"></animate>
+</path>
+<circle cx="50" cy="50" fill="none" opacity="0.3" r="30" stroke="#fff" stroke-width="1">
+<animate attributeName="r" dur="0.4s" repeatCount="indefinite" values="20;40;20"></animate>
+</circle>
+</svg></div><!-- STITCH_SVG_END:ANIMATION_551 -->
+<div class="absolute bottom-md right-md">
+<span class="font-stats-label text-primary opacity-60">ID: BOLT-09</span>
+</div>
+</div>
+<div class="p-lg space-y-md">
+<div class="flex justify-between items-center">
+<h3 class="font-realm-heading-lg text-secondary">辟邪金雷 <span class="text-body-sm opacity-50 ml-sm">(Lightning Spark)</span></h3>
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">bolt</span>
+</div>
+<p class="text-body-sm text-on-surface-variant leading-relaxed">
+                        High-voltage spiritual sparks for critical strikes. Use a JS event listener to trigger this component on-click, applying a <code class="text-tertiary-fixed-dim">scale(1.5)</code> and fading it out over <code class="text-tertiary-fixed-dim">300ms</code>.
+                    </p>
+<button class="w-full py-sm notched-corner border border-primary/30 bg-primary/10 text-primary font-stats-label hover:bg-primary/20 transition-all active:scale-95 uppercase tracking-widest">Deploy Qi</button>
+</div>
+</div>
+<!-- Card 5: Law Runes -->
+<div class="glass-card notched-corner qi-glow group transition-all duration-500 hover:brightness-110">
+<div class="aspect-square w-full bg-surface-container-lowest/50 flex items-center justify-center p-xl relative">
+<!-- STITCH_SVG_START:ANIMATION_552 class="w-full h-full opacity-80" --><div class="w-full h-full opacity-80" id="animated-svg-ANIMATION_552" style="display:block;"><svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+<g transform="translate(100,100)">
+<text fill="#FFD700" font-family="serif" font-size="20" opacity="0.8" x="-40" y="5">
+      法则
+      <animateTransform attributeName="transform" dur="3s" repeatCount="indefinite" type="translate" values="0,0; 0,-50"></animateTransform>
+<animate attributeName="opacity" dur="3s" repeatCount="indefinite" values="0;1;0"></animate>
+</text>
+<text fill="#FFD700" font-family="serif" font-size="15" opacity="0.6" x="20" y="20">
+      道
+      <animateTransform attributeName="transform" dur="4s" repeatCount="indefinite" type="translate" values="0,0; 0,-70"></animateTransform>
+<animate attributeName="opacity" dur="4s" repeatCount="indefinite" values="0;1;0"></animate>
+</text>
+<text fill="#FFD700" font-family="serif" font-size="18" opacity="0.7" x="-30" y="40">
+      命
+      <animateTransform attributeName="transform" dur="2.5s" repeatCount="indefinite" type="translate" values="0,0; 0,-60"></animateTransform>
+<animate attributeName="opacity" dur="2.5s" repeatCount="indefinite" values="0;1;0"></animate>
+</text>
+</g>
+</svg></div><!-- STITCH_SVG_END:ANIMATION_552 -->
+<div class="absolute bottom-md right-md">
+<span class="font-stats-label text-primary opacity-60">ID: RUNE-12</span>
+</div>
+</div>
+<div class="p-lg space-y-md">
+<div class="flex justify-between items-center">
+<h3 class="font-realm-heading-lg text-secondary">法则漂浮 <span class="text-body-sm opacity-50 ml-sm">(Drifting Runes)</span></h3>
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">file_download_done</span>
+</div>
+<p class="text-body-sm text-on-surface-variant leading-relaxed">
+                        Ancient scripts drifting in the void. Ideal for background texture on Modal overlays or Scroll UI components. Set to <code class="text-tertiary-fixed-dim">pointer-events-none</code> to allow interaction with UI below it.
+                    </p>
+<button class="w-full py-sm notched-corner border border-primary/30 bg-primary/10 text-primary font-stats-label hover:bg-primary/20 transition-all active:scale-95 uppercase tracking-widest">Deploy Qi</button>
+</div>
+</div>
+<!-- Custom Slot Placeholder (Standard 6th slot for 3x2) -->
+<div class="glass-card notched-corner border-dashed border-outline/30 bg-surface-container-lowest/20 flex flex-col items-center justify-center p-xl space-y-md group cursor-pointer hover:border-primary/50 transition-all">
+<div class="w-24 h-24 rounded-full border-2 border-dashed border-outline/30 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+<span class="material-symbols-outlined text-outline group-hover:text-primary text-4xl">add_circle</span>
+</div>
+<div class="text-center">
+<h3 class="font-realm-heading-lg text-outline group-hover:text-primary">Forge New VFX</h3>
+<p class="text-body-sm text-outline/60 px-lg">Connect to the Celestial Engine to synthesize new spiritual effects.</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-lg mt-auto border-t border-outline-variant/10">
+<div class="flex flex-col items-center justify-center gap-sm">
+<div class="font-stats-label text-stats-label text-primary tracking-widest">© 2024 CELESTIAL STUDIOS</div>
+<div class="flex gap-md">
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-secondary transition-colors" href="#">Terms of Dao</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-secondary transition-colors" href="#">Contact Sect</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-secondary transition-colors" href="#">Divine Support</a>
+</div>
+<p class="font-body-sm text-body-sm text-outline mt-xs">All paths lead to Immortality.</p>
+</div>
+</footer>
+<script>
+        // Micro-interactions for buttons and hover states
+        document.querySelectorAll('.notched-corner button').forEach(button => {
+            button.addEventListener('mouseenter', () => {
+                const glow = button.closest('.glass-card').querySelector('.qi-glow');
+                if (glow) glow.style.boxShadow = '0 0 30px rgba(161, 209, 180, 0.2)';
+            });
+            button.addEventListener('mouseleave', () => {
+                const glow = button.closest('.glass-card').querySelector('.qi-glow');
+                if (glow) glow.style.boxShadow = '0 0 20px rgba(161, 209, 180, 0.05)';
+            });
+        });
+
+        // Atmospheric Particle Effect (Simplified)
+        const createParticle = () => {
+            const particle = document.createElement('div');
+            particle.className = 'fixed pointer-events-none rounded-full bg-primary/20 blur-sm';
+            const size = Math.random() * 4 + 2;
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.left = `${Math.random() * 100}vw`;
+            particle.style.top = `${Math.random() * 100}vh`;
+            particle.style.opacity = '0';
+            document.body.appendChild(particle);
+
+            const anim = particle.animate([
+                { transform: 'translateY(0)', opacity: 0 },
+                { transform: `translateY(-100px) translateX(${Math.random() * 20 - 10}px)`, opacity: 0.5 },
+                { transform: `translateY(-200px) translateX(${Math.random() * 40 - 20}px)`, opacity: 0 }
+            ], {
+                duration: 4000 + Math.random() * 4000,
+                easing: 'ease-out'
+            });
+
+            anim.onfinish = () => particle.remove();
+        };
+
+        setInterval(createParticle, 1000);
+    </script>
+
+
+<div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 4.91955px; height: 4.91955px; left: 9.31105vw; top: 50.5262vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 3.155px; height: 3.155px; left: 28.4092vw; top: 47.2436vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 3.04362px; height: 3.04362px; left: 29.0347vw; top: 14.7101vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 5.11487px; height: 5.11487px; left: 96.4976vw; top: 49.9579vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 4.98399px; height: 4.98399px; left: 30.0533vw; top: 27.3404vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 2.83699px; height: 2.83699px; left: 89.5379vw; top: 87.3056vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 5.9183px; height: 5.9183px; left: 78.7056vw; top: 7.98829vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 5.79448px; height: 5.79448px; left: 12.2203vw; top: 40.301vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 5.55962px; height: 5.55962px; left: 17.8476vw; top: 18.1592vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 3.71816px; height: 3.71816px; left: 88.1656vw; top: 68.427vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 4.31651px; height: 4.31651px; left: 40.0756vw; top: 47.2782vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 3.66082px; height: 3.66082px; left: 53.9973vw; top: 34.8088vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 2.60056px; height: 2.60056px; left: 35.119vw; top: 9.59711vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 2.06386px; height: 2.06386px; left: 12.1005vw; top: 29.2091vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 2.90856px; height: 2.90856px; left: 65.3206vw; top: 55.2749vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 2.13215px; height: 2.13215px; left: 30.9728vw; top: 50.01vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 4.37336px; height: 4.37336px; left: 23.7846vw; top: 47.3764vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 2.89164px; height: 2.89164px; left: 77.2161vw; top: 60.8319vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 5.14483px; height: 5.14483px; left: 92.7611vw; top: 32.0589vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 4.62841px; height: 4.62841px; left: 47.942vw; top: 73.3318vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 3.37879px; height: 3.37879px; left: 25.3389vw; top: 43.6471vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 2.39429px; height: 2.39429px; left: 76.5132vw; top: 93.6587vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 5.95582px; height: 5.95582px; left: 25.1837vw; top: 6.29836vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 3.38927px; height: 3.38927px; left: 39.3493vw; top: 26.2219vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 4.88474px; height: 4.88474px; left: 31.965vw; top: 7.70697vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 5.56923px; height: 5.56923px; left: 77.6638vw; top: 69.0106vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 4.19718px; height: 4.19718px; left: 11.9704vw; top: 61.887vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 5.46063px; height: 5.46063px; left: 64.807vw; top: 93.6823vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 4.04124px; height: 4.04124px; left: 78.3866vw; top: 35.5089vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 4.92388px; height: 4.92388px; left: 41.4779vw; top: 4.74601vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 4.63419px; height: 4.63419px; left: 96.4637vw; top: 86.1267vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 3.06623px; height: 3.06623px; left: 78.9744vw; top: 79.5154vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 3.77187px; height: 3.77187px; left: 33.8103vw; top: 13.698vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 2.78475px; height: 2.78475px; left: 24.7336vw; top: 21.2543vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 4.31094px; height: 4.31094px; left: 50.8673vw; top: 2.69309vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 2.93365px; height: 2.93365px; left: 94.7246vw; top: 21.0273vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 5.43983px; height: 5.43983px; left: 50.7901vw; top: 46.3691vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 2.86017px; height: 2.86017px; left: 76.0313vw; top: 32.0924vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 4.87118px; height: 4.87118px; left: 70.7667vw; top: 91.4247vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 4.27224px; height: 4.27224px; left: 21.1703vw; top: 41.9009vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 2.65871px; height: 2.65871px; left: 52.4091vw; top: 62.6561vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 3.3984px; height: 3.3984px; left: 3.65368vw; top: 73.467vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 4.33043px; height: 4.33043px; left: 26.3212vw; top: 12.1047vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 4.81158px; height: 4.81158px; left: 36.5287vw; top: 85.4179vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 2.14906px; height: 2.14906px; left: 15.1029vw; top: 61.7433vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 4.97055px; height: 4.97055px; left: 3.98995vw; top: 0.345275vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 4.78205px; height: 4.78205px; left: 56.1807vw; top: 40.2695vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 2.96739px; height: 2.96739px; left: 67.074vw; top: 80.9883vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 2.39087px; height: 2.39087px; left: 94.9134vw; top: 14.0315vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 3.30716px; height: 3.30716px; left: 50.4296vw; top: 2.32861vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 3.71484px; height: 3.71484px; left: 33.8106vw; top: 58.8405vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 5.52353px; height: 5.52353px; left: 3.49598vw; top: 69.1794vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 4.80723px; height: 4.80723px; left: 20.41vw; top: 81.6514vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 4.84142px; height: 4.84142px; left: 16.6956vw; top: 53.7203vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 3.82872px; height: 3.82872px; left: 54.727vw; top: 71.3631vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 5.16919px; height: 5.16919px; left: 64.4398vw; top: 74.5351vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 5.51523px; height: 5.51523px; left: 46.3985vw; top: 67.2959vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 3.54907px; height: 3.54907px; left: 48.3171vw; top: 21.6473vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 3.23533px; height: 3.23533px; left: 76.3716vw; top: 26.6864vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 5.33748px; height: 5.33748px; left: 95.3009vw; top: 68.1921vh; opacity: 0;"></div><div class="fixed pointer-events-none rounded-full bg-primary/20 blur-sm" style="width: 3.86193px; height: 3.86193px; left: 21.8858vw; top: 1.13911vh; opacity: 0;"></div></body></html>

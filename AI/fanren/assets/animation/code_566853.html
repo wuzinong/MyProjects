@@ -1,0 +1,822 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600;700&amp;family=Manrope:wght@400;500;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "outline": "#8b938c",
+                    "inverse-on-surface": "#2f312d",
+                    "secondary-fixed": "#ffdea5",
+                    "on-surface": "#e3e3dc",
+                    "primary-container": "#2d5a43",
+                    "on-primary": "#063824",
+                    "tertiary-container": "#005295",
+                    "tertiary": "#a4c9ff",
+                    "surface-container-low": "#1a1c18",
+                    "on-secondary-fixed": "#261900",
+                    "on-tertiary-fixed": "#001c39",
+                    "on-tertiary-fixed-variant": "#004883",
+                    "surface-dim": "#121410",
+                    "on-tertiary-container": "#9fc6ff",
+                    "primary": "#a1d1b4",
+                    "surface-container": "#1e201c",
+                    "error-container": "#93000a",
+                    "surface-tint": "#a1d1b4",
+                    "secondary": "#e9c176",
+                    "primary-fixed-dim": "#a1d1b4",
+                    "on-tertiary": "#00315d",
+                    "surface-variant": "#333531",
+                    "on-surface-variant": "#c0c9c1",
+                    "on-error-container": "#ffdad6",
+                    "on-secondary-fixed-variant": "#5d4201",
+                    "surface-container-highest": "#333531",
+                    "outline-variant": "#414943",
+                    "on-primary-fixed": "#002112",
+                    "inverse-surface": "#e3e3dc",
+                    "error": "#ffb4ab",
+                    "on-primary-container": "#9fcfb2",
+                    "secondary-fixed-dim": "#e9c176",
+                    "surface-container-lowest": "#0d0f0b",
+                    "surface-bright": "#383a35",
+                    "tertiary-fixed": "#d4e3ff",
+                    "on-secondary-container": "#dab36a",
+                    "surface": "#121410",
+                    "surface-container-high": "#292b26",
+                    "on-error": "#690005",
+                    "on-background": "#e3e3dc",
+                    "inverse-primary": "#3a674f",
+                    "secondary-container": "#604403",
+                    "primary-fixed": "#bceecf",
+                    "tertiary-fixed-dim": "#a4c9ff",
+                    "on-primary-fixed-variant": "#224f39",
+                    "on-secondary": "#412d00",
+                    "background": "#121410"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "xs": "4px",
+                    "sm": "8px",
+                    "md": "16px",
+                    "lg": "24px",
+                    "xl": "40px",
+                    "container-margin": "32px",
+                    "unit": "4px",
+                    "gutter": "16px"
+            },
+            "fontFamily": {
+                    "stats-label": ["JetBrains Mono"],
+                    "realm-heading-lg": ["Noto Serif"],
+                    "body-sm": ["Manrope"],
+                    "sect-title-xl": ["Noto Serif"],
+                    "sect-title-xl-mobile": ["Noto Serif"],
+                    "body-regular": ["Manrope"]
+            },
+            "fontSize": {
+                    "stats-label": ["12px", {"lineHeight": "1", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                    "realm-heading-lg": ["24px", {"lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "sect-title-xl": ["48px", {"lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                    "sect-title-xl-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "body-regular": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #0d0f0b;
+            color: #e3e3dc;
+            overflow-x: hidden;
+        }
+
+        .glass-card {
+            background: rgba(30, 32, 28, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(161, 209, 180, 0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(233, 193, 118, 0.4);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5), 0 0 15px rgba(233, 193, 118, 0.1);
+        }
+
+        .shader-container {
+            position: relative;
+            aspect-ratio: 16/9;
+            overflow: hidden;
+            border-radius: 4px;
+            background: #000;
+        }
+
+        .notched-corner {
+            clip-path: polygon(0% 10px, 10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%);
+        }
+
+        .qi-glow {
+            box-shadow: 0 0 20px rgba(161, 209, 180, 0.1);
+        }
+
+        .ink-scroll-mask {
+            mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #121410;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2d5a43;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="font-body-regular" style="background-color: transparent;">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-container-margin py-md bg-surface-container-low/80 backdrop-blur-xl border-b border-outline-variant/30 shadow-[0_0_20px_rgba(161,209,180,0.15)]">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: 'FILL' 1;">qr_code_2</span>
+<h1 class="font-realm-heading-lg text-realm-heading-lg text-secondary">Mortal Journey Hub</h1>
+</div>
+<nav class="hidden md:flex items-center gap-xl">
+<a class="font-stats-label text-stats-label text-on-surface-variant hover:text-secondary transition-colors duration-300" href="#">Cultivation</a>
+<a class="font-stats-label text-stats-label text-primary border-b-2 border-primary py-1" href="#">Techniques</a>
+<a class="font-stats-label text-stats-label text-on-surface-variant hover:text-secondary transition-colors duration-300" href="#">Treasures</a>
+<a class="font-stats-label text-stats-label text-on-surface-variant hover:text-secondary transition-colors duration-300" href="#">World</a>
+</nav>
+<div class="flex items-center gap-md">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-secondary transition-colors">history_edu</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-secondary transition-colors">account_balance_wallet</button>
+<div class="w-10 h-10 rounded-full border border-primary/30 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A portrait of a serene young Taoist cultivator with long black hair, wearing jade-colored silk robes, set against a backdrop of misty celestial mountains. The lighting is ethereal and soft, reflecting a high-end Xianxia fantasy aesthetic with teal and gold accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWxDkaV89YaS-Dxj0tze00rrEK7Arpn2MnPH2bpr4paINnSCDdcKoPcr0VI3Z6Z6EfbYuJFIYAmZzO7ePljoDqtFsAwB2fzT17phV5jabzKSqxGzBcizVYb2pKZ-GDsD_3QfZwqa8nnwJewQph9w63c_Huz0y_vCjssfyfzCMVbqbHhqIXHilPg94egAc0kGE06zbfhhkmHrMhQcDdoLWikQXIJNgx8HwRqYMRmHFYP5nIuiXDzM5x">
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="pt-32 pb-40 px-container-margin min-h-screen max-w-7xl mx-auto bg-transparent">
+<header class="mb-xl">
+<h2 class="font-sect-title-xl text-sect-title-xl text-primary mb-sm">VFX 藏书阁</h2>
+<p class="text-on-surface-variant max-w-2xl font-body-regular opacity-80">
+                Explore the ethereal manifestations of spiritual energy. These techniques represent the peak of elemental mastery within the Mortal's Path.
+            </p>
+</header>
+<!-- Bento-ish Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-6 gap-lg">
+<!-- 1. Azure Essence Rain (Large Feature) -->
+<div class="md:col-span-4 glass-card notched-corner p-md" style="background: transparent; border-color: rgba(161, 209, 180, 0.2);">
+<div class="shader-container mb-md">
+<!-- STITCH_SHADER_START:ANIMATION_577 class="absolute inset-0 w-full h-full" -->
+<div class="absolute inset-0 w-full h-full" style="display:block;">
+<canvas id="shader-canvas-ANIMATION_577" style="display:block;width:100%;height:100%" width="769" height="433"></canvas>
+<script>
+(function() {
+  const canvas = document.getElementById('shader-canvas-ANIMATION_577');
+
+  // Sync the WebGL drawing-buffer size with the CSS-driven layout size.
+  // This fires on initial layout and whenever the element is resized.
+  function syncSize() {
+    const w = canvas.clientWidth  || 1280;
+    const h = canvas.clientHeight || 720;
+    if (canvas.width !== w || canvas.height !== h) {
+      canvas.width  = w;
+      canvas.height = h;
+    }
+  }
+  if (typeof ResizeObserver !== 'undefined') {
+    new ResizeObserver(syncSize).observe(canvas);
+  }
+  syncSize();
+
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  if (!gl) return;
+  const vs = `attribute vec2 a_position;
+varying vec2 v_texCoord;
+void main() {
+  v_texCoord = a_position * 0.5 + 0.5;
+  gl_Position = vec4(a_position, 0.0, 1.0);
+}`;
+  const fs = `precision highp float;
+varying vec2 v_texCoord;
+uniform float u_time;
+uniform vec2 u_resolution;
+
+float hash(float n) { return fract(sin(n) * 43758.5453); }
+
+void main() {
+    vec2 uv = v_texCoord;
+    float time = u_time * 2.0;
+    
+    // Background glow
+    vec3 color = vec3(0.05, 0.15, 0.1) * (1.0 - length(uv - 0.5));
+    
+    // Falling swords
+    for(float i=0.0; i<20.0; i++) {
+        float h = hash(i * 123.456);
+        float x = fract(h + uv.x);
+        float speed = 1.0 + h * 2.0;
+        float y = fract(uv.y + time * speed + h);
+        
+        // Blade shape
+        float sword = smoothstep(0.01, 0.0, abs(x - 0.5)) * smoothstep(0.4, 0.0, abs(y - 0.5));
+        float glow = 0.002 / abs(x - 0.5) * smoothstep(1.0, 0.0, abs(y - 0.5));
+        
+        color += vec3(0.3, 1.0, 0.6) * (sword + glow * 0.5) * (1.0 - y);
+    }
+    
+    gl_FragColor = vec4(color, length(color) * 1.5);
+}`;
+  function cs(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    return s;
+  }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, cs(gl.VERTEX_SHADER, vs));
+  gl.attachShader(prog, cs(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(prog);
+  gl.useProgram(prog);
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+  const pos = gl.getAttribLocation(prog, 'a_position');
+  gl.enableVertexAttribArray(pos);
+  gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+  const uTime = gl.getUniformLocation(prog, 'u_time');
+  const uRes = gl.getUniformLocation(prog, 'u_resolution');
+  const uMouse = gl.getUniformLocation(prog, 'u_mouse');
+
+  // u_mouse is in pixel coordinates matching u_resolution (ShaderToy convention).
+  // Shaders that need normalized coords should use: u_mouse / u_resolution.
+  let mouse = { x: canvas.width / 2, y: canvas.height / 2 };
+  window.addEventListener('mousemove', (event) => {
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width && rect.height) {
+      const nx = (event.clientX - rect.left) / rect.width;
+      const ny = 1.0 - (event.clientY - rect.top) / rect.height;
+      mouse.x = nx * canvas.width;
+      mouse.y = ny * canvas.height;
+    }
+  });
+
+  function render(t) {
+    if (typeof ResizeObserver === 'undefined') syncSize();
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    if (uTime) gl.uniform1f(uTime, t * 0.001);
+    if (uRes) gl.uniform2f(uRes, canvas.width, canvas.height);
+    if (uMouse) gl.uniform2f(uMouse, mouse.x, mouse.y);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    requestAnimationFrame(render);
+  }
+  render(0);
+})();
+</script>
+</div>
+<!-- STITCH_SHADER_END:ANIMATION_577 -->
+<div class="absolute top-4 left-4 bg-primary/20 backdrop-blur-md px-3 py-1 rounded-full border border-primary/30">
+<span class="font-stats-label text-[10px] text-primary uppercase tracking-widest">Rank: Celestial</span>
+</div>
+</div>
+<div>
+<div class="flex justify-between items-end mb-xs">
+<h3 class="font-realm-heading-lg text-realm-heading-lg text-secondary">Azure Essence Rain</h3>
+<span class="font-stats-label text-primary">碧空精雨</span>
+</div>
+<p class="text-on-surface-variant font-body-sm mb-md opacity-70">
+                        引动九天碧落之精气，化作连绵不断的灵雨。每一滴雨水都蕴含生机与化解之意，可涤荡魔气，恢复方圆百里的草木灵性。
+                    </p>
+<div class="flex gap-sm">
+<span class="px-3 py-1 bg-surface-variant text-[10px] text-on-surface-variant uppercase tracking-tighter border border-outline-variant/30">Water</span>
+<span class="px-3 py-1 bg-surface-variant text-[10px] text-on-surface-variant uppercase tracking-tighter border border-outline-variant/30">Healing</span>
+</div>
+</div>
+</div>
+<!-- 2. Blood Shadow Flash -->
+<div class="md:col-span-2 glass-card notched-corner p-md flex flex-col" style="background: transparent; border-color: rgba(161, 209, 180, 0.2);">
+<div class="shader-container mb-md flex-grow">
+<!-- STITCH_SHADER_START:ANIMATION_578 class="absolute inset-0 w-full h-full" -->
+<div class="absolute inset-0 w-full h-full" style="display:block;">
+<canvas id="shader-canvas-ANIMATION_578" style="display:block;width:100%;height:100%" width="356" height="433"></canvas>
+<script>
+(function() {
+  const canvas = document.getElementById('shader-canvas-ANIMATION_578');
+
+  // Sync the WebGL drawing-buffer size with the CSS-driven layout size.
+  // This fires on initial layout and whenever the element is resized.
+  function syncSize() {
+    const w = canvas.clientWidth  || 1280;
+    const h = canvas.clientHeight || 720;
+    if (canvas.width !== w || canvas.height !== h) {
+      canvas.width  = w;
+      canvas.height = h;
+    }
+  }
+  if (typeof ResizeObserver !== 'undefined') {
+    new ResizeObserver(syncSize).observe(canvas);
+  }
+  syncSize();
+
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  if (!gl) return;
+  const vs = `attribute vec2 a_position;
+varying vec2 v_texCoord;
+void main() {
+  v_texCoord = a_position * 0.5 + 0.5;
+  gl_Position = vec4(a_position, 0.0, 1.0);
+}`;
+  const fs = `precision highp float;
+varying vec2 v_texCoord;
+uniform float u_time;
+uniform vec2 u_resolution;
+
+void main() {
+    vec2 uv = v_texCoord - 0.5;
+    float r = length(uv);
+    float a = atan(uv.y, uv.x);
+    
+    // Pulsing core
+    float pulse = 0.5 + 0.5 * sin(u_time * 5.0);
+    float core = exp(-r * 15.0) * pulse;
+    
+    // Swirling streaks
+    float streaks = sin(a * 3.0 + r * 10.0 - u_time * 8.0);
+    streaks = smoothstep(0.8, 1.0, streaks) * exp(-r * 5.0);
+    
+    vec3 color = vec3(0.8, 0.0, 0.1) * (core + streaks * 2.0);
+    color += vec3(1.0, 0.2, 0.2) * core * 0.5;
+    
+    float alpha = smoothstep(0.5, 0.2, r) * (core + streaks);
+    gl_FragColor = vec4(color, alpha * 2.0);
+}`;
+  function cs(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    return s;
+  }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, cs(gl.VERTEX_SHADER, vs));
+  gl.attachShader(prog, cs(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(prog);
+  gl.useProgram(prog);
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+  const pos = gl.getAttribLocation(prog, 'a_position');
+  gl.enableVertexAttribArray(pos);
+  gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+  const uTime = gl.getUniformLocation(prog, 'u_time');
+  const uRes = gl.getUniformLocation(prog, 'u_resolution');
+  const uMouse = gl.getUniformLocation(prog, 'u_mouse');
+
+  // u_mouse is in pixel coordinates matching u_resolution (ShaderToy convention).
+  // Shaders that need normalized coords should use: u_mouse / u_resolution.
+  let mouse = { x: canvas.width / 2, y: canvas.height / 2 };
+  window.addEventListener('mousemove', (event) => {
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width && rect.height) {
+      const nx = (event.clientX - rect.left) / rect.width;
+      const ny = 1.0 - (event.clientY - rect.top) / rect.height;
+      mouse.x = nx * canvas.width;
+      mouse.y = ny * canvas.height;
+    }
+  });
+
+  function render(t) {
+    if (typeof ResizeObserver === 'undefined') syncSize();
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    if (uTime) gl.uniform1f(uTime, t * 0.001);
+    if (uRes) gl.uniform2f(uRes, canvas.width, canvas.height);
+    if (uMouse) gl.uniform2f(uMouse, mouse.x, mouse.y);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    requestAnimationFrame(render);
+  }
+  render(0);
+})();
+</script>
+</div>
+<!-- STITCH_SHADER_END:ANIMATION_578 -->
+</div>
+<div>
+<h3 class="font-realm-heading-lg text-realm-heading-lg text-error mb-xs">Blood Shadow Flash</h3>
+<p class="text-on-surface-variant font-body-sm mb-md opacity-70">
+                        禁忌秘术，以血气化影。瞬间爆发的速度能撕裂虚空，在敌人视界中只留下一抹猩红。
+                    </p>
+<span class="font-stats-label text-error opacity-60">血影瞬杀</span>
+</div>
+</div>
+<!-- 3. Five-Element Divine Light -->
+<div class="md:col-span-3 glass-card notched-corner p-md" style="background: transparent; border-color: rgba(161, 209, 180, 0.2);">
+<div class="shader-container mb-md">
+<!-- STITCH_SHADER_START:ANIMATION_579 class="absolute inset-0 w-full h-full" -->
+<div class="absolute inset-0 w-full h-full" style="display:block;">
+<canvas id="shader-canvas-ANIMATION_579" style="display:block;width:100%;height:100%" width="562" height="316"></canvas>
+<script>
+(function() {
+  const canvas = document.getElementById('shader-canvas-ANIMATION_579');
+
+  // Sync the WebGL drawing-buffer size with the CSS-driven layout size.
+  // This fires on initial layout and whenever the element is resized.
+  function syncSize() {
+    const w = canvas.clientWidth  || 1280;
+    const h = canvas.clientHeight || 720;
+    if (canvas.width !== w || canvas.height !== h) {
+      canvas.width  = w;
+      canvas.height = h;
+    }
+  }
+  if (typeof ResizeObserver !== 'undefined') {
+    new ResizeObserver(syncSize).observe(canvas);
+  }
+  syncSize();
+
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  if (!gl) return;
+  const vs = `attribute vec2 a_position;
+varying vec2 v_texCoord;
+void main() {
+  v_texCoord = a_position * 0.5 + 0.5;
+  gl_Position = vec4(a_position, 0.0, 1.0);
+}`;
+  const fs = `precision highp float;
+varying vec2 v_texCoord;
+uniform float u_time;
+uniform vec2 u_resolution;
+
+void main() {
+    vec2 uv = v_texCoord - 0.5;
+    float r = length(uv);
+    float a = atan(uv.y, uv.x);
+    
+    vec3 c1 = vec3(1.0, 0.9, 0.2); // Gold
+    vec3 c2 = vec3(0.2, 1.0, 0.4); // Wood
+    vec3 c3 = vec3(0.2, 0.6, 1.0); // Water
+    vec3 c4 = vec3(1.0, 0.3, 0.2); // Fire
+    vec3 c5 = vec3(0.7, 0.5, 0.2); // Earth
+    
+    float t = u_time * 2.0;
+    float s1 = smoothstep(0.1, 0.0, abs(sin(a + t) - 0.8));
+    float s2 = smoothstep(0.1, 0.0, abs(sin(a + t + 1.25) - 0.8));
+    float s3 = smoothstep(0.1, 0.0, abs(sin(a + t + 2.5) - 0.8));
+    float s4 = smoothstep(0.1, 0.0, abs(sin(a + t + 3.75) - 0.8));
+    float s5 = smoothstep(0.1, 0.0, abs(sin(a + t + 5.0) - 0.8));
+    
+    vec3 color = c1 * s1 + c2 * s2 + c3 * s3 + c4 * s4 + c5 * s5;
+    color *= exp(-r * 4.0) * 2.0;
+    color += vec3(1.0) * exp(-r * 20.0); // White core
+    
+    float alpha = smoothstep(0.5, 0.3, r) * length(color);
+    gl_FragColor = vec4(color, alpha);
+}`;
+  function cs(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    return s;
+  }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, cs(gl.VERTEX_SHADER, vs));
+  gl.attachShader(prog, cs(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(prog);
+  gl.useProgram(prog);
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+  const pos = gl.getAttribLocation(prog, 'a_position');
+  gl.enableVertexAttribArray(pos);
+  gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+  const uTime = gl.getUniformLocation(prog, 'u_time');
+  const uRes = gl.getUniformLocation(prog, 'u_resolution');
+  const uMouse = gl.getUniformLocation(prog, 'u_mouse');
+
+  // u_mouse is in pixel coordinates matching u_resolution (ShaderToy convention).
+  // Shaders that need normalized coords should use: u_mouse / u_resolution.
+  let mouse = { x: canvas.width / 2, y: canvas.height / 2 };
+  window.addEventListener('mousemove', (event) => {
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width && rect.height) {
+      const nx = (event.clientX - rect.left) / rect.width;
+      const ny = 1.0 - (event.clientY - rect.top) / rect.height;
+      mouse.x = nx * canvas.width;
+      mouse.y = ny * canvas.height;
+    }
+  });
+
+  function render(t) {
+    if (typeof ResizeObserver === 'undefined') syncSize();
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    if (uTime) gl.uniform1f(uTime, t * 0.001);
+    if (uRes) gl.uniform2f(uRes, canvas.width, canvas.height);
+    if (uMouse) gl.uniform2f(uMouse, mouse.x, mouse.y);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    requestAnimationFrame(render);
+  }
+  render(0);
+})();
+</script>
+</div>
+<!-- STITCH_SHADER_END:ANIMATION_579 -->
+</div>
+<div>
+<h3 class="font-realm-heading-lg text-realm-heading-lg text-secondary mb-xs">Five-Element Divine Light</h3>
+<p class="text-on-surface-variant font-body-sm opacity-70 mb-md">
+                        合五行之奥义，化作无坚不摧的神光。可刷尽世间万物，不仅防御无双，攻击时亦能无视同阶法宝防御。
+                    </p>
+<span class="font-stats-label text-secondary opacity-60">五色神光</span>
+</div>
+</div>
+<!-- 4. Spirit Spring Pulse -->
+<div class="md:col-span-3 glass-card notched-corner p-md" style="background: transparent; border-color: rgba(161, 209, 180, 0.2);">
+<div class="shader-container mb-md">
+<!-- STITCH_SHADER_START:ANIMATION_580 class="absolute inset-0 w-full h-full" -->
+<div class="absolute inset-0 w-full h-full" style="display:block;">
+<canvas id="shader-canvas-ANIMATION_580" style="display:block;width:100%;height:100%" width="562" height="316"></canvas>
+<script>
+(function() {
+  const canvas = document.getElementById('shader-canvas-ANIMATION_580');
+
+  // Sync the WebGL drawing-buffer size with the CSS-driven layout size.
+  // This fires on initial layout and whenever the element is resized.
+  function syncSize() {
+    const w = canvas.clientWidth  || 1280;
+    const h = canvas.clientHeight || 720;
+    if (canvas.width !== w || canvas.height !== h) {
+      canvas.width  = w;
+      canvas.height = h;
+    }
+  }
+  if (typeof ResizeObserver !== 'undefined') {
+    new ResizeObserver(syncSize).observe(canvas);
+  }
+  syncSize();
+
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  if (!gl) return;
+  const vs = `attribute vec2 a_position;
+varying vec2 v_texCoord;
+void main() {
+  v_texCoord = a_position * 0.5 + 0.5;
+  gl_Position = vec4(a_position, 0.0, 1.0);
+}`;
+  const fs = `precision highp float;
+varying vec2 v_texCoord;
+uniform float u_time;
+uniform vec2 u_resolution;
+
+void main() {
+    vec2 uv = v_texCoord - 0.5;
+    float r = length(uv);
+    
+    float ripple = sin(r * 30.0 - u_time * 4.0);
+    ripple = smoothstep(0.1, 0.0, abs(ripple)) * exp(-r * 4.0);
+    
+    float core = exp(-r * 10.0);
+    
+    vec3 color = vec3(0.2, 0.8, 0.9) * (ripple + core);
+    color += vec3(1.0) * core * 0.5;
+    
+    float alpha = smoothstep(0.5, 0.1, r) * (ripple + core);
+    gl_FragColor = vec4(color, alpha);
+}`;
+  function cs(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    return s;
+  }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, cs(gl.VERTEX_SHADER, vs));
+  gl.attachShader(prog, cs(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(prog);
+  gl.useProgram(prog);
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+  const pos = gl.getAttribLocation(prog, 'a_position');
+  gl.enableVertexAttribArray(pos);
+  gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+  const uTime = gl.getUniformLocation(prog, 'u_time');
+  const uRes = gl.getUniformLocation(prog, 'u_resolution');
+  const uMouse = gl.getUniformLocation(prog, 'u_mouse');
+
+  // u_mouse is in pixel coordinates matching u_resolution (ShaderToy convention).
+  // Shaders that need normalized coords should use: u_mouse / u_resolution.
+  let mouse = { x: canvas.width / 2, y: canvas.height / 2 };
+  window.addEventListener('mousemove', (event) => {
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width && rect.height) {
+      const nx = (event.clientX - rect.left) / rect.width;
+      const ny = 1.0 - (event.clientY - rect.top) / rect.height;
+      mouse.x = nx * canvas.width;
+      mouse.y = ny * canvas.height;
+    }
+  });
+
+  function render(t) {
+    if (typeof ResizeObserver === 'undefined') syncSize();
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    if (uTime) gl.uniform1f(uTime, t * 0.001);
+    if (uRes) gl.uniform2f(uRes, canvas.width, canvas.height);
+    if (uMouse) gl.uniform2f(uMouse, mouse.x, mouse.y);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    requestAnimationFrame(render);
+  }
+  render(0);
+})();
+</script>
+</div>
+<!-- STITCH_SHADER_END:ANIMATION_580 -->
+</div>
+<div>
+<h3 class="font-realm-heading-lg text-realm-heading-lg text-primary mb-xs">Spirit Spring Pulse</h3>
+<p class="text-on-surface-variant font-body-sm opacity-70 mb-md">
+                        地脉灵泉之波动，感知大地心跳。以此法可寻宝脉、断生死，甚至在大地之上借用万物灵气进行瞬间位移。
+                    </p>
+<span class="font-stats-label text-primary opacity-60">灵泉脉动</span>
+</div>
+</div>
+<!-- 5. Spatial Crack -->
+<div class="md:col-span-6 glass-card notched-corner p-lg" style="background: transparent; border-color: rgba(161, 209, 180, 0.2);">
+<div class="grid md:grid-cols-2 gap-xl items-center">
+<div class="shader-container rounded-xl">
+<!-- STITCH_SHADER_START:ANIMATION_581 class="absolute inset-0 w-full h-full" -->
+<div class="absolute inset-0 w-full h-full" style="display:block;">
+<canvas id="shader-canvas-ANIMATION_581" style="display:block;width:100%;height:100%" width="563" height="317"></canvas>
+<script>
+(function() {
+  const canvas = document.getElementById('shader-canvas-ANIMATION_581');
+
+  // Sync the WebGL drawing-buffer size with the CSS-driven layout size.
+  // This fires on initial layout and whenever the element is resized.
+  function syncSize() {
+    const w = canvas.clientWidth  || 1280;
+    const h = canvas.clientHeight || 720;
+    if (canvas.width !== w || canvas.height !== h) {
+      canvas.width  = w;
+      canvas.height = h;
+    }
+  }
+  if (typeof ResizeObserver !== 'undefined') {
+    new ResizeObserver(syncSize).observe(canvas);
+  }
+  syncSize();
+
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  if (!gl) return;
+  const vs = `attribute vec2 a_position;
+varying vec2 v_texCoord;
+void main() {
+  v_texCoord = a_position * 0.5 + 0.5;
+  gl_Position = vec4(a_position, 0.0, 1.0);
+}`;
+  const fs = `precision highp float;
+varying vec2 v_texCoord;
+uniform float u_time;
+uniform vec2 u_resolution;
+
+float noise(vec2 p) {
+    return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453);
+}
+
+void main() {
+    vec2 uv = v_texCoord - 0.5;
+    
+    // Vertical crack line
+    float x_off = 0.05 * sin(uv.y * 10.0 + u_time * 2.0);
+    float line = smoothstep(0.02, 0.0, abs(uv.x + x_off));
+    
+    // Internal void
+    float crack = smoothstep(0.1, 0.0, abs(uv.x + x_off)) * smoothstep(0.5, 0.4, abs(uv.y));
+    
+    vec3 color = vec3(0.1, 0.0, 0.2); // Dark void
+    color += vec3(0.5, 0.7, 1.0) * line; // Edge glow
+    
+    // Sparkles
+    float n = noise(uv * 100.0 + u_time);
+    if(crack > 0.5 && n > 0.98) color += vec3(1.0);
+    
+    float alpha = crack + line;
+    gl_FragColor = vec4(color, alpha);
+}`;
+  function cs(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    return s;
+  }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, cs(gl.VERTEX_SHADER, vs));
+  gl.attachShader(prog, cs(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(prog);
+  gl.useProgram(prog);
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+  const pos = gl.getAttribLocation(prog, 'a_position');
+  gl.enableVertexAttribArray(pos);
+  gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+  const uTime = gl.getUniformLocation(prog, 'u_time');
+  const uRes = gl.getUniformLocation(prog, 'u_resolution');
+  const uMouse = gl.getUniformLocation(prog, 'u_mouse');
+
+  // u_mouse is in pixel coordinates matching u_resolution (ShaderToy convention).
+  // Shaders that need normalized coords should use: u_mouse / u_resolution.
+  let mouse = { x: canvas.width / 2, y: canvas.height / 2 };
+  window.addEventListener('mousemove', (event) => {
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width && rect.height) {
+      const nx = (event.clientX - rect.left) / rect.width;
+      const ny = 1.0 - (event.clientY - rect.top) / rect.height;
+      mouse.x = nx * canvas.width;
+      mouse.y = ny * canvas.height;
+    }
+  });
+
+  function render(t) {
+    if (typeof ResizeObserver === 'undefined') syncSize();
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    if (uTime) gl.uniform1f(uTime, t * 0.001);
+    if (uRes) gl.uniform2f(uRes, canvas.width, canvas.height);
+    if (uMouse) gl.uniform2f(uMouse, mouse.x, mouse.y);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    requestAnimationFrame(render);
+  }
+  render(0);
+})();
+</script>
+</div>
+<!-- STITCH_SHADER_END:ANIMATION_581 -->
+</div>
+<div>
+<div class="inline-block px-3 py-1 bg-error-container/20 text-error border border-error/30 mb-md">
+<span class="font-stats-label text-xs uppercase">Danger: Void Breach</span>
+</div>
+<h3 class="font-sect-title-xl-mobile text-sect-title-xl-mobile text-on-surface mb-md">Spatial Crack</h3>
+<p class="text-on-surface-variant font-body-regular opacity-80 mb-lg leading-relaxed">
+                            强行撕开位面障壁，产生恐怖的吸力与空间乱流。这是唯有通天彻地之能的大修士方能掌握的法则力量，凡人视之即会魂消魄散。
+                        </p>
+<div class="flex items-center gap-md">
+<button class="notched-corner bg-primary text-on-primary font-stats-label px-6 py-3 hover:scale-105 transition-transform active:scale-95">
+                                PREVIEW TECHNIQUE
+                            </button>
+<span class="font-stats-label text-on-surface-variant/50">空间裂缝 - 高级禁法</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile only) -->
+<footer class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-gutter pb-sm pt-xs bg-surface-container-lowest/90 backdrop-blur-md border-t border-outline-variant/20 shadow-[0_-4px_24px_rgba(0,0,0,0.5)]">
+<div class="flex flex-col items-center justify-center text-on-surface-variant/70">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span class="font-stats-label text-[10px]">Cultivation</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-primary-container/40 text-primary rounded-full px-6 py-1 shadow-[0_0_10px_rgba(161,209,180,0.3)]">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="font-stats-label text-[10px]">Techniques</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant/70">
+<span class="material-symbols-outlined">swords</span>
+<span class="font-stats-label text-[10px]">Treasures</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant/70">
+<span class="material-symbols-outlined">map</span>
+<span class="font-stats-label text-[10px]">World</span>
+</div>
+</footer>
+<!-- Global Decoration / Micro-interactions -->
+
+<script>
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mousedown', () => {
+                card.style.transform = 'scale(0.98) translateY(0px)';
+            });
+            card.addEventListener('mouseup', () => {
+                card.style.transform = 'scale(1) translateY(-4px)';
+            });
+        });
+
+        // Atmospheric particle effect (Optional/Subtle)
+        console.log("Mortal's Path VFX Library Initialized.");
+    </script>
+
+
+</body></html>

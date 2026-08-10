@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no" />
+    <title>凡人修仙：血色禁地</title>
+    <style>
+      html, body { margin: 0; padding: 0; width: 100%; height: 100%; background: #0b0e14; overflow: hidden; }
+      #app { width: 100%; height: 100%; position: relative; }
+      #game-canvas-host { position: absolute; inset: 0; }
+      #ui-root { position: absolute; inset: 0; pointer-events: none; font-family: system-ui, 'Microsoft YaHei', sans-serif; color: #e8e2d0; }
+      #ui-root .panel { pointer-events: auto; }
+      #a11y-status { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div id="game-canvas-host"></div>
+      <div id="ui-root"></div>
+      <div id="a11y-status" role="status" aria-live="polite"></div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

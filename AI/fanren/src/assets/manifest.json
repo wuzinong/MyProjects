@@ -1,0 +1,1902 @@
+{
+  "version": 1,
+  "assets": {
+    "thunderfire-armor": {
+      "path": "assets/item/thunderfire-armor.png",
+      "category": "item",
+      "cn": "雷火甲",
+      "source": "assets/images/screen_108859.png",
+      "sha256": "9c3ef267f39a2f9126697a7a2f63ea97d03415601fc25f5ecd25c974b93af987"
+    },
+    "npc-qian-laomo": {
+      "path": "assets/character/npc-qian-laomo.png",
+      "category": "character",
+      "cn": "乾老魔",
+      "source": "assets/images/screen_109117.png",
+      "sha256": "bec901bc4ab539eac5ad8be1f56ad513dca7b6af7e9c679b048016418af84476"
+    },
+    "npc-jinguang-shangren": {
+      "path": "assets/character/npc-jinguang-shangren.png",
+      "category": "character",
+      "cn": "金光上人",
+      "source": "assets/images/screen_109667.png",
+      "sha256": "3de08a587b1f56dd9e271e590527685e61b2d657ed8c1d34e202611054027ab5"
+    },
+    "pill-longhu": {
+      "path": "assets/item/pill-longhu.png",
+      "category": "item",
+      "cn": "龙虎丹",
+      "source": "assets/images/screen_110634.png",
+      "sha256": "db4a29bd6ec6473badb026f7f19344aa254c32ca5be68c67daff7eb229c2323c"
+    },
+    "talisman-jiuzhen": {
+      "path": "assets/item/talisman-jiuzhen.png",
+      "category": "item",
+      "cn": "九真灵符",
+      "source": "assets/images/screen_112650.png",
+      "sha256": "8d92e3d43a5113669211fb18101df3822a799eb35d0720b2beea6f194fa55094"
+    },
+    "env-huangfeng-gate": {
+      "path": "assets/environment/env-huangfeng-gate.png",
+      "category": "environment",
+      "cn": "黄枫谷山门",
+      "source": "assets/images/screen_113655.png",
+      "sha256": "0d95fb326476e1a93b103fb36d2d80d4a7bffccf1bbef3e2c62ff40490bb3935"
+    },
+    "env-ancient-pine": {
+      "path": "assets/environment/env-ancient-pine.png",
+      "category": "environment",
+      "cn": "仙灵古松",
+      "source": "assets/images/screen_113958.png",
+      "sha256": "96055ff47977a9a3fa04c40867ec9684ca1c705e802cc60a5bd98bdebe351863"
+    },
+    "pill-dingxing": {
+      "path": "assets/item/pill-dingxing.png",
+      "category": "item",
+      "cn": "定星丹",
+      "source": "assets/images/screen_11548.png",
+      "sha256": "1a9720163f1fc29b06a0bfefb1bf4421c9a29bd3b1eb2a62207c936fefbc7efe"
+    },
+    "enemy-blood-jade-spider": {
+      "path": "assets/enemy/enemy-blood-jade-spider.png",
+      "category": "enemy",
+      "cn": "血玉蜘蛛",
+      "source": "assets/images/screen_115557.png",
+      "sha256": "dd89193e066e81424c7886e337e4e33ef489810a091b01b274f6718c37bec332"
+    },
+    "env-spirit-stream": {
+      "path": "assets/environment/env-spirit-stream.png",
+      "category": "environment",
+      "cn": "蜿蜒灵溪",
+      "source": "assets/images/screen_117335.png",
+      "sha256": "901182ea9a5d4bd71002fe802d8a73981c08ebe276a0574cfb37b16392e8d057"
+    },
+    "skill-azure-sword-art": {
+      "path": "assets/skill/skill-azure-sword-art.png",
+      "category": "skill",
+      "cn": "青元剑诀",
+      "source": "assets/images/screen_118814.png",
+      "sha256": "122f978a27e57e78fa72812fbc9ee387fc487f80cf18b6681ed1711cc52252e8"
+    },
+    "env-wild-great-tree": {
+      "path": "assets/environment/env-wild-great-tree.png",
+      "category": "environment",
+      "cn": "蛮荒巨木",
+      "source": "assets/images/screen_120878.png",
+      "sha256": "48d28522dd4ce93edbb516b56d2ce005b08943935b4ea145b099d546dcd17a82"
+    },
+    "env-spirit-stone-vein": {
+      "path": "assets/environment/env-spirit-stone-vein.png",
+      "category": "environment",
+      "cn": "灵石矿脉",
+      "source": "assets/images/screen_129792.png",
+      "sha256": "835aa7443cfa57cf6e12f06ba911c27a13b73d42b732c29e9c372d96bc462121"
+    },
+    "spirit-stone-high": {
+      "path": "assets/item/spirit-stone-high.png",
+      "category": "item",
+      "cn": "上品灵石",
+      "source": "assets/images/screen_131022.png",
+      "sha256": "8d79c2cd556581bbb74218cfd73cccf27397d63d110a56625581426a6b77ffb5"
+    },
+    "env-floating-isle": {
+      "path": "assets/environment/env-floating-isle.png",
+      "category": "environment",
+      "cn": "悬浮灵岛",
+      "source": "assets/images/screen_132420.png",
+      "sha256": "78029b0c4483da36fe38e2dfdddbf93ae14d4030afc84428bed3220f2fc6980d"
+    },
+    "herb-hanjing": {
+      "path": "assets/item/herb-hanjing.png",
+      "category": "item",
+      "cn": "寒晶灵草",
+      "source": "assets/images/screen_138902.png",
+      "sha256": "4c0758ad5caa3816eff8a3fe599c5307d42a280189c25740c601da90a62573eb"
+    },
+    "artifact-windthunder-wings": {
+      "path": "assets/item/artifact-windthunder-wings.png",
+      "category": "item",
+      "cn": "风雷翅",
+      "source": "assets/images/screen_138965.png",
+      "sha256": "c9f0647f732b0db6e6f9537f32f00a38d4d39d8e505840c58441e6a96c543445"
+    },
+    "skill-ziluo-flame": {
+      "path": "assets/skill/skill-ziluo-flame.png",
+      "category": "skill",
+      "cn": "紫罗极火",
+      "source": "assets/images/screen_13958.png",
+      "sha256": "421baed7c4c935ccd6fe1d3381a83f8e287bfc3fb6aa335c3da534d93720fc11"
+    },
+    "fruit-dragonscale": {
+      "path": "assets/item/fruit-dragonscale.png",
+      "category": "item",
+      "cn": "龙鳞果",
+      "source": "assets/images/screen_141273.png",
+      "sha256": "580cb5f759bca713f3df4376285a2abfd0de5e789fe6e91b55a25ffa289da4a4"
+    },
+    "talisman-azure-sword": {
+      "path": "assets/item/talisman-azure-sword.png",
+      "category": "item",
+      "cn": "青光剑符宝",
+      "source": "assets/images/screen_144809.png",
+      "sha256": "598342dc5532dad0219abc480934629e3ac8234be5318d7f639397f49943732b"
+    },
+    "env-market": {
+      "path": "assets/environment/env-market.png",
+      "category": "environment",
+      "cn": "修仙坊市",
+      "source": "assets/images/screen_148844.png",
+      "sha256": "f7308dc5f3dc94c62471bd9715e1a1cde55cf24296a59a88070e2c731908afd6"
+    },
+    "talisman-fire-dragon": {
+      "path": "assets/item/talisman-fire-dragon.png",
+      "category": "item",
+      "cn": "火龙符",
+      "source": "assets/images/screen_150280.png",
+      "sha256": "8582094547e32889c2ca13ad597a09c264aa147e631dad4853c0dcc3088f0ff7"
+    },
+    "fragment-seal-a": {
+      "path": "assets/item/fragment-seal-a.png",
+      "category": "item",
+      "cn": "禁制残片",
+      "source": "assets/images/screen_151880.png",
+      "sha256": "5c0d9ffe108587d22d93e629464eafecb70b8373e8261ec128473b0a1d453e4c"
+    },
+    "pill-poxu": {
+      "path": "assets/item/pill-poxu.png",
+      "category": "item",
+      "cn": "破虚丹",
+      "source": "assets/images/screen_155759.png",
+      "sha256": "8f0a4d656c1c6f5dc9b2581f08565d5567fc93b7bee9cb918a0bdaad0b98c176"
+    },
+    "npc-li-feiyu": {
+      "path": "assets/character/npc-li-feiyu.png",
+      "category": "character",
+      "cn": "厉飞雨",
+      "source": "assets/images/screen_156384.png",
+      "sha256": "e650a51f250283a40a55e501022e874efdfb53486e04297639aee56d499cb8c2"
+    },
+    "npc-qingyang-heir": {
+      "path": "assets/character/npc-qingyang-heir.png",
+      "category": "character",
+      "cn": "青阳门少主",
+      "source": "assets/images/screen_1578.png",
+      "sha256": "e56e920aa2838fb7142c4fd85eed277b03daf5b1ab17ba073a38f6590df3820f"
+    },
+    "enemy-xing-beast": {
+      "path": "assets/enemy/enemy-xing-beast.png",
+      "category": "enemy",
+      "cn": "刑兽",
+      "source": "assets/images/screen_16299.png",
+      "sha256": "3ea3895c3758a9e34bd3306dd6d04eb5b5750a2f771c8ba04648b8ce4a7a8eaa"
+    },
+    "env-scorched-thunder-tree": {
+      "path": "assets/environment/env-scorched-thunder-tree.png",
+      "category": "environment",
+      "cn": "焦雷木",
+      "source": "assets/images/screen_167614.png",
+      "sha256": "fc2319798abcee9801f2d4bee2498e2b44f98ac505563625166a67744995de92"
+    },
+    "fx-dageng-sword-net-a": {
+      "path": "assets/effect/fx-dageng-sword-net-a.png",
+      "category": "effect",
+      "cn": "大庚剑网",
+      "source": "assets/images/screen_16923.png",
+      "sha256": "74bb22f32245c8bd105b81d3332d22ece16a880828a339961b0ec4b6e99c17ab"
+    },
+    "artifact-five-peaks": {
+      "path": "assets/item/artifact-five-peaks.png",
+      "category": "item",
+      "cn": "元磁五极山",
+      "source": "assets/images/screen_17192.png",
+      "sha256": "1b36b9f1c197bb82ab4775a5562c4331395220927e9b19a07ffce83da61b1cbb"
+    },
+    "npc-quhun": {
+      "path": "assets/character/npc-quhun.png",
+      "category": "character",
+      "cn": "曲魂",
+      "source": "assets/images/screen_179552.png",
+      "sha256": "1e76739041fedfe6cc1b23ac404424d2ce34ea5c55bff8441294be55ecfe0cc8"
+    },
+    "pill-huashen": {
+      "path": "assets/item/pill-huashen.png",
+      "category": "item",
+      "cn": "化神丹",
+      "source": "assets/images/screen_179834.png",
+      "sha256": "d79d38d4e4630fa64dfa7e77899335d82a9657c875d2a35e2bdb87b9b250898c"
+    },
+    "env-cold-spring-peach": {
+      "path": "assets/environment/env-cold-spring-peach.png",
+      "category": "environment",
+      "cn": "寒泉灵桃",
+      "source": "assets/images/screen_180038.png",
+      "sha256": "d8bb4b34d513932d46773b015e912c0764cb0a7db2ea34d995bee69cbcae3a19"
+    },
+    "talisman-fireball": {
+      "path": "assets/item/talisman-fireball.png",
+      "category": "item",
+      "cn": "火弹符",
+      "source": "assets/images/screen_180074.png",
+      "sha256": "5bfb2e73a4bae2ddef135c9044d65e60a548f3d31eb42d05da079ff36401ccb8"
+    },
+    "herb-blood-spirit": {
+      "path": "assets/item/herb-blood-spirit.png",
+      "category": "item",
+      "cn": "血灵草",
+      "source": "assets/images/screen_183874.png",
+      "sha256": "88b6f5532dba6253eba66ca6395a949723d3e0c47d35cb29fe8f34a8e2cd8a1a"
+    },
+    "talisman-dingshen": {
+      "path": "assets/item/talisman-dingshen.png",
+      "category": "item",
+      "cn": "定神符",
+      "source": "assets/images/screen_184642.png",
+      "sha256": "60cd611fbcd30f5eb69fac30f7c326e39be8b5b14515f743e39beed085c85643"
+    },
+    "enemy-skull-spider": {
+      "path": "assets/enemy/enemy-skull-spider.png",
+      "category": "enemy",
+      "cn": "骷髅蛛(未标注)",
+      "source": "assets/images/screen_185943.png",
+      "sha256": "cda0552e76657fbeab426afe595a3ac21b5a04a708014f6da5e28ee629088084"
+    },
+    "talisman-taiyi-huaqing": {
+      "path": "assets/item/talisman-taiyi-huaqing.png",
+      "category": "item",
+      "cn": "太一化清符",
+      "source": "assets/images/screen_19167.png",
+      "sha256": "360ba7ff6380c9426f7e19d373d169e10da2c6068dcdd26ab6daf1dcea0406a1"
+    },
+    "fruit-xiangmo": {
+      "path": "assets/item/fruit-xiangmo.png",
+      "category": "item",
+      "cn": "降魔果",
+      "source": "assets/images/screen_19300.png",
+      "sha256": "3d1e70ebc28843d31d4db3cf1e8ec01402c5ad42b3ae0e9c33f3c4e2c73ef62d"
+    },
+    "skill-jingzhe-finger-a": {
+      "path": "assets/skill/skill-jingzhe-finger-a.png",
+      "category": "skill",
+      "cn": "惊蛰指",
+      "source": "assets/images/screen_193971.png",
+      "sha256": "5eb7f19c60178031c3ca2cb52807c8926ab3cf53cf03e42b41061c1572fb3a52"
+    },
+    "herb-nichang": {
+      "path": "assets/item/herb-nichang.png",
+      "category": "item",
+      "cn": "霓裳草",
+      "source": "assets/images/screen_1954.png",
+      "sha256": "d6661b98bf5d40a76dd0285587bbf3de7809ac230426f7213ad0cf4ded0db743"
+    },
+    "skill-qianlan-ice-flame": {
+      "path": "assets/skill/skill-qianlan-ice-flame.png",
+      "category": "skill",
+      "cn": "乾蓝冰焰",
+      "source": "assets/images/screen_19944.png",
+      "sha256": "0fd5c7d6bcfb2ec8ae243972350b4aba3afa88a6c534e7af7a46e17edb863535"
+    },
+    "pet-jiuqu-ginseng-spirit": {
+      "path": "assets/character/pet-jiuqu-ginseng-spirit.png",
+      "category": "character",
+      "cn": "九曲灵参(化形)",
+      "source": "assets/images/screen_211730.png",
+      "sha256": "cb8005d07136ade9792bf8e4f26f581e55b7060dc3689dcc22891760924dba96"
+    },
+    "env-star-palace": {
+      "path": "assets/environment/env-star-palace.png",
+      "category": "environment",
+      "cn": "星宫圣山",
+      "source": "assets/images/screen_211838.png",
+      "sha256": "c3b533c8954582ed806664f1b0d1e2e09441ce896e8196563321eb9b9042d7db"
+    },
+    "npc-shi-laomo": {
+      "path": "assets/character/npc-shi-laomo.png",
+      "category": "character",
+      "cn": "石老魔",
+      "source": "assets/images/screen_211963.png",
+      "sha256": "e1f220859089a27dd939ed0ad4261688733ff898ffe4be215e3115c998f414fd"
+    },
+    "herb-yinjing-zhi": {
+      "path": "assets/item/herb-yinjing-zhi.png",
+      "category": "item",
+      "cn": "银精芝",
+      "source": "assets/images/screen_211992.png",
+      "sha256": "08dccec46598d34f47e8e337864d591db83c1905a5ecc906d6c9e247f24bda0a"
+    },
+    "artifact-bloodthirst-orb": {
+      "path": "assets/item/artifact-bloodthirst-orb.png",
+      "category": "item",
+      "cn": "嗜血珠",
+      "source": "assets/images/screen_212611.png",
+      "sha256": "255cda17c322a0829bdb0bb1c43276807e864ed86867b7a7683e1ab522a9db62"
+    },
+    "enemy-fire-toad": {
+      "path": "assets/enemy/enemy-fire-toad.png",
+      "category": "enemy",
+      "cn": "金瞳火蟾",
+      "source": "assets/images/screen_212857.png",
+      "sha256": "001186952c49832893eb30ade3c14ec9f519a85db01291efc3f7f922cabe519f"
+    },
+    "fruit-jinshen": {
+      "path": "assets/item/fruit-jinshen.png",
+      "category": "item",
+      "cn": "金身果",
+      "source": "assets/images/screen_213322.png",
+      "sha256": "8fc73d7b13766d9450814243bd7018a588d30d90734773913d23aaadc0605e6a"
+    },
+    "artifact-azure-greatsword-a": {
+      "path": "assets/item/artifact-azure-greatsword-a.png",
+      "category": "item",
+      "cn": "青元巨剑",
+      "source": "assets/images/screen_218340.png",
+      "sha256": "1a9a71dde7249dd0c35a0a036abc7d4e393837ac3386ee6c933ad69f555b6c70"
+    },
+    "enemy-corpse-emperor": {
+      "path": "assets/enemy/enemy-corpse-emperor.png",
+      "category": "enemy",
+      "cn": "大晋尸皇",
+      "source": "assets/images/screen_219665.png",
+      "sha256": "a01da88e8adddb2a2b62aec23b6a574bff5fa68eb83bba050470b5f56c09f74d"
+    },
+    "npc-time-patriarch": {
+      "path": "assets/character/npc-time-patriarch.png",
+      "category": "character",
+      "cn": "时间道祖",
+      "source": "assets/images/screen_220276.png",
+      "sha256": "979a63c128b2459230884dc36d71114ae8faac0a0924d579ce5e8a42c0917650"
+    },
+    "talisman-liuding-liujia": {
+      "path": "assets/item/talisman-liuding-liujia.png",
+      "category": "item",
+      "cn": "六丁六甲符",
+      "source": "assets/images/screen_221705.png",
+      "sha256": "eeff9380548eff8d3ee5a6d6318c3ecbf63416eb2c1dab20a11c47f9fb66dbdb"
+    },
+    "material-xuanbing": {
+      "path": "assets/item/material-xuanbing.png",
+      "category": "item",
+      "cn": "万年玄冰",
+      "source": "assets/images/screen_22384.png",
+      "sha256": "ffa75826c811a4ee65794f7e25b569668024aa6547fd91300912172ba39302fa"
+    },
+    "artifact-xuantian-sword-active": {
+      "path": "assets/item/artifact-xuantian-sword-active.png",
+      "category": "item",
+      "cn": "玄天斩灵剑(激发)",
+      "source": "assets/images/screen_226448.png",
+      "sha256": "bf22b3bfd07226c83318cc84a9f2a1520c7173c98a8608cfda6a8f473c8577e1"
+    },
+    "pet-vial-spirit": {
+      "path": "assets/character/pet-vial-spirit.png",
+      "category": "character",
+      "cn": "瓶灵",
+      "source": "assets/images/screen_228843.png",
+      "sha256": "e4a17f7d0018e18a50dee991058d12954d6765358ee323b1aa4230fd2cb70d53"
+    },
+    "material-gengjing": {
+      "path": "assets/item/material-gengjing.png",
+      "category": "item",
+      "cn": "庚精",
+      "source": "assets/images/screen_23977.png",
+      "sha256": "969ad3fd9e5de9dff261491acf5892b3105099a5045709eeb238622bdd69d2cf"
+    },
+    "env-shenshou-valley-a": {
+      "path": "assets/environment/env-shenshou-valley-a.png",
+      "category": "environment",
+      "cn": "神手谷",
+      "source": "assets/images/screen_240742.png",
+      "sha256": "8de4333b88c8af569117529b6eeca34666fa7f72621b47410401b6aacaaf8c31"
+    },
+    "enemy-blood-jade-spider-mature": {
+      "path": "assets/enemy/enemy-blood-jade-spider-mature.png",
+      "category": "enemy",
+      "cn": "成熟期血玉蜘蛛",
+      "source": "assets/images/screen_241391.png",
+      "sha256": "cc60c972994af7a88cc82d40e12d0d393c7733e9333860396780516ca958c5a4"
+    },
+    "artifact-xutian-cauldron-a": {
+      "path": "assets/item/artifact-xutian-cauldron-a.png",
+      "category": "item",
+      "cn": "虚天鼎",
+      "source": "assets/images/screen_243462.png",
+      "sha256": "aaf27eb711a6276387f50ff64290b2c042aa045b322afdd773c90a97c3a4a6e5"
+    },
+    "env-rocky-peaks": {
+      "path": "assets/environment/env-rocky-peaks.png",
+      "category": "environment",
+      "cn": "乱石灵峰",
+      "source": "assets/images/screen_247632.png",
+      "sha256": "3a3b6f1ee4a031a4bd90a12f08e6cdbc00feda2c8fa62be53283346eba406503"
+    },
+    "enemy-mo-daifu-corpse": {
+      "path": "assets/enemy/enemy-mo-daifu-corpse.png",
+      "category": "enemy",
+      "cn": "墨大夫(尸化)",
+      "source": "assets/images/screen_257308.png",
+      "sha256": "469a76037366223610521d9b08d10cb52e1a1d44491e8d7c15892a845630b04b"
+    },
+    "artifact-zhanling-blade-a": {
+      "path": "assets/item/artifact-zhanling-blade-a.png",
+      "category": "item",
+      "cn": "斩灵刀",
+      "source": "assets/images/screen_257485.png",
+      "sha256": "8da66c54aa696418eb686a152e9a4efcc977fe7a90f0c53d5286dd67eda0358d"
+    },
+    "fragment-seal-b": {
+      "path": "assets/item/fragment-seal-b.png",
+      "category": "item",
+      "cn": "禁制残片(蓝盘)",
+      "source": "assets/images/screen_267869.png",
+      "sha256": "a4623d7ec842f82c7ef95b026cf3aa0c40dfcfe10ffa91e7a228fb92276c5678"
+    },
+    "artifact-five-element-base": {
+      "path": "assets/item/artifact-five-element-base.png",
+      "category": "item",
+      "cn": "五行阵基",
+      "source": "assets/images/screen_270429.png",
+      "sha256": "ff4019d5fa9eb833a4cd8e07b2d56bdb77cce1db910df1532d887ed2b7bffb51"
+    },
+    "skill-five-element-illusion": {
+      "path": "assets/skill/skill-five-element-illusion.png",
+      "category": "skill",
+      "cn": "大五行幻世诀",
+      "source": "assets/images/screen_28113.png",
+      "sha256": "017de5e6df5477058fd8da1d09a1b8f0083b22d6a60b714bae4009f4782916a4"
+    },
+    "artifact-xuantian-sword-hilt": {
+      "path": "assets/item/artifact-xuantian-sword-hilt.png",
+      "category": "item",
+      "cn": "玄天斩灵剑(剑柄)",
+      "source": "assets/images/screen_282403.png",
+      "sha256": "15ac24ba625da3cacbd8eb1d53f1d6f95360b429172f4b450596b011901c9fcf"
+    },
+    "env-jade-willow": {
+      "path": "assets/environment/env-jade-willow.png",
+      "category": "environment",
+      "cn": "翠影垂柳",
+      "source": "assets/images/screen_285091.png",
+      "sha256": "8b451b0b047b39a112ac4de2e8ec35f8a03e1bc621fb1790587db14777a892a5"
+    },
+    "talisman-juli": {
+      "path": "assets/item/talisman-juli.png",
+      "category": "item",
+      "cn": "巨力符",
+      "source": "assets/images/screen_286775.png",
+      "sha256": "95fb9eb84c5d357d5dcf7f2ba892ed13ec872976a487f831d0bf6d4fb9e92566"
+    },
+    "material-space-shard": {
+      "path": "assets/item/material-space-shard.png",
+      "category": "item",
+      "cn": "空间碎石",
+      "source": "assets/images/screen_290885.png",
+      "sha256": "82e984855ac2e7ae8abf7679fdd531b7b92f3a74475a003885f684011aa1ee10"
+    },
+    "pet-tihun-beast": {
+      "path": "assets/character/pet-tihun-beast.png",
+      "category": "character",
+      "cn": "啼魂兽",
+      "source": "assets/images/screen_291759.png",
+      "sha256": "05bb362ab894f28ff59e00793c4edd4a2abed7fe60548c037e51f48208471cc8"
+    },
+    "herb-five-element": {
+      "path": "assets/item/herb-five-element.png",
+      "category": "item",
+      "cn": "五行草",
+      "source": "assets/images/screen_296401.png",
+      "sha256": "1b378a25c3a949e0314a95509e504cf7dea4f5decdfdc8d0bfe58ac19a24cf2d"
+    },
+    "env-demon-bamboo": {
+      "path": "assets/environment/env-demon-bamboo.png",
+      "category": "environment",
+      "cn": "魔气黑竹",
+      "source": "assets/images/screen_298798.png",
+      "sha256": "8e2a6f89b6d4cc4c5c5687664bfc135567361acf3b0c94e99ac3f4d0ddd31cac"
+    },
+    "skill-dari-demon-hand": {
+      "path": "assets/skill/skill-dari-demon-hand.png",
+      "category": "skill",
+      "cn": "大日真魔手",
+      "source": "assets/images/screen_299561.png",
+      "sha256": "39275d1c238de123449714ff47d2864f8f758723e033e65757f9262ea1816490"
+    },
+    "artifact-ancient-cauldron": {
+      "path": "assets/item/artifact-ancient-cauldron.png",
+      "category": "item",
+      "cn": "残存古鼎",
+      "source": "assets/images/screen_30213.png",
+      "sha256": "b2800ffe5e36dc0a1d5ac4114abf271e4730219348f9710604dcf00202fed270"
+    },
+    "env-space-rift": {
+      "path": "assets/environment/env-space-rift.png",
+      "category": "environment",
+      "cn": "空间裂缝",
+      "source": "assets/images/screen_303280.png",
+      "sha256": "6ff3152c28d1186f68fe7901118cf82c0f03cc06db744060334def1346f9866c"
+    },
+    "talisman-luochen": {
+      "path": "assets/item/talisman-luochen.png",
+      "category": "item",
+      "cn": "落尘符",
+      "source": "assets/images/screen_304029.png",
+      "sha256": "571a4e25454b30ab946635074c1c25f20061169f07616567a2fd37e05971c537"
+    },
+    "env-teleport-array": {
+      "path": "assets/environment/env-teleport-array.png",
+      "category": "environment",
+      "cn": "上古传送阵",
+      "source": "assets/images/screen_309164.png",
+      "sha256": "17b24208e9ad36e9551cd257c5f513855e122534f7ae03ddb194ad3683ea55f2"
+    },
+    "skill-fansheng-art": {
+      "path": "assets/skill/skill-fansheng-art.png",
+      "category": "skill",
+      "cn": "梵圣真魔功",
+      "source": "assets/images/screen_31091.png",
+      "sha256": "5462c9c7db7bb54f02982131f230859950260633ddb03c562da71883972f6761"
+    },
+    "env-broken-pillar-a": {
+      "path": "assets/environment/env-broken-pillar-a.png",
+      "category": "environment",
+      "cn": "阵法断柱",
+      "source": "assets/images/screen_322269.png",
+      "sha256": "7becdf4fc9b7df6071e85efbcd8d8b30829a564dc034838503de5c237994043d"
+    },
+    "env-xiaoji-palace": {
+      "path": "assets/environment/env-xiaoji-palace.png",
+      "category": "environment",
+      "cn": "小极宫",
+      "source": "assets/images/screen_330428.png",
+      "sha256": "e9a62dbf6b4faa9f0ad51a6cb3c7f8f297582efb9e167b59b05da0055b0bedf3"
+    },
+    "npc-huyan-daoist": {
+      "path": "assets/character/npc-huyan-daoist.png",
+      "category": "character",
+      "cn": "呼言道人",
+      "source": "assets/images/screen_347534.png",
+      "sha256": "1e80619f221761d8be1800eeec586830a72cbbafbdeb45f84b420c16e74f147d"
+    },
+    "material-floating-runestone": {
+      "path": "assets/item/material-floating-runestone.png",
+      "category": "item",
+      "cn": "浮空符石",
+      "source": "assets/images/screen_35008.png",
+      "sha256": "4dd2698e8dad601934387c76fc87d11a0f47499d04b6564b2408e50f67a7f862"
+    },
+    "env-soul-banyan": {
+      "path": "assets/environment/env-soul-banyan.png",
+      "category": "environment",
+      "cn": "古魂巨榕",
+      "source": "assets/images/screen_352782.png",
+      "sha256": "d75ed2f0f892b4abb4c54cb73fdeed51d435969c53b82bc38e89c0931573f6bc"
+    },
+    "env-cliff-pine": {
+      "path": "assets/environment/env-cliff-pine.png",
+      "category": "environment",
+      "cn": "绝壁灵松",
+      "source": "assets/images/screen_353653.png",
+      "sha256": "5fb4a381f69e48c69a868f718843cc3d83f8e75ea64256b8f3e8e37eb5188461"
+    },
+    "herb-frost-jade-flower": {
+      "path": "assets/item/herb-frost-jade-flower.png",
+      "category": "item",
+      "cn": "霜玉花",
+      "source": "assets/images/screen_354979.png",
+      "sha256": "3b2519e4a4c2eea57658214f73a5e28d7c1a50cd4176f77e721f6854c1beeee9"
+    },
+    "npc-xiang-zhili": {
+      "path": "assets/character/npc-xiang-zhili.png",
+      "category": "character",
+      "cn": "向之礼",
+      "source": "assets/images/screen_357219.png",
+      "sha256": "378c0f68b1b9e8b791961e0ca70b016fbf2edf3a23914178540084245f5bc326"
+    },
+    "npc-liudao-jisheng": {
+      "path": "assets/character/npc-liudao-jisheng.png",
+      "category": "character",
+      "cn": "六道极圣",
+      "source": "assets/images/screen_359756.png",
+      "sha256": "97681b6e008f843f58e7c3f5304b00b4c3d153cde35407b4818735fa8b8efb1d"
+    },
+    "env-endless-desert": {
+      "path": "assets/environment/env-endless-desert.png",
+      "category": "environment",
+      "cn": "无边沙海",
+      "source": "assets/images/screen_359861.png",
+      "sha256": "d17e2451498b17804a7d307a471bf6212214a064978646825e78771d14208698"
+    },
+    "artifact-three-flame-fan": {
+      "path": "assets/item/artifact-three-flame-fan.png",
+      "category": "item",
+      "cn": "三焰扇",
+      "source": "assets/images/screen_359926.png",
+      "sha256": "2ed69416ac8a614fed35a0fec726eca05de42f7332b4e7e825244924dd4d8c33"
+    },
+    "talisman-jianglei": {
+      "path": "assets/item/talisman-jianglei.png",
+      "category": "item",
+      "cn": "降雷符",
+      "source": "assets/images/screen_365377.png",
+      "sha256": "23f795aa81866be2e87c78b2291e99ba2a23e7d561d785a1c602546b7ee09141"
+    },
+    "artifact-zhenshan-orb": {
+      "path": "assets/item/artifact-zhenshan-orb.png",
+      "category": "item",
+      "cn": "振山珠",
+      "source": "assets/images/screen_368337.png",
+      "sha256": "dfdf61c0544136d8cf91f424f2883de157b200b150930f46b260ba4774c1f502"
+    },
+    "env-herb-rack-a": {
+      "path": "assets/environment/env-herb-rack-a.png",
+      "category": "environment",
+      "cn": "医草晒架",
+      "source": "assets/images/screen_373244.png",
+      "sha256": "31aee7a88c35fb57d9c680838f270324fafe1a4032a7eb8f30e35b55e0810ac1"
+    },
+    "env-immortal-gate": {
+      "path": "assets/environment/env-immortal-gate.png",
+      "category": "environment",
+      "cn": "仙宫大门",
+      "source": "assets/images/screen_376355.png",
+      "sha256": "5476e8e00820c2f2878d7b53a8d0f7193541224f4152b151469d519b4fba1112"
+    },
+    "env-ancient-vine": {
+      "path": "assets/environment/env-ancient-vine.png",
+      "category": "environment",
+      "cn": "蛮荒古藤",
+      "source": "assets/images/screen_378689.png",
+      "sha256": "3f14e404a698b9a931c0d730d747c90d31bc725d17270d1a22d436811d3de88d"
+    },
+    "material-liantian-copper": {
+      "path": "assets/item/material-liantian-copper.png",
+      "category": "item",
+      "cn": "炼天铜",
+      "source": "assets/images/screen_379704.png",
+      "sha256": "bbe09ad340e77dc2ac273342565d69c036f9b29dcfdf6114a9f012ca1d65f441"
+    },
+    "pet-yinyue-wolf": {
+      "path": "assets/character/pet-yinyue-wolf.png",
+      "category": "character",
+      "cn": "银月(狼形)",
+      "source": "assets/images/screen_382393.png",
+      "sha256": "6b1df42ce93cb4753422c25a319f52bbacfcbe2803db124036c39b15cbf238a7"
+    },
+    "talisman-tiange": {
+      "path": "assets/item/talisman-tiange.png",
+      "category": "item",
+      "cn": "天戈符",
+      "source": "assets/images/screen_384082.png",
+      "sha256": "a4ab18a7bab0085f186d935784cd889b2fd696bc3a8dda6849c962b10adb912d"
+    },
+    "pet-yinyue-spirit": {
+      "path": "assets/character/pet-yinyue-spirit.png",
+      "category": "character",
+      "cn": "器灵·银月",
+      "source": "assets/images/screen_387879.png",
+      "sha256": "1a636ed2935af592bf0c49c90a84921e96e20a15960c109291e768d9a47f2582"
+    },
+    "env-vein-outcrop": {
+      "path": "assets/environment/env-vein-outcrop.png",
+      "category": "environment",
+      "cn": "灵脉露头",
+      "source": "assets/images/screen_388327.png",
+      "sha256": "f565c65b44f7b5b7d9e026f92d32096be44fa6fc1339e874556cf89123c8a57e"
+    },
+    "env-xuanyu-peak": {
+      "path": "assets/environment/env-xuanyu-peak.png",
+      "category": "environment",
+      "cn": "玄玉奇峰",
+      "source": "assets/images/screen_391308.png",
+      "sha256": "da1fbc9bbff6f8eb3709b3414ca04a09a3984af112bd5429538a285a6d5c090d"
+    },
+    "pill-bilei": {
+      "path": "assets/item/pill-bilei.png",
+      "category": "item",
+      "cn": "避雷丹",
+      "source": "assets/images/screen_391927.png",
+      "sha256": "8043a1554448f08e107d6ad96851a8696ab75940b90c1a7213ac4e105cc8f9e3"
+    },
+    "artifact-xutian-cauldron-b": {
+      "path": "assets/item/artifact-xutian-cauldron-b.png",
+      "category": "item",
+      "cn": "虚天鼎(蓝焰)",
+      "source": "assets/images/screen_394378.png",
+      "sha256": "5d0c120c2138591b299f42813454115d39fb0015d8b9f154ebdd3cbc34b42f52"
+    },
+    "enemy-silver-serpent": {
+      "path": "assets/enemy/enemy-silver-serpent.png",
+      "category": "enemy",
+      "cn": "独角银蟒",
+      "source": "assets/images/screen_396385.png",
+      "sha256": "a98b0505d48775af29843b017249dfaf56988adab0081ee67cc88c0dd2361ac5"
+    },
+    "env-seal-altar": {
+      "path": "assets/environment/env-seal-altar.png",
+      "category": "environment",
+      "cn": "封印祭坛",
+      "source": "assets/images/screen_398716.png",
+      "sha256": "678810d4c28d65d8c6e8ce590ff653d4a9a3a94250d65c21290c6e3969b228a6"
+    },
+    "env-winding-path": {
+      "path": "assets/environment/env-winding-path.png",
+      "category": "environment",
+      "cn": "曲径通幽",
+      "source": "assets/images/screen_407749.png",
+      "sha256": "71599c748b73d4677bb8723dfb731c8149bdd90e89690332b39f522d09882a9f"
+    },
+    "env-azure-bamboo": {
+      "path": "assets/environment/env-azure-bamboo.png",
+      "category": "environment",
+      "cn": "玄青翠竹",
+      "source": "assets/images/screen_4212.png",
+      "sha256": "77cd077b1bbb923e178bc69cd026aa2664c46489474837fb8429973109b7480f"
+    },
+    "env-jade-waterfall": {
+      "path": "assets/environment/env-jade-waterfall.png",
+      "category": "environment",
+      "cn": "碧水飞瀑",
+      "source": "assets/images/screen_422209.png",
+      "sha256": "f7d2d3f2e39bf693f79e0a473e3d680dc1164ac1bbf069b78cf001cdde5227d1"
+    },
+    "skill-five-element-light-a": {
+      "path": "assets/skill/skill-five-element-light-a.png",
+      "category": "skill",
+      "cn": "五行神光",
+      "source": "assets/images/screen_424287.png",
+      "sha256": "85e544a6cd4e8d4be780bdef11f9a73457935b0621ef92c7ffabfa1e1f788cc3"
+    },
+    "material-floating-jade": {
+      "path": "assets/item/material-floating-jade.png",
+      "category": "item",
+      "cn": "悬浮翠玉",
+      "source": "assets/images/screen_426076.png",
+      "sha256": "cf250ab85ab34e660f7eb28d69374e40f2adb5d090333f5e08bdea43c0895a9d"
+    },
+    "artifact-wood-peak": {
+      "path": "assets/item/artifact-wood-peak.png",
+      "category": "item",
+      "cn": "木极山",
+      "source": "assets/images/screen_428135.png",
+      "sha256": "b99b161d584d8a82678d3447d719e745e0d635d21b178531984a2664f533d9c9"
+    },
+    "env-tainan-meet-a": {
+      "path": "assets/environment/env-tainan-meet-a.png",
+      "category": "environment",
+      "cn": "太南小会",
+      "source": "assets/images/screen_429941.png",
+      "sha256": "63470531125a6e5d1552d75a28d6367eabc010f850bfe49c5c97af2eaeb3fdf4"
+    },
+    "npc-che-laoyao": {
+      "path": "assets/character/npc-che-laoyao.png",
+      "category": "character",
+      "cn": "车老妖",
+      "source": "assets/images/screen_434110.png",
+      "sha256": "09ea4858fc48ed991ee402b1967bb9fe28fe5bce0bd85eb28e92fa387ce3d21d"
+    },
+    "npc-wen-laomo": {
+      "path": "assets/character/npc-wen-laomo.png",
+      "category": "character",
+      "cn": "闻老魔",
+      "source": "assets/images/screen_43671.png",
+      "sha256": "428b95ea5dcc54b075681645ff16fe062f5cb517f857c69a17dd7d3700b91032"
+    },
+    "env-zhuimo-valley": {
+      "path": "assets/environment/env-zhuimo-valley.png",
+      "category": "environment",
+      "cn": "坠魔谷",
+      "source": "assets/images/screen_437900.png",
+      "sha256": "1908fd651817acb47610a06117311d913d3b5a1d32be50d4d9b3ad76f08054c5"
+    },
+    "pet-cauldron-spirit": {
+      "path": "assets/character/pet-cauldron-spirit.png",
+      "category": "character",
+      "cn": "器灵·鼎灵",
+      "source": "assets/images/screen_44036.png",
+      "sha256": "765072211086dcc1fdda783e421ef7dc1e41a79903f2f78d3f3da77b5b965236"
+    },
+    "env-corrupt-bamboo": {
+      "path": "assets/environment/env-corrupt-bamboo.png",
+      "category": "environment",
+      "cn": "魔化黑竹",
+      "source": "assets/images/screen_446040.png",
+      "sha256": "1efd26e96f00750d5fcb4be7bc7f43c399948735921b5d80b719f227bc24a023"
+    },
+    "npc-nangong-wan": {
+      "path": "assets/character/npc-nangong-wan.png",
+      "category": "character",
+      "cn": "南宫婉",
+      "source": "assets/images/screen_451227.png",
+      "sha256": "da60a572f0f1925799b4cd8c0625f39acab1a3cab2a29925151d151e1f9f665b"
+    },
+    "npc-bingpo-fairy": {
+      "path": "assets/character/npc-bingpo-fairy.png",
+      "category": "character",
+      "cn": "冰魄仙子",
+      "source": "assets/images/screen_451515.png",
+      "sha256": "ff3b7a14931bed8e9e5249b133690668b5753a114668b6bc0876999c93bb33cd"
+    },
+    "talisman-jinwu-blades": {
+      "path": "assets/item/talisman-jinwu-blades.png",
+      "category": "item",
+      "cn": "金蜈子母刃符宝",
+      "source": "assets/images/screen_457529.png",
+      "sha256": "6bea313f6c88d2acf1ed0f9cc33b164b9b43ba31f2be8de5495e64ca5e5c6e0e"
+    },
+    "material-soul-wood": {
+      "path": "assets/item/material-soul-wood.png",
+      "category": "item",
+      "cn": "养魂木",
+      "source": "assets/images/screen_461577.png",
+      "sha256": "f83e0faf8ce708dfe1849b2c0ffa38434e5c44d8010bd38d5951d39e48612087"
+    },
+    "talisman-flying-sword": {
+      "path": "assets/item/talisman-flying-sword.png",
+      "category": "item",
+      "cn": "飞剑符宝",
+      "source": "assets/images/screen_466101.png",
+      "sha256": "c78916c0f177652e24855f56ac134f3a51ecf4f6f3bf54a7adf8e55eeffca54b"
+    },
+    "artifact-black-wind-flag": {
+      "path": "assets/item/artifact-black-wind-flag.png",
+      "category": "item",
+      "cn": "黑风旗",
+      "source": "assets/images/screen_467108.png",
+      "sha256": "86ac91980e0c56a84190db21c2ded9c9deb6c62fd1378a0caa9bfcc5ed8f314a"
+    },
+    "pet-blood-spirit": {
+      "path": "assets/character/pet-blood-spirit.png",
+      "category": "character",
+      "cn": "器灵·血灵",
+      "source": "assets/images/screen_471046.png",
+      "sha256": "525c9e759ccd624f465bc901d805fd358bb3dc79b958f732106fdd6110830937"
+    },
+    "pill-siling": {
+      "path": "assets/item/pill-siling.png",
+      "category": "item",
+      "cn": "饲灵丸",
+      "source": "assets/images/screen_480422.png",
+      "sha256": "d93b6533b53b0eb9b3c3f2f36953fb50c38dcb4c2887ac705b109473461c717f"
+    },
+    "artifact-sanfan-mirror": {
+      "path": "assets/item/artifact-sanfan-mirror.png",
+      "category": "item",
+      "cn": "三梵雷镜",
+      "source": "assets/images/screen_482775.png",
+      "sha256": "49b4a0382a607388131688ae705303c9921055e5cd667257cb824a0eca8550e6"
+    },
+    "env-ice-valley": {
+      "path": "assets/environment/env-ice-valley.png",
+      "category": "environment",
+      "cn": "玄冰幽谷",
+      "source": "assets/images/screen_486185.png",
+      "sha256": "3dc20ed7723111cfcfd771d656786d7a45e5090f3c2e7be5660b610e2e98ecf4"
+    },
+    "skill-dageng-formation": {
+      "path": "assets/skill/skill-dageng-formation.png",
+      "category": "skill",
+      "cn": "大庚剑阵",
+      "source": "assets/images/screen_49160.png",
+      "sha256": "ec7750b6e9106357c52c4bde1f664ed549a1b0d9e18019422d2339cd562712dc"
+    },
+    "npc-mo-daifu": {
+      "path": "assets/character/npc-mo-daifu.png",
+      "category": "character",
+      "cn": "墨大夫",
+      "source": "assets/images/screen_495445.png",
+      "sha256": "f9e02381155a6fbbe08c7cc80ebd7a1bf5d5ccf6bd3a24b8dcc6f911c7d1b3e6"
+    },
+    "npc-luohong": {
+      "path": "assets/character/npc-luohong.png",
+      "category": "character",
+      "cn": "洛虹",
+      "source": "assets/images/screen_498112.png",
+      "sha256": "6ece3c5b4299b6628be27f0125d44d7e3de9956134d72334526a7069b64acc8b"
+    },
+    "env-exposed-vein": {
+      "path": "assets/environment/env-exposed-vein.png",
+      "category": "environment",
+      "cn": "裸露灵脉",
+      "source": "assets/images/screen_500025.png",
+      "sha256": "09f16d08df133f88e70749416ce10fd7b79b51374dc92e2d680f165320f5cce2"
+    },
+    "env-void-pillar": {
+      "path": "assets/environment/env-void-pillar.png",
+      "category": "environment",
+      "cn": "虚空石柱",
+      "source": "assets/images/screen_509509.png",
+      "sha256": "8cbc2ff5e26b2ca387947df624b1e86e1f45130e4408a017cabed2b1c0c38cbf"
+    },
+    "pet-insect-king": {
+      "path": "assets/character/pet-insect-king.png",
+      "category": "character",
+      "cn": "噬金虫王",
+      "source": "assets/images/screen_50969.png",
+      "sha256": "eae970feb91268e3f49ba1269f59578763f9d829f3b530b4493382a5788127fe"
+    },
+    "artifact-xuantian-sword": {
+      "path": "assets/item/artifact-xuantian-sword.png",
+      "category": "item",
+      "cn": "玄天斩灵剑",
+      "source": "assets/images/screen_514856.png",
+      "sha256": "34db1a3d74679db4b20e194f708a924e2dc227519b2cfa78a05e523ba1054fea"
+    },
+    "spirit-stone-low": {
+      "path": "assets/item/spirit-stone-low.png",
+      "category": "item",
+      "cn": "下品灵石",
+      "source": "assets/images/screen_522381.png",
+      "sha256": "66466da36d4916298c896b7e942d0c58a97bc72e12657486b6c1bef940034889"
+    },
+    "env-tianyuan-city": {
+      "path": "assets/environment/env-tianyuan-city.png",
+      "category": "environment",
+      "cn": "天渊城",
+      "source": "assets/images/screen_523146.png",
+      "sha256": "359e7e29d777ccc1e3cdfb6ded6c49a84a9a639fdf57e36cd1118f50726a2a1e"
+    },
+    "npc-jiyin-patriarch": {
+      "path": "assets/character/npc-jiyin-patriarch.png",
+      "category": "character",
+      "cn": "极阴祖师",
+      "source": "assets/images/screen_526313.png",
+      "sha256": "11daf343627ec297a2978409b5ed3f51ff0431ad532a1cf1532f8390b7662a55"
+    },
+    "env-alchemy-pavilion": {
+      "path": "assets/environment/env-alchemy-pavilion.png",
+      "category": "environment",
+      "cn": "炼丹阁",
+      "source": "assets/images/screen_526640.png",
+      "sha256": "f3c7390160f3a3b3cdcd838192a978724d7df95a65835b06e46e6cb8b78fa1ea"
+    },
+    "talisman-teleport": {
+      "path": "assets/item/talisman-teleport.png",
+      "category": "item",
+      "cn": "传送符",
+      "source": "assets/images/screen_527550.png",
+      "sha256": "7c496605c0416b904b38367831f49571c999ae08814591d9db2e820664c5b88b"
+    },
+    "env-firefly-river": {
+      "path": "assets/environment/env-firefly-river.png",
+      "category": "environment",
+      "cn": "萤火灵河",
+      "source": "assets/images/screen_542023.png",
+      "sha256": "45877f275c795f2df89ee8ef5cb24b90bc62a9d5de2f639831ed2dbcfcecec45"
+    },
+    "material-skyfire-liquid": {
+      "path": "assets/item/material-skyfire-liquid.png",
+      "category": "item",
+      "cn": "天火液",
+      "source": "assets/images/screen_547238.png",
+      "sha256": "74dae2f7f808c3c5f086abc3ad2adb6dde6ddaa29ebd149dccb94712fec5b100"
+    },
+    "skill-frost-domain": {
+      "path": "assets/skill/skill-frost-domain.png",
+      "category": "skill",
+      "cn": "极寒领域",
+      "source": "assets/images/screen_548760.png",
+      "sha256": "c4287f01fa2fd5c27f515bff9c61d494be26170b9f41d9042f630f205c99839a"
+    },
+    "talisman-yinshen": {
+      "path": "assets/item/talisman-yinshen.png",
+      "category": "item",
+      "cn": "隐身符",
+      "source": "assets/images/screen_549519.png",
+      "sha256": "4e04b98ad699957379de9aed16aabde9462002352891084e799fa8a3e369cf3b"
+    },
+    "herb-wannian": {
+      "path": "assets/item/herb-wannian.png",
+      "category": "item",
+      "cn": "万年灵草",
+      "source": "assets/images/screen_552321.png",
+      "sha256": "c28b23a23f8a486aae3894f56916debb9ea26cc4501d25e18300a54760e1fe50"
+    },
+    "skill-five-element-light-b": {
+      "path": "assets/skill/skill-five-element-light-b.png",
+      "category": "skill",
+      "cn": "五行神光(涡)",
+      "source": "assets/images/screen_552636.png",
+      "sha256": "ffd149453de8f7521394dff615c23a6514ea9667aeeacc79281803f88d7f8312"
+    },
+    "skill-fansheng-avatar": {
+      "path": "assets/skill/skill-fansheng-avatar.png",
+      "category": "skill",
+      "cn": "梵圣真魔法相",
+      "source": "assets/images/screen_552949.png",
+      "sha256": "c72bed2c18bfebea9bd9d01e0d2e00bf1ad020dc714c81d062592eabfe2a10c6"
+    },
+    "herb-ice-lotus": {
+      "path": "assets/item/herb-ice-lotus.png",
+      "category": "item",
+      "cn": "冰灵寒莲",
+      "source": "assets/images/screen_553321.png",
+      "sha256": "d335593204e1198ff4172b6969152a8d7a1e2eb246d07ebd8b247261b9f25b9a"
+    },
+    "pill-cuiling": {
+      "path": "assets/item/pill-cuiling.png",
+      "category": "item",
+      "cn": "淬灵丹",
+      "source": "assets/images/screen_557304.png",
+      "sha256": "b301acdc4355b8d1cf54c8fea16c6931f8845371c84905f92a3785b8ae567b8c"
+    },
+    "pill-pojie": {
+      "path": "assets/item/pill-pojie.png",
+      "category": "item",
+      "cn": "破界丹",
+      "source": "assets/images/screen_562360.png",
+      "sha256": "ef62cc4ef486f56259a55785ad38904ca7d575843024d60d8097c37fc67602ed"
+    },
+    "herb-xushen-lotus": {
+      "path": "assets/item/herb-xushen-lotus.png",
+      "category": "item",
+      "cn": "虚神莲",
+      "source": "assets/images/screen_565983.png",
+      "sha256": "e6fe58d572eb27da23af669b58543847c78a75166dadb58ae5f392737f8011c6"
+    },
+    "npc-ziling": {
+      "path": "assets/character/npc-ziling.png",
+      "category": "character",
+      "cn": "紫灵",
+      "source": "assets/images/screen_571483.png",
+      "sha256": "4f9ba4ffc48284c98b86c85a52c3b4dd08956b7d562f7ed9b7cceeceb5ec0b7f"
+    },
+    "artifact-mountain-axe": {
+      "path": "assets/item/artifact-mountain-axe.png",
+      "category": "item",
+      "cn": "劈山斧",
+      "source": "assets/images/screen_573121.png",
+      "sha256": "3436923f5ba2594daebc92e91ec3ca551504104d9b77a1c91b5c124b1ef7b693"
+    },
+    "fx-deep-sea-claw": {
+      "path": "assets/effect/fx-deep-sea-claw.png",
+      "category": "effect",
+      "cn": "深海巨爪",
+      "source": "assets/images/screen_576032.png",
+      "sha256": "60efde121e1d213cda2d42c48cc272a894c4edd66b80b9158701c672eae63396"
+    },
+    "npc-yuanyao-a": {
+      "path": "assets/character/npc-yuanyao-a.png",
+      "category": "character",
+      "cn": "元瑶",
+      "source": "assets/images/screen_579497.png",
+      "sha256": "4b23be7aa2850f05d9a60da7e2e522e72ac8704942c4469e00ffa143aa2ce4b9"
+    },
+    "material-yinzhi-horse": {
+      "path": "assets/item/material-yinzhi-horse.png",
+      "category": "item",
+      "cn": "阴芝马",
+      "source": "assets/images/screen_58587.png",
+      "sha256": "3fa81f26aec05becf776d101d11c464c3e3285b271baf4f1061a2432e6afc0e4"
+    },
+    "env-lingzhi-sea": {
+      "path": "assets/environment/env-lingzhi-sea.png",
+      "category": "environment",
+      "cn": "灵芝花海",
+      "source": "assets/images/screen_594174.png",
+      "sha256": "172bdbd4833a9f7cc6b4771aba9e4db90df1bfb4ec5bb7fea8e5126108d8bccf"
+    },
+    "herb-qiye-chijian": {
+      "path": "assets/item/herb-qiye-chijian.png",
+      "category": "item",
+      "cn": "七叶赤箭",
+      "source": "assets/images/screen_596189.png",
+      "sha256": "f156e29209ebad4699e825939cfaecb79eac47ad713eef87240d9f24d09d423b"
+    },
+    "skill-dayan-art": {
+      "path": "assets/skill/skill-dayan-art.png",
+      "category": "skill",
+      "cn": "大衍决",
+      "source": "assets/images/screen_596566.png",
+      "sha256": "e4a6fef938c4ce55bbe58417c8c516d33297acd48b003b54acd2ada04f51b490"
+    },
+    "env-thunderfire-tree": {
+      "path": "assets/environment/env-thunderfire-tree.png",
+      "category": "environment",
+      "cn": "雷火古木",
+      "source": "assets/images/screen_60108.png",
+      "sha256": "5848eaf3235d9511cca71f8419600506a1f11d00f9e397ba6ecfb0c0ebc3bbd3"
+    },
+    "herb-dragon-blood": {
+      "path": "assets/item/herb-dragon-blood.png",
+      "category": "item",
+      "cn": "龙血草",
+      "source": "assets/images/screen_60552.png",
+      "sha256": "8dc73da111c70b44e1064ad5368f454c7740bc9bb2cb4aaefea938e26064ca04"
+    },
+    "artifact-zhanling-blade-b": {
+      "path": "assets/item/artifact-zhanling-blade-b.png",
+      "category": "item",
+      "cn": "斩灵刀(黑刃)",
+      "source": "assets/images/screen_610161.png",
+      "sha256": "75bfb7f08dfee71eb86e9986d5e57c36b0630dca822d2764cf966d53e6787fae"
+    },
+    "artifact-water-peak": {
+      "path": "assets/item/artifact-water-peak.png",
+      "category": "item",
+      "cn": "水极山",
+      "source": "assets/images/screen_611952.png",
+      "sha256": "7e247227ee534525645492556c19cdc40b48e038908d2fefd8e1f08b493e3567"
+    },
+    "env-kunwu-altar": {
+      "path": "assets/environment/env-kunwu-altar.png",
+      "category": "environment",
+      "cn": "昆吾祭坛",
+      "source": "assets/images/screen_613804.png",
+      "sha256": "2e6849201ac299f31c7b6029e8862a65257034587e75c94460029cff576a7d25"
+    },
+    "fruit-shouyuan": {
+      "path": "assets/item/fruit-shouyuan.png",
+      "category": "item",
+      "cn": "寿元果",
+      "source": "assets/images/screen_615128.png",
+      "sha256": "e99bca5a8c2d45e801b32483a3251332ae7d233e35a1d8e8879d71f268374865"
+    },
+    "env-herb-garden": {
+      "path": "assets/environment/env-herb-garden.png",
+      "category": "environment",
+      "cn": "灵药园",
+      "source": "assets/images/screen_615204.png",
+      "sha256": "3210b79fa7afbc6ee91c4ec31b162952b4b0407cc8d2dcfb3292dc572643c005"
+    },
+    "env-frost-peak": {
+      "path": "assets/environment/env-frost-peak.png",
+      "category": "environment",
+      "cn": "极寒冰峰",
+      "source": "assets/images/screen_622075.png",
+      "sha256": "112a4cd6cdb631c280f54bb95a1e63fcff420474e2e22d6f8fd3d7b0d6eb8f9d"
+    },
+    "talisman-qingyuan-sword": {
+      "path": "assets/item/talisman-qingyuan-sword.png",
+      "category": "item",
+      "cn": "青元剑符宝",
+      "source": "assets/images/screen_627186.png",
+      "sha256": "314098b860b70a716455718c914c388ded51e0ddfacd75fb5fe503e7a09f5c37"
+    },
+    "env-five-color-altar": {
+      "path": "assets/environment/env-five-color-altar.png",
+      "category": "environment",
+      "cn": "五色祭坛",
+      "source": "assets/images/screen_631513.png",
+      "sha256": "3accb66e855ebfc02e04d96951a11eac094f268b81b6222acbbbfec7c14de0e2"
+    },
+    "env-tianxing-mount": {
+      "path": "assets/environment/env-tianxing-mount.png",
+      "category": "environment",
+      "cn": "天星城圣山",
+      "source": "assets/images/screen_633713.png",
+      "sha256": "14cf87ce615e679dc473345a6aad1e2dd95f4b99621984b13552b62722968b01"
+    },
+    "enemy-golden-dragon": {
+      "path": "assets/enemy/enemy-golden-dragon.png",
+      "category": "enemy",
+      "cn": "真灵金龙",
+      "source": "assets/images/screen_633741.png",
+      "sha256": "b8a505e8a9bcc6bbd8e3c05017bbb183006d05a0169ecb659b1ccdcb8888ed29"
+    },
+    "fx-bixie-lightning-a": {
+      "path": "assets/effect/fx-bixie-lightning-a.png",
+      "category": "effect",
+      "cn": "辟邪金雷",
+      "source": "assets/images/screen_635306.png",
+      "sha256": "6d8f1bcca1370f8459917fd5376c05d6c11cc0db2667061e74a8b0f1d96077f6"
+    },
+    "herb-rainbow-lotus": {
+      "path": "assets/item/herb-rainbow-lotus.png",
+      "category": "item",
+      "cn": "七彩瑞莲",
+      "source": "assets/images/screen_638814.png",
+      "sha256": "b461abceb72c94a36aebd0e008bccaac93fc52a519b4596227f812f1ac9a7d7e"
+    },
+    "pet-yinyue-awakened": {
+      "path": "assets/character/pet-yinyue-awakened.png",
+      "category": "character",
+      "cn": "银月(觉醒)",
+      "source": "assets/images/screen_641785.png",
+      "sha256": "93ff058ee2f6987ca9749ade6422e65db056a8d359c1f6c5c538bf2adeb156b4"
+    },
+    "artifact-sand-gourd": {
+      "path": "assets/item/artifact-sand-gourd.png",
+      "category": "item",
+      "cn": "飞沙葫芦",
+      "source": "assets/images/screen_64752.png",
+      "sha256": "fa0fa92bc47313e9a52cc9d00661b42ae9af3e06965419222998019faccfba87"
+    },
+    "artifact-heaven-vial": {
+      "path": "assets/item/artifact-heaven-vial.png",
+      "category": "item",
+      "cn": "掌天瓶",
+      "source": "assets/images/screen_64779.png",
+      "sha256": "36e39078a1e87262bdb3fff66ba7229bb6a7c9f9ed7a68e87fb2fd6c3f486185"
+    },
+    "skill-windthunder-dash": {
+      "path": "assets/skill/skill-windthunder-dash.png",
+      "category": "skill",
+      "cn": "风雷疾",
+      "source": "assets/images/screen_648552.png",
+      "sha256": "34c74fd2dbb9219ccb1cc5d3ae15f3949399347b980d41078f1f4a11e2393ce5"
+    },
+    "env-cloud-bridge": {
+      "path": "assets/environment/env-cloud-bridge.png",
+      "category": "environment",
+      "cn": "仙云石桥",
+      "source": "assets/images/screen_651024.png",
+      "sha256": "71f15f14223666e888458de47633997d4f0adb1a8191b0b5d00dce5247ab10c6"
+    },
+    "skill-yuanci-light": {
+      "path": "assets/skill/skill-yuanci-light.png",
+      "category": "skill",
+      "cn": "元磁神光",
+      "source": "assets/images/screen_651827.png",
+      "sha256": "707a9cd5d2017b2ebe4345ae3a52cfa66e76dd85a28b43fefc377daf28a583a9"
+    },
+    "herb-jiuqu-ginseng": {
+      "path": "assets/item/herb-jiuqu-ginseng.png",
+      "category": "item",
+      "cn": "九曲灵参",
+      "source": "assets/images/screen_654361.png",
+      "sha256": "ee9dbc962e7eebed19d4045a8bf9a15615e578bd0fea451b61f74e1dcabe2469"
+    },
+    "fx-demon-vortex": {
+      "path": "assets/effect/fx-demon-vortex.png",
+      "category": "effect",
+      "cn": "魔气旋涡",
+      "source": "assets/images/screen_659083.png",
+      "sha256": "ed6ebb80e0f973e41eb53de0bdeb6adb00c3e33278ed87cf249944c7c7e85703"
+    },
+    "artifact-five-color-fan": {
+      "path": "assets/item/artifact-five-color-fan.png",
+      "category": "item",
+      "cn": "五色扇",
+      "source": "assets/images/screen_672469.png",
+      "sha256": "6f66864021c1da7616bd3191def8a7f63abafe78e0f51b043901297ecc3bf062"
+    },
+    "spirit-stone-mid": {
+      "path": "assets/item/spirit-stone-mid.png",
+      "category": "item",
+      "cn": "中品灵石",
+      "source": "assets/images/screen_676617.png",
+      "sha256": "aa9c0633dfb5bbe0ae1bbbf2d38db36566ac3e3eca535299f38fe0f0c475903c"
+    },
+    "npc-ling-yuling": {
+      "path": "assets/character/npc-ling-yuling.png",
+      "category": "character",
+      "cn": "凌玉灵",
+      "source": "assets/images/screen_677773.png",
+      "sha256": "dd39ae9b648dcb6af20b3ab2b2d62d12dd34121a12ea4a890a8c54dae5b51850"
+    },
+    "env-sword-tomb": {
+      "path": "assets/environment/env-sword-tomb.png",
+      "category": "environment",
+      "cn": "万剑冢",
+      "source": "assets/images/screen_678092.png",
+      "sha256": "a6263939bc3c2a11f57833be091b403ab3079813900787e5b7b1c40530497302"
+    },
+    "material-peng-blood": {
+      "path": "assets/item/material-peng-blood.png",
+      "category": "item",
+      "cn": "大鹏真血",
+      "source": "assets/images/screen_68039.png",
+      "sha256": "7ff631d4543edceac1891e3ae74df9f3fd31880c2dd9381fde81f38d2b7af064"
+    },
+    "artifact-seven-flame-fan": {
+      "path": "assets/item/artifact-seven-flame-fan.png",
+      "category": "item",
+      "cn": "七焰扇",
+      "source": "assets/images/screen_684439.png",
+      "sha256": "d93c21657e8e7c31be2765b7ea5f36b60f389ecdf32f3c4347d00eb04ac81423"
+    },
+    "env-bamboo-fence": {
+      "path": "assets/environment/env-bamboo-fence.png",
+      "category": "environment",
+      "cn": "青竹护篱",
+      "source": "assets/images/screen_685425.png",
+      "sha256": "20b8a3d61ceaa454fe4659ae2a7d0026337e42e96eb2e3cff79efb0266c99ccf"
+    },
+    "env-realm-portal": {
+      "path": "assets/environment/env-realm-portal.png",
+      "category": "environment",
+      "cn": "秘境入口",
+      "source": "assets/images/screen_690894.png",
+      "sha256": "c3d449350caaa5aafb4de372066e688eb34766dc8bb2ad425fa6c8e4c679dc3f"
+    },
+    "env-xutian-hall": {
+      "path": "assets/environment/env-xutian-hall.png",
+      "category": "environment",
+      "cn": "虚天殿",
+      "source": "assets/images/screen_692276.png",
+      "sha256": "ab15f59f3e73bdb9f06afd3fafce3198a4ef3d86727b197c0118d55522c409fe"
+    },
+    "pet-golden-dragon-spirit": {
+      "path": "assets/character/pet-golden-dragon-spirit.png",
+      "category": "character",
+      "cn": "器灵·金龙",
+      "source": "assets/images/screen_692936.png",
+      "sha256": "86764f0e617b98b75ce8dfcc143ec01142df56420f8cb829da68cf5f41ee4fc6"
+    },
+    "env-spring-rock": {
+      "path": "assets/environment/env-spring-rock.png",
+      "category": "environment",
+      "cn": "灵泉奇石",
+      "source": "assets/images/screen_695152.png",
+      "sha256": "dac89c8fa5bb3bc0db49ba07a07d26a33e66387e79bcf83636beb7c6eacc5990"
+    },
+    "skill-jingzhe-finger-b": {
+      "path": "assets/skill/skill-jingzhe-finger-b.png",
+      "category": "skill",
+      "cn": "惊蛰指(金)",
+      "source": "assets/images/screen_706267.png",
+      "sha256": "4146eab3599c7e8ff3973dfd5cb556e16cd3986b78306e7d9d8d45ce70f15514"
+    },
+    "env-coral-forest": {
+      "path": "assets/environment/env-coral-forest.png",
+      "category": "environment",
+      "cn": "深海珊瑚林",
+      "source": "assets/images/screen_707063.png",
+      "sha256": "5c2f96aa01a4a9567b9e7c9c47133811981938582ebce7515b33791d3b1ce590"
+    },
+    "fx-dageng-sword-net-b": {
+      "path": "assets/effect/fx-dageng-sword-net-b.png",
+      "category": "effect",
+      "cn": "大庚剑网(金环)",
+      "source": "assets/images/screen_710629.png",
+      "sha256": "4ec2494b1e9b25ad465d50e5dbd09beebde092ff5e0f2187a473331ce2029d53"
+    },
+    "env-tainan-meet-b": {
+      "path": "assets/environment/env-tainan-meet-b.png",
+      "category": "environment",
+      "cn": "太南小会(浮岛)",
+      "source": "assets/images/screen_712308.png",
+      "sha256": "6ce10d26dd83f390181061e8ce2e357a83b8aa91f12bf316f44416e7946d5e93"
+    },
+    "env-law-pool": {
+      "path": "assets/environment/env-law-pool.png",
+      "category": "environment",
+      "cn": "法则化池",
+      "source": "assets/images/screen_714610.png",
+      "sha256": "f7b8cb1b232e45f10631736203b8495b5372677b314d97497440f1a5818466e3"
+    },
+    "env-sect-hall": {
+      "path": "assets/environment/env-sect-hall.png",
+      "category": "environment",
+      "cn": "宗门大殿",
+      "source": "assets/images/screen_715341.png",
+      "sha256": "8a2207776da14aeabd19bb38aa7c1563c9284abe27fcd1b37c18015c33e1b9b5"
+    },
+    "npc-yanyue-ancestor": {
+      "path": "assets/character/npc-yanyue-ancestor.png",
+      "category": "character",
+      "cn": "掩月宗老祖",
+      "source": "assets/images/screen_71554.png",
+      "sha256": "6588567207ede272314dd68b833d66095f0b2c6b640744b882219f32fa7622f2"
+    },
+    "env-bone-gate": {
+      "path": "assets/environment/env-bone-gate.png",
+      "category": "environment",
+      "cn": "蛮荒骨门",
+      "source": "assets/images/screen_726706.png",
+      "sha256": "3cd5e092442456d96e336578b52be74b9e6b973dfa6ce88fac6bb3cd62e9122a"
+    },
+    "fx-bixie-lightning-b": {
+      "path": "assets/effect/fx-bixie-lightning-b.png",
+      "category": "effect",
+      "cn": "辟邪金雷(闪电)",
+      "source": "assets/images/screen_72744.png",
+      "sha256": "867fb24b79cd3b009387d5d21723fea26cf1f2bc4041f3b139c4cdf343f672e6"
+    },
+    "artifact-fire-peak": {
+      "path": "assets/item/artifact-fire-peak.png",
+      "category": "item",
+      "cn": "火极山",
+      "source": "assets/images/screen_728749.png",
+      "sha256": "d891b2ef9923a0d885ff8d57dfefed9cab6b518721e4fd5a0cce731d751f1592"
+    },
+    "artifact-metal-peak": {
+      "path": "assets/item/artifact-metal-peak.png",
+      "category": "item",
+      "cn": "金极山",
+      "source": "assets/images/screen_731449.png",
+      "sha256": "61b6d80cf624a61641b2acefd1d925de30f830121455a49f5470a83cc51811ad"
+    },
+    "pill-jiangchen": {
+      "path": "assets/item/pill-jiangchen.png",
+      "category": "item",
+      "cn": "降尘丹",
+      "source": "assets/images/screen_738757.png",
+      "sha256": "19dbda0a3ee07845ad811225dc2879d339826ed5f22041092c4a50d86c92a574"
+    },
+    "enemy-sky-serpent": {
+      "path": "assets/enemy/enemy-sky-serpent.png",
+      "category": "enemy",
+      "cn": "吞天巨蟒",
+      "source": "assets/images/screen_738999.png",
+      "sha256": "3371da05e8d2112d640595501171ad1e186a1fe8e8c9e710f957581e82b30244"
+    },
+    "talisman-pingtian-ruler": {
+      "path": "assets/item/talisman-pingtian-ruler.png",
+      "category": "item",
+      "cn": "平天尺符宝",
+      "source": "assets/images/screen_740800.png",
+      "sha256": "b3444406c995256570b994836a2dc898cdaf2ae50b5299e59f46dcbd0214ea6b"
+    },
+    "material-thunder-bamboo": {
+      "path": "assets/item/material-thunder-bamboo.png",
+      "category": "item",
+      "cn": "天雷竹",
+      "source": "assets/images/screen_743698.png",
+      "sha256": "55a6950cde1c06a13d8e9c2932e76451efc4e5cb9721b1c49627fee519f52a52"
+    },
+    "env-sect-signpost-a": {
+      "path": "assets/environment/env-sect-signpost-a.png",
+      "category": "environment",
+      "cn": "宗门路标",
+      "source": "assets/images/screen_747030.png",
+      "sha256": "1bf9eff232c498317ddf57a0a87faa4395117b34ade72add8b458d13a93983f4"
+    },
+    "env-zhenling-cave": {
+      "path": "assets/environment/env-zhenling-cave.png",
+      "category": "environment",
+      "cn": "真灵穴",
+      "source": "assets/images/screen_747455.png",
+      "sha256": "06be78cd087efefcebc3758f4d6c5460d838564858dfbb18ec386ca45ed082d7"
+    },
+    "env-qiankun-tower-a": {
+      "path": "assets/environment/env-qiankun-tower-a.png",
+      "category": "environment",
+      "cn": "乾坤塔",
+      "source": "assets/images/screen_751980.png",
+      "sha256": "66b9ec6fe5720b056f40ca4287004901e6c6def4f1fbc196450872537e187ad2"
+    },
+    "pet-yinyue-human": {
+      "path": "assets/character/pet-yinyue-human.png",
+      "category": "character",
+      "cn": "银月(人形)",
+      "source": "assets/images/screen_752682.png",
+      "sha256": "a8b21d7d3a740d99baecc32ae4c30a00bbe1dcd2e1f74b2668e64a806b7ad69e"
+    },
+    "env-spirit-mine": {
+      "path": "assets/environment/env-spirit-mine.png",
+      "category": "environment",
+      "cn": "灵源矿区",
+      "source": "assets/images/screen_753809.png",
+      "sha256": "2b73cc1c30a03c8969e3565c6287a43626979fd9697b8dda92a6ec53f66042f0"
+    },
+    "artifact-purple-helm": {
+      "path": "assets/item/artifact-purple-helm.png",
+      "category": "item",
+      "cn": "紫铖兜",
+      "source": "assets/images/screen_763967.png",
+      "sha256": "f68574a9d1615e21611d8dab2ccfecc73972d13a9f758344f91f1b8639002b97"
+    },
+    "artifact-wolf-ruyi": {
+      "path": "assets/item/artifact-wolf-ruyi.png",
+      "category": "item",
+      "cn": "狼首玉如意",
+      "source": "assets/images/screen_765249.png",
+      "sha256": "e77c649cc37068ab98ab8feb7c75c87ab1e485343ac1ec3b4c1adef601fbbf52"
+    },
+    "npc-tianlan-maiden-a": {
+      "path": "assets/character/npc-tianlan-maiden-a.png",
+      "category": "character",
+      "cn": "天澜圣女",
+      "source": "assets/images/screen_77675.png",
+      "sha256": "da58e3128e22902bfa493f5f1941430f69e4d3aa866c686ce3385ecdc5de5aae"
+    },
+    "material-sword-intent-stele": {
+      "path": "assets/item/material-sword-intent-stele.png",
+      "category": "item",
+      "cn": "剑意残碑",
+      "source": "assets/images/screen_781464.png",
+      "sha256": "0d622a3cf7b52ff3d37c8de654c0237f1c6b0405dcc171df7f074396a41fee79"
+    },
+    "pill-zhuji": {
+      "path": "assets/item/pill-zhuji.png",
+      "category": "item",
+      "cn": "筑基丹",
+      "source": "assets/images/screen_781744.png",
+      "sha256": "fabcbbcdf1920f105e9df91b9143b753019150c3e727a5e7120f889ad1ebe083"
+    },
+    "material-rift-shard": {
+      "path": "assets/item/material-rift-shard.png",
+      "category": "item",
+      "cn": "裂缝碎石",
+      "source": "assets/images/screen_793306.png",
+      "sha256": "2cd52bf98f92919accbfa6f05de984f1b40f3dbe77bc877fb8b898d6cbccb4f3"
+    },
+    "env-misty-gorge": {
+      "path": "assets/environment/env-misty-gorge.png",
+      "category": "environment",
+      "cn": "云雾深壑",
+      "source": "assets/images/screen_796293.png",
+      "sha256": "914b6b38943f7867fc8bcf6abfc2c07e79a53da1e45fe177aad694bbda9b4e75"
+    },
+    "artifact-glass-mirror": {
+      "path": "assets/item/artifact-glass-mirror.png",
+      "category": "item",
+      "cn": "琉璃镜",
+      "source": "assets/images/screen_802172.png",
+      "sha256": "8b99b32615ce2b69ab6c6aa6e0a54b604fdfed08b91ee5d80cf0a5e83ac7183a"
+    },
+    "artifact-heaven-vial-small": {
+      "path": "assets/item/artifact-heaven-vial-small.png",
+      "category": "item",
+      "cn": "掌天瓶(小)",
+      "source": "assets/images/screen_813435.png",
+      "sha256": "86c524f431256add00ddf19a4a87fa10cb42741eb26625ec45eef5ee7fe38936"
+    },
+    "npc-tianlan-maiden-b": {
+      "path": "assets/character/npc-tianlan-maiden-b.png",
+      "category": "character",
+      "cn": "天澜圣女(孔雀)",
+      "source": "assets/images/screen_816296.png",
+      "sha256": "e4f2a902ea63c0570b1da18f19a8ff090aa3846b0e0fc9a21ff3b9c75a47a00f"
+    },
+    "artifact-gold-seal-a": {
+      "path": "assets/item/artifact-gold-seal-a.png",
+      "category": "item",
+      "cn": "金光印",
+      "source": "assets/images/screen_818506.png",
+      "sha256": "664fe5632f53a213e84b4c1b236454e370bec9eed0ac410c042ec2d667c2ea8c"
+    },
+    "env-gold-leaf-apricot": {
+      "path": "assets/environment/env-gold-leaf-apricot.png",
+      "category": "environment",
+      "cn": "金叶灵杏",
+      "source": "assets/images/screen_82274.png",
+      "sha256": "c450ebf6a35e271251f6cdb64e8727c09ad95486faccf402887b08f9b2b1b4ea"
+    },
+    "npc-qingyang-heir-b": {
+      "path": "assets/character/npc-qingyang-heir-b.png",
+      "category": "character",
+      "cn": "青阳门少主(青)",
+      "source": "assets/images/screen_825070.png",
+      "sha256": "fcd7f1afeb5ef6efdda1f9dbcdc1429a908fe4df5294763af2b0911516b48877"
+    },
+    "artifact-gold-seal-b": {
+      "path": "assets/item/artifact-gold-seal-b.png",
+      "category": "item",
+      "cn": "金光印(方印)",
+      "source": "assets/images/screen_827178.png",
+      "sha256": "1e5c2c5748b7ce8744a9c2620d49c7ee73aa9140743bbdd63739aec28b5dbf17"
+    },
+    "material-law-crystal": {
+      "path": "assets/item/material-law-crystal.png",
+      "category": "item",
+      "cn": "法则晶石",
+      "source": "assets/images/screen_829310.png",
+      "sha256": "8cbc2e2b3dab596df94a32670d6436d74d271c1529c493df6610db3428cd6520"
+    },
+    "artifact-xuantian-ruler": {
+      "path": "assets/item/artifact-xuantian-ruler.png",
+      "category": "item",
+      "cn": "玄天斩灵尺",
+      "source": "assets/images/screen_829767.png",
+      "sha256": "6d81e0952b9975f18d720a5690136ad1394d24ab8f18db3419ad3b83795a2c9f"
+    },
+    "enemy-deep-whale": {
+      "path": "assets/enemy/enemy-deep-whale.png",
+      "category": "enemy",
+      "cn": "深海巨鲸",
+      "source": "assets/images/screen_829972.png",
+      "sha256": "a813e3f9486e87a9604e17b905602eb28a7b19407c69a47cf24d24f4c450b2c3"
+    },
+    "npc-yuanyao-b": {
+      "path": "assets/character/npc-yuanyao-b.png",
+      "category": "character",
+      "cn": "元瑶(黑衣)",
+      "source": "assets/images/screen_834601.png",
+      "sha256": "90c2cfbe347e799b8a680985841b121aa830002206556599ea1ba28979db6f6c"
+    },
+    "fx-bixie-lightning-c": {
+      "path": "assets/effect/fx-bixie-lightning-c.png",
+      "category": "effect",
+      "cn": "辟邪金雷(雷暴)",
+      "source": "assets/images/screen_835869.png",
+      "sha256": "1e1d9e478987897945da9d12d739ed1f5e6040aad720fc3e450d5b40f4b7fa74"
+    },
+    "env-spring-pool": {
+      "path": "assets/environment/env-spring-pool.png",
+      "category": "environment",
+      "cn": "灵泉深潭",
+      "source": "assets/images/screen_847299.png",
+      "sha256": "29cb0523aa7112b41b4970ce9b133507a26d1abd46f45c5ddd2feaac10e34890"
+    },
+    "pill-juling": {
+      "path": "assets/item/pill-juling.png",
+      "category": "item",
+      "cn": "聚灵丹",
+      "source": "assets/images/screen_848564.png",
+      "sha256": "53432e8eacba8a46b3dd02f15f3610a4d364a6e8243f911becec81ceed7d4273"
+    },
+    "env-cave-estate": {
+      "path": "assets/environment/env-cave-estate.png",
+      "category": "environment",
+      "cn": "洞天福地",
+      "source": "assets/images/screen_859263.png",
+      "sha256": "eee89e1d53aac2af3e6f5a19f7802e9d95dfbc2091a5f93d9de1126f9b4b0237"
+    },
+    "npc-yanli": {
+      "path": "assets/character/npc-yanli.png",
+      "category": "character",
+      "cn": "妍丽",
+      "source": "assets/images/screen_860304.png",
+      "sha256": "58333506840f9a9b2bc6958ed605d00cb7dc4cce245fd8e4c5c2c0b4f489f526"
+    },
+    "hero-hanli": {
+      "path": "assets/character/hero-hanli.png",
+      "category": "character",
+      "cn": "韩立(元婴期)",
+      "source": "assets/images/screen_861444.png",
+      "sha256": "1fdd76d8df69f85111977a3ab4c496ab99a05b3be53db14d97bd8b19c5cdf758"
+    },
+    "artifact-azure-greatsword-b": {
+      "path": "assets/item/artifact-azure-greatsword-b.png",
+      "category": "item",
+      "cn": "青元巨剑(翠)",
+      "source": "assets/images/screen_865960.png",
+      "sha256": "a85cbf659ad5b9ed0dd394b46b5462d06b9f900dc5a330601a819fed1a3e7aeb"
+    },
+    "npc-maliang": {
+      "path": "assets/character/npc-maliang.png",
+      "category": "character",
+      "cn": "马良",
+      "source": "assets/images/screen_867090.png",
+      "sha256": "d2c8b69bbb088aed9f257e8f82be6bd3fada4312836bdd5cd0ac197758b988ed"
+    },
+    "env-rainbow-falls": {
+      "path": "assets/environment/env-rainbow-falls.png",
+      "category": "environment",
+      "cn": "七彩灵瀑",
+      "source": "assets/images/screen_868411.png",
+      "sha256": "ccd3c84f7a25d85ad9a918b86e39aff4f5aa6f91573e8aa9627154a889e2a0f9"
+    },
+    "talisman-pojia": {
+      "path": "assets/item/talisman-pojia.png",
+      "category": "item",
+      "cn": "破甲符",
+      "source": "assets/images/screen_874950.png",
+      "sha256": "cb871b298dc37ee3b90cb4478bf8472608e24f9d385e9940c1110c874b3a7f82"
+    },
+    "npc-sun-ergou": {
+      "path": "assets/character/npc-sun-ergou.png",
+      "category": "character",
+      "cn": "孙二狗",
+      "source": "assets/images/screen_881258.png",
+      "sha256": "0cd7b37e1bfac603d3ab3ee0eac370524f5c457cf22f4c9b434f19f8b2f95a11"
+    },
+    "fruit-xuantian": {
+      "path": "assets/item/fruit-xuantian.png",
+      "category": "item",
+      "cn": "玄天果",
+      "source": "assets/images/screen_886557.png",
+      "sha256": "612e86967b23e0b152d55466a4389a4516cae8d511ca2db4eab02449ab3bae46"
+    },
+    "fx-insect-swarm": {
+      "path": "assets/effect/fx-insect-swarm.png",
+      "category": "effect",
+      "cn": "噬金虫群",
+      "source": "assets/images/screen_887976.png",
+      "sha256": "029e85519ddd77c26d6505fe4f3f9b6601ff0175c0c6a33dd3de9723f65db36f"
+    },
+    "fx-thunder-pool": {
+      "path": "assets/effect/fx-thunder-pool.png",
+      "category": "effect",
+      "cn": "雷暴雷池",
+      "source": "assets/images/screen_892339.png",
+      "sha256": "dc3e3a55d2d1fa71558733caa0a9ec7f2b0aa2715ec4bc972f9bd5beff4d575f"
+    },
+    "artifact-juling-gourd": {
+      "path": "assets/item/artifact-juling-gourd.png",
+      "category": "item",
+      "cn": "聚灵巨葫",
+      "source": "assets/images/screen_893860.png",
+      "sha256": "5687f31be040d4a4f906326c9ac0e91ac6699084de1da8975d3c4c1cd6f560ae"
+    },
+    "env-herb-rack-b": {
+      "path": "assets/environment/env-herb-rack-b.png",
+      "category": "environment",
+      "cn": "药草晾架",
+      "source": "assets/images/screen_901477.png",
+      "sha256": "ab2fdc3761f6fb1043e539923b7e75424d774d0a1d94ac737299ed7f0b4ac1f7"
+    },
+    "env-shenshou-valley-b": {
+      "path": "assets/environment/env-shenshou-valley-b.png",
+      "category": "environment",
+      "cn": "神手谷(密林)",
+      "source": "assets/images/screen_903283.png",
+      "sha256": "0b0b7f54677a937f05804e7d56173e33da2e8acc15d048d64e5eef1e50607285"
+    },
+    "artifact-earth-peak": {
+      "path": "assets/item/artifact-earth-peak.png",
+      "category": "item",
+      "cn": "土极山",
+      "source": "assets/images/screen_905885.png",
+      "sha256": "51dd77dd411e150a6c5498ccb17ac14b8b91b414ce39c7e10e842ae0f6c56132"
+    },
+    "env-stone-go": {
+      "path": "assets/environment/env-stone-go.png",
+      "category": "environment",
+      "cn": "仙人石棋",
+      "source": "assets/images/screen_908208.png",
+      "sha256": "8a62e89c90cf498a3360e56059ab3273e6979c864e0f9f3956ae1a93b0129c90"
+    },
+    "env-broken-pillar-b": {
+      "path": "assets/environment/env-broken-pillar-b.png",
+      "category": "environment",
+      "cn": "阵法断柱(黑)",
+      "source": "assets/images/screen_915256.png",
+      "sha256": "f2833d680dcf0e4b655adc328d91ddc51aea569c1e456c1ce20b13dce776e281"
+    },
+    "artifact-jinfu-blade": {
+      "path": "assets/item/artifact-jinfu-blade.png",
+      "category": "item",
+      "cn": "金蛾胜天刀",
+      "source": "assets/images/screen_919781.png",
+      "sha256": "5dffe3f2be202ca0c87572fa8b058ad856f7d7f727f6d2c8ecdb75c07e631875"
+    },
+    "skill-zhenyan-wheel": {
+      "path": "assets/skill/skill-zhenyan-wheel.png",
+      "category": "skill",
+      "cn": "真言化轮功",
+      "source": "assets/images/screen_9204.png",
+      "sha256": "67d349ef596a3b898908531af403e2b4de58e94478f49789d4008c562ce8d180"
+    },
+    "artifact-butian-net": {
+      "path": "assets/item/artifact-butian-net.png",
+      "category": "item",
+      "cn": "补天网",
+      "source": "assets/images/screen_920614.png",
+      "sha256": "e8d04b65c88c258ddd05e3778a2b010423ae5ec3f7abe3fcbc664093eb189c4e"
+    },
+    "pill-butian": {
+      "path": "assets/item/pill-butian.png",
+      "category": "item",
+      "cn": "补天丹",
+      "source": "assets/images/screen_922649.png",
+      "sha256": "2296e83958e375f08998fe49ef18a6047d30ef74cf3a5f4f7634761d4f3b94bd"
+    },
+    "env-blood-forbidden-zone": {
+      "path": "assets/environment/env-blood-forbidden-zone.png",
+      "category": "environment",
+      "cn": "凶险禁地",
+      "source": "assets/images/screen_922991.png",
+      "sha256": "49dcb08d11f356f4c3f8c885b8b2376b9a102886fdf3bfb2d5d93508c80829e2"
+    },
+    "env-stone-board": {
+      "path": "assets/environment/env-stone-board.png",
+      "category": "environment",
+      "cn": "石刻棋盘",
+      "source": "assets/images/screen_923650.png",
+      "sha256": "db9d2efee08c7b3ca2d9d6cd36eb79b56e6188fe0217db287618ad6796309267"
+    },
+    "env-qiankun-tower-b": {
+      "path": "assets/environment/env-qiankun-tower-b.png",
+      "category": "environment",
+      "cn": "乾坤塔(琉璃)",
+      "source": "assets/images/screen_926229.png",
+      "sha256": "c81c9a5e6d15541ca6f800148d615df820dc6403f1901dfb6f2f9481d89c8861"
+    },
+    "env-rainbow-terrace": {
+      "path": "assets/environment/env-rainbow-terrace.png",
+      "category": "environment",
+      "cn": "七彩云台",
+      "source": "assets/images/screen_930284.png",
+      "sha256": "3e6c7a08cc95f3ffca6d7c928cbe3c3cb518f2dbd67e3e65ca0062214466cbf3"
+    },
+    "skill-blood-shadow-flash": {
+      "path": "assets/skill/skill-blood-shadow-flash.png",
+      "category": "skill",
+      "cn": "血影遁",
+      "source": "assets/images/screen_933879.png",
+      "sha256": "fba5c2cd28bfa36384082c1b409386dacb9650b0ce112531a14347586c5bb8be"
+    },
+    "env-sect-signpost-b": {
+      "path": "assets/environment/env-sect-signpost-b.png",
+      "category": "environment",
+      "cn": "宗门路标(蓝)",
+      "source": "assets/images/screen_940105.png",
+      "sha256": "633f4543fe6f52d08d38e283fdcb10e8634cace7a62611907fb4cde9f9421769"
+    },
+    "npc-ziling-lingjie": {
+      "path": "assets/character/npc-ziling-lingjie.png",
+      "category": "character",
+      "cn": "紫灵(灵界)",
+      "source": "assets/images/screen_952624.png",
+      "sha256": "01982797cbb54d0c9a7cb29c5a15fcf034550dd5d87ba44c4cf9d5e35bf75d04"
+    },
+    "spirit-stone-top": {
+      "path": "assets/item/spirit-stone-top.png",
+      "category": "item",
+      "cn": "极品灵石",
+      "source": "assets/images/screen_952851.png",
+      "sha256": "eaa99f2757a8210bdaf70dea237b5c60d7b017f65f0c0ba5f8216d80248ed658"
+    },
+    "env-immortal-isle": {
+      "path": "assets/environment/env-immortal-isle.png",
+      "category": "environment",
+      "cn": "仙域浮岛",
+      "source": "assets/images/screen_957302.png",
+      "sha256": "83304909b2ab377b7d91284620c641e173cbc8c0d2251f684fa851ac6499f0e5"
+    },
+    "enemy-skeleton-king": {
+      "path": "assets/enemy/enemy-skeleton-king.png",
+      "category": "enemy",
+      "cn": "骷髅苦王",
+      "source": "assets/images/screen_972467.png",
+      "sha256": "9378034d8809e65e9d22af608855a22afed531d046e99e7d40d52e3274f07e86"
+    },
+    "artifact-zhenyan-wheel-a": {
+      "path": "assets/item/artifact-zhenyan-wheel-a.png",
+      "category": "item",
+      "cn": "真言宝轮",
+      "source": "assets/images/screen_978353.png",
+      "sha256": "1222803e3551315168aac6628fcf7e2ac9bc740d5bfb3529908c2822f5a60807"
+    },
+    "fx-solar-flame": {
+      "path": "assets/effect/fx-solar-flame.png",
+      "category": "effect",
+      "cn": "太阳精火",
+      "source": "assets/images/screen_979883.png",
+      "sha256": "abbacce11002612e44f1e1351088c48be9ea5bcc4e178e0ebee6488b464289a5"
+    },
+    "talisman-golden-brick": {
+      "path": "assets/item/talisman-golden-brick.png",
+      "category": "item",
+      "cn": "金光砖符宝",
+      "source": "assets/images/screen_979928.png",
+      "sha256": "5c12689309c19c51b46e5cfdeb7c6bcb54cd98b3e86ed0701073da36c3ae18d5"
+    },
+    "artifact-zhenyan-wheel-b": {
+      "path": "assets/item/artifact-zhenyan-wheel-b.png",
+      "category": "item",
+      "cn": "真言宝轮(金)",
+      "source": "assets/images/screen_982998.png",
+      "sha256": "461482e5ca4d46dad4db4a01316223c70a62433a0249bcbcdbc2d63d97d6464f"
+    },
+    "herb-star": {
+      "path": "assets/item/herb-star.png",
+      "category": "item",
+      "cn": "星辰草",
+      "source": "assets/images/screen_988739.png",
+      "sha256": "e2894352f482bae9795452bca56be9b729bf4cb1bec61982addbdb0ee19c562b"
+    },
+    "env-dajin-capital": {
+      "path": "assets/environment/env-dajin-capital.png",
+      "category": "environment",
+      "cn": "大晋京城",
+      "source": "assets/images/screen_993099.png",
+      "sha256": "b6775ff6b1e543b0ea897cba9fd8bbe477767ddd9bdd607bb45761707bc3e859"
+    },
+    "enemy-frost-centipede": {
+      "path": "assets/enemy/enemy-frost-centipede.png",
+      "category": "enemy",
+      "cn": "六翼霜蚣",
+      "source": "assets/images/screen_993101.png",
+      "sha256": "5f8aeebf01f16f8e0ec340b8fb1dc30b17c61bd5000561fd10d22fdc6c320efd"
+    },
+    "npc-fengxi": {
+      "path": "assets/character/npc-fengxi.png",
+      "category": "character",
+      "cn": "风希",
+      "source": "assets/images/screen_994669.png",
+      "sha256": "b152e510dab71e817283976632ab034941de45f8f6a57bd973db4e9f7c96ee74"
+    }
+  }
+}
