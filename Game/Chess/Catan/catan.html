@@ -5475,10 +5475,58 @@ void main() {
         mesh.instanceMatrix.needsUpdate = true;
         mesh.castShadow = true;
         mesh.receiveShadow = true;
+        if (batch.material.userData.wind) mesh.customDepthMaterial = this.scene.windDepthMaterial;
         mesh.userData.detail = batch.detail;
         mesh.visible = !(batch.detail && this.scene.lowQuality);
         mesh.computeBoundingSphere();
         this.group.add(mesh);
+      }
+    }
+  }
+
+  // Animated actors share draw calls; their cached local transforms never enter the static terrain batches.
+  class ActorBatches {
+    constructor(scene, group) {
+      this.scene = scene;
+      this.group = group;
+      this.parts = new Map();
+      this.hidden = new T.Matrix4().makeScale(0, 0, 0);
+    }
+
+    add(actor, geometry, color, position, scale, rotation = [0, 0, 0], detail = false) {
+      const node = new T.Object3D();
+      node.position.set(...position); node.scale.set(...scale); node.rotation.set(...rotation);
+      node.userData.detail = detail;
+      actor.add(node);
+      const material = this.scene.material(color), key = `${geometry.uuid}/${material.uuid}`;
+      if (!this.parts.has(key)) this.parts.set(key, {geometry, material, entries:[]});
+      this.parts.get(key).entries.push(node);
+      return node;
+    }
+
+    finish() {
+      for (const batch of this.parts.values()) {
+        batch.mesh = new T.InstancedMesh(batch.geometry, batch.material, batch.entries.length);
+        batch.mesh.instanceMatrix.setUsage(T.DynamicDrawUsage);
+        batch.mesh.frustumCulled = false;
+        batch.mesh.castShadow = batch.geometry !== this.scene.geo.wake;
+        batch.mesh.receiveShadow = true;
+        this.group.add(batch.mesh);
+      }
+      this.update();
+    }
+
+    update() {
+      this.scene.actorRoots.updateMatrixWorld(true);
+      for (const batch of this.parts.values()) {
+        if (!batch.mesh) continue;
+        for (let i = 0; i < batch.entries.length; i++) {
+          const node = batch.entries[i];
+          let visible = !(this.scene.lowQuality && node.userData.detail);
+          for (let parent = node; parent && parent !== this.scene.actorRoots; parent = parent.parent) visible = visible && parent.visible;
+          batch.mesh.setMatrixAt(i, visible ? node.matrixWorld : this.hidden);
+        }
+        batch.mesh.instanceMatrix.needsUpdate = true;
       }
     }
   }
@@ -5500,6 +5548,13 @@ void main() {
       this.pointerStarts = new Map();
       this.pickMeshes = [];
       this.targets = [];
+      this.activePlayer = -1;
+      this.resourceFocus = new Set();
+      this.actors = [];
+      this.ambientTime = 0;
+      this.paused = false;
+      this.windTime = {value:0};
+      this.diceValues = [];
       this.raycaster = new T.Raycaster();
       this.motionPreference = matchMedia('(prefers-reduced-motion: reduce)');
       this.reducedMotion = this.motionPreference.matches;
@@ -5551,7 +5606,11 @@ void main() {
       this.staticGroup = new T.Group();
       this.pieceGroup = new T.Group();
       this.targetGroup = new T.Group();
-      this.world.add(this.staticGroup, this.pieceGroup, this.targetGroup);
+      this.actorGroup = new T.Group();
+      this.actorRoots = new T.Group();
+      this.territoryGroup = new T.Group();
+      this.focusGroup = new T.Group();
+      this.world.add(this.staticGroup, this.pieceGroup, this.actorGroup, this.actorRoots, this.territoryGroup, this.focusGroup, this.targetGroup);
       this.listen(this.renderer.domElement, 'pointerdown', event => this.pointerDown(event));
       this.listen(this.renderer.domElement, 'pointermove', event => this.pointerMove(event));
       this.listen(this.renderer.domElement, 'pointerup', event => this.pointerUp(event));
@@ -5559,6 +5618,8 @@ void main() {
       this.listen(this.renderer.domElement, 'webglcontextlost', event => {
         event.preventDefault();
         this.contextLost = true;
+        this.cancelDice();
+        this.snapRobber();
         this.showError('三维绘制已中断。请关闭占用显卡的页面，等待恢复，或刷新本页。');
       });
       this.listen(this.renderer.domElement, 'webglcontextrestored', () => {
@@ -5571,6 +5632,10 @@ void main() {
       this.listen(this.motionPreference, 'change', event => {
         this.reducedMotion = event.matches;
         this.controls.enableDamping = !event.matches;
+        if (event.matches) {
+          this.snapRobber();
+          if (this.diceAnimation) this.settleDice();
+        }
         this.dirty = true;
       });
       this.resizeObserver = new ResizeObserver(() => this.resize());
@@ -5603,9 +5668,31 @@ void main() {
 
     material(color) {
       if (!this.materials.has(color)) {
-        this.materials.set(color, new T.MeshStandardMaterial({color, roughness:0.88, flatShading:true}));
+        const material = new T.MeshStandardMaterial({color, roughness:0.88, flatShading:true});
+        if (['#315e4a','#3f7553','#5b8a5a','#89a76b','#6c945b','#e4c16a','#f2d482','#d2a34b','#558669'].includes(color)) {
+          material.userData.wind = true;
+          material.onBeforeCompile = shader => this.windShader(shader);
+          material.customProgramCacheKey = () => 'island-wind-v1';
+        }
+        this.materials.set(color, material);
       }
       return this.materials.get(color);
+    }
+
+    windShader(shader) {
+      shader.uniforms.islandWind = this.windTime;
+      const bend = `
+        vec3 windAnchor = vec3(0.0);
+        #ifdef USE_INSTANCING
+          windAnchor = instanceMatrix[3].xyz;
+        #endif
+        float wind = .12 * sin(islandWind * 1.1 + windAnchor.x * 1.8 + windAnchor.z);
+        float bendHeight = max(position.y + .5, 0.0);`;
+      shader.vertexShader = `uniform float islandWind;\n${shader.vertexShader}`
+        .replace('#include <beginnormal_vertex>', `#include <beginnormal_vertex>
+          {${bend}\nobjectNormal.y -= objectNormal.x * wind * bendHeight * 2.0;}`)
+        .replace('#include <begin_vertex>', `#include <begin_vertex>
+          {${bend}\ntransformed.x += wind * bendHeight * bendHeight;}`);
     }
 
     geometry(geometry) {
@@ -5621,11 +5708,15 @@ void main() {
         round:this.geometry(new T.DodecahedronGeometry(1, 0)),
         rock:this.geometry(new T.IcosahedronGeometry(1, 0)),
         sphere:this.geometry(new T.SphereGeometry(1, 12, 7)),
+        crystal:this.geometry(new T.OctahedronGeometry(1, 0)),
         disc:this.geometry(new T.CylinderGeometry(1, 1, 1, 32)),
         stalk:this.geometry(new T.CylinderGeometry(0.65, 1, 1, 4)),
         land:this.geometry(extrusion(hexShape(0.964), 0.23, 0.027)),
         hexRing:this.geometry(new T.RingGeometry(0.89, 0.948, 6).rotateZ(Math.PI / 6).rotateX(-Math.PI / 2)),
         ring:this.geometry(new T.RingGeometry(0.12, 0.186, 32).rotateX(-Math.PI / 2)),
+        halo:this.geometry(new T.RingGeometry(0.23, 0.27, 32).rotateX(-Math.PI / 2)),
+        wake:this.geometry(new T.RingGeometry(0.27, 0.29, 20, 1, 0, Math.PI).rotateX(-Math.PI / 2)),
+        outline:this.geometry(new T.RingGeometry(0.903, 0.921, 6).rotateZ(Math.PI / 6).rotateX(-Math.PI / 2)),
         proxyTile:this.geometry(new T.CylinderGeometry(0.99, 0.99, 0.035, 6))
       };
       const roof = new T.Shape();
@@ -5636,6 +5727,10 @@ void main() {
       this.highlightMaterial = new T.MeshBasicMaterial({color:'#ffd06a', transparent:true, opacity:0.93, depthTest:false, depthWrite:false, side:T.DoubleSide});
       this.targetBackingMaterial = new T.MeshBasicMaterial({color:'#345962', transparent:true, opacity:0.85, depthTest:false, depthWrite:false, side:T.DoubleSide});
       this.proxyMaterial = new T.MeshBasicMaterial({transparent:true, opacity:0, depthWrite:false, colorWrite:false});
+      this.territoryMaterial = new T.MeshBasicMaterial({color:'#43899a', transparent:true, opacity:0.58, depthTest:false, depthWrite:false, side:T.DoubleSide});
+      this.focusMaterial = new T.MeshBasicMaterial({color:'#d9ffff', transparent:true, opacity:0.94, depthTest:false, depthWrite:false, side:T.DoubleSide});
+      this.windDepthMaterial = new T.MeshDepthMaterial({depthPacking:T.RGBADepthPacking});
+      this.windDepthMaterial.onBeforeCompile = shader => this.windShader(shader);
     }
 
     createOcean() {
@@ -5688,8 +5783,23 @@ void main() {
       this.terrainSignature = this.layoutSignature(board);
       this.players = players || [];
       this.pieceSignature = null;
+      this.cancelDice();
+      this.robberTileId = -1;
+      this.robberTravel = null;
+      this.activePlayer = -1;
+      this.territorySignature = null;
+      this.resourceFocus.clear();
+      this.ambientTime = 0;
+      this.lastAmbientShadow = 0;
+      this.windTime.value = 0;
       this.clearGroup(this.staticGroup);
       this.clearGroup(this.pieceGroup);
+      this.clearGroup(this.actorGroup);
+      this.clearGroup(this.actorRoots);
+      this.clearGroup(this.territoryGroup);
+      this.clearGroup(this.focusGroup);
+      this.actors = [];
+      this.actorBatches = new ActorBatches(this, this.actorGroup);
       this.setTargets([]);
       this.createCoast(board);
       const batch = new Batches(this, this.staticGroup);
@@ -5705,7 +5815,9 @@ void main() {
         this.addNumber(tile, batch);
       }
       this.createPorts(board, batch);
+      this.createRobber();
       batch.finish();
+      this.actorBatches.finish();
       this.layoutLabels();
       this.update({board, players:this.players, robber:board.tiles.find(tile => tile.type === 'desert')?.id ?? -1});
       this.renderer.shadowMap.needsUpdate = true;
@@ -5815,6 +5927,8 @@ void main() {
           }
         });
         rock(-0.29, 0.3, 0.10); rock(0.36, 0.17, 0.075);
+        add(this.geo.trunk, '#6b5c43', -0.39, 0.058, 0.23, 0.066, 0.28, 0.066, [0, 0.4, Math.PI / 2]);
+        add(this.geo.disc, '#e5c783', -0.525, 0.058, 0.23, 0.053, 0.008, 0.053, [0, 0, Math.PI / 2]);
         grass(-0.64, -0.48, '#8ea770'); grass(0.44, 0.54, '#8ea770');
       } else if (tile.type === 'ore') {
         [[-0.47,-0.29,0.30], [0.12,-0.55,0.34], [0.54,-0.03,0.26], [-0.43,0.40,0.22], [0.32,0.47,0.27]].forEach(([x, z, size], i) => {
@@ -5828,6 +5942,15 @@ void main() {
           rock(x + size * 0.6, z - 0.15, 0.075, '#8a9499');
         });
         grass(-0.65, 0.01, '#657d69');
+        [[-0.64,0.17],[0.58,0.26]].forEach(([x,z], i) => {
+          for (let j = 0; j < 3; j++) add(this.geo.crystal, j === 1 ? '#d6eee7' : '#76adb4', x + j * 0.06, 0.11 + j * 0.025, z,
+            0.05, 0.15 + j * 0.027, 0.046, [0.1, i, (j - 1) * 0.28]);
+        });
+        for (const x of [-0.13, 0.07]) add(this.geo.box, '#6b5c43', x, 0.021, 0.65, 0.024, 0.03, 0.32);
+        for (const z of [0.54,0.64,0.74]) add(this.geo.box, '#856d4b', -0.03, 0.014, z, 0.30, 0.024, 0.029);
+        add(this.geo.box, '#586b79', -0.03, 0.095, 0.64, 0.20, 0.12, 0.17);
+        add(this.geo.rock, '#c8d9d8', -0.03, 0.19, 0.64, 0.085, 0.07, 0.07);
+        this.createSparkle(tile, -0.58, 0.17);
       } else if (tile.type === 'brick') {
         [[-0.38,-0.47,0.36], [0.44,-0.20,0.29], [-0.43,0.42,0.28]].forEach(([x, z, size], i) => {
           add(this.geo.round, '#a96d50', x, 0.12, z, size, 0.22 + i * 0.025, size * 0.80, [0.1, i * 0.7, 0]);
@@ -5842,6 +5965,11 @@ void main() {
           }
         });
         rock(0.12, 0.69, 0.08, '#b9875e'); grass(-0.72, -0.24, '#979561');
+        add(this.geo.trunk, '#b76244', 0.40, 0.16, -0.57, 0.16, 0.32, 0.16);
+        add(this.geo.cone, '#dfae83', 0.40, 0.36, -0.57, 0.17, 0.18, 0.17);
+        add(this.geo.trunk, '#966347', 0.40, 0.49, -0.57, 0.055, 0.16, 0.055);
+        add(this.geo.box, '#37444a', 0.40, 0.11, -0.415, 0.10, 0.12, 0.017);
+        add(this.geo.box, '#e7b363', 0.40, 0.10, -0.403, 0.06, 0.055, 0.014);
       } else if (tile.type === 'grain') {
         [[-0.46,-0.24], [0.31,-0.49], [0.26,0.47]].forEach(([cx, cz], patch) => {
           for (let row = 0; row < 4; row++) {
@@ -5860,24 +5988,7 @@ void main() {
         add(this.geo.cone, '#f0d696', -0.56, 0.21, 0.40, 0.10, 0.14, 0.10);
         grass(0.64, -0.04, '#a69849'); rock(-0.10, 0.72, 0.06, '#ddcc94');
       } else if (tile.type === 'wool') {
-        [[-0.49,-0.25], [0.33,-0.47], [0.53,0.03], [0.25,0.53], [-0.46,0.39]].forEach(([x, z], i) => {
-          const angle = i * 1.37 + tile.id * 0.35;
-          const local = (dx, dz) => [x + Math.cos(angle) * dx - Math.sin(angle) * dz, z + Math.sin(angle) * dx + Math.cos(angle) * dz];
-          add(this.geo.round, '#f5f0d9', x, 0.18, z, 0.145, 0.11, 0.10, [0, -angle, 0]);
-          add(this.geo.round, '#fff8e7', x - 0.025, 0.225, z, 0.096, 0.075, 0.09, [0, angle, 0], true);
-          const [hx, hz] = local(0.125, 0);
-          add(this.geo.round, '#535953', hx, 0.19, hz, 0.061, 0.064, 0.052, [0, -angle, -0.18]);
-          for (const side of [-1, 1]) {
-            const [ex, ez] = local(0.12, side * 0.062);
-            add(this.geo.rock, '#646a5e', ex, 0.225, ez, 0.038, 0.014, 0.025, [0, -angle, 0]);
-            for (const end of [-1, 1]) {
-              const [lx, lz] = local(end * 0.075, side * 0.052);
-              add(this.geo.box, '#625f4b', lx, 0.068, lz, 0.023, 0.12, 0.023);
-            }
-          }
-          const [tx, tz] = local(-0.145, 0);
-          add(this.geo.round, '#eae4cb', tx, 0.185, tz, 0.042, 0.042, 0.038);
-        });
+        for (let i = 0; i < 4; i++) this.createSheep(tile, i);
         for (let i = 0; i < 3; i++) {
           const x = -0.55 + i * 0.19;
           add(this.geo.box, '#b8a478', x, 0.13, -0.59, 0.034, 0.26, 0.034);
@@ -5897,19 +6008,32 @@ void main() {
           add(this.geo.round, '#729979', x + 0.097, h * 0.83, z, 0.024, 0.03, 0.024);
         });
         rock(-0.60,-0.17,0.085,'#bca374'); grass(0.64,0.22,'#b69d63');
+        for (const [x,z,h] of [[-0.48,-0.46,0.66],[0.60,0.04,0.50]]) {
+          add(this.geo.trunk, '#9e7f47', x, h / 2, z, 0.033, h, 0.044, [0, 0, -0.12]);
+          for (let leaf = 0; leaf < 5; leaf++) {
+            const angle = leaf * TAU / 5;
+            add(this.geo.rock, '#558669', x + Math.cos(angle) * 0.105, h, z + Math.sin(angle) * 0.105,
+              0.23, 0.035, 0.064, [0, -angle, -0.15]);
+          }
+          add(this.geo.round, '#856d4b', x, h - 0.045, z, 0.055, 0.045, 0.055);
+        }
+        const flag = this.actor('flag', tile.id);
+        flag.position.set(tile.x + 0.16, SURFACE, tile.z - 0.59);
+        this.actorPart(flag, this.geo.stalk, '#857757', [0,0.24,0], [0.012,0.48,0.012]);
+        flag.userData.flag = this.actorPart(flag, this.geo.box, '#e7b363', [0.10,0.41,0], [0.20,0.11,0.017]);
       }
     }
 
-    numberMaterial(number, blocked = false) {
-      const key = `${number}:${blocked}`;
+    numberMaterial(number, blocked = false, focused = false) {
+      const key = `${number}:${blocked}:${focused}`;
       if (this.numberMaterials.has(key)) return this.numberMaterials.get(key);
       const canvas = document.createElement('canvas');
       canvas.width = canvas.height = 192;
       const context = canvas.getContext('2d');
       context.shadowColor = '#203b4538'; context.shadowBlur = 8; context.shadowOffsetY = 5;
-      context.beginPath(); context.arc(96, 93, 82, 0, TAU); context.fillStyle = blocked ? '#263f49' : '#f9f2d9'; context.fill();
+      context.beginPath(); context.arc(96, 93, 82, 0, TAU); context.fillStyle = blocked ? '#263f49' : focused ? '#ffffee' : '#f9f2d9'; context.fill();
       context.shadowBlur = 0; context.shadowOffsetY = 0;
-      context.lineWidth = blocked ? 6 : 3; context.strokeStyle = blocked ? '#d79e68' : '#bda567'; context.stroke();
+      context.lineWidth = focused ? 7 : blocked ? 6 : 3; context.strokeStyle = focused ? '#75c6c8' : blocked ? '#d79e68' : '#bda567'; context.stroke();
       context.beginPath(); context.arc(96, 93, 73, 0, TAU); context.lineWidth = 1; context.strokeStyle = '#dfcf9b'; context.stroke();
       context.fillStyle = blocked ? '#fff2d2' : number === 6 || number === 8 ? '#b94f3f' : '#2e4950';
       context.textAlign = 'center'; context.textBaseline = 'middle';
@@ -5975,11 +6099,7 @@ void main() {
         label.userData.port = port.id;
         label.userData.anchor = label.position.clone();
         this.staticGroup.add(label);
-        // A small moored hull and furled sail keep docks recognizable when zoomed out.
-        batch.add(this.geo.round, '#866c4b', point(0.40, 0.38, -0.24), [0.10, 0.06, 0.27], [0, angle, 0]);
-        batch.add(this.geo.round, '#e2d2a6', point(0.40, 0.38, -0.205), [0.072, 0.015, 0.21], [0, angle, 0]);
-        batch.add(this.geo.trunk, '#857757', point(0.42, 0.38, -0.035), [0.011, 0.33, 0.011]);
-        batch.add(this.geo.box, '#efe6ce', point(0.42, 0.40, 0.072), [0.027, 0.16, 0.035], [0, angle, -0.10]);
+        this.createBoat(port.id, point(0.63, 0.48, -0.29), angle);
       }
     }
 
@@ -6039,9 +6159,12 @@ void main() {
       }
       for (const sprite of this.staticGroup.children) {
         if (sprite.userData.tileNumber === undefined) continue;
-        const size = Math.max(0.55, (narrow ? 23 : 29) / pixels);
+        const focused = this.resourceFocus.has(this.board.tiles[sprite.userData.tileNumber].type);
+        const size = Math.max(0.55, (narrow ? 23 : 29) / pixels) * (focused ? 1.19 : 1);
+        sprite.userData.focused = focused;
         sprite.scale.set(size, size, 1);
       }
+      this.positionRobber();
     }
 
     update(state) {
@@ -6055,8 +6178,9 @@ void main() {
       const signature = [
         board.vertices.map(v => `${v.owner}:${v.level}`).join(','),
         board.edges.map(e => e.owner).join(','),
-        state.players.map(p => p.color).join(','), state.robber
+        state.players.map(p => p.color).join(',')
       ].join('|');
+      this.moveRobber(state.robber);
       if (signature === this.pieceSignature) return;
       this.pieceSignature = signature;
       this.clearGroup(this.pieceGroup);
@@ -6081,18 +6205,8 @@ void main() {
         if (!player) throw new Error(`建筑 ${vertex.id} 的玩家编号无效。`);
         this.building(vertex, player.color, batch);
       }
-      const robberTile = board.tiles[state.robber];
-      if (robberTile) this.robber(robberTile, batch);
-      // The pawn may sit behind scenery, so the always-visible token also marks the blocked tile.
-      for (const sprite of this.staticGroup.children) {
-        if (sprite.userData.tileNumber === undefined) continue;
-        const tile = board.tiles[sprite.userData.tileNumber], blocked = tile.id === state.robber;
-        sprite.visible = tile.number > 0 || blocked;
-        sprite.userData.blocked = blocked;
-        sprite.material = this.numberMaterial(tile.number, blocked);
-      }
-      if (robberTile) this.renderer.domElement.setAttribute('aria-label', `三维棋盘：拖动旋转，滚轮或双指缩放。强盗在 ${robberTile.id + 1} 号地块，${RESOURCE_NAMES[robberTile.type] || '沙漠'}${robberTile.number ? ` ${robberTile.number} 点，停止生产` : ''}。`);
       batch.finish();
+      this.refreshTerritory();
       this.renderer.shadowMap.needsUpdate = true;
       this.dirty = true;
     }
@@ -6107,6 +6221,9 @@ void main() {
         batch.add(this.geo.roof, dark, [x, floor + 0.26, z], [0.30, 0.23, 0.30]);
         batch.add(this.geo.box, '#f7ead0', [x, floor + 0.12, z + 0.113], [0.066, 0.14, 0.007]);
         batch.add(this.geo.box, '#f7ead0', [x + 0.123, floor + 0.19, z], [0.008, 0.054, 0.060]);
+        batch.add(this.geo.box, '#856d4b', [x - 0.065, floor + 0.33, z - 0.045], [0.049, 0.19, 0.049]);
+        batch.add(this.geo.box, '#f7ead0', [x - 0.065, floor + 0.43, z - 0.045], [0.064, 0.031, 0.064]);
+        batch.add(this.geo.box, '#37444a', [x + 0.128, floor + 0.19, z], [0.005, 0.014, 0.058]);
       } else {
         batch.add(this.geo.box, color, [x - 0.08, floor + 0.14, z + 0.02], [0.26, 0.23, 0.26]);
         batch.add(this.geo.roof, dark, [x - 0.08, floor + 0.26, z + 0.02], [0.31, 0.22, 0.32]);
@@ -6116,19 +6233,458 @@ void main() {
         for (const y of [0.22, 0.36]) batch.add(this.geo.box, '#f7ead0', [x + 0.11, floor + y, z + 0.034], [0.056, 0.065, 0.008]);
         batch.add(this.geo.stalk, '#e7d7ae', [x + 0.11, floor + 0.68, z - 0.06], [0.010, 0.24, 0.010]);
         batch.add(this.geo.box, color, [x + 0.18, floor + 0.75, z - 0.06], [0.13, 0.085, 0.013]);
+        batch.add(this.geo.box, '#e7d7ae', [x - 0.14, floor + 0.12, z + 0.20], [0.20, 0.03, 0.08]);
+        batch.add(this.geo.box, '#856d4b', [x - 0.15, floor + 0.32, z - 0.05], [0.053, 0.20, 0.053]);
       }
     }
 
-    robber(tile, batch) {
-      const x = tile.x + 0.26, z = tile.z + 0.09, y = SURFACE + 0.03;
-      batch.add(this.geo.disc, '#363f43', [x, y, z], [0.16, 0.04, 0.16]);
-      batch.add(this.geo.cone, '#37444a', [x, y + 0.20, z], [0.15, 0.37, 0.12]);
-      batch.add(this.geo.round, '#485257', [x, y + 0.24, z], [0.135, 0.15, 0.11]);
-      batch.add(this.geo.round, '#c0a382', [x, y + 0.39, z], [0.070, 0.072, 0.068]);
-      batch.add(this.geo.disc, '#283943', [x, y + 0.445, z], [0.14, 0.025, 0.13]);
-      batch.add(this.geo.trunk, '#35434a', [x, y + 0.485, z], [0.075, 0.085, 0.074]);
-      batch.add(this.geo.box, '#d7b76f', [x, y + 0.32, z + 0.082], [0.13, 0.047, 0.022], [0, 0, -0.13]);
-      batch.add(this.geo.trunk, '#7d7158', [x - 0.17, y + 0.20, z + 0.07], [0.014, 0.46, 0.014], [0, 0, -0.15]);
+    actor(kind, id) {
+      const actor = new T.Group();
+      actor.userData = {kind, id, phase:id * 1.618};
+      this.actorRoots.add(actor); this.actors.push(actor);
+      return actor;
+    }
+
+    actorPart(actor, geometry, color, position, scale, rotation, detail) {
+      return this.actorBatches.add(actor, geometry, color, position, scale, rotation, detail);
+    }
+
+    createSheep(tile, index) {
+      const sheep = this.actor('sheep', tile.id * 4 + index), data = sheep.userData;
+      Object.assign(data, {tile:tile.id, slot:index, legs:[], detail:index > 1});
+      this.actorPart(sheep, this.geo.round, '#f5f0d9', [0,0.18,0], [0.145,0.112,0.10]);
+      this.actorPart(sheep, this.geo.round, '#fff8e7', [-0.025,0.232,0], [0.095,0.069,0.087], [0,0.3,0], true);
+      data.head = this.actorPart(sheep, this.geo.round, '#535953', [0.13,0.18,0], [0.064,0.062,0.053]);
+      for (const side of [-1,1]) {
+        this.actorPart(sheep, this.geo.rock, '#535953', [0.125,0.225,side * 0.06], [0.039,0.018,0.022]);
+        this.actorPart(sheep, this.geo.sphere, '#fff8e7', [0.164,0.193,side * 0.04], [0.009,0.01,0.008], [0,0,0], true);
+        for (const end of [-1,1]) data.legs.push(this.actorPart(sheep, this.geo.box, '#625f4b',
+          [end * 0.077,0.068,side * 0.052], [0.024,0.12,0.024]));
+      }
+      this.actorPart(sheep, this.geo.round, '#f5f0d9', [-0.15,0.18,0], [0.036,0.042,0.039]);
+      this.animateActor(sheep, 0);
+    }
+
+    createBoat(id, position, angle) {
+      const boat = this.actor('boat', id);
+      Object.assign(boat.userData, {anchor:new T.Vector3(...position), angle, detail:id % 3 === 1});
+      this.actorPart(boat, this.geo.round, '#866c4b', [0,0,0], [0.13,0.08,0.36]);
+      this.actorPart(boat, this.geo.round, '#e2d2a6', [0,0.055,0], [0.096,0.022,0.29]);
+      this.actorPart(boat, this.geo.box, '#856d4b', [0,0.09,0.12], [0.21,0.025,0.052]);
+      this.actorPart(boat, this.geo.trunk, '#857757', [0,0.32,-0.03], [0.013,0.58,0.013]);
+      boat.userData.sail = this.actorPart(boat, this.geo.roof, '#efe6ce', [0,0.27,-0.02], [0.39,0.55,0.023], [0,Math.PI / 2,0.12]);
+      this.actorPart(boat, this.geo.box, '#b76244', [0,0.56,0.039], [0.02,0.072,0.14]);
+      boat.userData.wake = this.actorPart(boat, this.geo.wake, '#b5dcd7', [0,-0.07,0.28], [0.69,1,1.7], [0,Math.PI,0], true);
+      this.animateActor(boat, 0);
+    }
+
+    createSparkle(tile, x, z) {
+      const sparkle = this.actor('sparkle', tile.id);
+      sparkle.position.set(tile.x + x, SURFACE + 0.38, tile.z + z);
+      sparkle.userData.detail = true;
+      this.actorPart(sparkle, this.geo.crystal, '#f5f0d9', [0,0,0], [0.018,0.072,0.018]);
+      this.actorPart(sparkle, this.geo.crystal, '#f5f0d9', [0,0,0], [0.055,0.014,0.014]);
+    }
+
+    createRobber() {
+      const group = this.robberGroup = this.actor('robber', -1);
+      const add = (geometry,color,position,scale,rotation) => this.actorPart(group,geometry,color,position,scale,rotation);
+      add(this.geo.disc, '#e7d7ae', [0,0.017,0], [0.255,0.052,0.23]);
+      add(this.geo.disc, '#37444a', [0,0.051,0], [0.225,0.03,0.20]);
+      for (const x of [-0.075,0.075]) add(this.geo.round, '#283943', [x,0.09,0.065], [0.07,0.065,0.10]);
+      group.userData.cape = add(this.geo.cone, '#37444a', [0,0.34,-0.015], [0.255,0.52,0.19], [0,0.25,0.04]);
+      add(this.geo.round, '#485257', [0,0.38,0], [0.17,0.235,0.125]);
+      add(this.geo.round, '#283943', [0,0.65,0], [0.15,0.17,0.135]);
+      add(this.geo.round, '#c0a382', [0,0.65,0.108], [0.095,0.09,0.045]);
+      add(this.geo.box, '#283943', [0,0.62,0.144], [0.19,0.077,0.021]);
+      for (const x of [-0.036,0.036]) add(this.geo.sphere, '#fff8e7', [x,0.684,0.151], [0.014,0.014,0.010]);
+      add(this.geo.disc, '#283943', [0,0.756,0], [0.22,0.035,0.20]);
+      add(this.geo.trunk, '#37444a', [0,0.817,0], [0.13,0.13,0.12], [0,0,-0.10]);
+      add(this.geo.box, '#d7b76f', [0,0.782,0.109], [0.21,0.035,0.016]);
+      add(this.geo.box, '#d7b76f', [0,0.42,0.128], [0.19,0.057,0.028], [0,0,-0.14]);
+      add(this.geo.round, '#9e7f47', [0.235,0.26,0.075], [0.115,0.15,0.10]);
+      add(this.geo.trunk, '#e7d7ae', [0.23,0.397,0.075], [0.065,0.032,0.062]);
+      add(this.geo.round, '#c0a382', [0.20,0.41,0.08], [0.047,0.045,0.042]);
+      add(this.geo.trunk, '#856d4b', [-0.25,0.30,0.09], [0.017,0.53,0.017], [0,0,-0.16]);
+      this.robberTether = this.actor('tether', -1);
+      this.actorPart(this.robberTether, this.geo.halo, '#d7b76f', [0,0,0], [1,1,1]);
+      this.robberTether.userData.stem = this.actorPart(this.robberTether, this.geo.stalk, '#e7d7ae', [0,0.31,0], [0.017,0.62,0.017]);
+      this.robberTether.userData.ripple = this.actorPart(this.robberTether, this.geo.halo, '#f5f0d9', [0,0.008,0], [1,1,1]);
+      group.visible = this.robberTether.visible = false;
+    }
+
+    robberDestination() {
+      const tile = this.board?.tiles[this.robberTileId];
+      if (!tile) return null;
+      // A raised lookout on the camera-facing edge keeps the actual pawn above forests, away from the token.
+      const toward = new T.Vector3(this.camera.position.x, 0, this.camera.position.z).normalize();
+      const right = new T.Vector3(toward.z, 0, -toward.x);
+      const xUnit = this.camera.zoom / (this.camera.right - this.camera.left);
+      const yUnit = this.camera.zoom / (this.camera.top - this.camera.bottom);
+      const labels = this.staticGroup.children.filter(sprite => sprite.isSprite && (sprite.visible || sprite.userData.tileNumber === tile.id)).map(sprite => ({
+        center:sprite.position.clone().project(this.camera), width:(sprite.scale.x + 0.32) * xUnit, height:(sprite.scale.y + 0.17) * yUnit
+      }));
+      let best = null, leastOverlap = Infinity;
+      for (const height of [1.05,1.30,1.50,1.80,2.10]) for (const [across,along] of [[0.44,0.25],[-0.44,0.25],[0.50,0.05],[-0.50,0.05],[0.36,0.36],[-0.36,0.36],[0.60,0.08],[-0.60,0.08]]) {
+        const position = new T.Vector3(tile.x,height,tile.z).addScaledVector(right,across).addScaledVector(toward,along);
+        let overlap = 0;
+        for (const y of [0.32,0.68,0.82]) {
+          const projected = position.clone().add(new T.Vector3(0,y,0)).project(this.camera);
+          for (const label of labels) if (Math.abs(projected.x - label.center.x) < label.width &&
+              Math.abs(projected.y - label.center.y) < label.height) overlap += y < 0.5 ? 1 : 100;
+        }
+        if (overlap < leastOverlap) {best = position;leastOverlap = overlap;}
+        if (!overlap) return position;
+      }
+      return best;
+    }
+
+    positionRobber() {
+      if (!this.robberGroup || !this.board) return;
+      const destination = this.robberDestination();
+      if (!destination) return;
+      if (!this.robberDestinationPoint || this.robberDestinationPoint.distanceToSquared(destination) > 1e-8) this.renderer.shadowMap.needsUpdate = true;
+      this.robberDestinationPoint = destination;
+      if (!this.robberTravel) this.robberGroup.position.copy(destination);
+      else this.robberTravel.to.copy(destination);
+      this.robberGroup.rotation.y = Math.atan2(this.camera.position.x, this.camera.position.z);
+      this.robberTether.position.set(destination.x, SURFACE + 0.023, destination.z);
+      const stem = this.robberTether.userData.stem, height = destination.y - this.robberTether.position.y;
+      stem.position.y = height / 2;stem.scale.y = height;
+      this.actorBatches?.update();
+      this.dirty = true;
+    }
+
+    moveRobber(id) {
+      if (id === this.robberTileId) return;
+      const hadPosition = this.robberTileId >= 0;
+      this.robberTileId = id;
+      const tile = this.board.tiles[id];
+      this.robberGroup.visible = this.robberTether.visible = Boolean(tile);
+      if (tile) {
+        const from = this.robberGroup.position.clone();
+        this.robberTravel = null;
+        this.positionRobber();
+        if (hadPosition && !this.reducedMotion && !this.paused) {
+          this.robberTravel = {from, to:this.robberDestinationPoint.clone(), elapsed:0, duration:0.76};
+          this.robberGroup.position.copy(from);
+        }
+        this.renderer.domElement.setAttribute('aria-label', `三维棋盘：拖动旋转，滚轮或双指缩放。强盗在 ${tile.id + 1} 号地块，${RESOURCE_NAMES[tile.type] || '沙漠'}${tile.number ? ` ${tile.number} 点，停止生产` : ''}。`);
+      }
+      // This public blocked marker is independent of both the moving pawn and trade focus.
+      for (const sprite of this.staticGroup.children) {
+        if (sprite.userData.tileNumber === undefined) continue;
+        const land = this.board.tiles[sprite.userData.tileNumber], blocked = land.id === id;
+        sprite.visible = land.number > 0 || blocked;
+        sprite.userData.blocked = blocked;
+        sprite.material = this.numberMaterial(land.number, blocked, this.resourceFocus.has(land.type));
+      }
+      this.actorBatches.update();
+      this.renderer.shadowMap.needsUpdate = true;
+      this.dirty = true;
+    }
+
+    snapRobber() {
+      this.robberTravel = null;
+      this.robberLanding = 0;
+      if (this.robberTether) this.robberTether.userData.ripple.visible = false;
+      this.positionRobber();
+    }
+
+    animateActor(actor, time) {
+      const data = actor.userData, phase = data.phase;
+      actor.visible = !(this.lowQuality && data.detail);
+      if (data.kind === 'sheep') {
+        const tile = this.board.tiles[data.tile];
+        const cycle = (time * 0.085 + phase / TAU) % 1, progress = Math.min(1,cycle / 0.64);
+        const route = TAU * progress * progress * (3 - 2 * progress), walk = progress < 1 ? Math.sin(progress * Math.PI) : 0;
+        const angle = data.slot * TAU / 4 + 0.3 + Math.sin(route) * 0.18;
+        const radius = 0.55 + (Math.cos(route) - 1) * 0.035;
+        actor.position.set(tile.x + Math.cos(angle) * radius, SURFACE, tile.z + Math.sin(angle) * radius);
+        const tangentX = -Math.sin(angle) * radius * Math.cos(route) * 0.18 - Math.cos(angle) * Math.sin(route) * 0.035;
+        const tangentZ = Math.cos(angle) * radius * Math.cos(route) * 0.18 - Math.sin(angle) * Math.sin(route) * 0.035;
+        actor.rotation.y = -Math.atan2(tangentZ,tangentX);
+        data.legs.forEach((leg, i) => { leg.rotation.z = Math.sin(time * 5.5 + phase + (i === 0 || i === 3 ? 0 : Math.PI)) * 0.27 * walk; });
+        data.head.rotation.z = -0.08 - (1 - walk) * 0.50;
+        data.head.position.y = 0.18 - (1 - walk) * 0.043;
+      } else if (data.kind === 'boat') {
+        actor.position.copy(data.anchor);
+        actor.position.x += Math.sin(time * 0.20 + phase) * 0.08;
+        actor.position.z += Math.cos(time * 0.20 + phase) * 0.065;
+        actor.position.y += Math.sin(time * 1.35 + phase) * 0.019;
+        actor.rotation.set(Math.sin(time + phase) * 0.038, data.angle + Math.sin(time * 0.30 + phase) * 0.10, Math.sin(time * 1.2 + phase) * 0.057);
+        data.sail.rotation.y = Math.PI / 2 + Math.sin(time * 1.5 + phase) * 0.10;
+        data.wake.scale.z = 1.7 + Math.sin(time * 0.8 + phase) * 0.18;
+      } else if (data.kind === 'flag') {
+        data.flag.rotation.y = Math.sin(time * 2 + phase) * 0.18;
+        data.flag.rotation.z = Math.sin(time * 1.6 + phase) * 0.055;
+      } else if (data.kind === 'sparkle') {
+        const shine = Math.pow(Math.max(0, Math.sin(time * 0.65 + phase)), 18);
+        actor.scale.setScalar(0.22 + shine * 0.8);
+        actor.rotation.y = time * 0.18;
+      } else if (data.kind === 'robber') {
+        actor.visible = this.robberTileId >= 0;
+        actor.rotation.z = Math.sin(time * 1.3) * 0.025;
+        data.cape.rotation.z = 0.04 + Math.sin(time * 1.7) * 0.045;
+      } else if (data.kind === 'tether') {
+        actor.visible = this.robberTileId >= 0;
+        const scale = this.robberLanding > 0 ? 1 + (1 - this.robberLanding / 0.5) * 1.5 : 1;
+        data.ripple.scale.set(scale,1,scale);
+        data.ripple.visible = this.robberLanding > 0;
+      }
+    }
+
+    setPaused(value) {
+      const next = Boolean(value);
+      if (next === this.paused) return;
+      this.paused = next;
+      if (this.paused) this.snapRobber();
+      this.lastTick = null;
+      this.dirty = true;
+    }
+
+    getMotionSnapshot() {
+      return {time:this.ambientTime, paused:this.paused, reducedMotion:this.reducedMotion, wind:this.windTime.value,
+        robber:{tile:this.robberTileId, position:this.robberGroup?.position.toArray(), target:this.robberDestinationPoint?.toArray(), travelling:Boolean(this.robberTravel)},
+        actors:this.actors.map(actor => ({kind:actor.userData.kind, id:actor.userData.id, visible:actor.visible,
+          matrix:actor.matrixWorld.elements.slice(), joints:actor.children.map(part => part.matrix.elements.slice())}))};
+    }
+
+    getRobberTransitionDuration() {
+      return this.robberTravel ? Math.ceil(Math.max(0,this.robberTravel.duration - this.robberTravel.elapsed) * 1000) : 0;
+    }
+
+    overlayInstances(group, geometry, material, transforms, order) {
+      if (!transforms.length) return;
+      const mesh = new T.InstancedMesh(geometry, material, transforms.length);
+      transforms.forEach((transform, index) => mesh.setMatrixAt(index, transform));
+      mesh.renderOrder = order;
+      mesh.computeBoundingSphere();
+      group.add(mesh);
+    }
+
+    setActivePlayer(id) {
+      const next = Number.isInteger(id) && id >= 0 && this.players?.[id] ? id : -1;
+      if (this.activePlayer === next) return;
+      this.activePlayer = next;
+      this.refreshTerritory();
+    }
+
+    refreshTerritory() {
+      const signature = `${this.activePlayer}|${this.pieceSignature}`;
+      if (signature === this.territorySignature) return;
+      this.territorySignature = signature;
+      this.clearGroup(this.territoryGroup);
+      this.dirty = true;
+      const id = this.activePlayer;
+      if (!this.board || id < 0 || !this.players[id]) return;
+      this.territoryMaterial.color.set(this.players[id].color);
+      const transform = new T.Object3D(), roads = [], buildings = [], tiles = new Set();
+      for (const edge of this.board.edges) {
+        if (edge.owner !== id) continue;
+        const a = this.board.vertices[edge.a], b = this.board.vertices[edge.b];
+        transform.position.set((a.x + b.x) / 2, SURFACE + 0.009, (a.z + b.z) / 2);
+        transform.rotation.set(0, Math.atan2(b.x - a.x, b.z - a.z), 0);
+        transform.scale.set(0.18,0.012,0.89); transform.updateMatrix(); roads.push(transform.matrix.clone());
+      }
+      for (const vertex of this.board.vertices) {
+        if (vertex.owner !== id || vertex.level < 1) continue;
+        transform.position.set(vertex.x, SURFACE + 0.014, vertex.z);
+        transform.rotation.set(0,0,0); transform.scale.set(1.16,1,1.16);
+        transform.updateMatrix(); buildings.push(transform.matrix.clone());
+        for (const tile of this.board.tiles) if (tile.number > 0 && tile.vertices.includes(vertex.id)) tiles.add(tile.id);
+      }
+      const outlines = [];
+      for (const id of tiles) {
+        const tile = this.board.tiles[id];
+        transform.position.set(tile.x, SURFACE + 0.013, tile.z);
+        transform.scale.set(1.037,1,1.037); transform.updateMatrix(); outlines.push(transform.matrix.clone());
+      }
+      this.overlayInstances(this.territoryGroup,this.geo.box,this.territoryMaterial,roads,12);
+      this.overlayInstances(this.territoryGroup,this.geo.halo,this.territoryMaterial,buildings,12);
+      this.overlayInstances(this.territoryGroup,this.geo.outline,this.territoryMaterial,outlines,11);
+      this.territoryGroup.userData = {player:id, roads:roads.length, buildings:buildings.length, tiles:[...tiles]};
+    }
+
+    setResourceFocus(resources) {
+      const next = [...new Set(Array.isArray(resources) ? resources.filter(resource => RESOURCE_NAMES[resource] && resource !== 'any') : [])].sort();
+      if (next.join('|') === [...this.resourceFocus].sort().join('|')) return;
+      this.resourceFocus = new Set(next);
+      this.clearGroup(this.focusGroup);
+      if (this.board) {
+        const transform = new T.Object3D(), outlines = [];
+        for (const tile of this.board.tiles) if (this.resourceFocus.has(tile.type)) {
+          transform.position.set(tile.x, SURFACE + 0.017, tile.z);
+          transform.scale.set(0.97,1,0.97); transform.updateMatrix(); outlines.push(transform.matrix.clone());
+        }
+        this.overlayInstances(this.focusGroup,this.geo.outline,this.focusMaterial,outlines,14);
+        for (const sprite of this.staticGroup.children) {
+          if (sprite.userData.tileNumber === undefined) continue;
+          const tile = this.board.tiles[sprite.userData.tileNumber];
+          sprite.material = this.numberMaterial(tile.number,Boolean(sprite.userData.blocked),this.resourceFocus.has(tile.type));
+        }
+      }
+      this.layoutLabels();
+      this.dirty = true;
+    }
+
+    createDiceOverlay() {
+      if (this.diceOverlay) return;
+      const overlay = this.diceOverlay = document.createElement('div');
+      overlay.id = 'island-dice-overlay';
+      overlay.setAttribute('role','img');
+      Object.assign(overlay.style, {position:'fixed',left:'50%',top:'47%',transform:'translate(-50%,-50%)',width:'min(460px, calc(100vw - 24px))',
+        height:'280px',zIndex:'46',pointerEvents:'none',filter:'drop-shadow(0 18px 20px #173b494d)'});
+      const caption = this.diceCaption = document.createElement('div');
+      Object.assign(caption.style,{position:'absolute',bottom:'14px',left:'0',right:'0',textAlign:'center',color:'#fff3d4',
+        font:'bold 16px Georgia, "Microsoft YaHei", serif',textShadow:'0 2px 3px #173b49',letterSpacing:'2px'});
+      overlay.appendChild(caption); document.body.appendChild(overlay);
+      this.diceWorld = new T.Scene();
+      this.diceCamera = new T.OrthographicCamera(-3.8,3.8,2.3,-2.3,0.1,30);
+      this.diceCamera.position.set(3.5,7.8,6.2); this.diceCamera.lookAt(0,0,0);
+      this.diceRenderer = new T.WebGLRenderer({antialias:true,alpha:true,powerPreference:'low-power'});
+      this.diceRenderer.setPixelRatio(Math.min(devicePixelRatio || 1,1.5));
+      this.diceRenderer.setClearColor(0,0);
+      this.diceRenderer.outputColorSpace = T.SRGBColorSpace;
+      this.diceRenderer.toneMapping = T.ACESFilmicToneMapping;
+      this.diceRenderer.toneMappingExposure = 1.2;
+      this.diceRenderer.shadowMap.enabled = true;
+      this.diceRenderer.shadowMap.type = T.PCFSoftShadowMap;
+      Object.assign(this.diceRenderer.domElement.style,{width:'100%',height:'100%'});
+      overlay.prepend(this.diceRenderer.domElement);
+      this.listen(this.diceRenderer.domElement,'webglcontextlost',event => {event.preventDefault();this.cancelDice();});
+      this.diceWorld.add(new T.HemisphereLight('#fff6dd','#4d756e',3));
+      const sun = this.diceSun = new T.DirectionalLight('#fff2d2',4);
+      sun.position.set(-3,8,4); sun.castShadow = true;
+      sun.shadow.mapSize.set(512,512); sun.shadow.camera.left = -4; sun.shadow.camera.right = 4;
+      sun.shadow.camera.top = 4; sun.shadow.camera.bottom = -4; sun.shadow.normalBias = 0.025;
+      this.diceWorld.add(sun);
+      const tray = new T.Group(); this.diceWorld.add(tray);
+      const part = (color,position,scale) => {
+        const mesh = new T.Mesh(this.geo.box,this.material(color));
+        mesh.position.set(...position);mesh.scale.set(...scale);mesh.receiveShadow = true;mesh.castShadow = true;tray.add(mesh);return mesh;
+      };
+      part('#856d4b',[0,-0.18,0],[5.5,0.32,3.25]);
+      part('#35624e',[0,0,0],[5.12,0.055,2.91]);
+      for (const x of [-2.65,2.65]) part('#c8af78',[x,0.09,0],[0.18,0.32,3.25]);
+      for (const z of [-1.535,1.535]) part('#c8af78',[0,0.09,z],[5.3,0.32,0.18]);
+      this.diceFaceValues = [3,4,1,6,2,5];
+      this.diceFaceNormals = [new T.Vector3(1,0,0),new T.Vector3(-1,0,0),new T.Vector3(0,1,0),
+        new T.Vector3(0,-1,0),new T.Vector3(0,0,1),new T.Vector3(0,0,-1)];
+      this.diceMaterials = this.diceFaceValues.map(value => {
+        const canvas = document.createElement('canvas');canvas.width = canvas.height = 256;
+        const context = canvas.getContext('2d');
+        const gradient = context.createLinearGradient(0,0,256,256);
+        gradient.addColorStop(0,'#fffbed');gradient.addColorStop(1,'#e9d7ac');
+        context.fillStyle = gradient;context.fillRect(0,0,256,256);
+        const pips = {1:[[0,0]],2:[[-1,-1],[1,1]],3:[[-1,-1],[0,0],[1,1]],4:[[-1,-1],[1,-1],[-1,1],[1,1]],
+          5:[[-1,-1],[1,-1],[0,0],[-1,1],[1,1]],6:[[-1,-1],[1,-1],[-1,0],[1,0],[-1,1],[1,1]]}[value];
+        for (const [x,y] of pips) {
+          const px = 128 + x * 58, py = 128 + y * 58;
+          context.beginPath();context.arc(px,py + 2,19,0,TAU);context.fillStyle = '#fffdf0';context.fill();
+          context.beginPath();context.arc(px,py,17,0,TAU);context.fillStyle = value === 1 ? '#a94e3e' : '#263f49';context.fill();
+          context.beginPath();context.arc(px - 3,py - 4,10,Math.PI,TAU);context.strokeStyle = '#142d3980';context.lineWidth = 3;context.stroke();
+        }
+        const texture = new T.CanvasTexture(canvas);texture.colorSpace = T.SRGBColorSpace;
+        return new T.MeshStandardMaterial({map:texture,roughness:0.34,metalness:0.02});
+      });
+      const geometry = this.diceGeometry = new T.BoxGeometry(1,1,1,6,6,6);
+      const positions = geometry.attributes.position, point = new T.Vector3(), center = new T.Vector3();
+      for (let i = 0; i < positions.count; i++) {
+        point.fromBufferAttribute(positions,i);
+        center.copy(point).clampScalar(-0.405,0.405);
+        point.sub(center).normalize().multiplyScalar(0.095).add(center);
+        positions.setXYZ(i,point.x,point.y,point.z);
+      }
+      geometry.computeVertexNormals();
+      this.diceGroups = [0,1].map(index => {
+        const die = new T.Mesh(geometry,this.diceMaterials);
+        die.castShadow = die.receiveShadow = true;
+        die.userData.index = index;
+        this.diceWorld.add(die);return die;
+      });
+      this.diceTargetQuaternions = [new T.Quaternion(),new T.Quaternion()];
+      this.diceSpin = new T.Quaternion();
+      this.diceEuler = new T.Euler();
+      overlay.hidden = true;
+    }
+
+    playDice(values) {
+      if (!Array.isArray(values) || values.length !== 2 || values.some(value => !Number.isInteger(value) || value < 1 || value > 6)) {
+        throw new Error('骰子需要两个 1–6 的整数结果。');
+      }
+      if (this.disposed || this.contextLost) return 0;
+      this.cancelDice();
+      this.createDiceOverlay();
+      this.diceValues = values.slice();
+      const up = new T.Vector3(0,1,0), yaw = new T.Quaternion();
+      values.forEach((value,index) => {
+        this.diceTargetQuaternions[index].setFromUnitVectors(this.diceFaceNormals[this.diceFaceValues.indexOf(value)],up);
+        yaw.setFromAxisAngle(up,index ? -0.19 : 0.16);
+        this.diceTargetQuaternions[index].premultiply(yaw);
+      });
+      this.diceOverlay.setAttribute('aria-label',`骰子：${values[0]} 和 ${values[1]}，共 ${values[0] + values[1]} 点`);
+      this.diceCaption.textContent = '航程已启 · 掷骰中';
+      this.diceOverlay.hidden = false;
+      const width = this.diceOverlay.clientWidth;
+      this.diceRenderer.setSize(width,280,false);
+      this.diceCamera.left = -3.8;this.diceCamera.right = 3.8;
+      this.diceCamera.top = 3.8 * 280 / width;this.diceCamera.bottom = -this.diceCamera.top;
+      this.diceCamera.updateProjectionMatrix();
+      const reduced = this.reducedMotion;
+      this.diceAnimation = {start:performance.now(),roll:reduced ? 0 : 960,hold:reduced ? 600 : 490,duration:reduced ? 70 : 1450,settled:reduced};
+      this.animateDice(performance.now());
+      return reduced ? 70 : 1450;
+    }
+
+    settleDice() {
+      if (!this.diceAnimation) return;
+      this.diceAnimation.settled = true;
+      this.diceAnimation.start = performance.now();
+      this.diceAnimation.roll = 0;
+      this.diceAnimation.hold = 600;
+      this.animateDice(performance.now());
+    }
+
+    animateDice(time) {
+      const animation = this.diceAnimation;
+      if (!animation || !this.diceRenderer) return;
+      const elapsed = Math.max(0,time - animation.start), p = animation.roll ? Math.min(1,elapsed / animation.roll) : 1;
+      animation.settled = p === 1;
+      for (let i = 0; i < 2; i++) {
+        const die = this.diceGroups[i], side = i ? 1 : -1;
+        if (p < 1) {
+          const damping = (1 - p) * (1 - p);
+          die.position.set(side * (0.94 + damping * 0.82),0.535 + Math.abs(Math.sin(p * Math.PI * 3.4)) * (1 - p) * 1.65,
+            Math.sin(p * Math.PI * 2 + i) * damping * 0.34);
+          this.diceEuler.set((1 - p) * Math.PI * 5.5,(1 - p) * Math.PI * (4 + i),(1 - p) * Math.PI * 3.4);
+          this.diceSpin.setFromEuler(this.diceEuler);
+          die.quaternion.copy(this.diceTargetQuaternions[i]).multiply(this.diceSpin);
+        } else {
+          die.position.set(side * 0.94,0.535,0);
+          die.quaternion.copy(this.diceTargetQuaternions[i]);
+        }
+      }
+      if (p === 1) this.diceCaption.textContent = `${this.diceValues[0]} ＋ ${this.diceValues[1]} ＝ ${this.diceValues[0] + this.diceValues[1]} 点`;
+      this.diceRenderer.render(this.diceWorld,this.diceCamera);
+      if (elapsed >= animation.roll + animation.hold) this.cancelDice();
+    }
+
+    getDiceState() {
+      return {active:Boolean(this.diceAnimation), settled:Boolean(this.diceAnimation?.settled), values:this.diceValues.slice(),
+        duration:this.diceAnimation?.duration || 0, topValues:(this.diceGroups || []).map(die => {
+          let best = -Infinity, value = 0;
+          this.diceFaceNormals.forEach((normal,index) => {
+            const height = normal.clone().applyQuaternion(die.quaternion).y;
+            if (height > best) {best = height;value = this.diceFaceValues[index];}
+          });
+          return value;
+        })};
+    }
+
+    cancelDice() {
+      this.diceAnimation = null;
+      if (this.diceOverlay) this.diceOverlay.hidden = true;
     }
 
     targetPosition(target) {
@@ -6274,6 +6830,12 @@ void main() {
       this.camera.bottom = -halfHeight + shiftY;
       this.camera.updateProjectionMatrix();
       this.renderer.setSize(width, height, false);
+      if (this.diceRenderer && this.diceAnimation) {
+        const diceWidth = this.diceOverlay.clientWidth;
+        this.diceRenderer.setSize(diceWidth,280,false);
+        this.diceCamera.top = 3.8 * 280 / diceWidth;this.diceCamera.bottom = -this.diceCamera.top;
+        this.diceCamera.updateProjectionMatrix();
+      }
       this.layoutLabels();
       this.dirty = true;
     }
@@ -6284,6 +6846,8 @@ void main() {
       this.renderer.shadowMap.enabled = !low;
       this.renderer.shadowMap.needsUpdate = true;
       this.staticGroup.traverse(mesh => { if (mesh.userData.detail) mesh.visible = !low; });
+      this.actors.forEach(actor => this.animateActor(actor,this.ambientTime));
+      this.actorBatches?.update();
       this.waves.visible = !low;
       this.resize();
     }
@@ -6291,13 +6855,35 @@ void main() {
     frame(time) {
       if (this.disposed) return;
       this.raf = requestAnimationFrame(this.frame);
-      if (this.contextLost || document.hidden) return;
+      if (this.contextLost || document.hidden) {this.lastTick = null;return;}
+      this.animateDice(time);
       this.controls.update();
-      const animate = !this.reducedMotion && !this.lowQuality;
-      if (!this.dirty && (!animate || time - (this.lastFrame || 0) < 32)) return;
+      const delta = this.lastTick == null ? 0 : Math.min(0.08,(time - this.lastTick) / 1000);
+      this.lastTick = time;
+      const animate = !this.reducedMotion && !this.paused;
       if (animate) {
-        this.waterTime.value = time / 1000;
-        this.highlightMaterial.opacity = 0.83 + Math.sin(time / 450) * 0.13;
+        this.ambientTime += delta;
+        this.waterTime.value = this.ambientTime;
+        this.windTime.value = this.lowQuality ? 0 : this.ambientTime;
+        if (this.robberTravel) {
+          const travel = this.robberTravel;
+          travel.elapsed += delta;
+          const p = Math.min(1,travel.elapsed / travel.duration), eased = p * p * (3 - 2 * p);
+          this.robberGroup.position.lerpVectors(travel.from,travel.to,eased);
+          this.robberGroup.position.y += Math.sin(p * Math.PI) * 1.1;
+          if (p === 1) {this.robberGroup.position.copy(travel.to);this.robberTravel = null;this.robberLanding = 0.5;}
+        }
+        this.robberLanding = Math.max(0,(this.robberLanding || 0) - delta);
+      }
+      if (!this.dirty && (!animate || time - (this.lastFrame || 0) < (this.lowQuality ? 28 : 14))) return;
+      if (animate) {
+        this.actors.forEach(actor => this.animateActor(actor,this.ambientTime));
+        this.actorBatches?.update();
+        if (!this.lowQuality && this.ambientTime - this.lastAmbientShadow >= 0.20) {
+          this.renderer.shadowMap.needsUpdate = true;
+          this.lastAmbientShadow = this.ambientTime;
+        }
+        this.highlightMaterial.opacity = 0.88 + Math.sin(this.ambientTime * 2.2) * 0.06;
       } else this.highlightMaterial.opacity = 0.95;
       this.renderer.render(this.world, this.camera);
       this.lastFrame = time;
@@ -6307,16 +6893,30 @@ void main() {
     dispose() {
       if (this.disposed) return;
       this.disposed = true;
+      this.cancelDice();
       cancelAnimationFrame(this.raf);
       this.resizeObserver.disconnect();
       this.listeners.forEach(remove => remove());
       this.controls.removeEventListener('change', this.onControlChange);
       this.controls.dispose();
-      for (const group of [this.staticGroup, this.pieceGroup, this.targetGroup]) this.clearGroup(group);
+      for (const group of [this.staticGroup, this.pieceGroup, this.targetGroup, this.actorGroup, this.actorRoots, this.territoryGroup, this.focusGroup]) this.clearGroup(group);
+      this.actors = [];
+      this.actorBatches?.parts.clear();
       for (const geometry of this.geometries) geometry.dispose();
       for (const material of this.materials.values()) material.dispose();
       for (const material of this.numberMaterials.values()) { material.map.dispose(); material.dispose(); }
       this.highlightMaterial.dispose(); this.targetBackingMaterial.dispose(); this.proxyMaterial.dispose();
+      this.territoryMaterial.dispose(); this.focusMaterial.dispose();
+      this.windDepthMaterial.dispose();
+      if (this.diceRenderer) {
+        this.diceGeometry.dispose();
+        this.diceMaterials.forEach(material => {material.map.dispose();material.dispose();});
+        this.diceSun.shadow.dispose();
+        this.diceWorld.clear();
+        this.diceRenderer.dispose();
+        this.diceRenderer.forceContextLoss();
+        this.diceOverlay.remove();
+      }
       this.waterMaterial.dispose(); this.waveMaterial.dispose();
       this.sun.shadow.dispose();
       this.renderer.dispose();
@@ -6397,6 +6997,8 @@ void main() {
   let activeModalRevision = null;
   const SAVE_KEY = 'catan-island-chronicles-v1';
   let savedGame = null, invalidSave = false, saveProblem = '';
+  let feedbackTimer = null, focusedResources = [], resourceNotice = null, islandMotion = true;
+  const pendingGains = new Map();
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 
   function el(tag, text, className) {
@@ -6419,6 +7021,98 @@ void main() {
     return R.filter(r => resources[r]).map(r => `${Core.NAMES[r]} ${resources[r]}`).join(' · ') || '无';
   }
   function total(resources) { return R.reduce((n, r) => n + (resources[r] || 0), 0); }
+  function resourceBadge(resource, count, sign = '', className = '') {
+    const badge = el('span',undefined,`resource-badge ${className}`);
+    badge.dataset.resource = resource;
+    badge.style.setProperty('--resource-color',resourceInfo[resource][1]);
+    badge.innerHTML = icon(resource);
+    badge.append(el('span',Core.NAMES[resource],'resource-name'),el('strong',`${sign}${count}`,'amount'));
+    return badge;
+  }
+  function setTradeFocus(resources = []) {
+    focusedResources = [...new Set(resources)].filter(r => R.includes(r));
+    if (scene) scene.setResourceFocus(focusedResources);
+    for (const node of document.querySelectorAll('#hand [data-resource],#bank-panel [data-resource]')) {
+      node.classList.toggle('trade-focus',focusedResources.includes(node.dataset.resource));
+    }
+  }
+  function clearResourceNotice() {
+    clearTimeout(feedbackTimer); feedbackTimer = null;
+    if (resourceNotice) { resourceNotice.replaceChildren(); resourceNotice.hidden = true; }
+    document.querySelectorAll('.resource-flight').forEach(node => node.remove());
+  }
+  function resetPresentation() {
+    clearResourceNotice(); pendingGains.clear(); setTradeFocus([]);
+    diceResult.dataset.rolling = 'false';
+    if (scene) scene.cancelDice();
+  }
+  function collectResourceFeedback(previous, next, action) {
+    const publicDetails = ['rollDice','acceptTrade','bankTrade','buildSettlement','chooseMonopoly'].includes(action.type);
+    const titles = {rollDice:'岛屿出产',acceptTrade:'交易完成',bankTrade:'兑换完成',buildSettlement:'初始补给',choosePlenty:'丰收',chooseMonopoly:'垄断收获',steal:'取得资源'};
+    const rows = [];
+    for (const player of next.players) {
+      const gained = Object.fromEntries(R.map(r => [r,Math.max(0,player.hand[r]-previous.players[player.id].hand[r])]));
+      const count = total(gained);
+      if (!count) continue;
+      rows.push({playerId:player.id,gained,count,publicDetails});
+      if (player.type === 'human') {
+        const pending = pendingGains.get(player.id) || Object.fromEntries(R.map(r=>[r,0]));
+        for (const r of R) pending[r] += gained[r];
+        pendingGains.set(player.id,pending);
+      }
+    }
+    return {title:titles[action.type] || '资源到账',rows};
+  }
+  function showResourceFeedback(event) {
+    if (!event?.rows.length || paused || obstructed() || !state || state.phase === 'ended') return;
+    clearResourceNotice();
+    const own = activeObs(), header = el('div',undefined,'receipt-heading');
+    resourceNotice.dataset.private = String(event.rows.some(row=>!row.publicDetails && own?.self.id === row.playerId));
+    header.append(el('div','资源到账','eyebrow'),button('×',clearResourceNotice,'close-resource-notice','quiet small'));
+    header.lastChild.setAttribute('aria-label','关闭资源到账提示');
+    resourceNotice.append(header,el('h3',event.title));
+    for (const row of event.rows) {
+      const player = state.players[row.playerId], item = el('div',undefined,'receipt-player');
+      item.dataset.playerId = String(row.playerId);
+      const name = el('div',`${symbols[player.id]} ${player.name}`,'receipt-player-name');
+      name.style.setProperty('--player-color',player.color); item.append(name);
+      const amounts = el('div',undefined,'receipt-resources');
+      if (row.publicDetails || own?.self.id === row.playerId) {
+        R.filter(r=>row.gained[r]>0).forEach(r => amounts.append(resourceBadge(r,row.gained[r],'+')));
+      } else {
+        amounts.append(el('span','资源卡','resource-back'),el('strong',`+${row.count} 张`),el('small','种类仅本人可见'));
+      }
+      item.append(amounts); resourceNotice.append(item);
+      if (own?.self.id === row.playerId) pendingGains.delete(row.playerId);
+    }
+    resourceNotice.append(el('small',event.title === '你最近获得的资源' ?
+      '自上次查看以来的累计获得量，不是当前库存；仅本人可见。' :
+      '仅显示本次获得，不展示其他玩家的手牌库存。','receipt-note'));
+    resourceNotice.hidden = false;
+    if (!reducedMotion.matches) {
+      const row = event.rows.find(row => own?.self.id === row.playerId);
+      if (row) requestAnimationFrame(() => {
+        if (resourceNotice.hidden || obstructed() || activeObs()?.self.id !== row.playerId) return;
+        for (const r of R.filter(r=>row.gained[r]>0)) {
+          const start = resourceNotice.querySelector(`[data-resource="${r}"]`)?.getBoundingClientRect();
+          const end = $('hand').querySelector(`[data-resource="${r}"]`)?.getBoundingClientRect();
+          if (!start || !end) continue;
+          const flight = el('div',undefined,'resource-flight'); flight.innerHTML = icon(r);
+          flight.style.setProperty('--flight-x',`${end.left+end.width/2-start.left-18}px`);
+          flight.style.setProperty('--flight-y',`${end.top+end.height/2-start.top-18}px`);
+          flight.style.left = `${start.left}px`; flight.style.top = `${start.top}px`;
+          flight.addEventListener('animationend',()=>flight.remove(),{once:true}); document.body.append(flight);
+        }
+      });
+    }
+    feedbackTimer = setTimeout(clearResourceNotice,5200);
+  }
+  function showPendingGains() {
+    const own = activeObs();
+    if (!own || busy || paused || obstructed() || !pendingGains.has(own.self.id)) return;
+    const gained = pendingGains.get(own.self.id);
+    showResourceFeedback({title:'你最近获得的资源',rows:[{playerId:own.self.id,gained,count:total(gained),publicDetails:false}]});
+  }
   function storageNotice(message) {
     saveProblem = message;
     $('storage-warning').textContent = message;
@@ -6456,7 +7150,7 @@ void main() {
     const restored = state || savedGame;
     if (!restored || !scene) return;
     cancelAI(); clearTimeout(commitTimer); busy = false; paused = false; aiStatus = '';
-    clearPrivate(); state = restored; viewer = null;
+    clearPrivate(); resetPresentation(); state = restored; viewer = null;
     $('setup').hidden = true; $('handoff').hidden = true;
     const obs = publicObs(); scene.setBoard(obs.board, obs.players);
     arrangeDecision(true); scene.resize();
@@ -6487,16 +7181,20 @@ void main() {
     if (scene) scene.setTargets([]);
     $('target-area').hidden = true; $('target-picker').replaceChildren();
   }
-  function clearPrivate() {
+  function clearPrivate(clearFeedback = true) {
     lastPrivate = null;
     for (const id of ['hand','dev-hand','hand-label','own-score','actions']) $(id).replaceChildren();
     $('private-area').hidden = true;
-    clearTargets(); hideToast(); closePrivateDialog(false);
+    clearTargets(); hideToast();
+    if (clearFeedback || resourceNotice?.dataset.private === 'true') clearResourceNotice();
+    closePrivateDialog(false);
   }
   function closePrivateDialog(restore = true) {
     if ($('action-dialog').open) $('action-dialog').close();
     $('action-content').replaceChildren(); $('action-title').textContent = '';
     activeModalRevision = null;
+    $('action-dialog').classList.remove('trade-dialog');
+    setTradeFocus([]);
     if (restore && privateReturnFocus) {
       const control = document.getElementById(privateReturnFocus);
       if (control && !control.disabled && control.getClientRects().length) control.focus();
@@ -6516,7 +7214,11 @@ void main() {
     $('bank-panel').inert = veiled;
     $('log-panel').inert = veiled;
     document.body.classList.toggle('handoff-visible', !$('handoff').hidden);
-    if (scene) scene.controls.enabled = !veiled && !anyDialog();
+    if (scene) {
+      scene.controls.enabled = !veiled && !anyDialog();
+      scene.setPaused(paused || !islandMotion || anyDialog() || !$('handoff').hidden);
+      scene.setActivePlayer(state && $('setup').hidden && state.phase !== 'ended' ? state.decisionPlayerId : -1);
+    }
   }
   function rate(obs, resource) {
     let value = 4;
@@ -6545,6 +7247,49 @@ void main() {
     #target-area button{min-height:38px}#phase-hint{overflow-wrap:anywhere}
     .dialog-rules{margin-left:auto}.dialog-footer{flex-wrap:wrap}
     .public-journal{max-height:260px;overflow:auto}.public-journal p{font-size:12px}
+    .die{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);padding:3px;gap:1px;width:26px;height:26px;box-shadow:inset 1px 1px 2px #fff,1px 2px 0 #b5ad94;line-height:normal}
+    .die .pip{border-radius:50%;background:#254955;width:4px;height:4px;place-self:center}
+    .trade-focus{background:#fff0bb!important;outline:2px solid #d6ae52;outline-offset:1px}
+    .bank-item.trade-focus{border-radius:5px;padding:2px 4px;margin-left:-4px;margin-right:-4px}
+    .bank-item strong,.hand-card strong{font-variant-numeric:tabular-nums}
+    .resource-badge{display:inline-flex;align-items:center;gap:5px;padding:6px 9px;background:#fffaf0;border:1px solid #d8dfd3;border-bottom:3px solid var(--resource-color);border-radius:9px;white-space:nowrap}
+    .resource-badge .resource-icon{width:26px;height:26px}.resource-badge .resource-name{font-size:11px}
+    .resource-badge .amount{font:700 23px/1.1 Georgia,serif;color:#194957;font-variant-numeric:tabular-nums;min-width:23px;text-align:right}
+    .trade-dialog::backdrop{background:#153f5024;backdrop-filter:none}
+    .trade-dialog .dialog-content{padding:17px 22px}.trade-dialog .dialog-content h3{margin:10px 0 4px;font-size:13px}
+    .trade-dialog .dialog-content p{font-size:11px;margin-bottom:10px}
+    .trade-dialog .resource-inputs{gap:6px;margin-top:7px}
+    .quantity-cell{transition:background .18s,box-shadow .18s;border-bottom:3px solid var(--resource-color)!important}
+    .quantity-cell.is-chosen{background:#fff0bb;box-shadow:0 0 0 1px #d6ae52}
+    .quantity-cell:focus-within{box-shadow:0 0 0 3px #26758466;background:#e6f3eb}
+    .quantity-cell input{font-size:20px!important;font-weight:700;font-variant-numeric:tabular-nums;background:#fffef9;text-align:center;color:#194957}
+    .quantity-cell .inventory{display:block;margin-top:4px;color:#64776b;font-size:10px}
+    .quantity-cell .inventory strong{font-size:13px;color:#345a61}
+    .trade-ledger{background:#e6eee4;border:1px solid #c8d9ca;border-radius:11px;padding:12px;margin-top:13px}
+    .trade-ledger-row{display:flex;align-items:center;gap:7px;flex-wrap:wrap;padding:5px 0}
+    .trade-ledger-row>span:first-child{font-size:11px;font-weight:bold;min-width:48px}
+    .trade-ledger .amount{font-size:22px}.trade-ledger .resource-badge{padding:4px 7px}
+    .trade-after{font-size:10px;color:#566f72;display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+    .trade-after span{background:#f8fbef;border-radius:5px;padding:3px 6px}.trade-after strong{font-size:14px;margin-left:3px;color:#17485d}
+    .trade-after .insufficient{color:#a03927;background:#ffebde}
+    .trade-production{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px;padding-top:9px;border-top:1px solid #c5d6ca}
+    .trade-production>span{font-size:10px;color:#55736d;align-self:center}
+    .tile-number-chip{display:inline-flex;align-items:center;gap:3px;border-radius:20px;background:#fffaf0;border:1px solid #b7c8b6;padding:2px 7px;font-size:10px}
+    .tile-number-chip strong{font:700 15px/1 Georgia,serif;color:#17485d}.tile-number-chip.red strong{color:#b34a37}
+    .tile-number-chip.blocked{background:#263f49;color:#fff2d2}.tile-number-chip.blocked strong{color:#fff2d2}
+    #resource-notice{position:fixed;left:24px;bottom:190px;width:min(410px,calc(100vw - 30px));z-index:24;background:#f8f4e8f7;border:1px solid #fff;border-top:3px solid #d6ae52;border-radius:13px;box-shadow:0 13px 45px #123d4938;padding:13px 17px;max-height:44vh;overflow:auto;animation:receipt-arrival .5s cubic-bezier(.2,.8,.2,1)}
+    .receipt-heading{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .receipt-heading .eyebrow{font-size:10px;letter-spacing:2px}.receipt-heading button{font-size:21px;padding:0 5px;min-height:27px}
+    #resource-notice h3{font-size:18px;letter-spacing:1px;margin:0 0 8px}
+    .receipt-player{padding:6px 0}.receipt-player+.receipt-player{border-top:1px solid #dce2d2}
+    .receipt-player-name{font-size:11px;color:var(--player-color);font-weight:bold;margin-bottom:5px}
+    .receipt-resources{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+    .receipt-note{font-size:9px;display:block;margin-top:8px}.receipt-resources small{font-size:10px}
+    .resource-back{padding:5px 10px;background:repeating-linear-gradient(45deg,#446c70,#446c70 4px,#577f7d 4px,#577f7d 8px);color:#fff6df;border:2px solid #dfcea1;border-radius:5px;font-size:10px}
+    .resource-flight{position:fixed;z-index:26;pointer-events:none;width:36px;height:36px;background:#fff7dd;border:1px solid #d6ae52;border-radius:10px;display:grid;place-items:center;box-shadow:0 4px 12px #19465330;animation:resource-flight 850ms 220ms cubic-bezier(.35,.04,.6,1) both}
+    @keyframes receipt-arrival{from{opacity:0;transform:translateY(22px) scale(.94)}to{opacity:1;transform:none}}
+    @keyframes resource-flight{0%{opacity:0;transform:translate(0,0) scale(.8)}15%{opacity:1}100%{opacity:0;transform:translate(var(--flight-x),var(--flight-y)) scale(.55) rotate(-12deg)}}
+    @media(min-width:1101px){.trade-dialog{width:480px;max-height:calc(100dvh - 35px);margin-right:20px;margin-left:auto}}
     .rules-nav{top:calc(var(--rules-header-height,90px) + 12px);max-height:calc(100dvh - var(--rules-header-height,90px) - 90px);overflow:auto}
     .rules-copy h3{scroll-margin-top:calc(var(--rules-header-height,90px) + 12px)}
     #action-content>p,#menu-content>p{font-size:13px}.quantity-total{margin-top:14px;font-weight:bold}
@@ -6560,10 +7305,21 @@ void main() {
       #dev-hand button{min-height:31px}#target-area button{min-height:40px}
       #actions{grid-template-columns:repeat(4,minmax(0,1fr))}.resource-inputs input{min-height:44px}
       .rules-nav{max-height:none}
+      .die{width:21px;height:21px;padding:2px;gap:0}.die .pip{width:3px;height:3px}
+      .trade-dialog .dialog-content{padding:13px}.trade-dialog .resource-inputs{gap:4px}
+      .trade-dialog .quantity-cell{padding:6px 2px}.quantity-cell input{font-size:18px!important}
+      .trade-ledger{padding:8px}.trade-production{gap:4px}.trade-after{font-size:9px}
+      #resource-notice{left:10px;width:calc(100vw - 20px);padding:10px 13px;max-height:33vh}
+      #resource-notice h3{font-size:16px}.resource-badge{padding:4px 6px;gap:3px}
+      .resource-badge .resource-name{font-size:10px}.resource-badge .amount{font-size:20px}
+      .resource-badge .resource-icon{width:21px;height:23px}
     }
-    @media(prefers-reduced-motion:reduce){.dice-motion,.resource-arrived{animation:none}}
+    @media(prefers-reduced-motion:reduce){.dice-motion,.resource-arrived,#resource-notice,.resource-flight{animation:none}.resource-flight{display:none}.quantity-cell{transition:none}}
   `;
   document.head.append(appStyle);
+  resourceNotice = el('section'); resourceNotice.id = 'resource-notice'; resourceNotice.hidden = true;
+  resourceNotice.setAttribute('role','status'); resourceNotice.setAttribute('aria-live','polite');
+  resourceNotice.setAttribute('aria-label','资源获得提示'); document.body.append(resourceNotice);
   const diceResult = el('div'); diceResult.id = 'dice-result';
   diceResult.setAttribute('aria-live', 'polite'); $('turn-banner').append(diceResult);
   const menu = el('dialog'); menu.id = 'menu-dialog'; menu.setAttribute('aria-labelledby','menu-title');
@@ -6592,7 +7348,7 @@ void main() {
     } catch (error) { $('setup-error').textContent = error.message; }
     if (!next) return;
     cancelAI(); clearTimeout(commitTimer); busy = false; paused = false; aiStatus = '';
-    clearPrivate(); state = next; viewer = null;
+    clearPrivate(); resetPresentation(); state = next; viewer = null;
     $('setup-error').textContent = ''; $('setup').hidden = true; $('handoff').hidden = true;
     const obs = publicObs(); scene.setBoard(obs.board, obs.players);
     saveGame(); render(); arrangeDecision(true); scene.resize();
@@ -6634,6 +7390,7 @@ void main() {
     viewer = player.id; $('handoff').hidden = true;
     render(); autoDecisionDialog(); focusAction();
     if ($('action-dialog').open) $('action-content').querySelector('input,select,button')?.focus();
+    else showPendingGains();
   }
   function renderPublic(obs) {
     $('game-dock').hidden = false; $('turn-banner').hidden = false; $('bank-panel').hidden = false;
@@ -6666,7 +7423,15 @@ void main() {
     $('turn-banner').title = obs.initialRolls.map((round,index) => `${index ? '重掷' : '首位掷骰'}：${round.map(roll => `${obs.players[roll.playerId].name} ${roll.dice.join('+')}`).join('；')}`).join('\n');
     diceResult.replaceChildren();
     if (obs.dice) {
-      obs.dice.forEach(value => diceResult.append(el('span',value,'die')));
+      const pipPositions = {1:[5],2:[1,9],3:[1,5,9],4:[1,3,7,9],5:[1,3,5,7,9],6:[1,3,4,6,7,9]};
+      obs.dice.forEach(value => {
+        const die = el('span',undefined,'die'); die.dataset.value = String(value); die.setAttribute('aria-label',`${value} 点`);
+        for (const position of pipPositions[value]) {
+          const pip = el('i',undefined,'pip'); pip.setAttribute('aria-hidden','true');
+          pip.style.gridArea = `${Math.ceil(position/3)} / ${(position-1)%3+1}`; die.append(pip);
+        }
+        diceResult.append(die);
+      });
       diceResult.append(el('span',`共 ${obs.dice[0]+obs.dice[1]} 点`,'dice-total'));
       diceResult.setAttribute('aria-label',`骰子 ${obs.dice.join(' 加 ')}，共 ${obs.dice[0]+obs.dice[1]} 点`);
     } else {
@@ -6678,11 +7443,13 @@ void main() {
     $('pause-btn').setAttribute('aria-pressed',String(paused));
     $('reveal-hand').disabled = busy;
     $('reveal-hand').title = busy ? '上一项操作正在完成，请稍候。' : '确认你是当前决策玩家后显示本人手牌';
+    $('scene-caption').textContent = obs.phase === 'ended' ? '群岛纪事 · 航程结束' : `${symbols[decision.id]} ${decision.name}的道路与建筑 · 已高亮`;
   }
   function renderBank(container, obs) {
     container.replaceChildren(el('h3','岛屿储备 · 银行'));
     for (const r of R) {
-      const row = el('div',undefined,'bank-item'); row.innerHTML = icon(r);
+      const row = el('div',undefined,'bank-item'); row.dataset.resource = r; row.innerHTML = icon(r);
+      row.classList.toggle('trade-focus',focusedResources.includes(r));
       row.append(el('span',Core.NAMES[r]),el('strong',obs.bank[r])); container.append(row);
     }
     container.append(el('div',undefined,'divider'),el('small',`发展卡牌堆 · ${obs.deckCount} 张`));
@@ -6703,6 +7470,7 @@ void main() {
     $('hand').replaceChildren();
     for (const r of R) {
       const card = el('div',undefined,'hand-card'); card.dataset.resource = r;
+      card.classList.toggle('trade-focus',focusedResources.includes(r));
       card.style.setProperty('--resource-color',resourceInfo[r][1]);
       card.innerHTML = icon(r);
       const count = el('div'); count.append(el('strong',obs.self.hand[r]),el('small',Core.NAMES[r])); card.append(count);
@@ -6790,7 +7558,7 @@ void main() {
     const own = activeObs();
     if (own) { renderPrivate(own); renderActions(own); }
     else {
-      clearPrivate();
+      clearPrivate(false);
       const p = obs.players[obs.decisionPlayerId];
       $('phase-hint').textContent = obs.phase === 'ended' ? '本次航程已结束，可查看结算或开始新局。' :
         p.type === 'human' ? '请交接设备。确认后才会显示私有手牌与可用操作。' :
@@ -6847,27 +7615,30 @@ void main() {
     catch (error) { return fail(`规则结算失败：${error.message}`,source === 'dialog'); }
     if (!result.ok) return fail(result.error,source === 'dialog');
     const previousDecision = state.decisionPlayerId;
+    const feedback = collectResourceFeedback(state,result.state,action);
     cancelAI(); busy = true; state = result.state;
     saveGame();
-    clearTargets(); closePrivateDialog(false);
+    clearResourceNotice(); clearTargets(); closePrivateDialog(false);
     if (previousDecision !== state.decisionPlayerId || state.phase === 'ended') clearPrivate();
     if (previousDecision !== state.decisionPlayerId || state.phase === 'ended') arrangeDecision(true);
     else render();
-    if (action.type === 'rollDice' && !reducedMotion.matches) {
-      diceResult.classList.remove('dice-motion'); void diceResult.offsetWidth; diceResult.classList.add('dice-motion');
-    }
+    const diceDuration = action.type === 'rollDice' ? scene.playDice(state.dice) : 0;
+    const robberDuration = action.type === 'moveRobber' ? scene.getRobberTransitionDuration() : 0;
+    diceResult.dataset.rolling = String(action.type === 'rollDice' && !reducedMotion.matches);
     const revision = state.revision;
     clearTimeout(commitTimer);
     commitTimer = setTimeout(() => {
       busy = false;
       if (!state || state.revision !== revision) return;
+      diceResult.dataset.rolling = 'false';
       render();
       if (activeObs()) {
         autoDecisionDialog();
         if (!anyDialog()) focusAction();
       } else if (!$('handoff').hidden && !anyDialog()) $('reveal-hand').focus({preventScroll:true});
       scheduleAI();
-    }, reducedMotion.matches ? 70 : action.type === 'rollDice' ? 420 : 160);
+      showResourceFeedback(feedback);
+    }, Math.max(reducedMotion.matches ? 70 : 160,diceDuration,robberDuration ? robberDuration+120 : 0));
     return {ok:true,revision:state.revision};
   }
   function dispatch(action, source = 'human') {
@@ -6882,7 +7653,7 @@ void main() {
   }
   function dialogBase(title) {
     if (!activeObs() || busy || paused || $('rules-dialog').open || menu.open) return null;
-    cancelAI(); clearTargets();
+    cancelAI(); clearTargets(); clearResourceNotice();
     privateReturnFocus = document.activeElement?.id || null;
     closePrivateDialog(false);
     activeModalRevision = state.revision;
@@ -6910,15 +7681,58 @@ void main() {
   function resourceInputs(parent, prefix, caps, values = {}) {
     const group = el('div',undefined,'resource-inputs'), inputs = {};
     R.forEach(r => {
-      const label = el('label'); label.innerHTML = icon(r);
+      const label = el('label',undefined,'quantity-cell'); label.innerHTML = icon(r); label.dataset.resource = r;
+      label.style.setProperty('--resource-color',resourceInfo[r][1]);
       label.append(document.createTextNode(Core.NAMES[r]));
       const input = el('input'); input.type = 'number'; input.min = '0'; input.max = String(caps[r]); input.step = '1';
       input.value = String(Math.min(values[r] || 0,caps[r])); input.required = true;
       input.id = `${prefix}-${r}`; input.setAttribute('aria-label',`${prefix === 'give' ? '我给出' : prefix === 'want' ? '我收到' : '选择'}${Core.NAMES[r]}数量（最多 ${caps[r]}）`);
-      label.append(input,el('small',` / ${caps[r]}`)); group.append(label); inputs[r] = input;
+      const inventory = el('small',prefix === 'want' ? '上限 ' : '可用 ','inventory');
+      inventory.append(el('strong',caps[r]));
+      input.addEventListener('input',()=>label.classList.toggle('is-chosen',Number(input.value)>0));
+      label.classList.toggle('is-chosen',Number(input.value)>0);
+      label.append(input,inventory); group.append(label); inputs[r] = input;
     });
     parent.append(group);
     return {inputs,read:() => Object.fromEntries(R.map(r => [r,Number(inputs[r].value)]))};
+  }
+  function tradeLedger(container, obs, give, want) {
+    container.replaceChildren();
+    for (const [label,resources,sign] of [['我给出',give,'−'],['我收到',want,'+']]) {
+      const row = el('div',undefined,'trade-ledger-row'); row.append(el('span',label));
+      const chosen = R.filter(r=>Number.isFinite(resources[r])&&resources[r]>0);
+      if (!chosen.length) row.append(el('small','请选择资源与数量'));
+      chosen.forEach(r=>row.append(resourceBadge(r,resources[r],sign)));
+      container.append(row);
+    }
+    const involved = R.filter(r=>(give[r]||0)>0||(want[r]||0)>0);
+    if (involved.length) {
+      const after = el('div',undefined,'trade-after');
+      after.append(el('span','成交后你的库存：'));
+      for (const r of involved) {
+        const remaining = obs.self.hand[r]-(give[r]||0)+(want[r]||0);
+        const item = el('span',Core.NAMES[r],remaining<0?'insufficient':'');
+        item.append(el('strong',remaining)); after.append(item);
+      }
+      container.append(after);
+    }
+    const focused = document.activeElement?.closest('.quantity-cell')?.dataset.resource;
+    setTradeFocus([...involved,...(focused?[focused]:[])]);
+    const production = el('div',undefined,'trade-production');
+    production.append(el('span',focusedResources.length?'相关产地数字：':'填写数量，相关产地与库存会高亮。'));
+    const seenNumbers = new Set();
+    for (const tile of obs.board.tiles.filter(tile=>focusedResources.includes(tile.type))) {
+      const key = `${tile.type}:${tile.number}:${tile.id===obs.robber}`;
+      if (seenNumbers.has(key)) continue;
+      seenNumbers.add(key);
+      const chip = el('span',undefined,`tile-number-chip${[6,8].includes(tile.number)?' red':''}${tile.id===obs.robber?' blocked':''}`);
+      chip.dataset.tileId = String(tile.id); chip.dataset.resource = tile.type;
+      chip.title = `${Core.NAMES[tile.type]} · 地块 ${tile.id+1}${tile.id===obs.robber?' · 强盗停产':''}`;
+      chip.append(el('span',Core.NAMES[tile.type]),el('strong',tile.number));
+      if (tile.id===obs.robber) chip.append(document.createTextNode('停产'));
+      production.append(chip);
+    }
+    container.append(production);
   }
   function openQuantity(type) {
     const obs = activeObs(); if (!obs) return;
@@ -6942,6 +7756,7 @@ void main() {
     const obs = activeObs(); if (!obs) return;
     const actions = obs.legalActions.filter(a => a.type === 'bankTrade');
     const content = dialogBase('银行与港口贸易'); if (!content) return;
+    $('action-dialog').classList.add('trade-dialog');
     const {form,footer,confirm} = formFor(content,'确认兑换',() => dispatch({type:'bankTrade',giveResource:give.value,receiveResource:receive.value,revision:obs.revision},'dialog'));
     const body = el('div'), giveLabel = el('label','我给出（已按本人港口计算）'), receiveLabel = el('label','我收到');
     const give = el('select'), receive = el('select'); give.id = 'bank-give'; receive.id = 'bank-receive';
@@ -6949,20 +7764,27 @@ void main() {
     [...new Set(actions.map(a => a.giveResource))].forEach(r => give.append(option(r,`${Core.NAMES[r]} ${rate(obs,r)} 张 → 1 张（持有 ${obs.self.hand[r]}）`)));
     giveLabel.append(give); receiveLabel.append(receive);
     const rates = el('p',R.map(r => `${Core.NAMES[r]} ${rate(obs,r)}:1`).join(' · '),'muted');
-    body.className = 'stack'; body.append(rates,giveLabel,receiveLabel,el('p','仅列出当前可成交的组合；银行库存和你的手牌会在确认时再次检查。'));
+    const ledger = el('div',undefined,'trade-ledger'); ledger.id = 'bank-ledger'; ledger.setAttribute('aria-live','polite');
+    body.className = 'stack'; body.append(rates,giveLabel,receiveLabel,ledger,el('p','金色突出显示相关资源库存与产地数字；确认时再次检查双方数量。'));
+    function updateLedger() {
+      tradeLedger(ledger,obs,give.value?{[give.value]:rate(obs,give.value)}:{},receive.value?{[receive.value]:1}:{});
+    }
     function update() {
       const previous = receive.value; receive.replaceChildren();
       actions.filter(a => a.giveResource === give.value).forEach(a => receive.append(option(a.receiveResource,`${Core.NAMES[a.receiveResource]} 1 张（银行 ${obs.bank[a.receiveResource]}）`)));
       if ([...receive.options].some(o => o.value === previous)) receive.value = previous;
       confirm.disabled = !receive.value; confirm.title = confirm.disabled ? '暂无可成交的兑换组合' : '执行一次兑换';
+      updateLedger();
     }
-    give.onchange = update; update(); form.insertBefore(body,footer); give.focus();
+    give.onchange = update; receive.onchange = updateLedger;
+    update(); form.insertBefore(body,footer); give.focus();
   }
   function openOffer(counter) {
     const obs = activeObs(); if (!obs) return;
     if (!obs.legalActions.some(a => a.type === (counter ? 'counterTrade' : 'offerTrade'))) return;
     const offer = counter ? obs.pending.offer : null;
     const content = dialogBase(counter ? '向对方还价' : '提出玩家交易'); if (!content) return;
+    $('action-dialog').classList.add('trade-dialog');
     const {form,footer} = formFor(content,counter ? '提交还价' : '发送报价',() => {
       const give = giveFields.read(), want = wantFields.read();
       if (!total(give) || !total(want)) return fail('双方都必须给出至少一张资源。',true);
@@ -6981,14 +7803,23 @@ void main() {
     const giveFields = resourceInputs(body,'give',obs.self.hand,offer ? offer.want : {});
     body.append(el('h3','我收到'));
     const wantFields = resourceInputs(body,'want',Object.fromEntries(R.map(r => [r,19])),offer ? offer.give : {});
-    form.insertBefore(body,footer); (counter ? giveFields.inputs[R[0]] : target).focus();
+    const ledger = el('div',undefined,'trade-ledger'); ledger.id = 'offer-ledger'; ledger.setAttribute('aria-live','polite');
+    body.append(ledger);
+    const update = () => tradeLedger(ledger,obs,giveFields.read(),wantFields.read());
+    for (const input of [...Object.values(giveFields.inputs),...Object.values(wantFields.inputs)]) {
+      input.addEventListener('input',update); input.addEventListener('focus',update);
+    }
+    target.addEventListener('focus',update);
+    form.insertBefore(body,footer); (counter ? giveFields.inputs[R[0]] : target).focus(); update();
   }
   function openResponse() {
     const obs = activeObs(); if (!obs || obs.phase !== 'tradeResponse') return;
     const offer = obs.pending.offer, content = dialogBase('回应资源报价'); if (!content) return;
+    $('action-dialog').classList.add('trade-dialog');
     const summary = el('div',undefined,'trade-summary'); summary.id = 'trade-summary';
-    summary.append(el('strong',`${obs.players[offer.from].name}向你报价`),
-      el('div',`我给出：${describe(offer.want)}`),el('div',`我收到：${describe(offer.give)}`));
+    summary.append(el('strong',`${obs.players[offer.from].name}向你报价`));
+    const ledger = el('div',undefined,'trade-ledger');
+    tradeLedger(ledger,obs,offer.want,offer.give); summary.append(ledger);
     content.insertBefore(summary,$('action-error'));
     const footer = el('div',undefined,'dialog-footer');
     const accept = button('接受交易',() => dispatch({type:'acceptTrade',revision:obs.revision},'dialog'),'accept-trade','primary');
@@ -7042,7 +7873,7 @@ void main() {
     const footer = el('div',undefined,'dialog-footer');
     footer.append(button('取消，返回本局',closeMenu,'cancel-new-game'),button('前往席位设置',() => {
       cancelAI(); clearTimeout(commitTimer); busy = false; viewer = null;
-      clearPrivate(); $('handoff').hidden = true; menu.close();
+      clearPrivate(); resetPresentation(); $('handoff').hidden = true; menu.close();
       $('setup').hidden = false; $('setup-error').textContent = '';
       $('continue-game').hidden = !state; $('continue-game').textContent = '返回当前航程';
       syncBlocking(); $('new-game').focus();
@@ -7050,10 +7881,17 @@ void main() {
     content.append(footer);
   }
   function openMenu() {
-    cancelAI(); closePrivateDialog(false); clearTargets();
+    cancelAI(); closePrivateDialog(false); clearTargets(); clearResourceNotice();
     $('menu-title').textContent = '航程设置';
     const content = $('menu-content'); content.replaceChildren();
     content.append(el('p',state ? '窗口开启期间，棋盘操作与 AI 决策暂停。关闭后回到当前进度。' : '选择席位和地图后开始；每个席位都可以独立设置为真人或 AI。'));
+    const motionToggle = button(`岛屿动态：${islandMotion ? '开启' : '静止'}`,() => {
+      islandMotion = !islandMotion;
+      motionToggle.textContent = `岛屿动态：${islandMotion ? '开启' : '静止'}`;
+      motionToggle.setAttribute('aria-pressed',String(islandMotion)); syncBlocking();
+    },'menu-motion');
+    motionToggle.setAttribute('aria-pressed',String(islandMotion)); content.append(motionToggle);
+    content.append(el('p','可单独暂停羊群、小船等环境动态，不影响继续操作游戏。系统“减少动态效果”同时简化骰子与资源动画。','muted'));
     content.append(el('p',saveProblem || '每次有效行动后自动保存到当前浏览器。移动 HTML、更换路径、浏览器或设备不保证带走存档。','muted'));
     if (savedGame || invalidSave || state) content.append(button('清除存档…',confirmClearSave,'menu-clear-save','danger'));
     if (state) {
@@ -7072,7 +7910,7 @@ void main() {
         try { localStorage.removeItem(SAVE_KEY); }
         catch (error) { storageNotice(storageError(error)); content.append(el('p','未能清除存档，当前航程保持不变。','error-text')); return; }
         cancelAI(); clearTimeout(commitTimer); busy = false; paused = false; aiStatus = '';
-        viewer = null; clearPrivate(); state = null; savedGame = null; invalidSave = false;
+        viewer = null; clearPrivate(); resetPresentation(); state = null; savedGame = null; invalidSave = false;
         storageNotice(''); $('setup-error').textContent = '';
         for (const id of ['game-dock','turn-banner','bank-panel','handoff','pause-btn','continue-game']) $(id).hidden = true;
         for (const id of ['players-panel','log-panel']) $(id).replaceChildren();
@@ -7086,18 +7924,18 @@ void main() {
   function closeMenu() { menu.close(); }
   function openRules() {
     if ($('rules-dialog').open) return;
-    cancelAI(); closePrivateDialog(false); clearTargets();
+    cancelAI(); closePrivateDialog(false); clearTargets(); clearResourceNotice();
     if (menu.open) menu.close();
     $('rules-dialog').showModal(); syncBlocking();
     $('close-rules').focus();
   }
   function pause() {
-    paused = true; cancelAI(); clearTargets();
+    paused = true; cancelAI(); clearTargets(); clearResourceNotice();
     closePrivateDialog(false); render();
     return {paused:true};
   }
   function resume() {
-    paused = false; aiStatus = ''; cancelAI(); render(); scheduleAI();
+    paused = false; aiStatus = ''; cancelAI(); render(); scheduleAI(); showPendingGains();
     return {paused:false};
   }
   function aiFailure(error) {
@@ -7192,7 +8030,10 @@ void main() {
     <p><strong>简单：</strong>使用带随机性的浅层选择，考虑基本产出与可建造项目。<strong>普通：</strong>进一步权衡骰点概率、资源覆盖、建设目标、港口与扩张路线。<strong>困难：</strong>在这些判断之上做有预算的多步候选搜索，例如先连续兑换再升级城市，并考虑公开的胜利威胁。</p>
     <p>每个 AI 独立选择难度。所有 AI 只知道公共局面和自己的手牌，不偷看对手手牌、未来骰子或发展牌顺序，不额外获得资源。难度是策略强弱，不保证每局困难必胜。AI 也会回应交易、还价、弃牌和选择强盗目标。</p>
     <h3 id="guide-controls">11 · 拿起一座小小的岛</h3>
-    <p>鼠标拖动旋转，滚轮或双指缩放；「俯瞰岛屿」恢复视角。「画质」切换阴影和装饰细节。深色数字标记上的“停产”表示强盗正在阻断该地块，不受树木遮挡影响。选择建造后，金色圆环、短线与六边形表示合法目标，点击完成；也可使用下方“键盘选点”列表并确认。拖动相机不会同时落子。</p>
+    <p>鼠标拖动旋转，滚轮或双指缩放；「俯瞰岛屿」恢复视角。「画质」切换阴影和装饰细节。当前实际操作者的道路和建筑用本人颜色突出显示，交易与弃牌交接时也会切换；不表示相邻资源地块归某个人独占。</p>
+    <p>掷骰时，两枚立体骰子会翻滚并停在实际结算点数，动画不会改变或重掷结果。资源到账提示显示资源图标和获得数量，并向本人手牌区发送动画；其他玩家的私密偷牌种类不公开。提示可关闭，不需要确认才能继续游戏。</p>
+    <p>报价或银行兑换时，输入的数量、相关库存、兑换后的本人数量和产地数字会突出显示。小面板也列出相关产地数字，方便不移动相机进行比较。深色“停产”数字牌与强盗模型一同标明强盗所在位置。</p>
+    <p>选择建造后，金色圆环、短线与六边形表示合法目标，点击完成；也可使用下方“键盘选点”列表并确认。拖动相机不会同时落子。设置中的“岛屿动态”可让羊群、小船和植被静止，系统“减少动态效果”还会简化骰子和资源动画。</p>
     <p>每次实际决策者变更均需交接，包括回合外交易与弃牌。确认接过设备后才显示本人手牌，交接时私密内容会从页面移除。其他玩家请移开视线。公开信息包括资源总张数、发展卡总张数、公开得分和已用骑士；不包含对手手牌组成。</p>
     <p>关闭强制选择窗口不会跳过决策，可从主操作区重新打开。规则与设置窗口暂停 AI 并阻止棋盘操作；关闭后继续。也可使用暂停按钮。全 AI 观战不显示任何 AI 的私有手牌。支持系统“减少动态效果”；弹窗可用 Esc 关闭、Tab 切换控件。</p>
     <h3 id="guide-save">12 · 存档与数字版补充</h3>
@@ -7234,6 +8075,7 @@ void main() {
         else if (!$('setup').hidden) $('new-game').focus({preventScroll:true});
         else if (dialog !== $('action-dialog')) $('rules-btn').focus({preventScroll:true});
         scheduleAI();
+        showPendingGains();
       }
     });
     dialog.addEventListener('click',event => {
@@ -7268,6 +8110,7 @@ void main() {
       const height = $('game-dock').hidden ? 160 : $('game-dock').getBoundingClientRect().height;
       $('scene-tools').style.bottom = `${height+32}px`;
       $('toast').style.bottom = `${height+36}px`;
+      resourceNotice.style.bottom = `${height+38}px`;
       $('scene-caption').style.bottom = `${height+83}px`;
     }).observe($('game-dock'));
     syncBlocking();
