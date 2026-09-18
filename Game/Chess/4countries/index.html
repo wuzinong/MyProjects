@@ -105,10 +105,13 @@ html,body{margin:0;height:100%;overflow:hidden;background:radial-gradient(1200px
   <div class="overlay show" id="setupOverlay">
     <div class="modal">
       <h2>四国大战</h2>
-      <p>对家同盟：南+北 vs 东+西。南军先手，逆时针轮转。可完全离线游玩。</p>
+      <p>可开双人、三人混战或四人同盟（南+北 vs 东+西）。南军先手，离线可玩。</p>
       <div class="field"><label>快捷开局</label>
         <div class="grid2" id="presetChoices">
-          <div class="choice active" data-preset="1v3">我（南）对三机</div>
+          <div class="choice" data-preset="1v1">双人：我（南）对北机</div>
+          <div class="choice" data-preset="1v1hot">双人：南北热座</div>
+          <div class="choice" data-preset="3ffa">三人混战（南东南）</div>
+          <div class="choice active" data-preset="1v3">四人：我南对三机</div>
           <div class="choice" data-preset="hotseat">四人本地轮流</div>
           <div class="choice" data-preset="2v2sn">南北双人 vs 东西电脑</div>
           <div class="choice" data-preset="2v2se">南东双人 vs 北西电脑</div>
@@ -166,9 +169,9 @@ html,body{margin:0;height:100%;overflow:hidden;background:radial-gradient(1200px
       <h2>四国军棋规则</h2>
       <h3>阵营与胜利</h3>
       <ul>
-        <li>四方：南、东、北、西。对家同盟（南+北 对 东+西）。</li>
-        <li>南军先手，逆时针：南 → 东 → 北 → 西。</li>
-        <li>夺得对方军旗则淘汰该玩家（其剩余棋子撤出）。同盟两家均被淘汰则己方获胜。</li>
+        <li>可 2 人（南 vs 北）、3 人混战或 4 人同盟（南+北 对 东+西）。</li>
+        <li>南军先手，逆时针：南 → 东 → 北 → 西（未参赛座位自动跳过）。</li>
+        <li>夺旗即淘汰该玩家。四人模式需打掉对方同盟两家；双人/三人剩最后一人获胜。</li>
         <li>司令阵亡后，该方军旗明置。</li>
       </ul>
       <h3>棋子（每方 25 枚，5 个空位）</h3>
@@ -181,7 +184,7 @@ html,body{margin:0;height:100%;overflow:hidden;background:radial-gradient(1200px
       </table>
       <h3>走法</h3>
       <ul>
-        <li>公路每次一格；铁路可直线多格（路径需空）。工兵在铁路上可拐弯。</li>
+        <li>公路每次一格（行营可斜走）；铁路可直线多格；中央斜铁可斜走。工兵铁路可拐弯。</li>
         <li>行营内的棋子不能被吃，但可以自行离开。</li>
         <li>不可攻击友军；山不可驻留。</li>
         <li>地雷、军旗不能移动。</li>
@@ -236,6 +239,9 @@ const SEAT_INFO = {
   W: { name: '西军', color: 0x2e8b57, hex: '#2e8b57', ally: 'E', team: 'ew' },
 };
 const TEAM_NAME = { sn: '南北同盟', ew: '东西同盟' };
+const match = { active: ['S', 'E', 'N', 'W'], ffa: false };
+function seatLive(s) { return match.active.indexOf(s) >= 0; }
+function winnerLabel(id) { return TEAM_NAME[id] || (SEAT_INFO[id] && SEAT_INFO[id].name) || id; }
 const TYPES = {
   commander: { rank: 9, name: '司令', count: 1 },
   general: { rank: 8, name: '军长', count: 1 },
@@ -268,7 +274,12 @@ function isHQRC(r, c) { return r === 0 && (c === 1 || c === 3); }
 function isMountain(cr, cc) { return (cr === 1 && cc === 1) || (cr === 3 && cc === 3); }
 function homeId(seat, r, c) { return seat + '-' + r + '-' + c; }
 function centerId(cr, cc) { return 'C-' + cr + '-' + cc; }
-function allies(a, b) { return a === b || SEAT_INFO[a].ally === b; }
+function allies(a, b) {
+  if (!a || !b) return false;
+  if (a === b) return true;
+  if (match.ffa) return false;
+  return SEAT_INFO[a].ally === b;
+}
 function nextSeat(s) { return SEATS[(SEATS.indexOf(s) + 1) % 4]; }
 
 function homeWorld(seat, r, c) {
@@ -293,7 +304,7 @@ const BOARD = (() => {
     for (let r = 0; r < 6; r++) for (let c = 0; c < 5; c++) {
       const w = homeWorld(seat, r, c);
       const terrain = isHQRC(r, c) ? 'hq' : isCampRC(r, c) ? 'camp' : 'post';
-      const rail = r === 5 || ((c === 0 || c === 4) && r >= 4);
+      const rail = r >= 4 || ((c === 0 || c === 4) && r >= 2);
       addNode(homeId(seat, r, c), { kind: 'home', seat, r, c, wx: w.x, wz: w.z, terrain, rail, mountain: false });
     }
   }
@@ -338,7 +349,9 @@ const BOARD = (() => {
   for (let cr = 0; cr < 5; cr++) for (let cc = 0; cc < 5; cc++) {
     const id = centerId(cr, cc);
     if (cc < 4) addEdge(id, centerId(cr, cc + 1), true);
-    if (cr < 5 - 1) addEdge(id, centerId(cr + 1, cc), true);
+    if (cr < 4) addEdge(id, centerId(cr + 1, cc), true);
+    if (cr < 4 && cc < 4) addEdge(id, centerId(cr + 1, cc + 1), true);
+    if (cr < 4 && cc > 0) addEdge(id, centerId(cr + 1, cc - 1), true);
   }
   for (let c = 0; c < 5; c++) {
     addEdge(homeId('S', 5, c), centerId(4, c), true);
@@ -549,6 +562,7 @@ class GameState {
     this.turnIndex = 0;
     let pid = 1;
     for (const seat of SEATS) {
+      if (!seatLive(seat)) continue;
       const grid = layouts[seat] || defaultGrid();
       for (let r = 0; r < 6; r++) for (let c = 0; c < 5; c++) {
         const t = grid[r][c];
@@ -605,6 +619,14 @@ class GameState {
     if (id) this.pieces[id].revealed = true;
   }
   checkWin() {
+    if (match.ffa) {
+      const alive = match.active.filter(s => !this.eliminated[s]);
+      if (alive.length <= 1) {
+        this.winnerTeam = alive[0] || this.toMove;
+        this.winReason = SEAT_INFO[this.winnerTeam].name + ' 夺旗胜出';
+      }
+      return;
+    }
     const snDead = this.eliminated.S && this.eliminated.N;
     const ewDead = this.eliminated.E && this.eliminated.W;
     if (snDead) { this.winnerTeam = 'ew'; this.winReason = '南北军旗均被攻破'; }
@@ -614,7 +636,7 @@ class GameState {
     for (let i = 0; i < 4; i++) {
       this.toMove = nextSeat(this.toMove);
       this.turnIndex++;
-      if (this.eliminated[this.toMove]) continue;
+      if (!seatLive(this.toMove) || this.eliminated[this.toMove]) continue;
       if (generateMoves(this.pieces, this.toMove).length) return;
     }
   }
@@ -636,7 +658,7 @@ function evaluate(pieces, seat, dark) {
   for (const id of Object.keys(pieces)) {
     const p = pieces[id];
     const n = BOARD.nodes[id];
-    const mine = p.seat === seat || p.seat === ally;
+    const mine = p.seat === seat || (!match.ffa && p.seat === ally);
     const vis = !dark || mine || p.revealed;
     let v = vis ? material(p.type) : 22;
     if (p.type === 'flag' || (!vis && false)) v += 0;
@@ -1007,23 +1029,33 @@ class BoardView {
     this.canvas = rinfo.canvas;
     this.isMobile = rinfo.isMobile;
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color(0x0c1610);
-    this.scene.fog = new THREE.Fog(0x0c1610, 18, 42);
-    this.camera = new THREE.PerspectiveCamera(48, innerWidth / innerHeight, 0.1, 80);
+    this.scene.background = new THREE.Color(0x0b1612);
+    this.scene.fog = new THREE.Fog(0x0b1612, 22, 52);
+    this.camera = new THREE.PerspectiveCamera(48, innerWidth / innerHeight, 0.1, 90);
     this.root = new THREE.Group();
     this.scene.add(this.root);
     this.pieceGroup = new THREE.Group();
     this.fxGroup = new THREE.Group();
     this.root.add(this.pieceGroup, this.fxGroup);
     this.hitMeshes = [];
+    this.tileById = {};
     this.pieceMap = new Map();
     this.hintMeshes = [];
     this.particles = [];
     this.anims = [];
     this.shake = 0;
+    this.windObjects = [];
+    this.rivers = [];
+    this.clouds = [];
+    this.shells = [];
+    this.smoke = [];
+    this.decorTime = 0;
+    this.artilleryT = 2.2;
+    this.wildGroups = {};
     this.orbit = { spherical: new THREE.Spherical(16, 0.92, 0), target: new THREE.Vector3(0, 0.2, 0), dragging: false, lastX: 0, lastY: 0 };
     this._lights();
     this._board();
+    this._scenery();
     this._bindOrbit();
     this._applyOrbit();
     this.ray = new THREE.Raycaster();
@@ -1041,14 +1073,17 @@ class BoardView {
     this.scene.add(new THREE.HemisphereLight(0xb8d8c8, 0x2a1808, 0.35));
   }
   _board() {
-    const ground = new THREE.Mesh(new THREE.CircleGeometry(18, 64), makeMat(0x142018, { roughness: 1 }));
+    const ground = new THREE.Mesh(new THREE.CircleGeometry(22, 72), makeMat(0x142018, { roughness: 1 }));
     ground.rotation.x = -Math.PI / 2; ground.position.y = -0.18; ground.receiveShadow = true;
     this.root.add(ground);
     for (const n of BOARD.list) {
       if (n.mountain) {
-        const mtn = new THREE.Mesh(new THREE.ConeGeometry(0.55, 1.1, 7), makeMat(0x5a6758, { roughness: 0.9, flat: true }));
-        mtn.position.set(n.wx, 0.45, n.wz); mtn.castShadow = true;
+        const rock = makeMat(0x6a7364, { roughness: 0.92, flat: true });
+        const mtn = new THREE.Mesh(new THREE.ConeGeometry(0.62, 1.35, 7), rock);
+        mtn.position.set(n.wx, 0.55, n.wz); mtn.castShadow = true;
         this.root.add(mtn);
+        const mtn2 = new THREE.Mesh(new THREE.ConeGeometry(0.32, 0.7, 6), makeMat(0x8a9080, { roughness: 0.95, flat: true }));
+        mtn2.position.set(n.wx + 0.22, 0.32, n.wz - 0.1); this.root.add(mtn2);
         continue;
       }
       let color = n.kind === 'center' ? 0x3a4a3c : 0x2c5a3a;
@@ -1062,6 +1097,8 @@ class BoardView {
       const h = n.rail ? 0.12 : 0.16;
       const tile = new THREE.Mesh(new THREE.BoxGeometry(TILE * 0.92, h, TILE * 0.92), makeMat(color, { roughness: 0.88, metalness: n.rail ? 0.25 : 0.05 }));
       tile.position.set(n.wx, h / 2 - 0.02, n.wz); tile.receiveShadow = true;
+      tile.userData.baseHex = color;
+      this.tileById[n.id] = tile;
       this.root.add(tile);
       if (n.terrain === 'camp') {
         const ring = new THREE.Mesh(new THREE.TorusGeometry(0.34, 0.03, 8, 24), makeMat(0xd0c070, { metalness: 0.5, emissive: 0x887700, emissiveIntensity: 0.25 }));
@@ -1078,12 +1115,164 @@ class BoardView {
         rail.position.set(n.wx, 0.14, n.wz);
         this.root.add(rail);
       }
-      const hit = new THREE.Mesh(new THREE.BoxGeometry(TILE * 0.95, 0.5, TILE * 0.95), new THREE.MeshBasicMaterial({ visible: false }));
-      hit.position.set(n.wx, 0.28, n.wz);
+      const hit = new THREE.Mesh(new THREE.BoxGeometry(TILE * 1.06, 1.55, TILE * 1.06), new THREE.MeshBasicMaterial({ visible: false }));
+      hit.position.set(n.wx, 0.75, n.wz);
       hit.userData = { nodeId: n.id, isCell: true };
       this.root.add(hit);
       this.hitMeshes.push(hit);
     }
+    const seenRail = new Set();
+    const railMat = makeMat(0x9aa8b8, { metalness: 0.78, roughness: 0.28 });
+    for (const n of BOARD.list) {
+      if (!n.rail || n.mountain) continue;
+      for (const nb of n.neighbors) {
+        if (!nb.rail) continue;
+        const key = n.id < nb.id ? n.id + '|' + nb.id : nb.id + '|' + n.id;
+        if (seenRail.has(key)) continue;
+        seenRail.add(key);
+        const b = BOARD.nodes[nb.id];
+        const dx = b.wx - n.wx, dz = b.wz - n.wz;
+        const len = Math.hypot(dx, dz);
+        const bar = new THREE.Mesh(new THREE.BoxGeometry(0.07, 0.025, len * 0.92), railMat);
+        bar.position.set((n.wx + b.wx) / 2, 0.155, (n.wz + b.wz) / 2);
+        bar.rotation.y = Math.atan2(dx, dz);
+        this.root.add(bar);
+      }
+    }
+  }
+  _scenery() {
+    const addWind = (mesh, amp, spd) => {
+      mesh.userData.phase = Math.random() * 12;
+      mesh.userData.windAmp = amp;
+      mesh.userData.windSpeed = spd;
+      this.windObjects.push(mesh);
+    };
+    const tree = (x, z, s = 1) => {
+      const g = new THREE.Group();
+      const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.07 * s, 0.11 * s, 0.7 * s, 6), makeMat(0x5a3a22, { roughness: 0.9 }));
+      trunk.position.y = 0.35 * s; trunk.castShadow = true; g.add(trunk);
+      [[0.85, 0.42, 0x1a6b38], [1.15, 0.32, 0x228a48], [1.4, 0.22, 0x2aaa58]].forEach(([y, r, c]) => {
+        const leaf = new THREE.Mesh(new THREE.IcosahedronGeometry(r * s, 0), makeMat(c, { roughness: 0.85, flat: true }));
+        leaf.position.y = y * s; leaf.castShadow = true; g.add(leaf); addWind(leaf, 0.05, 1.2 + Math.random());
+      });
+      g.position.set(x, 0, z);
+      this.root.add(g);
+    };
+    const flower = (x, z, col) => {
+      const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.016, 0.18, 5), makeMat(0x2d7a3a));
+      stem.position.set(x, 0.12, z); this.root.add(stem); addWind(stem, 0.12, 2.2);
+      const bloom = new THREE.Mesh(new THREE.SphereGeometry(0.05, 8, 6), makeMat(col, { emissive: col, emissiveIntensity: 0.25 }));
+      bloom.position.set(x, 0.22, z); this.root.add(bloom); addWind(bloom, 0.1, 2.2);
+    };
+    const grass = (x, z) => {
+      const b = new THREE.Mesh(new THREE.ConeGeometry(0.03, 0.16 + Math.random() * 0.1, 4), makeMat(0x2f9a4a, { roughness: 0.9 }));
+      b.position.set(x, 0.1, z); this.root.add(b); addWind(b, 0.18, 2.6);
+    };
+    [[-11, -8, 1.4], [11, -7, 1.2], [-10, 8, 1.3], [10, 9, 1.5], [-8, -11, 1.1], [8, 12, 1.25],
+      [-13, 2, 1.6], [13, -2, 1.4], [-6, 13, 0.9], [6, -13, 1.0], [-12, -4, 1.2], [12, 5, 1.1],
+      [-9, 11, 1.15], [9, -10, 1.05], [-14, 6, 1.7], [14, -6, 1.45]].forEach(([x, z, s]) => tree(x, z, s));
+    for (let i = 0; i < 16; i++) {
+      const a = (i / 16) * Math.PI * 2 + 0.18;
+      const r = 16.5 + (i % 3) * 1.4;
+      const h = 2.2 + (i % 5) * 0.9;
+      const m = new THREE.Mesh(new THREE.ConeGeometry(1.3 + (i % 3) * 0.35, h, 6), makeMat(i % 2 ? 0x3a4a40 : 0x4a5a4c, { flat: true, roughness: 1 }));
+      m.position.set(Math.cos(a) * r, h * 0.42, Math.sin(a) * r);
+      this.root.add(m);
+    }
+    [[7.4, 7.4], [7.4, -7.4], [-7.4, 7.4], [-7.4, -7.4]].forEach(([x, z], i) => {
+      const river = new THREE.Mesh(
+        new THREE.BoxGeometry(5.2, 0.07, 1.15),
+        makeMat(0x1a6a88, { metalness: 0.45, roughness: 0.18, transparent: true, opacity: 0.82, emissive: 0x0a3a55, emissiveIntensity: 0.4 })
+      );
+      river.position.set(x, -0.01, z);
+      river.rotation.y = Math.PI / 4 * (i % 2 === 0 ? 1 : -1);
+      this.root.add(river);
+      this.rivers.push(river);
+      for (let k = 0; k < 10; k++) {
+        grass(x + (Math.random() - 0.5) * 3, z + (Math.random() - 0.5) * 3);
+        if (k % 2 === 0) flower(x + (Math.random() - 0.5) * 3.2, z + (Math.random() - 0.5) * 3.2, [0xe05080, 0xf0d040, 0xee6622, 0x66ccff][k % 4]);
+      }
+    });
+    for (let i = 0; i < 40; i++) {
+      const a = Math.random() * Math.PI * 2;
+      const r = 9.5 + Math.random() * 4.5;
+      grass(Math.cos(a) * r, Math.sin(a) * r);
+    }
+    for (let i = 0; i < 10; i++) {
+      const a = Math.random() * Math.PI * 2;
+      const r = 10 + Math.random() * 5;
+      const rock = new THREE.Mesh(new THREE.DodecahedronGeometry(0.18 + Math.random() * 0.22, 0), makeMat(0x5a6058, { roughness: 1, flat: true }));
+      rock.position.set(Math.cos(a) * r, 0.12, Math.sin(a) * r);
+      rock.rotation.set(Math.random(), Math.random(), Math.random());
+      this.root.add(rock);
+    }
+    const cloudMat = makeMat(0xdde8e0, { transparent: true, opacity: 0.55, roughness: 1 });
+    for (let i = 0; i < 7; i++) {
+      const g = new THREE.Group();
+      for (let k = 0; k < 4; k++) {
+        const s = new THREE.Mesh(new THREE.SphereGeometry(0.55 + Math.random() * 0.4, 8, 6), cloudMat);
+        s.position.set((k - 1.4) * 0.7, Math.random() * 0.2, (Math.random() - 0.5) * 0.5);
+        g.add(s);
+      }
+      const ang = (i / 7) * Math.PI * 2;
+      g.position.set(Math.cos(ang) * 14, 5.2 + (i % 3) * 0.6, Math.sin(ang) * 14);
+      this.root.add(g);
+      this.clouds.push({ mesh: g, a: ang, r: 13.5 + (i % 3), y: g.position.y, spd: 0.05 + i * 0.01 });
+    }
+    [[-12, -12], [12, 12], [-12, 12], [12, -12]].forEach(([x, z]) => {
+      const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.05, 1.6, 6), makeMat(0x6a5230));
+      pole.position.set(x, 0.8, z); this.root.add(pole);
+      const flag = new THREE.Mesh(new THREE.BoxGeometry(0.7, 0.38, 0.03), makeMat(0xc4392b, { emissive: 0x661010, emissiveIntensity: 0.2 }));
+      flag.position.set(x + 0.35, 1.4, z); this.root.add(flag); addWind(flag, 0.22, 2.8);
+    });
+    for (let i = 0; i < 4; i++) {
+      const a = i * Math.PI / 2 + 0.4;
+      const sm = new THREE.Mesh(new THREE.SphereGeometry(0.16, 8, 6), makeMat(0x889988, { transparent: true, opacity: 0.35 }));
+      sm.position.set(Math.cos(a) * 11.2, 0.5, Math.sin(a) * 11.2);
+      this.root.add(sm);
+      this.smoke.push(sm);
+    }
+  }
+  setMatch(active) {
+    const live = {};
+    for (const s of active) live[s] = true;
+    for (const n of BOARD.list) {
+      const tile = this.tileById[n.id];
+      if (!tile) continue;
+      const hex = tile.userData.baseHex;
+      if (n.seat && !live[n.seat]) tile.material.color.setHex(hex).multiplyScalar(0.38);
+      else tile.material.color.setHex(hex);
+    }
+    for (const seat of SEATS) {
+      if (!this.wildGroups[seat]) {
+        const g = new THREE.Group();
+        for (let c = 0; c < 5; c++) {
+          const n = BOARD.nodes[homeId(seat, 0, c)];
+          if (!n) continue;
+          const bush = new THREE.Mesh(new THREE.IcosahedronGeometry(0.22 + (c % 2) * 0.08, 0), makeMat(0x1f6a34, { flat: true, roughness: 0.9 }));
+          bush.position.set(n.wx, 0.22, n.wz);
+          bush.userData.phase = c + SEATS.indexOf(seat);
+          bush.userData.windAmp = 0.06;
+          bush.userData.windSpeed = 1.4;
+          g.add(bush);
+          this.windObjects.push(bush);
+        }
+        this.root.add(g);
+        this.wildGroups[seat] = g;
+      }
+      this.wildGroups[seat].visible = !live[seat];
+    }
+  }
+  _fireShell() {
+    const ang = Math.random() * Math.PI * 2;
+    const rad = 11.8 + Math.random() * 3.4;
+    const tx = Math.cos(ang) * rad, tz = Math.sin(ang) * rad;
+    const sx = tx + (Math.random() - 0.5) * 8;
+    const sz = tz + (Math.random() - 0.5) * 8;
+    const mesh = new THREE.Mesh(new THREE.SphereGeometry(0.09, 7, 6), makeMat(0x2a1a12, { emissive: 0xff3300, emissiveIntensity: 0.9 }));
+    mesh.position.set(sx, 5.2, sz);
+    this.fxGroup.add(mesh);
+    this.shells.push({ mesh, sx, sy: 5.2, sz, tx, ty: 0.15, tz, t: 0, dur: 0.85 + Math.random() * 0.25 });
   }
   _bindOrbit() {
     const c = this.canvas;
@@ -1132,8 +1321,16 @@ class BoardView {
     const rect = this.canvas.getBoundingClientRect();
     this.ptr.set(((x - rect.left) / rect.width) * 2 - 1, -((y - rect.top) / rect.height) * 2 + 1);
     this.ray.setFromCamera(this.ptr, this.camera);
-    const hit = this.ray.intersectObjects(this.hitMeshes, false)[0];
-    return hit && hit.object.userData.nodeId;
+    const objs = this.hitMeshes.concat(this.pieceGroup.children);
+    const hits = this.ray.intersectObjects(objs, true);
+    for (const h of hits) {
+      let o = h.object;
+      while (o) {
+        if (o.userData && o.userData.nodeId) return o.userData.nodeId;
+        o = o.parent;
+      }
+    }
+    return null;
   }
   clearHints() {
     for (const m of this.hintMeshes) { this.root.remove(m); m.geometry.dispose(); }
@@ -1145,11 +1342,11 @@ class BoardView {
       const n = BOARD.nodes[m.to];
       const cap = !!pieces[m.to];
       const ring = new THREE.Mesh(
-        new THREE.TorusGeometry(0.28, 0.035, 8, 20),
-        makeMat(cap ? 0xff5533 : 0xffee66, { emissive: cap ? 0xff2200 : 0xccaa00, emissiveIntensity: 0.7 })
+        new THREE.TorusGeometry(0.32, 0.045, 8, 24),
+        makeMat(cap ? 0xff5533 : 0xffee66, { emissive: cap ? 0xff2200 : 0xccaa00, emissiveIntensity: 0.95 })
       );
       ring.rotation.x = Math.PI / 2;
-      ring.position.set(n.wx, 0.22, n.wz);
+      ring.position.set(n.wx, 0.28, n.wz);
       this.root.add(ring);
       this.hintMeshes.push(ring);
     }
@@ -1188,6 +1385,7 @@ class BoardView {
         this.pieceMap.set(key, rec);
       }
       rec.nodeId = nodeId;
+      rec.group.userData.nodeId = nodeId;
       rec.group.position.set(n.wx, rec.baseY, n.wz);
       rec.group.rotation.y = { S: Math.PI, N: 0, E: -Math.PI / 2, W: Math.PI / 2 }[p.seat] || 0;
       rec.group.visible = true;
@@ -1312,6 +1510,45 @@ class BoardView {
     });
   }
   update(dt) {
+    this.decorTime += dt;
+    for (const o of this.windObjects) {
+      o.rotation.z = Math.sin(this.decorTime * (o.userData.windSpeed || 1.5) + o.userData.phase) * (o.userData.windAmp || 0.06);
+    }
+    for (const r of this.rivers) {
+      r.material.emissiveIntensity = 0.32 + Math.sin(this.decorTime * 1.6) * 0.12;
+    }
+    for (const c of this.clouds) {
+      c.a += dt * c.spd;
+      c.mesh.position.set(Math.cos(c.a) * c.r, c.y, Math.sin(c.a) * c.r);
+    }
+    for (const s of this.smoke) {
+      s.position.y = 0.45 + Math.sin(this.decorTime * 1.3 + s.position.x) * 0.12;
+      s.material.opacity = 0.22 + Math.sin(this.decorTime * 2 + s.position.z) * 0.1;
+      s.scale.setScalar(1 + Math.sin(this.decorTime + s.position.x) * 0.25);
+    }
+    this.artilleryT -= dt;
+    if (gameStarted && this.artilleryT <= 0) {
+      this.artilleryT = 3.8 + Math.random() * 5.5;
+      this._fireShell();
+    }
+    for (const sh of this.shells) {
+      sh.t += dt;
+      const u = Math.min(1, sh.t / sh.dur);
+      sh.mesh.position.set(
+        sh.sx + (sh.tx - sh.sx) * u,
+        sh.sy + (sh.ty - sh.sy) * u + Math.sin(u * Math.PI) * 3.4,
+        sh.sz + (sh.tz - sh.sz) * u
+      );
+      if (u >= 1 && !sh.boom) {
+        sh.boom = true;
+        this.fxGroup.remove(sh.mesh);
+        this.spawnFireball(sh.tx, sh.tz, 0xff5522, 0.4);
+        this.spawnBurst(sh.tx, sh.tz, 0xff8844, 12, 2.6, 0.45, 'box');
+        this.spawnShock(sh.tx, sh.tz, 0xff4400, 6, 0.32);
+        this.shake = Math.max(this.shake, 0.1);
+      }
+    }
+    this.shells = this.shells.filter(sh => !sh.boom);
     for (const rec of this.pieceMap.values()) {
       rec.group.traverse(ch => {
         if (ch.userData.isLabel) ch.lookAt(this.camera.position);
@@ -1462,17 +1699,35 @@ function closeOverlays() {
 
 function applyPreset(p) {
   settings.preset = p;
-  if (p === '1v3') settings.controller = { S: 'human', E: 'ai', N: 'ai', W: 'ai' };
-  else if (p === 'hotseat') settings.controller = { S: 'human', E: 'human', N: 'human', W: 'human' };
-  else if (p === '2v2sn') settings.controller = { S: 'human', E: 'ai', N: 'human', W: 'ai' };
-  else if (p === '2v2se') settings.controller = { S: 'human', E: 'human', N: 'ai', W: 'ai' };
+  if (p === '1v1') {
+    match.active = ['S', 'N']; match.ffa = true;
+    settings.controller = { S: 'human', E: 'ai', N: 'ai', W: 'ai' };
+  } else if (p === '1v1hot') {
+    match.active = ['S', 'N']; match.ffa = true;
+    settings.controller = { S: 'human', E: 'ai', N: 'human', W: 'ai' };
+  } else if (p === '3ffa') {
+    match.active = ['S', 'E', 'N']; match.ffa = true;
+    settings.controller = { S: 'human', E: 'ai', N: 'ai', W: 'ai' };
+  } else if (p === '1v3') {
+    match.active = ['S', 'E', 'N', 'W']; match.ffa = false;
+    settings.controller = { S: 'human', E: 'ai', N: 'ai', W: 'ai' };
+  } else if (p === 'hotseat') {
+    match.active = ['S', 'E', 'N', 'W']; match.ffa = false;
+    settings.controller = { S: 'human', E: 'human', N: 'human', W: 'human' };
+  } else if (p === '2v2sn') {
+    match.active = ['S', 'E', 'N', 'W']; match.ffa = false;
+    settings.controller = { S: 'human', E: 'ai', N: 'human', W: 'ai' };
+  } else if (p === '2v2se') {
+    match.active = ['S', 'E', 'N', 'W']; match.ffa = false;
+    settings.controller = { S: 'human', E: 'human', N: 'ai', W: 'ai' };
+  }
   renderSeatFields();
 }
 
 function renderSeatFields() {
   const host = document.getElementById('seatFields');
   host.innerHTML = '';
-  for (const s of SEATS) {
+  for (const s of match.active) {
     const d = document.createElement('div');
     d.className = 'choice' + (settings.controller[s] === 'human' ? ' active' : '');
     d.dataset.seat = s;
@@ -1507,17 +1762,17 @@ wireChoices('layoutChoices', 'data-layout', 'layout');
 wireChoices('diffChoices', 'data-diff', 'difficulty');
 
 function isHuman(seat) { return settings.controller[seat] === 'human'; }
-function isPlayerTurn() { return gameStarted && !state.winnerTeam && isHuman(state.toMove); }
+function isPlayerTurn() { return gameStarted && !state.winnerTeam && seatLive(state.toMove) && isHuman(state.toMove); }
 
 function updateHUD() {
   const info = SEAT_INFO[state.toMove];
   el.turnDot.style.background = info.hex;
   el.turnText.textContent = state.winnerTeam
-    ? (TEAM_NAME[state.winnerTeam] + ' 胜利')
+    ? (winnerLabel(state.winnerTeam) + ' 胜利')
     : (gameStarted ? (info.name + (isHuman(state.toMove) ? ' 行动' : '（电脑）')) : '准备开局');
-  el.modePill.textContent = ({ open: '明棋', dark: '暗棋', semi: '半明棋' })[settings.variant];
+  el.modePill.textContent = ({ open: '明棋', dark: '暗棋', semi: '半明棋' })[settings.variant] + (match.ffa ? ' · 混战' : '');
   el.seatChips.innerHTML = '';
-  for (const s of SEATS) {
+  for (const s of match.active) {
     const sp = document.createElement('span');
     sp.className = 'seat-chip' + (s === state.toMove && gameStarted ? ' turn' : '') + (state.eliminated[s] ? ' dead' : '');
     sp.innerHTML = '<span class="dot" style="background:' + SEAT_INFO[s].hex + '"></span>' + SEAT_INFO[s].name + (isHuman(s) ? '人' : '机');
@@ -1537,11 +1792,12 @@ function refreshView() {
 
 function startFromLayouts(layouts) {
   const full = {};
-  for (const s of SEATS) full[s] = layouts[s] || defaultGrid();
+  for (const s of match.active) full[s] = layouts[s] || defaultGrid();
   state.reset(full);
   selected = null; inputLocked = false; gameStarted = true;
   closeOverlays();
-  viewAs = SEATS.find(s => isHuman(s)) || 'S';
+  view.setMatch(match.active);
+  viewAs = match.active.find(s => isHuman(s)) || match.active[0];
   view.lookSeat(viewAs, true);
   refreshView();
   maybeAI();
@@ -1549,12 +1805,12 @@ function startFromLayouts(layouts) {
 
 function beginStart() {
   pendingLayouts = {};
-  for (const s of SEATS) {
+  for (const s of match.active) {
     if (settings.layout === 'manual' && isHuman(s)) continue;
     pendingLayouts[s] = settings.layout === 'random' ? randomGrid() : defaultGrid();
   }
   if (settings.layout === 'manual') {
-    const first = SEATS.find(s => isHuman(s));
+    const first = match.active.find(s => isHuman(s));
     if (first) { openLayout(first); return; }
   }
   startFromLayouts(pendingLayouts);
@@ -1610,7 +1866,7 @@ function finishLayoutSeat() {
   const err = layoutError(layoutGrid);
   if (err) { toast(err); return; }
   pendingLayouts[layoutSeat] = cloneGrid(layoutGrid);
-  const next = SEATS.find(s => isHuman(s) && !pendingLayouts[s]);
+  const next = match.active.find(s => isHuman(s) && !pendingLayouts[s]);
   if (next) openLayout(next);
   else startFromLayouts(pendingLayouts);
 }
@@ -1632,7 +1888,7 @@ function afterMoveVisual(info) {
     updateHUD();
     if (state.winnerTeam) {
       AudioFX.win();
-      document.getElementById('winTitle').textContent = TEAM_NAME[state.winnerTeam] + ' 胜利';
+      document.getElementById('winTitle').textContent = winnerLabel(state.winnerTeam) + ' 胜利';
       document.getElementById('winReason').textContent = state.winReason;
       openOverlay('win');
     } else maybeAI();
@@ -1647,7 +1903,12 @@ function tryMove(to) {
     const p = state.pieces[to];
     if (p && p.seat === state.toMove) { selectCell(to); return; }
     AudioFX.illegal();
-    toast('不能这样走');
+    const fromP = state.pieces[selected];
+    const n = BOARD.nodes[to];
+    if (p && fromP && allies(fromP.seat, p.seat)) toast('不能攻击友军');
+    else if (p && n && n.terrain === 'camp') toast('行营内的棋子不能被吃');
+    else if (fromP && fromP.type === 'bomb' && p && p.type === 'mine') toast('炸弹不能炸地雷');
+    else toast('只能走到高亮格（公路一格 / 行营斜走 / 铁路直线）');
     return;
   }
   afterMoveVisual(info);
