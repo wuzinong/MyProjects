@@ -55,7 +55,7 @@
     "redux-thunk": "^2.2.0",
     "rimraf": "^2.6.2",
     "sass-loader": "^6.0.6",
-    "shelljs": "^0.8.1",
+    "shelljs": "^0.8.5",
     "style-loader": "^0.20.1",
     "url-loader": "^0.6.2",
     "webpack": "^3.11.0",
