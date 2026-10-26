@@ -13,6 +13,8 @@
     "expansion": "node tests/expansion.mjs",
     "scenery": "node tests/scenery.mjs",
     "world": "node tests/world.mjs",
+    "heroes": "node tests/heroes.mjs",
+    "library": "node tests/library.mjs",
     "format": "prettier --write src scripts tests *.json *.js",
     "format:check": "prettier --check src scripts tests *.json *.js"
   },

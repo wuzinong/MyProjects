@@ -6,6 +6,7 @@ import { choose } from '../src/ai/strategy.js';
 import { SKILLS } from '../src/data/skills.js';
 import { skillTargets } from '../src/core/combat.js';
 import { HOUSE_SUPPLY, PALACE_SUPPLY } from '../src/data/game.js';
+import { makeFighter } from '../src/core/progression.js';
 const game = () =>
   createGame(
     [
@@ -133,7 +134,7 @@ test('v1 saves explicitly migrate player scenery regions without changing money'
   });
   root.state.players[0].pos = 7;
   const s = deserialize(JSON.stringify(root));
-  assert.equal(s.version, 3);
+  assert.equal(s.version, 4);
   assert.equal(s.players[0].region, 1);
   assert.equal(s.players[0].cash, 1500);
   assert.deepEqual(deserialize(serialize(s)), s);
@@ -151,7 +152,7 @@ test('special tiles retain last region while actual city landings update it', ()
 });
 function combat(id = 0) {
   let s = game();
-  const general = (id, guard = -1) => ({ id, level: 1, injury: 0, guard, gear: Array(6).fill(null) });
+  const general = (id, guard = -1) => ({ ...makeFighter(id), guard });
   s.players[0].generals = [id, (id + 1) % 40, (id + 2) % 40].map((i) => general(i));
   s.players[1].generals = [13, 14, 15].map((i) => general(i, 1));
   s.assets[1].owner = 1;
@@ -169,7 +170,7 @@ function combat(id = 0) {
   s.battle.units[0].cooldown = 0;
   return s;
 }
-for (let id = 0; id < 40; id++) {
+for (let id = 0; id < SKILLS.length; id++) {
   test(`unique skill ${id}: ${SKILLS[id].name} changes combat and survives save recovery`, () => {
     let s = combat(id);
     const skill = SKILLS[id],

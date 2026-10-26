@@ -13,18 +13,34 @@ import {
   BUILDING_NAMES,
   SHOP_CHANCE,
   SHOP_PRICES,
+  ITEMS,
+  QUALITY,
 } from '../data/game.js';
-import { skillFor } from '../data/skills.js';
+import { skillFor, skillById } from '../data/skills.js';
+import { MAX_LEVEL, TITLES, RELICS, LOOT_RATES, trainingExperience } from '../data/progression.js';
+import {
+  fighters,
+  fighter,
+  fighterName,
+  fighterTroop,
+  makeFighter,
+  equippedSkills,
+  unlockedSkills,
+  gainExperience,
+  relicFor,
+  validateProgression,
+} from './progression.js';
 import { damage, hit, resolveSkill, tickStatuses } from './combat.js';
 
-/** @typedef {{id:number, level:number, injury:number, guard:number, gear:(number|null)[]}} General */
+/** @typedef {{id:number, level:number, xp:number, injury:number, guard:number, gear:(number|null)[],loadout:number[],manual:number,relic:number|null,title:number}} General */
 /** @typedef {{id:number, slot:number, quality:number}} Gear */
 /** @typedef {{id:number,lord:number,ai:boolean,name:string,cash:number,pos:number,out:boolean,jail:number,escape:number,
  * food:number,material:number,pity:number,generals:General[],items:Gear[],cards:number[],siegeRound:number,
- * shield:number,discount:boolean,usedCards:number,completed:number,tradeRound:number,allianceRound:number,region:number}} Player */
+ * shield:number,discount:boolean,usedCards:number,completed:number,tradeRound:number,allianceRound:number,region:number,
+ * hero:General|null,manuals:number[],relics:{id:number,type:number}[],loot:{round:number,source:string,kind:string,name:string,id:number}[]}} Player */
 /** @typedef {{owner:number,level:number,mortgaged:boolean}} Asset */
 /** @typedef {{kind:string,power:number,turns:number}} Status */
-/** @typedef {{id:number,side:number,gid:number,name:string,troop:string,hp:number,max:number,atk:number,def:number,speed:number,cooldown:number,shield:number,statuses:Status[]}} Unit */
+/** @typedef {{id:number,side:number,gid:number,name:string,troop:string,hp:number,max:number,atk:number,def:number,speed:number,cooldown:number,shield:number,statuses:Status[],skills:number[],cooldowns:number[],regen:number}} Unit */
 /** @typedef {{actor:number,kind:string,skillId:number,units:{id:number,hp:number,shield:number}[]}} CombatEvent */
 /** @typedef {{city:number,attacker:number,defender:number,round:number,units:Unit[],order:number[],cursor:number,cardUsed:boolean,log:string[]}} Battle */
 /** @typedef {{debtor?:number,creditor?:number,amount?:number,after?:string,data?:Decision,tile?:number,
@@ -34,7 +50,8 @@ import { damage, hit, resolveSkill, tickStatuses } from './combat.js';
 /** @typedef {{version:number,seed:number,enhanced:boolean,players:Player[],assets:Asset[],turn:number,round:number,
  * phase:string,decision:Decision,dice:number[],doubles:number,extra:boolean,log:string[],sequence:number,
  * houses:number,palaces:number,alliances:{a:number,b:number,expires:number}[],battle:Battle|null,
- * nextItem:number,auctionQueue:number[],auctionReturn:string,eventDeck:number[],eventCursor:number,combatEvent:CombatEvent|null}} State */
+ * nextItem:number,auctionQueue:number[],auctionReturn:string,eventDeck:number[],eventCursor:number,combatEvent:CombatEvent|null,
+ * reports:{round:number,city:number,attacker:number,defender:number,win:boolean,entries:{owner:number,gid:number,name:string,xp:number,from:number,to:number,unlocked:string[]}[],loot:string[]}[]}} State */
 
 export function ensure(condition, text) {
   if (!condition) throw Error(text);
@@ -64,7 +81,7 @@ function integer(n, min = 0, max = 10000000) {
   return n;
 }
 function makeGeneral(id) {
-  return { id, level: 1, injury: 0, guard: -1, gear: Array(6).fill(null) };
+  return makeFighter(id);
 }
 
 /** @param {{lord:number,ai:boolean}[]} seats
@@ -98,6 +115,10 @@ export function createGame(seats, enhanced = true, seed = Date.now() >>> 0) {
     tradeRound: 0,
     allianceRound: 0,
     region: 0,
+    hero: enhanced ? makeFighter(-1, 1, p.lord) : null,
+    manuals: [],
+    relics: [],
+    loot: [],
   }));
   const s = {
     version: VERSION,
@@ -119,6 +140,7 @@ export function createGame(seats, enhanced = true, seed = Date.now() >>> 0) {
     alliances: [],
     battle: null,
     combatEvent: null,
+    reports: [],
     nextItem: 1,
     auctionQueue: [],
     auctionReturn: 'end',
@@ -242,7 +264,7 @@ function land(s) {
       } else phase(s, 'event', { tile: t.id });
     } else classicEvent(s);
   } else if (t.kind === 'rest' && s.enhanced) {
-    p.generals.forEach((g) => {
+    fighters(p).forEach((g) => {
       g.injury = 0;
     });
     note(s, '休整：麾下武将全部恢复。');
@@ -278,7 +300,7 @@ function nextTurn(s) {
     return;
   }
   p.completed++;
-  p.generals.forEach((g) => {
+  fighters(p).forEach((g) => {
     if (g.injury > 0) g.injury--;
   });
   let next = s.turn;
@@ -536,6 +558,36 @@ export function gainGear(s, p) {
   p.items.push(item);
   return item;
 }
+export function awardLoot(s, p, kind, source) {
+  ensure(s.enhanced && Object.hasOwn(LOOT_RATES, kind), '当前不能结算战利品');
+  const rates = LOOT_RATES[kind];
+  if (random(s) >= rates.chance) return null;
+  const roll = random(s);
+  let reward;
+  if (roll < rates.manual) {
+    const id = Math.floor(random(s) * 6),
+      name = skillById(300 + id).name;
+    if (p.manuals.includes(id)) {
+      p.material += 5;
+      reward = { kind: 'material', id, name: `${name}已学习，转为5份材料` };
+    } else {
+      p.manuals.push(id);
+      reward = { kind: 'manual', id, name: `${name}（已学习）` };
+    }
+  } else if (roll < rates.manual + rates.gear) {
+    const item = gainGear(s, p);
+    reward = { kind: 'gear', id: item.id, name: `${QUALITY[item.quality]}·${ITEMS[item.slot]}` };
+  } else {
+    const item = { id: s.nextItem++, type: Math.floor(random(s) * RELICS.length) };
+    p.relics.push(item);
+    reward = { kind: 'relic', id: item.id, name: RELICS[item.type].name };
+  }
+  const record = { round: s.round, source, ...reward };
+  p.loot.push(record);
+  if (p.loot.length > 80) p.loot.shift();
+  note(s, `${p.name}在${source}获得${reward.name}。`);
+  return record;
+}
 export function recruit(s, p, free = false) {
   const cost = p.lord === 0 ? 80 : 100;
   ensure(free || p.cash >= cost, '招募金币不足');
@@ -555,7 +607,7 @@ export function recruit(s, p, free = false) {
   return g.id;
 }
 export function stats(p, g) {
-  const base = GENERALS[g.id],
+  const base = g.id === -1 ? { hp: 155, atk: 39, def: 16, speed: 15 + (p.lord % 4) } : GENERALS[g.id],
     result = {
       hp: base.hp + (g.level - 1) * 14,
       atk: base.atk + (g.level - 1) * 3,
@@ -571,6 +623,10 @@ export function stats(p, g) {
     else if (slot === 5) result.speed += n * 2;
     else result.def += n * 3;
   });
+  for (const extra of [TITLES[g.title], relicFor(p, g)]) {
+    if (!extra) continue;
+    for (const key of ['hp', 'atk', 'def', 'speed']) result[key] += extra[key] || 0;
+  }
   return result;
 }
 export function readyGenerals(p) {
@@ -584,7 +640,7 @@ export function siegeReason(s, p, id) {
   if (allies(s, p.id, a.owner)) return '盟约期间不得攻城';
   if (p.siegeRound === s.round) return '本轮已出征';
   if (p.food < 20) return '至少需要20粮';
-  if (!readyGenerals(p).length) return '没有可出征的武将';
+  if (!readyGenerals(p).length && (!p.hero || p.hero.injury)) return '没有可出征的主公或武将';
   return '';
 }
 function makeUnits(p, generals, side) {
@@ -600,29 +656,37 @@ function makeUnits(p, generals, side) {
     return {
       id: side * 10 + index,
       side,
-      gid: g.id,
-      name: GENERALS[g.id].name,
-      troop: GENERALS[g.id].troop,
+      gid: g.id === -1 ? -3 : g.id,
+      name: fighterName(p, g),
+      troop: fighterTroop(p, g),
       hp: stat.hp,
       max: stat.hp,
       atk: stat.atk,
       def: stat.def,
       speed: stat.speed,
       cooldown: 0,
-      shield: 0,
+      shield: relicFor(p, g)?.shield || 0,
       statuses: [],
+      skills: equippedSkills(g),
+      cooldowns: equippedSkills(g).map(() => 0),
+      regen: relicFor(p, g)?.regen || 0,
     };
   });
 }
-function beginBattle(s, ids) {
+function beginBattle(s, ids, withHero = false) {
   const p = active(s),
     id = s.decision.tile,
     a = s.assets[id];
   ensure(!siegeReason(s, p, id), siegeReason(s, p, id));
   ensure(
-    Array.isArray(ids) && ids.length >= 1 && ids.length <= 3 && new Set(ids).size === ids.length,
-    '出征需选择1–3名不同武将',
+    typeof withHero === 'boolean' &&
+      Array.isArray(ids) &&
+      ids.length >= (withHero ? 0 : 1) &&
+      ids.length <= 3 &&
+      new Set(ids).size === ids.length,
+    '出征需选择主公或1–3名不同武将',
   );
+  ensure(!withHero || (p.hero && p.hero.injury === 0), '主公正在负伤，不能亲征');
   const generals = ids.map((id) => p.generals.find((g) => g.id === id));
   ensure(
     generals.every((g) => g && g.injury === 0 && g.guard < 0),
@@ -646,7 +710,17 @@ function beginBattle(s, ids) {
       cooldown: 0,
       shield: 0,
       statuses: [],
+      skills: [-1],
+      cooldowns: [0],
+      regen: 0,
     });
+  const addHero = (owner, side) => {
+    const unit = makeUnits(owner, [owner.hero], side)[0];
+    unit.id = side * 10 + 3;
+    units.push(unit);
+  };
+  if (withHero) addHero(p, 0);
+  if (defender.pos === id && defender.hero?.injury === 0) addHero(defender, 1);
   units.push({
     id: 19,
     side: 1,
@@ -661,6 +735,9 @@ function beginBattle(s, ids) {
     cooldown: 0,
     shield: 0,
     statuses: [],
+    skills: [],
+    cooldowns: [],
+    regen: 0,
   });
   p.food -= 20;
   p.siegeRound = s.round;
@@ -688,12 +765,39 @@ function finishBattle(s, win) {
     def = s.players[b.defender],
     loser = win ? def : att;
   b.units
-    .filter((u) => u.side === (win ? 1 : 0) && u.gid >= 0)
+    .filter((u) => u.side === (win ? 1 : 0) && (u.gid >= 0 || u.gid === -3))
     .forEach((u) => {
-      const g = loser.generals.find((g) => g.id === u.gid);
+      const g = fighter(loser, u.gid === -3 ? -1 : u.gid);
       g.injury = loser.id === s.turn ? 2 : 1;
       g.guard = -1;
     });
+  const report = {
+    round: s.round,
+    city: b.city,
+    attacker: att.id,
+    defender: def.id,
+    win,
+    entries: [],
+    loot: [],
+  };
+  for (const u of b.units) {
+    if (u.gid < 0 && u.gid !== -3) continue;
+    const owner = u.side === 0 ? att : def;
+    const g = fighter(owner, u.gid === -3 ? -1 : u.gid);
+    const won = u.side === (win ? 0 : 1);
+    const reward = (won ? 120 : 65) + s.assets[b.city].level * (won ? 25 : 15);
+    const entry = gainExperience(owner, g, reward);
+    report.entries.push(entry);
+    note(
+      s,
+      `${entry.name}获得${entry.xp}经验${entry.to > entry.from ? `，升至${entry.to}级` : ''}${entry.unlocked.length ? `，解锁${entry.unlocked.join('、')}` : ''}。`,
+    );
+  }
+  s.reports.push(report);
+  if (s.reports.length > 20) s.reports.shift();
+  const winner = win ? att : def;
+  const loot = awardLoot(s, winner, 'victory', `${MAP[b.city].name}·${win ? '攻城' : '守城'}胜利`);
+  if (loot) report.loot.push(`${winner.name}：${loot.name}`);
   if (win) {
     s.assets[b.city].owner = att.id;
     def.generals
@@ -762,9 +866,12 @@ function battleAction(s, c) {
     checkBattle(s);
     return;
   }
-  const ability = skillFor(u),
+  const selectedSkill = c.skill ?? u.skills[0],
+    ability = skillFor(u, selectedSkill),
     special = c.type === 'skill';
-  ensure(!special || u.cooldown === 0, '技能尚在冷却');
+  const slot = u.skills.indexOf(selectedSkill);
+  ensure(!special || (slot >= 0 && ability), '未装备此技能');
+  ensure(!special || (slot === 0 ? u.cooldown : u.cooldowns[slot]) === 0, '技能尚在冷却');
   ensure(!special || !u.statuses.some((x) => x.kind === 'silence'), '封技期间不能施放技能');
   if (special) {
     resolveSkill(b, u, target, ability, () => random(s));
@@ -772,9 +879,11 @@ function battleAction(s, c) {
     ensure(target && target.hp > 0 && target.side !== u.side, '请选择存活敌军');
     hit(b, u, target, () => random(s));
   }
-  if (special) u.cooldown = ability.cooldown;
-  else u.cooldown = Math.max(0, u.cooldown - 1);
+  u.cooldowns[0] = u.cooldown;
+  u.cooldowns = u.cooldowns.map((n, i) => (special && i === slot ? ability.cooldown : Math.max(0, n - 1)));
+  u.cooldown = u.cooldowns[0];
   tickStatuses(b, u, ticking);
+  if (u.hp > 0) u.hp = Math.min(u.max, u.hp + u.regen);
   if (checkBattle(s)) return;
   do {
     b.cursor++;
@@ -804,7 +913,7 @@ function useCard(s, c) {
   if (effect === 'recruit') recruit(s, p, true);
   if (effect === 'gear') gainGear(s, p);
   if (effect === 'heal')
-    p.generals.forEach((g) => {
+    fighters(p).forEach((g) => {
       g.injury = 0;
     });
   if (effect === 'discount') p.discount = true;
@@ -830,7 +939,7 @@ function guard(s, p, c) {
 /** Apply a command atomically. Rejected commands never mutate the caller's state.
  * @param {State} original
  * @param {{type:string,action?:string,tile?:number,amount?:number,card?:boolean,index?:number,
- * offer?:Trade,target?:number,choice?:string,generals?:number[],general?:number,slot?:number,item?:number|null}} c
+ * offer?:Trade,target?:number,choice?:string,generals?:number[],general?:number,slot?:number,item?:number|null,hero?:boolean,skill?:number}} c
  * @returns {State}
  */
 export function command(original, c) {
@@ -967,6 +1076,7 @@ export function command(original, c) {
       p.food += 30;
     } else if (c.choice === 'classic') classicEvent(s);
     else throw Error('未知事件选项');
+    if (s.enhanced) awardLoot(s, p, 'encounter', `${MAP[tile].name}·奇遇`);
   } else if (c.type === 'discard') {
     ensure(s.phase === 'discard', '无需弃牌');
     integer(c.index, 0, p.cards.length - 1);
@@ -974,7 +1084,7 @@ export function command(original, c) {
     if (p.cards.length <= 8) phase(s, s.decision.resume, s.decision.data);
   } else if (c.type === 'siege') {
     ensure(s.phase === 'rent', '只有抵达敌城时可攻城');
-    beginBattle(s, c.generals);
+    beginBattle(s, c.generals, c.hero);
   } else if (['attack', 'skill', 'battleCard'].includes(c.type)) {
     ensure(s.phase === 'battle', '当前不在战斗');
     const resolved = s.battle,
@@ -983,7 +1093,7 @@ export function command(original, c) {
     s.combatEvent = {
       actor: unit.id,
       kind: c.type,
-      skillId: unit.gid,
+      skillId: c.type === 'skill' ? (c.skill ?? unit.skills[0]) : unit.skills[0],
       units: resolved.units.map((u) => ({ id: u.id, hp: u.hp, shield: u.shield })),
     };
     if (resolved.log.length > 30) resolved.log.splice(0, resolved.log.length - 30);
@@ -999,24 +1109,50 @@ export function command(original, c) {
       p.cash -= 40;
       p.food += 30;
     } else if (c.type === 'train') {
-      const g = p.generals.find((g) => g.id === c.general);
+      const g = fighter(p, c.general);
       ensure(
-        g && g.level < 10 && p.material >= g.level && p.cash >= g.level * 30,
+        g && g.level < MAX_LEVEL && p.material >= g.level && p.cash >= g.level * 30,
         '需等级未满，材料≥当前等级，金币≥等级×30',
       );
       p.material -= g.level;
       p.cash -= g.level * 30;
-      g.level++;
+      const result = gainExperience(p, g, trainingExperience(g.level));
+      note(
+        s,
+        `${result.name}训练获得${result.xp}经验${result.to > result.from ? `，升至${result.to}级` : ''}。`,
+      );
     } else if (c.type === 'equip') {
-      const g = p.generals.find((g) => g.id === c.general);
+      const g = fighter(p, c.general);
       ensure(g, '武将不存在');
       integer(c.slot, 0, 5);
       if (c.item !== null) {
         const item = p.items.find((x) => x.id === c.item);
         ensure(item && item.slot === c.slot, '装备部位不符');
-        ensure(!p.generals.some((x) => x.gear.includes(c.item)), '装备已被穿戴，请先卸下');
+        ensure(!fighters(p).some((x) => x.gear.includes(c.item)), '装备已被穿戴，请先卸下');
       }
       g.gear[c.slot] = c.item;
+    } else if (['loadSkill', 'title', 'manual', 'relic'].includes(c.type)) {
+      const g = fighter(p, c.general);
+      ensure(g, '人物不存在');
+      if (c.type === 'loadSkill') {
+        integer(c.slot, 0, 1);
+        ensure(c.slot <= g.loadout.length, '请先装备前一技能槽');
+        ensure(unlockedSkills(p, g).includes(c.skill), '技能尚未解锁');
+        ensure(!g.loadout.some((id, i) => i !== c.slot && id === c.skill), '不能重复装备同一技能');
+        g.loadout[c.slot] = c.skill;
+      } else if (c.type === 'title') {
+        integer(c.index, -1, TITLES.length - 1);
+        ensure(c.index < 0 || g.level >= TITLES[c.index].level, '称号尚未解锁');
+        g.title = c.index;
+      } else if (c.type === 'manual') {
+        integer(c.index, -1, 5);
+        ensure(c.index < 0 || p.manuals.includes(c.index), '尚未学习此秘法');
+        g.manual = c.index;
+      } else {
+        ensure(c.item === null || p.relics.some((x) => x.id === c.item), '没有这件宝物');
+        ensure(c.item === null || !fighters(p).some((x) => x.relic === c.item), '宝物已被装备，请先卸下');
+        g.relic = c.item;
+      }
     } else if (c.type === 'guard') guard(s, p, c);
     else if (c.type === 'card') useCard(s, c);
     else if (c.type === 'alliance') {
@@ -1108,11 +1244,41 @@ export function assertState(s) {
     integer(p.jail, -1, 2);
     ensure(new Set(p.generals.map((g) => g.id)).size === p.generals.length, '武将重复');
     const used = [];
-    p.generals.forEach((g) => {
-      integer(g.id, 0, 39);
-      integer(g.level, 1, 10);
+    ensure(s.enhanced ? p.hero?.id === -1 : p.hero === null, '主公成长状态异常');
+    ensure(
+      Array.isArray(p.manuals) && p.manuals.length <= 6 && new Set(p.manuals).size === p.manuals.length,
+      '秘法列表异常',
+    );
+    p.manuals.forEach((id) => integer(id, 0, 5));
+    ensure(Array.isArray(p.relics) && p.relics.length <= 3000, '宝物列表异常');
+    p.relics.forEach((x) => {
+      integer(x.id, 1);
+      integer(x.type, 0, RELICS.length - 1);
+    });
+    ensure(new Set(p.relics.map((x) => x.id)).size === p.relics.length, '宝物实例重复');
+    ensure(Array.isArray(p.loot) && p.loot.length <= 80, '掉落记录异常');
+    p.loot.forEach((x) => {
+      integer(x.round, 1, s.round);
+      integer(x.id, 0);
+      ensure(
+        ['manual', 'material', 'gear', 'relic'].includes(x.kind) &&
+          typeof x.source === 'string' &&
+          x.source.length <= 100 &&
+          typeof x.name === 'string' &&
+          x.name.length <= 150,
+        '掉落记录内容异常',
+      );
+    });
+    const relics = fighters(p)
+      .map((g) => g.relic)
+      .filter((id) => id !== null);
+    ensure(new Set(relics).size === relics.length, '宝物重复装备');
+    fighters(p).forEach((g) => {
+      integer(g.id, g === p.hero ? -1 : 0, g === p.hero ? -1 : GENERALS.length - 1);
+      validateProgression(p, g);
       integer(g.injury, 0, 2);
       integer(g.guard, -1, MAP.length - 1);
+      ensure(g !== p.hero || g.guard === -1, '主公不能远程驻守');
       ensure(g.guard < 0 || s.assets[g.guard].owner === p.id, '驻守产权错误');
       ensure(g.gear.length === 6, '装备槽数量错误');
       g.gear.forEach((id, slot) => {
@@ -1136,7 +1302,16 @@ export function assertState(s) {
       ensure(p.generals.filter((g) => g.guard === t.id).length <= 3, '驻将数量超限');
     p.cards.forEach((id) => integer(id, 0, 23));
     if (!s.enhanced)
-      ensure(!p.generals.length && !p.cards.length && !p.items.length && p.food === 0, '经典模式含增强数据');
+      ensure(
+        !p.generals.length &&
+          !p.cards.length &&
+          !p.items.length &&
+          p.food === 0 &&
+          !p.manuals.length &&
+          !p.relics.length &&
+          !p.loot.length,
+        '经典模式含增强数据',
+      );
   });
   ensure(new Set(s.players.map((p) => p.lord)).size === s.players.length, '主公重复');
   return true;

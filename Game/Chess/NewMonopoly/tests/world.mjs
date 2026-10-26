@@ -129,7 +129,7 @@ try {
   });
   await load(old);
   saved = deserialize(await page.evaluate(() => localStorage.getItem('dingli-save-v1')));
-  assert.equal(saved.version, 3);
+  assert.equal(saved.version, 4);
   assert.equal(saved.assets.length, 64);
   assert.equal(saved.assets[39].level, 2);
   assert.ok(saved.assets.slice(40).every((a) => a.owner === -1));

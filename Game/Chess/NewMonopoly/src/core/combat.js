@@ -72,6 +72,10 @@ export function resolveSkill(b, u, target, skill, roll) {
     t.def += skill.defense;
     t.atk += skill.attack;
     t.cooldown = Math.max(0, t.cooldown - skill.reduceCooldown);
+    if (t.cooldowns?.length) {
+      t.cooldowns = t.cooldowns.map((n) => Math.max(0, n - skill.reduceCooldown));
+      t.cooldowns[0] = t.cooldown;
+    }
     skill.statuses.forEach((status) => addStatus(t, status));
   }
   if (skill.splash)

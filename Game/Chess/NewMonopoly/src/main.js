@@ -13,7 +13,6 @@ import {
   ITEMS,
   QUALITY,
   QUALITY_COLORS,
-  BONDS,
   SOURCES,
   BUILDING_NAMES,
 } from './data/game.js';
@@ -25,7 +24,6 @@ import {
   owned,
   rent,
   worth,
-  stats,
   readyGenerals,
   siegeReason,
   currentUnit,
@@ -36,7 +34,10 @@ import {
 import { serialize, deserialize } from './core/save.js';
 import { choose, chooseBattle } from './ai/strategy.js';
 import { GameScene } from './render/scene.js';
-import { SKILLS, skillFor, STATUS_NAMES } from './data/skills.js';
+import { skillFor, STATUS_NAMES } from './data/skills.js';
+import { fighter } from './core/progression.js';
+import { rosterContent, biographyContent, codexContent, reportsContent } from './ui/heroes.js';
+import { libraryContent } from './ui/library.js';
 import { skillTargets } from './core/combat.js';
 import { combatPresentation } from './render/combat-effects.js';
 
@@ -75,6 +76,16 @@ let saved = null,
   lastBattle = false,
   reveal = null;
 let animating = false;
+let battleSkill = null,
+  biographyName = '',
+  biographyReturn = 'codex',
+  codexQuery = '',
+  codexEra = '',
+  setupDraft = null;
+let libraryCategory = 'people',
+  libraryQuery = '',
+  libraryEntry = null;
+const heroUI = { esc, btn, action, portrait };
 try {
   saved = localStorage.getItem(STORE);
 } catch (error) {
@@ -188,7 +199,7 @@ function home() {
       <p class="eyebrow">群雄逐鹿　/　以天下为棋</p><h1>山河入局<br><span>由你鼎立。</span></h1>
       <p class="hero-copy">从一座城池，到一方霸业。<br>置业经商，招贤纳士，在三国沙盘上争一席天下。</p>
       <div class="hero-actions">${action('执棋入局 <span>↗</span>', 'setup', 'primary large')}${saved ? action('续写征程', 'resume', 'large') : ''}</div>
-      <div class="hero-secondary">${action('导入存档', 'import', 'text-button')}${action('玩法与史料', 'help', 'text-button')}${action('画质设置', 'settings', 'text-button')}</div>
+      <div class="hero-secondary">${action('导入存档', 'import', 'text-button')}${action('玩法与史料', 'help', 'text-button')}${action('资料', 'library', 'text-button')}${action('画质设置', 'settings', 'text-button')}</div>
       <div class="hero-facts"><div><strong>2—4</strong><span>同机真人 / AI</span></div><div><strong>${MAP.length}</strong><span>山水环线 · 城池与机遇</span></div><div><strong>双模式</strong><span>经典商道 / 群雄逐鹿</span></div></div>
     </section>
     <div class="hero-seal"><span>汉末风云</span><b>群<br>雄<br>逐<br>鹿</b><small>建筑与人物均为<br>原创艺术化表现</small></div>
@@ -390,14 +401,17 @@ function battlePrompt() {
     u = currentUnit(state),
     actor = state.players[actorId(state)],
     targets = b.units.filter((x) => x.side !== u.side && x.hp > 0),
-    skill = skillFor(u),
+    skill = skillFor(u, u.skills.includes(battleSkill) ? battleSkill : u.skills[0]),
     options = skillTargets(b, u, skill),
     single = ['enemy', 'ally'].includes(skill.target);
-  return `<div class="decision combat-decision"><div><small class="eyebrow">攻城 ${b.round} / 10 回合 · ${actor.name}</small><h2>${u.name}行动 <span class="troop">${u.troop}</span></h2><p>护盾 ${u.shield} · ${u.statuses.map((x) => `${STATUS_NAMES[x.kind]}${x.turns}次`).join(' / ') || '无减益'}</p><p class="combat-description"><b style="color:${skill.color}">${skill.name}</b>：${skill.description}<br>冷却${skill.cooldown}次普攻；当前剩余${u.cooldown}。</p></div><div class="decision-actions">
+  battleSkill = skill.id;
+  const cooldown = u.skills.indexOf(skill.id) === 0 ? u.cooldown : u.cooldowns[u.skills.indexOf(skill.id)];
+  return `<div class="decision combat-decision"><div><small class="eyebrow">攻城 ${b.round} / 10 回合 · ${actor.name}</small><h2>${u.name}行动 <span class="troop">${u.troop}</span></h2><p>护盾 ${u.shield} · ${u.statuses.map((x) => `${STATUS_NAMES[x.kind]}${x.turns}次`).join(' / ') || '无减益'}</p><p class="combat-description"><b style="color:${skill.color}">${skill.name}</b>：${skill.description}<br>冷却${skill.cooldown}次行动；当前剩余${cooldown}。</p></div><div class="decision-actions">
     <label class="inline-input">普攻目标<select id="battle-target">${targets.map((t) => `<option value="${t.id}">${t.name} · ${t.hp}/${t.max}</option>`).join('')}</select></label>
     <button data-action="attack" ${actor.ai || autoBattle ? 'disabled' : ''}>普攻</button>
+    <label class="inline-input">出战技能<select id="battle-skill" ${actor.ai || autoBattle ? 'disabled' : ''}>${u.skills.map((id, i) => `<option value="${id}" ${id === skill.id ? 'selected' : ''}>${skillFor(u, id).name} · 冷却${i === 0 ? u.cooldown : u.cooldowns[i]}</option>`).join('')}</select></label>
     ${single ? `<label class="inline-input">技能目标<select id="skill-target">${options.map((t) => `<option value="${t.id}">${t.name} · ${t.hp}/${t.max}</option>`).join('')}</select></label>` : `<span class="skill-range">${{ self: '自身', allies: '全部友军', enemies: '全部敌军' }[skill.target]}</span>`}
-    <button data-action="skill" class="primary" ${actor.ai || autoBattle || u.cooldown || u.statuses.some((x) => x.kind === 'silence') || !options.length ? 'disabled' : ''}>${skill.name}</button>
+    <button data-action="skill" class="primary" ${actor.ai || autoBattle || cooldown || u.statuses.some((x) => x.kind === 'silence') || !options.length ? 'disabled' : ''}>${skill.name}</button>
     ${action('战术卡', 'cards')}${action(autoBattle ? '停止自动' : '自动战斗', 'autoBattle')}</div></div>`;
 }
 function render() {
@@ -424,7 +438,7 @@ function render() {
     <header class="game-top"><div class="wordmark">鼎立<span>${state.enhanced ? '群雄逐鹿' : '经典商道'}</span></div>
       <div class="turn-label"><small>第 ${state.round} 轮</small><b style="color:${COLORS[p.id]}">${p.name}执棋</b></div>
       <div class="header-resource"><span>金 <b>${money(p.cash)}</b></span>${state.enhanced ? `<span>粮 <b>${p.food}</b></span><span>材 <b>${p.material}</b></span>` : ''}<span class="dice-result" aria-label="最近骰点">${state.dice.map((n) => `<i>${['', '⚀', '⚁', '⚂', '⚃', '⚄', '⚅'][n]}</i>`).join('')}</span></div>
-      <div class="header-tools">${action('存档', 'save-menu')}${action('规则', 'help')}${action('⚙', 'settings')}</div>
+      <div class="header-tools">${action('存档', 'save-menu')}${action('规则', 'help')}${action('资料', 'library')}${action('⚙', 'settings')}</div>
     </header>
     <aside class="left-hud"><div class="hud-label">天下形势 <span>${state.players.filter((x) => !x.out).length} 位主公</span></div>${playerRows()}
       <div class="chronicle"><div class="hud-label">军情纪事 <span>实时</span></div>${state.log
@@ -457,8 +471,9 @@ function render() {
     <div class="view-tools">${action('⌂ 复位视角', 'camera')}${!state.battle ? action('跟随主公', 'follow-camera') + action('近看中央', 'center-camera') : ''}${action(fast ? '正常节奏' : '快速 / 跳过动画', 'fast')}${action(paused ? '继续对局' : '暂停', 'pause')}<span>左拖旋转 · 右拖平移 · 滚轮缩放</span></div>
     <section class="bottom-hud"><nav class="game-nav">
       ${action('疆域 / 资产', 'assets')}${action('天下地图', 'map')}
+      ${action('人物图鉴', 'codex')}
       <button data-action="trade" ${!management || !privateAllowed ? 'disabled' : ''}>交易</button>
-      ${state.enhanced ? `<button data-action="roster" ${!privateAllowed ? 'disabled' : ''}>武将 / 装备</button><button data-action="cards" ${!privateAllowed ? 'disabled' : ''}>卡牌${privateAllowed ? ' · ' + actor.cards.length : ''}</button><button data-action="recruit" ${!management || !privateAllowed || state.phase === 'debt' ? 'disabled' : ''}>招贤 / 军械</button><button data-action="diplomacy" ${!privateAllowed ? 'disabled' : ''}>外交 / 补给</button>` : ''}
+      ${state.enhanced ? `<button data-action="roster" ${!privateAllowed ? 'disabled' : ''}>武将 / 装备</button><button data-action="cards" ${!privateAllowed ? 'disabled' : ''}>卡牌${privateAllowed ? ' · ' + actor.cards.length : ''}</button><button data-action="recruit" ${!management || !privateAllowed || state.phase === 'debt' ? 'disabled' : ''}>招贤 / 军械</button><button data-action="diplomacy" ${!privateAllowed ? 'disabled' : ''}>外交 / 补给</button><button data-action="reports" ${!privateAllowed ? 'disabled' : ''}>军功簿${state.reports.length ? ' · ' + state.reports.length : ''}</button>` : ''}
     </nav>${prompt()}</section>
     ${handoff ? `<div class="handoff"><div class="handoff-card"><div class="seal large-seal" style="--player:${COLORS[id]}">${LORDS[actor.lord].seal}</div><p class="eyebrow">请将操作权交给</p><h1>${actor.name}</h1><p>确认后显示本席手牌与军备。<br>其他玩家请暂时回避屏幕。</p>${action('我已就位，继续', 'handoff', 'primary large')}</div></div>` : ''}
     ${paused ? '<div class="pause-banner">对局已暂停 · 再次点击“继续对局”恢复</div>' : ''}`;
@@ -616,13 +631,23 @@ function ensureDialog() {
   return dialog;
 }
 function closeModal(reschedule = true) {
+  if (reschedule && modalName === 'library' && libraryEntry) {
+    returnToLibrary();
+    return;
+  }
+  if (reschedule && modalName === 'biography') {
+    returnFromBiography();
+    return;
+  }
   const dialog = $('#dialog');
   if (dialog?.open) dialog.close();
+  const closingLibrary = modalName === 'library';
   modalName = '';
   reveal = null;
   if (reschedule) {
     render();
-    lastFocus?.focus?.();
+    if (closingLibrary) $('[data-action="library"]')?.focus();
+    else lastFocus?.focus?.();
   }
 }
 function fillModal(name, open = true) {
@@ -636,9 +661,43 @@ function fillModal(name, open = true) {
   dialog.innerHTML = `<div class="modal-header"><div><p class="eyebrow">鼎立 · 三国大富翁</p><h2 id="dialog-title">${title}</h2></div><button data-action="close" class="icon-button" aria-label="关闭面板">×</button></div><div class="modal-body">${body}</div>`;
   if (open && !dialog.open) dialog.showModal();
 }
+function openBiography(name) {
+  biographyName = name;
+  biographyReturn = modalName || 'codex';
+  if (biographyReturn === 'setup') {
+    setupDraft = { count: $('#seat-count').value, enhanced: $('#enhanced').checked, lords: [], types: [] };
+    for (let i = 0; i < 4; i++) {
+      setupDraft.lords.push($(`#lord-${i}`).value);
+      setupDraft.types.push($(`#type-${i}`).value);
+    }
+  }
+  fillModal('biography');
+}
+function returnFromBiography() {
+  fillModal(biographyReturn);
+  if (biographyReturn === 'setup' && setupDraft) {
+    $('#seat-count').value = setupDraft.count;
+    $('#enhanced').checked = setupDraft.enhanced;
+    for (let i = 0; i < 4; i++) {
+      $(`#lord-${i}`).value = setupDraft.lords[i];
+      $(`#type-${i}`).value = setupDraft.types[i];
+      $(`[data-seat="${i}"]`).hidden = i >= Number(setupDraft.count);
+    }
+  }
+}
+function returnToLibrary() {
+  const entry = libraryEntry;
+  libraryEntry = null;
+  fillModal('library', false);
+  $(`[data-library-entry="${entry}"]`)?.focus();
+}
 function modalContent(name) {
   const p = state ? state.players[actorId(state) ?? state.turn] : null,
     manage = state && ['roll', 'end'].includes(state.phase);
+  if (name === 'biography') return biographyContent(biographyName, heroUI);
+  if (name === 'codex') return codexContent(codexQuery, codexEra, heroUI);
+  if (name === 'library') return libraryContent(libraryCategory, libraryQuery, libraryEntry, heroUI);
+  if (name === 'reports') return reportsContent(state, p, heroUI);
   if (name === 'setup') {
     return {
       title: '择主公，定天下',
@@ -646,7 +705,7 @@ function modalContent(name) {
       <div class="setup-options"><label>入局人数<select id="seat-count"><option value="2">2位主公</option><option value="3" selected>3位主公</option><option value="4">4位主公</option></select></label><label class="toggle"><input id="enhanced" type="checkbox" checked><span>增强玩法 <small>攻城 · 武将 · 六槽装备 · 外交</small></span></label></div>
       <div class="seats">${Array.from({ length: 4 }, (_, i) => `<div class="seat" data-seat="${i}" ${i === 3 ? 'hidden' : ''}><small style="color:${COLORS[i]}">${icons[i]} 第${i + 1}席</small><select aria-label="第${i + 1}席主公" id="lord-${i}">${LORDS.map((l, j) => `<option value="${j}" ${i === j ? 'selected' : ''}>${l.name} · ${l.word}</option>`).join('')}</select><select aria-label="第${i + 1}席类型" id="type-${i}"><option value="human">真人</option><option value="ai" ${i ? 'selected' : ''}>AI谋士</option></select></div>`).join('')}</div>
       <div class="lords-grid">${LORDS.map((l, i) => `<button class="lord-card" data-lord="${i}" style="--lord:${l.color}">${portrait(i, l.color, true)}<div><small>${l.word}</small><h3>${l.name}</h3><b>${l.title}</b><p>${l.skill}</p></div></button>`).join('')}</div>
-      <div class="modal-footer"><span class="muted">点击主公卡可为第一席选将。无联网、无付费抽卡。</span>${action('举兵入局　→', 'start', 'primary large')}</div>`,
+      <div class="modal-footer"><span class="muted">点击主公卡为第一席选将，并查看生平。无联网、无付费抽卡。</span>${action('举兵入局　→', 'start', 'primary large')}</div>`,
     };
   }
   if (name === 'assets') {
@@ -660,7 +719,7 @@ function modalContent(name) {
   }
   if (name === 'map') {
     return {
-      title: '四十格 · 天下图录',
+      title: '六十四格 · 天下图录',
       body: `<p class="muted">64格山水环线，下列编号即行军顺序。城池间的山林、花草与溪桥不计步数；点击可近看该地，复位视角返回全图。古地名跨汉末至三国使用，路线与地形不代表真实地理比例。</p><div class="map-grid">${ROUTE.map(
         (id, index) => {
           const t = MAP[id];
@@ -692,32 +751,9 @@ function modalContent(name) {
     };
   }
   if (name === 'roster') {
-    const g = p.generals.find((x) => x.id === selectedGeneral) || p.generals[0];
+    const g = fighter(p, selectedGeneral) || p.generals[0] || p.hero;
     selectedGeneral = g.id;
-    const d = GENERALS[g.id],
-      stat = stats(p, g),
-      bonds = BONDS.filter((b) => b.members.includes(g.id));
-    return {
-      title: `${p.name} · 将府军备`,
-      body: `<div class="roster-layout"><div class="general-list">${p.generals.map((x) => `<button data-general="${x.id}" class="${x.id === g.id ? 'selected' : ''}"><span>${GENERALS[x.id].name}</span><small>${GENERALS[x.id].troop} · Lv.${x.level}${x.injury ? ' · 负伤' : x.guard >= 0 ? ' · 驻守' : ''}</small></button>`).join('')}</div>
-      <div class="general-detail"><div class="general-hero">${portrait(g.id, QUALITY_COLORS[d.rarity + 1])}<div><small>${d.faction} · ${['', '良将', '英杰', '名将'][d.rarity]}</small><h1>${d.name}</h1><p>${d.troop}兵 · Lv.${g.level} · ${g.injury ? '负伤，待下次正常回合结束恢复' : g.guard >= 0 ? '驻守' + MAP[g.guard].name : '可出征'}</p><div class="numbers"><span>生命 <b>${stat.hp}</b></span><span>攻击 <b>${stat.atk}</b></span><span>防御 <b>${stat.def}</b></span><span>速度 <b>${stat.speed}</b></span></div><p class="muted">技能：${d.ability} · ${d.abilityDescription}<br>冷却：${SKILLS[g.id].cooldown}次普攻后可再次施放。${bonds.length ? '<br>羁绊：' + bonds.map((b) => b.name + '（出阵至少2名）').join('、') : ''}</p>${btn(`培养 · ${g.level * 30}金 / ${g.level}材料`, { type: 'train', general: g.id }, 'primary small', !manage || g.level >= 10)}</div></div>
-      <div class="equipment-grid">${SLOTS.map((slot, i) => {
-        const item = p.items.find((x) => x.id === g.gear[i]),
-          color = item ? QUALITY_COLORS[item.quality] : '#75817a';
-        const options = p.items.filter((x) => x.slot === i && !p.generals.some((y) => y.gear.includes(x.id)));
-        return `<section class="equipment-slot q${item?.quality ?? 0}" style="--quality:${color}"><small>${slot}</small><div class="equip-glyph">${['♜', '✦', '⚔', '◇', '║', '↟'][i]}</div><h3>${item ? ITEMS[i] : '空置'}</h3><p>${item ? QUALITY[item.quality] : '尚未装备'}</p><select aria-label="${slot}装备" data-equip="${i}" ${!manage ? 'disabled' : ''}><option value="">选择可用装备</option>${options.map((x) => `<option value="${x.id}">${QUALITY[x.quality]} ${ITEMS[i]} #${x.id}</option>`).join('')}</select>${item ? btn('卸下', { type: 'equip', general: g.id, slot: i, item: null }, 'text-button', !manage) : ''}</section>`;
-      }).join(
-        '',
-      )}</div><div class="guard-control"><label>驻守城池<select id="guard-tile" ${!manage ? 'disabled' : ''}><option value="-1">空闲 · 可出征</option>${owned(
-        state,
-        p.id,
-      )
-        .filter((t) => t.kind === 'city')
-        .map((t) => `<option value="${t.id}" ${g.guard === t.id ? 'selected' : ''}>${t.name}</option>`)
-        .join(
-          '',
-        )}</select></label><button data-action="guard" ${!manage || g.injury ? 'disabled' : ''}>调动驻守</button><span class="muted tiny">每城最多3将；驻守武将不可同时出征。</span></div><p class="tiny muted">人物来源：${d.source}。属性、技能和品质均为游戏设计。</p></div></div>`,
-    };
+    return rosterContent(state, p, selectedGeneral, heroUI);
   }
   if (name === 'cards') {
     const battle = state.phase === 'battle',
@@ -746,7 +782,7 @@ function modalContent(name) {
   if (name === 'recruit') {
     return {
       title: '广纳英杰 · 整备三军',
-      body: `<div class="recruit-banner"><span class="seal">贤</span><div><p class="eyebrow">四十英杰　等待知遇</p><h1>英雄，不问来处。</h1><p>全部使用游戏内金币，无付费内容。相同武将转为稀有度×2份培养材料。</p></div></div><div class="trade-columns"><article class="recruit-box"><h3>招贤榜</h3><p>良将 65% · 英杰 30% · 名将 5%</p><p>连续19次未出名将，第20次必出；当前 <b>${p.pity} / 19</b>。</p>${btn(`招募一将 · ${p.lord === 0 ? 80 : 100}金`, { type: 'recruit' }, 'primary', !manage)}</article><article class="recruit-box"><h3>军械坊</h3><p>六个装备部位等概率；品质概率：</p><p>素品45% / 良品30% / 上品16% / 珍品7% / 绝品2%</p>${btn('铸取装备 · 80金', { type: 'gear' }, 'primary', !manage)}</article></div><p class="tiny muted">装备品质影响属性、轮廓微光及战场部位光效。背包内装备可在“武将 / 装备”中分配。</p>`,
+      body: `<div class="recruit-banner"><span class="seal">贤</span><div><p class="eyebrow">九十英杰　等待知遇</p><h1>英雄，不问来处。</h1><p>横跨汉末、魏晋、十六国、南北朝。相同武将转为稀有度×2份培养材料，全部使用游戏内金币。</p>${action('查阅人物图鉴', 'codex')}</div></div><div class="trade-columns"><article class="recruit-box"><h3>招贤榜</h3><p>良将 65% · 英杰 30% · 名将 5%</p><p>连续19次未出名将，第20次必出；当前 <b>${p.pity} / 19</b>。</p>${btn(`招募一将 · ${p.lord === 0 ? 80 : 100}金`, { type: 'recruit' }, 'primary', !manage)}</article><article class="recruit-box"><h3>军械坊</h3><p>六个装备部位等概率；品质概率：</p><p>素品45% / 良品30% / 上品16% / 珍品7% / 绝品2%</p>${btn('铸取装备 · 80金', { type: 'gear' }, 'primary', !manage)}</article></div><p class="tiny muted">装备品质影响属性、轮廓微光及战场部位光效。背包内装备可在“武将 / 装备”中分配。</p>`,
     };
   }
   if (name === 'shop' && state.phase === 'shop') {
@@ -764,7 +800,7 @@ function modalContent(name) {
       guards = def.generals.filter((g) => g.guard === id && g.injury === 0);
     return {
       title: `点将出征 · ${MAP[id].name}`,
-      body: `<div class="resource-strip"><span>出征 <b>20粮</b></span><span>失败需交 <b>${state.decision.amount}金</b></span><span>守军 <b>${guards.length || 1}队 + 城墙</b></span></div><p class="muted">攻胜夺城免租，攻败武将负伤至下一正常回合结束，不永久死亡、不丢装备；10个战斗回合未攻克则守方胜。城墙提供6点守军防御。</p><p>敌方驻军：${guards.map((g) => GENERALS[g.id].name).join('、') || '基础守城军'}；城墙耐久 ${65 + state.assets[id].level * 30}。</p><h3>选择1–3名武将</h3><div class="siege-picks">${ready.map((g, i) => `<label class="siege-pick"><input type="checkbox" name="siege-general" value="${g.id}" ${i < 3 ? 'checked' : ''}>${portrait(g.id)}<strong>${GENERALS[g.id].name}</strong><span>${GENERALS[g.id].troop}兵 · Lv.${g.level}</span></label>`).join('')}</div><div class="modal-footer">${action('鸣鼓攻城', 'begin-siege', 'primary large')}</div>`,
+      body: `<div class="resource-strip"><span>出征 <b>20粮</b></span><span>失败需交 <b>${state.decision.amount}金</b></span><span>守军 <b>${guards.length || 1}队${def.pos === id && !def.hero.injury ? '＋主公' : ''} + 城墙</b></span></div><p class="muted">独立主公位＋最多3名武将，也可主公独自亲征。攻胜夺城免租，败方负伤但不永久死亡；10回合未攻克则守方胜。双方实际参战人物均获得经验，胜方更多。</p><p>敌方驻军：${guards.map((g) => GENERALS[g.id].name).join('、') || '基础守城军'}${def.pos === id && !def.hero.injury ? `，${def.name}亲自守城` : ''}；城墙耐久 ${65 + state.assets[id].level * 30}。</p><label class="hero-siege-choice"><input type="checkbox" id="siege-hero" ${p.hero.injury ? 'disabled' : 'checked'}><strong>${p.name}亲征 · Lv.${p.hero.level}</strong><span>${p.hero.injury ? '主公负伤，暂不可出征' : '不占用武将名额'}</span></label><h3>选择最多3名武将</h3><div class="siege-picks">${ready.map((g, i) => `<label class="siege-pick"><input type="checkbox" name="siege-general" value="${g.id}" ${i < 3 ? 'checked' : ''}>${portrait(g.id)}<strong>${GENERALS[g.id].name}</strong><span>${GENERALS[g.id].troop}兵 · Lv.${g.level}</span></label>`).join('')}</div><div class="modal-footer">${action('鸣鼓攻城', 'begin-siege', 'primary large')}</div>`,
     };
   }
   if (name === 'diplomacy') {
@@ -788,7 +824,7 @@ function modalContent(name) {
       color = gear ? QUALITY_COLORS[item.quality] : QUALITY_COLORS[GENERALS[reveal.general].rarity + 1];
     return {
       title: gear ? '军械入库' : '英杰来归',
-      body: `<div class="reveal-stage" style="--quality:${color}"><div class="reveal-rays"></div><div class="reveal-card">${gear ? `<div class="revealed-item">${['♜', '✦', '⚔', '◇', '║', '↟'][item.slot]}</div><p>${SLOTS[item.slot]} · ${QUALITY[item.quality]}</p>` : portrait(reveal.general, color)}<h1>${name}</h1><p>${gear ? '可前往将府，为武将穿戴。' : GENERALS[reveal.general].faction + ' · ' + GENERALS[reveal.general].troop + '兵'}</p></div>${action('收入麾下 · 继续', 'close', 'primary')}</div>`,
+      body: `<div class="reveal-stage" style="--quality:${color}"><div class="reveal-rays"></div><${gear ? 'div' : 'button'} class="reveal-card" ${gear ? '' : `data-bio="${esc(name)}"`}>${gear ? `<div class="revealed-item">${['♜', '✦', '⚔', '◇', '║', '↟'][item.slot]}</div><p>${SLOTS[item.slot]} · ${QUALITY[item.quality]}</p>` : portrait(reveal.general, color)}<h1>${name}</h1><p>${gear ? '可前往将府，为武将穿戴。' : GENERALS[reveal.general].faction + ' · 点击查看生平事迹'}</p></${gear ? 'div' : 'button'}>${action('收入麾下 · 继续', 'close', 'primary')}</div>`,
     };
   }
   if (name === 'victory') {
@@ -821,8 +857,8 @@ function modalContent(name) {
     body: `<div class="help-content">
     <section><h3>一 · 置业与胜负</h3><p>2–4位主公轮流掷双骰，经过誓师台获得200金。购买无主产业，向过路对手收租；不购买则公开拍卖。只有最后一位未破产的主公获胜，没有隐藏的回合判胜。</p><p>双骰相同可再掷一次，连续三次被拘押。拘押后可付50金、使用通关赦令，或尝试双骰；第三次失败必须付费并继续移动。</p></section>
     <section><h3>二 · 建设、抵押与交易</h3><p>集齐同色区域后，无建筑租金翻倍，可在整备阶段均匀建设。增强模式额外允许停在自有、未抵押城池时升级一次，不必集齐区域；路过不触发。经典模式保留整区均匀建设。</p><p>建筑由空地升级为民居、里坊、商署、城楼、都督府，模型逐阶变化。1—4级每级占用1份民居配额；升都督府返还4份。64格地图的官库有${HOUSE_SUPPLY}份民居配额、${PALACE_SUPPLY}座都督府，租金表可点击城池查看。旧档迁移保留全部原资产与建筑，补充官库容量；新增24城初始无主，集齐区域需包括新城。</p><p>拆售回收基础造价的一半。抵押前需清空该区域建筑；抵押获得地价的一半，赎回需地价55%。抵押资产不收租，转让受让人另缴地价5%的利息。驿站按持有数量收租；漕运按骰点×4或×10收租。</p><p>债务阶段可以拆售、抵押或协商交易，仍无法偿还才能破产。向玩家破产则资产交债权人；向官库破产则资产公开拍卖。</p></section>
-    <section><h3>三 · 群雄逐鹿（默认开启）</h3><p>招贤格可免费招募武将，军械格可领装备，机遇格可抽功能/战术卡；整备时也可用金币招募和铸取装备。武将65%良将、30%英杰、5%名将，连续19次未出名将则第20次必出。重复武将转换材料。</p><p>六槽为头、手、武器、铠甲、护腿、脚。五档品质有独立属性与部位光效；背包中同一件装备不能同时被两人穿戴。武将最高10级，升级消耗当前等级×30金和等量材料。</p><p>每回合最多主动使用2张功能卡，手牌上限8张。羁绊要求对应组合至少2名武将同时出阵，最多触发2组。</p></section>
-    <section><h3>四 · 攻城与纵横</h3><p>落到未抵押敌城，可选择交租或攻城。每人每轮最多出征一次，耗20粮，最多派3将。城墙为守军提供6防御；攻克城墙和全部守军即夺城免租。10回合内未攻下则守方胜，败方交租、参战武将暂时负伤；装备不丢。</p><p>步克骑、骑克弓、弓克步；克制×1.3、被克×0.8。40名武将各有独立技能，详情见将台及战斗行动栏。技能包含连击、群攻、破甲、吸血、治疗、护盾和减益，冷却2—4次普攻；每次武将行动可先用一张战术卡。</p><p>护盾优先吸收伤害，上限为自身生命上限的2倍。灼烧、中毒在受影响单位行动结束时结算；虚弱减攻击、易伤增加每次攻击伤害、封技禁用技能，仍可普攻。状态按自身行动次数到期，同类状态取较强效果与较长剩余时长；城墙不受减益，群体武将技能不包含城墙。技能属性提升仅持续本场战斗。</p><p>攻击有起手、出击、命中和归位；自动战斗等待演出，随时可跳过本次或开启快速节奏，均不改变已保存结果。</p><p>粮草仅出征消耗，经过起点补给30粮，集市可40金购买30粮。两人结盟3轮，互免租金、互不攻城；每人最多一位盟友，剩两名玩家即解盟。</p></section>
+    <section><h3>三 · 群雄成长（默认开启）</h3><p>卡池90名武将：汉末三国40人，加魏晋、十六国、南北朝50人；七位主公另有独立战斗技能。点击人物卡可查阅生平，人物图鉴收录全部97人。武将65%良将、30%英杰、5%名将，连续19次未出名将则第20次必出。重复武将转换材料。</p><p>主公和武将上限50级。双方实际参战者无论胜败均获经验：胜方120＋城池建筑级×25，败方65＋建筑级×15；满级不再积累经验。升级所需经验为80＋当前等级×30。训练花费等级×30金与等量材料，提供当前经验阈值60%向上取整的经验。</p><p>5/15/25/35/45级解锁定位进阶技能，可携带2项常规技能和1项秘法。每5级获得称号，仅当前佩戴称号提供小幅加成。官职序列是游戏设计，不代表真实历史晋升。</p><p>头、手、武器、铠甲、护腿、脚共六槽五品质装备，主公也能穿戴；另有独立宝物槽。同一装备或宝物实例不能多人共用。战斗中不能换装、换技能或训练。每回合最多主动使用2张功能卡，手牌上限8张；羁绊至少2名对应武将同时出阵，最多2组。</p></section>
+    <section><h3>四 · 攻城与奇珍</h3><p>落到未抵押敌城可交租或攻城，每人每轮最多一次，耗20粮。独立主公位＋最多3将；主公可独自亲征，只有本人停留在被攻自有城且未负伤时才参战防守。城墙为守军提供6防御，攻克城墙和全部守军即夺城免租。10回合未攻下则守方胜，攻方交租；败方人物暂时负伤，装备不丢，主公倒下不直接导致玩家出局。</p><p>步克骑、骑克弓、弓克步，克制×1.3、被克×0.8。先选技能再选合法目标；技能独立冷却，每次普攻或施放其他技能后减少1，战术卡不推进冷却；每次行动可先用1张战术卡。护盾优先吸伤，上限为最大生命的2倍。灼烧/中毒在自身行动末结算；同类状态取较强数值与较长时长。城墙不受减益，群攻不含城墙；临时攻防提升仅本场有效。</p><p>战斗胜者65%概率额外掉落，增强奇遇结算30%概率额外掉落；触发后秘法25%、装备45%、宝物30%。秘法自动学习，重复转5材料；每人可携带1项秘法和1件宝物。军功簿记录经验、解锁与奖励，查看/读档不重抽、不重复发奖。装备/宝物属性、秘法效果均为原创游戏设定。</p><p>攻击含起势、轨迹、命中和归位；减少动态、快速或跳过只改变演出。粮草起点补给30、集市40金换30粮；两人结盟3轮，互免租禁攻，剩2人自动解盟。</p></section>
     <section><h3>隐市与中央沙盘</h3><p>增强模式每次抵达事件格有25%概率出现秘密商店，固定展示3件随机装备。五档售价依次为70、120、210、350、550金，每件限购一次，读档不刷新；离开后继续原事件奖励。通常军械抽取仍然保留。</p><p>中央将台展示至多3名可出征武将，点击查看全体阵容；锦囊台打开手牌，军械铺打开招募与装备抽取（整备时可操作）。上方同名按钮可用键盘操作。地域景观跟随当前执棋主公的落点，在特殊格沿用其最近地域。</p></section>
     <section><h3>五 · 七位主公</h3>${LORDS.map((l) => `<p><b>${l.name} · ${l.title}</b>　${l.skill}</p>`).join('')}<p>关闭增强模式后，上述技能、攻城、养成和抽卡全部关闭，所有主公仅为外观身份。</p></section>
     <section><h3>六 · 史实边界与参考</h3><p>人物、城池名称取自汉末三国相关记载，允许跨年代同场。建业采用建安十七年更名后的称呼，“许”采用汉末称呼，“吴”“会稽”等为当时地名。区域是玩法与视觉分组，不等同某一年的行政区；驿站冠以真实地点名，经营设施与建筑为原创艺术化设计，不是考古复原。技能、数值、五档品质及羁绊为游戏规则。</p><p>人物依据《三国志》相关传记，张角兄弟参考《后汉书》卷71，司马懿参考《晋书》卷1。人物详情标明对应卷次。游戏本身不需要访问以下资料链接：</p>${SOURCES.map(([label, url]) => `<p><a href="${url}" target="_blank" rel="noopener noreferrer">${label} ↗</a></p>`).join('')}<p>Three.js 使用 MIT 许可，完整许可随本HTML内嵌。所有人物头像、几何建筑、棋子及音效由程序生成。</p></section>
@@ -860,6 +896,23 @@ function submitTrade() {
   apply({ type: 'trade', offer });
 }
 document.addEventListener('submit', (event) => {
+  if (event.target.id === 'library-search') {
+    event.preventDefault();
+    libraryQuery = String(new FormData(event.target).get('query') || '');
+    libraryEntry = null;
+    fillModal('library', false);
+    $('#library-search input')?.focus();
+    return;
+  }
+  if (event.target.id === 'codex-search') {
+    event.preventDefault();
+    const form = new FormData(event.target);
+    codexQuery = String(form.get('query') || '');
+    codexEra = String(form.get('era') || '');
+    fillModal('codex', false);
+    $('#codex-search input')?.focus();
+    return;
+  }
   if (event.target.id === 'trade-form') {
     event.preventDefault();
     submitTrade();
@@ -868,7 +921,12 @@ document.addEventListener('submit', (event) => {
 document.addEventListener('click', (event) => {
   const button = event.target.closest('button');
   if (!button || button.disabled) return;
+  if (button.type === 'submit' && button.form) return;
   event.preventDefault();
+  if (button.dataset.bio) {
+    openBiography(button.dataset.bio);
+    return;
+  }
   if (button.dataset.cmd) {
     apply(JSON.parse(button.dataset.cmd));
     return;
@@ -888,6 +946,7 @@ document.addEventListener('click', (event) => {
   if (button.dataset.lord !== undefined) {
     $('#lord-0').value = button.dataset.lord;
     document.querySelectorAll('.lord-card').forEach((x) => x.classList.toggle('selected', x === button));
+    openBiography(LORDS[Number(button.dataset.lord)].name);
     return;
   }
   if (button.dataset.card !== undefined) {
@@ -906,11 +965,40 @@ document.addEventListener('click', (event) => {
     }
     return;
   }
+  if (button.dataset.libraryCategory) {
+    libraryCategory = button.dataset.libraryCategory;
+    libraryQuery = '';
+    libraryEntry = null;
+    fillModal('library', false);
+    $(`[data-library-category="${libraryCategory}"]`)?.focus();
+    return;
+  }
+  if (button.dataset.libraryEntry) {
+    libraryEntry = button.dataset.libraryEntry;
+    fillModal('library', false);
+    $('#dialog').scrollTop = 0;
+    $('.library-detail')?.focus({ preventScroll: true });
+    return;
+  }
+  if (button.hasAttribute('data-library-back')) {
+    returnToLibrary();
+    return;
+  }
+  if (button.hasAttribute('data-library-clear')) {
+    libraryQuery = '';
+    fillModal('library', false);
+    $('#library-search input')?.focus();
+    return;
+  }
   if (button.dataset.facility) {
     openFacility(button.dataset.facility);
     return;
   }
   if (!name) return;
+  if (name === 'bio-back' || (name === 'close' && modalName === 'biography')) {
+    returnFromBiography();
+    return;
+  }
   if (name === 'close') {
     closeModal();
     return;
@@ -1000,13 +1088,14 @@ document.addEventListener('click', (event) => {
         ? Number($('#battle-target').value)
         : $('#skill-target')
           ? Number($('#skill-target').value)
-          : skillTargets(state.battle, u, skillFor(u))[0].id;
-    apply({ type: name, target });
+          : skillTargets(state.battle, u, skillFor(u, battleSkill))[0].id;
+    apply({ type: name, target, ...(name === 'skill' ? { skill: battleSkill } : {}) });
     return;
   }
   if (name === 'begin-siege') {
     apply({
       type: 'siege',
+      hero: $('#siege-hero').checked,
       generals: [...document.querySelectorAll('[name="siege-general"]:checked')].map((x) => Number(x.value)),
     });
     return;
@@ -1034,6 +1123,32 @@ document.addEventListener('click', (event) => {
 });
 document.addEventListener('change', (event) => {
   const input = event.target;
+  if (input.id === 'battle-skill') {
+    battleSkill = Number(input.value);
+    render();
+    $('#battle-skill')?.focus();
+    return;
+  }
+  if (input.dataset.skillSlot !== undefined && input.value) {
+    apply({
+      type: 'loadSkill',
+      general: selectedGeneral,
+      slot: Number(input.dataset.skillSlot),
+      skill: Number(input.value),
+    });
+    return;
+  }
+  if (input.dataset.heroChoice) {
+    const type = input.dataset.heroChoice;
+    apply({
+      type,
+      general: selectedGeneral,
+      ...(type === 'relic'
+        ? { item: input.value === '' ? null : Number(input.value) }
+        : { index: Number(input.value) }),
+    });
+    return;
+  }
   if (input.id === 'seat-count')
     document.querySelectorAll('[data-seat]').forEach((el) => {
       el.hidden = Number(el.dataset.seat) >= Number(input.value);

@@ -1,6 +1,9 @@
+import { NEW_PEOPLE } from './people.js';
+
 /** Skills are game fiction, not historical claims. */
 function skill(name, description, target, effect, color, options = {}) {
   return {
+    id: -1,
     name,
     description,
     target,
@@ -254,11 +257,280 @@ export const SKILLS = [
     { power: 1.2, cost: 10, statuses: [status('vulnerable', 10, 1)] },
   ),
 ];
+const newStyles = {
+  vanguard: ['slash', 'axe', 'quake', 'blades', 'lance'],
+  rider: ['charge', 'dash', 'lance', 'ambush', 'crescent'],
+  archer: ['arrows', 'ice', 'fire', 'wind', 'storm'],
+  strategist: ['formation', 'storm', 'fire', 'ice', 'scroll'],
+  support: ['heal', 'barrier', 'banner', 'wind', 'talisman'],
+};
+SKILLS.push(
+  ...NEW_PEOPLE.map((p, i) => {
+    const role = p.role,
+      color = ['#84dbc0', '#e8b68c', '#a8dafa', '#cfb3ee', '#ead385'][i % 5];
+    const effect = newStyles[role][i % 5];
+    const power = 1.35 + (i % 6) * 0.08;
+    if (role === 'support') {
+      const heal = 22 + (i % 7) * 3,
+        shield = 12 + (i % 5) * 3;
+      return skill(
+        p.skillName,
+        `全部友军恢复${heal}生命、获得${shield}护盾；自身防御提升3。`,
+        'allies',
+        effect,
+        color,
+        { heal, shield, selfDefense: 3, cooldown: 3 + (i % 2) },
+      );
+    }
+    if (role === 'strategist') {
+      const kinds = ['burn', 'weaken', 'poison', 'vulnerable', 'silence'],
+        kind = kinds[i % 5];
+      const power = 0.65 + (i % 6) * 0.06,
+        value = kind === 'silence' ? 0 : 6 + (i % 4) * 2;
+      return skill(
+        p.skillName,
+        `全部敌军${Math.round(power * 100)}%攻击，附加${{ burn: '灼烧', weaken: '虚弱', poison: '中毒', vulnerable: '易伤', silence: '封技' }[kind]}${value || ''}持续${kind === 'silence' ? 1 : 2}次行动；自身获得${14 + (i % 9)}护盾。`,
+        'enemies',
+        effect,
+        color,
+        {
+          power,
+          statuses: [status(kind, value, kind === 'silence' ? 1 : 2)],
+          selfShield: 14 + (i % 9),
+          cooldown: 3 + (i % 2),
+        },
+      );
+    }
+    const hits = role === 'archer' ? 2 : 1,
+      strike = hits === 2 ? power * 0.6 : power;
+    const pierce = 0.15 + (i % 4) * 0.1,
+      shield = 10 + (i % 13);
+    return skill(
+      p.skillName,
+      `单体${hits}次${Math.round(strike * 100)}%攻击，穿透${Math.round(pierce * 100)}%防御；自身获得${shield}护盾。`,
+      'enemy',
+      effect,
+      color,
+      { power: strike, hits, pierce, selfShield: shield, cooldown: 2 + (i % 3) },
+    );
+  }),
+);
+export const LORD_SKILLS = [
+  skill('昭烈仁风', '全体友军恢复32生命、清除减益并获得18护盾。', 'allies', 'heal', '#8ff0c1', {
+    heal: 32,
+    cleanse: true,
+    shield: 18,
+  }),
+  skill('魏武挥鞭', '单体180%攻击；全体友军获得16护盾，自身攻击提升5。', 'enemy', 'blades', '#8bbdff', {
+    power: 1.8,
+    teamShield: 16,
+    selfAttack: 5,
+  }),
+  skill(
+    '鹰视天枢',
+    '全部敌军80%攻击、虚弱10持续2次行动；自身获得30护盾。',
+    'enemies',
+    'formation',
+    '#c6a4ff',
+    { power: 0.8, statuses: [status('weaken', 10, 2)], selfShield: 30 },
+  ),
+  skill('江东惊涛', '全部敌军95%攻击；全队恢复18生命。', 'enemies', 'wind', '#8de3ee', {
+    power: 0.95,
+    teamHeal: 18,
+  }),
+  skill('太平天雷', '全部敌军110%攻击、易伤8持续2次行动。', 'enemies', 'storm', '#ffe29b', {
+    power: 1.1,
+    statuses: [status('vulnerable', 8, 2)],
+    cooldown: 4,
+  }),
+  skill('西凉霸阵', '单体160%攻击，穿透30%防御；自身获得40护盾。', 'enemy', 'quake', '#ef9f81', {
+    power: 1.6,
+    pierce: 0.3,
+    selfShield: 40,
+  }),
+  skill(
+    '无双破军',
+    '单体连续3次85%攻击，穿透25%防御；自身易伤8持续2次行动。',
+    'enemy',
+    'crescent',
+    '#ffd39a',
+    { power: 0.85, hits: 3, pierce: 0.25, selfVulnerable: 8, cooldown: 4 },
+  ),
+];
+export const ADVANCED_SKILLS = [
+  skill('横刀立阵', '单体140%攻击，自身获得24护盾。', 'enemy', 'slash', '#eeb584', {
+    power: 1.4,
+    selfShield: 24,
+  }),
+  skill('裂甲重击', '单体170%攻击，穿透60%防御。', 'enemy', 'axe', '#ffbe91', { power: 1.7, pierce: 0.6 }),
+  skill('震地八方', '全部敌军105%攻击、虚弱8持续2次行动。', 'enemies', 'quake', '#ecc382', {
+    power: 1.05,
+    statuses: [status('weaken', 8, 2)],
+  }),
+  skill('百战不屈', '自身恢复70生命、获得60护盾并清除减益。', 'self', 'barrier', '#efdfac', {
+    heal: 70,
+    shield: 60,
+    cleanse: true,
+    cooldown: 4,
+  }),
+  skill('万军辟易', '单体3次90%攻击，溅射其他敌人60%攻击。', 'enemy', 'blades', '#ffe1ad', {
+    power: 0.9,
+    hits: 3,
+    splash: 0.6,
+    cooldown: 5,
+  }),
+  skill('疾风突进', '单体155%攻击，穿透25%防御。', 'enemy', 'dash', '#97e6df', { power: 1.55, pierce: 0.25 }),
+  skill('铁骑踏阵', '全部敌军90%攻击，自身获得28护盾。', 'enemies', 'charge', '#d5ca9b', {
+    power: 0.9,
+    selfShield: 28,
+  }),
+  skill('回马破锋', '单体2次100%攻击，吸取伤害的25%恢复自身。', 'enemy', 'lance', '#aedbea', {
+    power: 1,
+    hits: 2,
+    drain: 0.25,
+  }),
+  skill('奔雷贯甲', '单体210%攻击，穿透75%防御。', 'enemy', 'storm', '#b9c9ff', {
+    power: 2.1,
+    pierce: 0.75,
+    cooldown: 4,
+  }),
+  skill('千骑绝尘', '全部敌军150%攻击，自身获得65护盾。', 'enemies', 'charge', '#ffe1b3', {
+    power: 1.5,
+    selfShield: 65,
+    cooldown: 5,
+  }),
+  skill('穿云二矢', '单体2次90%攻击，穿透20%防御。', 'enemy', 'arrows', '#b7e4f2', {
+    power: 0.9,
+    hits: 2,
+    pierce: 0.2,
+  }),
+  skill('火羽连营', '全部敌军80%攻击，灼烧10持续2次行动。', 'enemies', 'fire', '#ffad88', {
+    power: 0.8,
+    statuses: [status('burn', 10, 2)],
+  }),
+  skill('霜箭封锋', '单体180%攻击，封技1次行动。', 'enemy', 'ice', '#a4e8ff', {
+    power: 1.8,
+    statuses: [status('silence', 0, 1)],
+  }),
+  skill('追风贯日', '单体3次85%攻击，穿透40%防御。', 'enemy', 'wind', '#9ff5df', {
+    power: 0.85,
+    hits: 3,
+    pierce: 0.4,
+    cooldown: 4,
+  }),
+  skill('万箭星落', '全部敌军2次90%攻击，易伤10持续2次行动。', 'enemies', 'arrows', '#f7dba5', {
+    power: 0.9,
+    hits: 2,
+    statuses: [status('vulnerable', 10, 2)],
+    cooldown: 5,
+  }),
+  skill('迷阵惑军', '全部敌军70%攻击，虚弱8持续2次行动。', 'enemies', 'formation', '#c6b8e8', {
+    power: 0.7,
+    statuses: [status('weaken', 8, 2)],
+  }),
+  skill('雷火交征', '全部敌军95%攻击，灼烧12持续2次行动。', 'enemies', 'storm', '#ded195', {
+    power: 0.95,
+    statuses: [status('burn', 12, 2)],
+  }),
+  skill('寒川禁咒', '单体190%攻击，封技2次行动。', 'enemy', 'ice', '#a5d9fb', {
+    power: 1.9,
+    statuses: [status('silence', 0, 2)],
+    cooldown: 4,
+  }),
+  skill('风卷残阵', '全部敌军110%攻击，清除其护盾。', 'enemies', 'wind', '#c5f5da', {
+    power: 1.1,
+    breakShield: true,
+    cooldown: 4,
+  }),
+  skill(
+    '星河天策',
+    '全部敌军145%攻击、易伤12持续2次行动；全队获得35护盾。',
+    'enemies',
+    'formation',
+    '#d7bdff',
+    { power: 1.45, statuses: [status('vulnerable', 12, 2)], teamShield: 35, cooldown: 5 },
+  ),
+  skill('抚军安阵', '全体友军恢复26生命、获得20护盾。', 'allies', 'heal', '#a4e1c6', {
+    heal: 26,
+    shield: 20,
+  }),
+  skill('清心解厄', '一名友军清除减益，恢复55生命及已损失生命的25%。', 'ally', 'talisman', '#c5edc6', {
+    heal: 55,
+    healMissing: 0.25,
+    cleanse: true,
+  }),
+  skill('坚壁护军', '全体友军获得55护盾、防御提升4。', 'allies', 'barrier', '#acd9ef', {
+    shield: 55,
+    defense: 4,
+    cooldown: 4,
+  }),
+  skill('旌旗振旅', '全体友军攻击提升7、恢复35生命。', 'allies', 'banner', '#eddaaa', {
+    attack: 7,
+    heal: 35,
+    cooldown: 4,
+  }),
+  skill('长歌济世', '全体友军恢复75生命、获得45护盾并清除减益。', 'allies', 'heal', '#b7f5de', {
+    heal: 75,
+    shield: 45,
+    cleanse: true,
+    cooldown: 5,
+  }),
+];
+export const MANUAL_SKILLS = [
+  skill('秘法·雷泽', '全部敌军100%攻击、易伤8持续2次行动。', 'enemies', 'storm', '#ddc2ff', {
+    power: 1,
+    statuses: [status('vulnerable', 8, 2)],
+    cooldown: 4,
+  }),
+  skill('秘法·焚阵', '全部敌军80%攻击、灼烧16持续2次行动。', 'enemies', 'fire', '#ffb894', {
+    power: 0.8,
+    statuses: [status('burn', 16, 2)],
+    cooldown: 4,
+  }),
+  skill('秘法·凝霜', '单体180%攻击，封技1次行动。', 'enemy', 'ice', '#a6e5ff', {
+    power: 1.8,
+    statuses: [status('silence', 0, 1)],
+  }),
+  skill('秘法·回春', '全体友军恢复45生命，清除减益。', 'allies', 'heal', '#a8efd3', {
+    heal: 45,
+    cleanse: true,
+    cooldown: 4,
+  }),
+  skill('秘法·金城', '全体友军获得45护盾、防御提升3。', 'allies', 'barrier', '#efd698', {
+    shield: 45,
+    defense: 3,
+    cooldown: 4,
+  }),
+  skill('秘法·御风', '单体2次100%攻击、穿透40%防御。', 'enemy', 'wind', '#a6f3df', {
+    power: 1,
+    hits: 2,
+    pierce: 0.4,
+  }),
+];
+SKILLS.forEach((s, i) => {
+  s.id = i;
+});
+LORD_SKILLS.forEach((s, i) => {
+  s.id = 100 + i;
+});
+ADVANCED_SKILLS.forEach((s, i) => {
+  s.id = 200 + i;
+});
+MANUAL_SKILLS.forEach((s, i) => {
+  s.id = 300 + i;
+});
 export const GUARD_SKILL = skill('守军反击', '单体150%攻击，自身获得10护盾。', 'enemy', 'slash', '#dbb994', {
   power: 1.5,
   selfShield: 10,
 });
-export const skillFor = (u) => (u.gid >= 0 ? SKILLS[u.gid] : GUARD_SKILL);
+export const skillById = (id) =>
+  SKILLS[id] ||
+  LORD_SKILLS[id - 100] ||
+  ADVANCED_SKILLS[id - 200] ||
+  MANUAL_SKILLS[id - 300] ||
+  (id === -1 ? GUARD_SKILL : undefined);
+export const skillFor = (u, id = u.skills?.[0]) =>
+  id === undefined ? (u.gid >= 0 ? SKILLS[u.gid] : GUARD_SKILL) : skillById(id);
 export const STATUS_NAMES = {
   burn: '灼烧',
   poison: '中毒',

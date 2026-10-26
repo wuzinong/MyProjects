@@ -8,6 +8,7 @@ import { createGame, command, phase } from '../src/core/engine.js';
 import { serialize, deserialize } from '../src/core/save.js';
 import { REGIONS, GENERALS } from '../src/data/game.js';
 import { SKILLS } from '../src/data/skills.js';
+import { makeFighter } from '../src/core/progression.js';
 import { FACILITY_POSITIONS } from '../src/render/landscape.js';
 import { CENTER_CAMERA, CENTER_SCALE } from '../src/render/world.js';
 const out = resolve('test-results');
@@ -108,13 +109,7 @@ try {
     s = make();
     s.players[0].region = region;
     s.players[0].pos = [1, 6, 11, 16, 21, 26, 31, 37][region];
-    s.players[0].generals = [0, 2, 5].map((id) => ({
-      id,
-      level: 1,
-      injury: 0,
-      guard: -1,
-      gear: Array(6).fill(null),
-    }));
+    s.players[0].generals = [0, 2, 5].map((id) => makeFighter(id));
     await load(s);
     await page.waitForTimeout(950);
     assert.equal(await page.locator('#scene').getAttribute('data-region'), REGIONS[region].name);
@@ -156,7 +151,7 @@ try {
   report.checks.push('scenery follows actual city landing and remains unchanged on a special tile');
   function fight(id) {
     let s = make();
-    const general = (id, guard = -1) => ({ id, level: 1, injury: 0, guard, gear: Array(6).fill(null) });
+    const general = (id, guard = -1) => ({ ...makeFighter(id), guard });
     s.players[0].generals = [id, (id + 1) % 40, (id + 2) % 40].map((i) => general(i));
     s.players[1].generals = [13, 14, 15].map((i) => general(i, 1));
     s.assets[1].owner = 1;

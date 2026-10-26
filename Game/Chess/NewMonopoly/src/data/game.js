@@ -1,5 +1,6 @@
 import { SKILLS } from './skills.js';
-export const VERSION = 3;
+import { NEW_PEOPLE, BIOGRAPHIES } from './people.js';
+export const VERSION = 4;
 // Four seats can each develop a six-city region through four ordinary levels.
 export const HOUSE_SUPPLY = 96;
 export const PALACE_SUPPLY = 24;
@@ -293,14 +294,43 @@ export const GENERALS = people.map(([name, faction, troop, rarity, volume], id) 
   faction: String(faction),
   troop: String(troop),
   rarity: Number(rarity),
+  role: [5, 6, 22, 25, 26, 29, 38, 39].includes(id)
+    ? 'strategist'
+    : [7, 23, 24, 27, 34, 37].includes(id)
+      ? 'support'
+      : troop === '骑'
+        ? 'rider'
+        : troop === '弓'
+          ? 'archer'
+          : 'vanguard',
   hp: 105 + Number(rarity) * 16 + (id % 4) * 7,
   atk: 27 + Number(rarity) * 4 + (id % 5),
   def: 9 + (id % 6) * 2,
   speed: 12 + (id % 9),
   ability: SKILLS[id].name,
   abilityDescription: SKILLS[id].description,
-  source: volume ? `三国志·卷${volume}` : '后汉书·卷71',
+  source: BIOGRAPHIES[String(name)]?.source || (volume ? `三国志·卷${volume}` : '后汉书·卷71'),
 }));
+GENERALS.push(
+  ...NEW_PEOPLE.map((p, index) => {
+    const id = index + 40;
+    return {
+      id,
+      name: p.name,
+      faction: p.faction,
+      troop: p.troop,
+      rarity: p.rarity,
+      role: p.role,
+      hp: 105 + p.rarity * 16 + (id % 4) * 7,
+      atk: 27 + p.rarity * 4 + (id % 5),
+      def: 9 + (id % 6) * 2,
+      speed: 12 + (id % 9),
+      ability: SKILLS[id].name,
+      abilityDescription: SKILLS[id].description,
+      source: BIOGRAPHIES[p.name].source,
+    };
+  }),
+);
 export const SLOTS = ['头', '手', '武器', '铠甲', '护腿', '脚'];
 export const ITEMS = ['铁胄', '革护手', '环首刀', '札甲', '胫甲', '革靴'];
 export const QUALITY = ['素品', '良品', '上品', '珍品', '绝品'];
@@ -376,7 +406,7 @@ export function validateData() {
   if (
     MAP.length !== 64 ||
     MAP.filter((t) => t.kind === 'city').length !== 46 ||
-    GENERALS.length !== 40 ||
+    GENERALS.length !== 90 ||
     CARDS.length !== 24
   )
     throw Error('内容数量不符');

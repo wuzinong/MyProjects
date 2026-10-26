@@ -1,6 +1,7 @@
 import { MAP, CARDS } from '../data/game.js';
 import { skillFor } from '../data/skills.js';
 import { skillTargets } from '../core/combat.js';
+import { fighters, unlockedSkills } from '../core/progression.js';
 import {
   actorId,
   active,
@@ -103,17 +104,40 @@ export function chooseBattle(s) {
     });
     if (index >= 0) return { type: 'battleCard', index, target: target.id };
   }
-  if (u.cooldown === 0 && !u.statuses.some((x) => x.kind === 'silence')) {
-    const skill = skillFor(u),
-      available = skillTargets(b, u, skill);
-    const choice = available.sort((a, b) => {
-      if (skill.target === 'ally')
-        return a.hp / a.max - a.cooldown * 0.12 - (b.hp / b.max - b.cooldown * 0.12);
-      if (skill.wall > 1) return (a.gid === -2 ? -1 : 0) - (b.gid === -2 ? -1 : 0) || a.hp - b.hp;
-      return a.hp - b.hp;
-    })[0];
-    if (choice) return { type: 'skill', target: choice.id };
-  }
+  const choices = [];
+  if (!u.statuses.some((x) => x.kind === 'silence'))
+    for (const [slot, id] of u.skills.entries()) {
+      if ((slot === 0 ? u.cooldown : u.cooldowns[slot]) > 0) continue;
+      const skill = skillFor(u, id),
+        available = skillTargets(b, u, skill);
+      const choice = available.sort((a, b) => {
+        if (skill.target === 'ally')
+          return a.hp / a.max - a.cooldown * 0.12 - (b.hp / b.max - b.cooldown * 0.12);
+        if (skill.wall > 1) return (a.gid === -2 ? -1 : 0) - (b.gid === -2 ? -1 : 0) || a.hp - b.hp;
+        return a.hp - b.hp;
+      })[0];
+      if (choice) {
+        const affected = ['enemy', 'ally'].includes(skill.target) ? [choice] : available;
+        const score =
+          affected.reduce(
+            (n, t) =>
+              n +
+              (t.side !== u.side
+                ? skill.power * skill.hits * u.atk + skill.statuses.length * 12
+                : Math.min(t.max - t.hp, skill.heal + (t.max - t.hp) * skill.healMissing) +
+                  Math.max(0, skill.shield - t.shield) * 0.5 +
+                  skill.attack * 3 +
+                  skill.defense * 2),
+            0,
+          ) +
+          Math.max(0, skill.selfShield - u.shield) * 0.3 +
+          skill.selfAttack * 3;
+        choices.push({ id, target: choice.id, score });
+      }
+    }
+  choices.sort((a, b) => b.score - a.score);
+  if (choices[0]?.score > u.atk * 0.6)
+    return { type: 'skill', skill: choices[0].id, target: choices[0].target };
   return { type: 'attack', target: target.id };
 }
 export function choose(s) {
@@ -163,15 +187,23 @@ export function choose(s) {
         const a = s.assets[s.decision.tile],
           enemy = s.players[a.owner],
           guards = enemy.generals.filter((g) => g.guard === s.decision.tile && g.injury === 0);
-        const power = troops.reduce((n, g) => n + stats(p, g).hp + stats(p, g).atk * 4, 0);
+        const hero = p.hero.injury === 0;
+        const power = [...troops, ...(hero ? [p.hero] : [])].reduce(
+          (n, g) => n + stats(p, g).hp + stats(p, g).atk * 4,
+          0,
+        );
         const defense =
-          guards.reduce((n, g) => n + stats(enemy, g).hp + stats(enemy, g).atk * 4, 0) || 200 + a.level * 45;
+          (guards.reduce((n, g) => n + stats(enemy, g).hp + stats(enemy, g).atk * 4, 0) ||
+            200 + a.level * 45) +
+          (enemy.pos === s.decision.tile && enemy.hero.injury === 0
+            ? stats(enemy, enemy.hero).hp + stats(enemy, enemy.hero).atk * 4
+            : 0);
         const completesRegion = groupTiles(s.decision.tile)
           .filter((t) => t.id !== s.decision.tile)
           .every((t) => s.assets[t.id].owner === p.id);
-        const protectsSolvency = s.decision.amount > p.cash * 0.65;
+        const protectsSolvency = s.decision.amount > liquidationValue(s, p);
         if ((completesRegion || protectsSolvency) && power > defense + 90 + a.level * 30)
-          return { type: 'siege', generals: troops.map((g) => g.id) };
+          return { type: 'siege', hero, generals: troops.map((g) => g.id) };
       }
       return { type: 'pay' };
     }
@@ -208,17 +240,9 @@ export function choose(s) {
     default:
       break;
   }
-  if (
-    s.houses === 0 &&
-    owned(s, p.id).some(
-      (t) => complete(s, t.id, p.id) && s.assets[t.id].level < 4 && p.cash > buildCost(s, p, t.id) + 160,
-    )
-  ) {
-    const stranded = owned(s, p.id).find(
-      (t) => s.assets[t.id].level > 0 && s.assets[t.id].level < 5 && !complete(s, t.id, p.id),
-    );
-    if (stranded) return { type: 'asset', action: 'demolish', tile: stranded.id };
-  }
+  // Captures split developed regions; reclaim capital so their land can be traded again.
+  const stranded = owned(s, p.id).find((t) => s.assets[t.id].level > 0 && !complete(s, t.id, p.id));
+  if (stranded) return { type: 'asset', action: 'demolish', tile: stranded.id };
   const build = building(s, p);
   if (build) return { type: 'asset', action: 'build', tile: build.id };
   const redeemed = owned(s, p.id).find((t) => s.assets[t.id].mortgaged && p.cash > t.price * 0.55 + 300);
@@ -232,19 +256,32 @@ export function choose(s) {
       );
       if (index >= 0) return { type: 'card', index };
     }
-    for (const g of p.generals) {
+    for (const g of fighters(p)) {
       for (let slot = 0; slot < 6; slot++) {
         const best = p.items
-          .filter((x) => x.slot === slot && !p.generals.some((y) => y.gear.includes(x.id)))
+          .filter((x) => x.slot === slot && !fighters(p).some((y) => y.gear.includes(x.id)))
           .sort((a, b) => b.quality - a.quality)[0];
         const current = p.items.find((x) => x.id === g.gear[slot]);
         if (best && (!current || best.quality > current.quality))
           return { type: 'equip', general: g.id, slot, item: best.id };
       }
+      if (g.manual < 0 && p.manuals.length) return { type: 'manual', general: g.id, index: p.manuals[0] };
+      if (g.relic === null) {
+        const relic = p.relics.find((x) => !fighters(p).some((f) => f.relic === x.id));
+        if (relic) return { type: 'relic', general: g.id, item: relic.id };
+      }
+      const learned = unlockedSkills(p, g);
+      if (learned.length > 1 && !g.loadout.includes(learned.at(-1)))
+        return { type: 'loadSkill', general: g.id, slot: 1, skill: learned.at(-1) };
     }
     if ((p.generals.length < 3 && p.cash > 700) || (p.generals.length < 6 && p.cash > 1500))
       return { type: 'recruit' };
-    const train = p.generals.find((g) => g.level < 6 && p.material >= g.level && p.cash > g.level * 30 + 500);
+    const train = fighters(p).find(
+      (g) =>
+        g.level < Math.min(50, Math.max(6, p.hero.level)) &&
+        p.material >= g.level &&
+        p.cash > g.level * 30 + 500,
+    );
     if (train) return { type: 'train', general: train.id };
     if (p.pos === 7 && p.food < 60 && p.cash > 200) return { type: 'food' };
     const undefended = owned(s, p.id)
@@ -255,8 +292,12 @@ export function choose(s) {
           p.generals.filter((g) => g.guard === t.id).length < 3,
       )
       .sort((a, b) => s.assets[b.id].level - s.assets[a.id].level)[0];
-    if (undefended && readyGenerals(p).length > 1)
-      return { type: 'guard', general: readyGenerals(p).at(-1).id, tile: undefended.id };
+    if (undefended && readyGenerals(p).length > 1) {
+      const defender = readyGenerals(p).sort(
+        (a, b) => stats(p, b).hp + stats(p, b).atk * 4 - stats(p, a).hp - stats(p, a).atk * 4,
+      )[0];
+      return { type: 'guard', general: defender.id, tile: undefended.id };
+    }
     if (p.allianceRound !== s.round && p.cash < 400) {
       const peer = s.players.find((x) => canAlly(s, p.id, x.id) && x.cash >= p.cash);
       if (peer) return { type: 'alliance', target: peer.id };

@@ -15,6 +15,8 @@ import { makeLandscape, animateLandscape, sceneryCity, FACILITY_POSITIONS, SCENE
 import { readyGenerals } from '../core/engine.js';
 import { CombatAnimation } from './combat-effects.js';
 import { STATUS_NAMES } from '../data/skills.js';
+import { fighter } from '../core/progression.js';
+import { TITLES } from '../data/progression.js';
 
 export { tilePosition } from './world.js';
 export class GameScene {
@@ -173,15 +175,15 @@ export class GameScene {
     parent.add(m);
     return m;
   }
-  text(text, color = '#eee3ca', w = 1.4, h = 0.38) {
+  text(text, color = '#eee3ca', w = 1.4, h = 0.38, width = 512) {
     const canvas = document.createElement('canvas');
-    canvas.width = 512;
+    canvas.width = width;
     canvas.height = 128;
     const c = canvas.getContext('2d');
-    c.clearRect(0, 0, 512, 128);
+    c.clearRect(0, 0, width, 128);
     c.fillStyle = '#101416cc';
     c.beginPath();
-    c.roundRect(2, 12, 508, 104, 15);
+    c.roundRect(2, 12, width - 4, 104, 15);
     c.fill();
     c.strokeStyle = color + '88';
     c.lineWidth = 3;
@@ -190,7 +192,7 @@ export class GameScene {
     c.font = 'bold 55px "Microsoft YaHei",sans-serif';
     c.textAlign = 'center';
     c.textBaseline = 'middle';
-    c.fillText(text, 256, 66, 490);
+    c.fillText(text, width / 2, 66, width - 22);
     const texture = new T.CanvasTexture(canvas);
     texture.colorSpace = T.SRGBColorSpace;
     const material = new T.SpriteMaterial({ map: texture, depthTest: false, transparent: true });
@@ -773,8 +775,8 @@ export class GameScene {
       const signature = `${battle.city}:${battle.attacker}:${battle.defender}:${battle.units
         .map((u) => {
           const p = state.players[u.side === 0 ? battle.attacker : battle.defender],
-            g = p.generals.find((g) => g.id === u.gid);
-          return `${u.id}:${u.gid}:${g?.gear
+            g = u.gid === -3 || u.gid >= 0 ? fighter(p, u.gid === -3 ? -1 : u.gid) : null;
+          return `${u.id}:${u.gid}:${g?.title}:${g?.relic}:${g?.gear
             .map((id) => {
               const item = p.items.find((i) => i.id === id);
               return item ? `${item.id}.${item.quality}` : '-';
@@ -882,7 +884,7 @@ export class GameScene {
     b.units.forEach((u) => {
       if (u.gid === -2) {
         const wall = new T.Group();
-        wall.position.set(3, 0.05, -3);
+        wall.position.set(3, 0.05, -5.4);
         this.battleRoot.add(wall);
         this.box(wall, 0, 0.8, 0, 7, 1.6, 0.6, '#aaa080');
         for (let i = 0; i < 10; i++) this.box(wall, -3.25 + i * 0.73, 1.8, 0, 0.4, 0.4, 0.65, '#b8ab87');
@@ -896,12 +898,22 @@ export class GameScene {
         return;
       }
       const p = s.players[u.side === 0 ? b.attacker : b.defender],
-        g = p.generals.find((g) => g.id === u.gid);
-      const model = this.warrior(COLORS[p.id], g?.gear || [], p.items, u.gid, u.troop);
-      const count = b.units.filter((x) => x.side === u.side && x.gid !== -2).length;
-      model.position.set(u.side === 0 ? -3.6 : 3.6, 0.15, ((u.id % 10) - (count - 1) / 2) * 2.6);
+        g = u.gid === -3 || u.gid >= 0 ? fighter(p, u.gid === -3 ? -1 : u.gid) : null;
+      const model = this.warrior(
+        COLORS[p.id],
+        g?.gear || [],
+        p.items,
+        u.gid === -3 ? 90 + p.lord : Math.max(0, u.gid),
+        u.troop,
+      );
+      const side = b.units.filter((x) => x.side === u.side && x.gid !== -2);
+      model.position.set(u.side === 0 ? -3.6 : 3.6, 0.15, (side.indexOf(u) - (side.length - 1) / 2) * 2.6);
       model.rotation.y = u.side === 0 ? Math.PI * 0.5 : -Math.PI * 0.5;
       model.scale.setScalar(2);
+      if (g && g.title >= 0) this.rankEffect(model, g.title);
+      if (u.gid === -3) {
+        this.cone(model, 0, 2.15, 0, 0.25, 0.45, '#d4ad63', 6);
+      }
       this.battleRoot.add(model);
       this.battleModels.set(u.id, {
         model,
@@ -914,6 +926,57 @@ export class GameScene {
     const title = this.text(`${MAP[b.city].name} · 攻城战`, '#eed1a0', 5, 1);
     title.position.set(0, 0.5, 5.5);
     this.battleRoot.add(title);
+  }
+  rankEffect(model, id) {
+    const title = TITLES[id],
+      aura = new T.Group();
+    const key = `rank:${title.color}`;
+    if (!this.materials.has(key))
+      this.materials.set(
+        key,
+        new T.MeshBasicMaterial({
+          color: title.color,
+          transparent: true,
+          opacity: 0.55,
+          depthWrite: false,
+          toneMapped: false,
+        }),
+      );
+    const material = this.materials.get(key);
+    model.add(aura);
+    for (let i = 0; i <= Math.floor(id / 4); i++) {
+      const ring = new T.Mesh(this.geo('TorusGeometry', [0.46 + i * 0.08, 0.012, 4, 12 + id * 3]), material);
+      ring.rotation.x = Math.PI / 2;
+      ring.position.y = 0.05 + i * 0.025;
+      aura.add(ring);
+    }
+    for (let i = 0; i < id + 3; i++) {
+      const a = (i / (id + 3)) * Math.PI * 2;
+      const mote = new T.Mesh(
+        this.geo(id % 2 ? 'OctahedronGeometry' : 'TetrahedronGeometry', [0.045]),
+        material,
+      );
+      mote.position.set(Math.cos(a) * 0.63, 0.13 + (i % 3) * 0.08, Math.sin(a) * 0.63);
+      aura.add(mote);
+    }
+    const seal = this.text(title.seal, title.color, 0.42, 0.5, 128);
+    seal.position.set(-0.6, 1.48, -0.25);
+    model.add(seal);
+    for (let i = 0; i <= Math.floor(id / 4); i++) {
+      const ribbon = this.box(
+        model,
+        -0.6 + i * 0.18,
+        1.08,
+        -0.28,
+        0.09,
+        0.62 + i * 0.08,
+        0.025,
+        title.color,
+        true,
+      );
+      ribbon.material = material;
+    }
+    model.userData.rankAura = aura;
   }
   refreshBattleUnits(s, pose = true) {
     for (const u of s.battle.units) {
@@ -936,7 +999,7 @@ export class GameScene {
       }
       entry.signature = text;
       entry.label = this.text(text, u.side === 0 ? '#8ad6bc' : '#e6ac8d', u.statuses.length ? 4 : 3.3, 0.65);
-      entry.label.position.set(entry.home.x, u.gid === -2 ? 2.8 : 4, entry.home.z);
+      entry.label.position.set(entry.home.x + (u.gid === -2 ? 2.5 : 0), u.gid === -2 ? 2.8 : 4, entry.home.z);
       this.battleRoot.add(entry.label);
     }
   }
@@ -1072,6 +1135,11 @@ export class GameScene {
     this.last = time;
     this.controls.update();
     if (this.combatAnimation?.tick(time)) this.finishCombat();
+    if (this.battleRoot.visible)
+      for (const entry of this.battleModels.values()) {
+        const aura = entry.model.userData.rankAura;
+        if (aura) aura.rotation.y = this.reduced || this.quality === 'low' ? 0 : time * 0.00035;
+      }
     if (this.landscape) {
       const t = Math.min(1, (time - this.regionStart) / 850),
         ease = t * t * (3 - 2 * t);

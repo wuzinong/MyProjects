@@ -23,7 +23,7 @@ const own = (s, id, p = 0) => {
 };
 test('content: 64 tiles, real unique roster and complete enhancement card set', () => {
   assert.equal(validateData(), true);
-  assert.equal(GENERALS.length, 40);
+  assert.equal(GENERALS.length, 90);
   assert.equal(CARDS.length, 24);
 });
 test('reject commands atomically and keep seeded outcomes deterministic', () => {

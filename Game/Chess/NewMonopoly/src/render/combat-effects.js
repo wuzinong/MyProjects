@@ -11,7 +11,7 @@ const smooth = (x) => {
 export function combatPresentation(command, before) {
   const b = before.battle,
     u = b.units.find((x) => x.id === b.order[b.cursor]);
-  if (command.type === 'skill') return skillFor(u);
+  if (command.type === 'skill') return skillFor(u, command.skill);
   if (command.type === 'battleCard') {
     const p = before.players[u.side === 0 ? b.attacker : b.defender],
       card = CARDS[p.cards[command.index]];
@@ -44,7 +44,7 @@ export class CombatAnimation {
     this.before = before;
     this.after = after;
     this.started = performance.now();
-    this.duration = command.type === 'skill' ? 1750 : 1250;
+    this.duration = command.type === 'skill' ? 2000 : 1250;
     this.root = new T.Group();
     v.battleRoot.add(this.root);
     this.materials = [];
@@ -62,7 +62,7 @@ export class CombatAnimation {
     const target = b.units.find((u) => u.id === command.target);
     let targets = target ? [target] : [this.unit];
     if (command.type === 'skill') {
-      const skill = skillFor(this.unit);
+      const skill = skillFor(this.unit, command.skill);
       targets = ['enemy', 'ally'].includes(skill.target) ? [target] : skillTargets(b, this.unit, skill);
     } else if (command.type === 'battleCard') {
       targets = b.units.filter((u) => {
@@ -77,6 +77,7 @@ export class CombatAnimation {
     this.approach = this.destination.clone().add(toward.clone().normalize().multiplyScalar(-1.65));
     this.approach.y = this.origin.y;
     if (this.melee && toward.length() > 0.01) this.actor.model.rotation.y = Math.atan2(toward.x, toward.z);
+    if (this.melee && command.type === 'skill') this.afterimages();
     targets.filter(Boolean).forEach((u, i) => this.makeEffect(u, i));
     after.combatEvent.units.forEach((result) => {
       const old = b.units.find((u) => u.id === result.id),
@@ -152,6 +153,50 @@ export class CombatAnimation {
     mesh.scale.setScalar(radius);
     return mesh;
   }
+  ribbon(points, color, radius = 0.035) {
+    const curve = new T.CatmullRomCurve3(points);
+    const mesh = new T.Mesh(new T.TubeGeometry(curve, 32, radius, 5, false), this.material(color, 0.7));
+    mesh.userData.ownedGeometry = true;
+    this.root.add(mesh);
+    return mesh;
+  }
+  afterimages() {
+    const count = this.v.quality === 'low' ? 1 : 3;
+    for (let i = 0; i < count; i++) {
+      const ghost = this.v.warrior(this.presentation.color, [], [], 0, this.unit.troop);
+      const material = this.material(this.presentation.color, 0.15 + i * 0.035);
+      ghost.traverse((o) => {
+        if (o.isMesh) o.material = material;
+      });
+      ghost.rotation.copy(this.actor.model.rotation);
+      ghost.scale.copy(this.actor.model.scale);
+      this.root.add(ghost);
+      this.tracks.push((p) => {
+        const t = smooth((p - 0.2 - i * 0.045) / 0.28);
+        ghost.visible = p > 0.22 + i * 0.045 && p < 0.65;
+        ghost.position.lerpVectors(this.origin, this.approach, t);
+        ghost.userData.rig.right.rotation.x = Math.sin(p * 14 - i * 0.5);
+      });
+    }
+  }
+  impact(point, color, index) {
+    const count = this.v.quality === 'low' ? 5 : 12;
+    for (let i = 0; i < count; i++) {
+      const shard = this.mesh('TetrahedronGeometry', [0.09], this.material(i % 3 ? color : '#f2dfb8', 0.85));
+      const angle = i * 2.399 + index;
+      this.tracks.push((p) => {
+        const t = clamp((p - 0.43) / 0.32);
+        shard.visible = p > 0.43 && p < 0.8;
+        shard.position.set(
+          point.x + Math.cos(angle) * t * 2,
+          point.y + Math.sin(t * Math.PI) * (1 + (i % 3) * 0.35),
+          point.z + Math.sin(angle) * t * 2,
+        );
+        shard.scale.setScalar(1 - t);
+        shard.rotation.set(t * 8, angle, t * 5);
+      });
+    }
+  }
   aura(point, color, kind) {
     if (kind === 'shield') {
       const bubble = this.mesh('SphereGeometry', [1, 16, 10], this.material(color, 0.25, true));
@@ -185,16 +230,10 @@ export class CombatAnimation {
     const { effect, color, hits } = this.presentation;
     const ground = point.clone();
     ground.y = 0.2;
-    const ring = this.ring(ground, color);
-    this.tracks.push((p) => {
-      const t = clamp((p - 0.18) / 0.7);
-      ring.visible = p > 0.18;
-      ring.scale.setScalar(0.3 + t * 2.3);
-      ring.rotation.z = p * (index + 1) * 2;
-    });
+    if (unit.side !== this.unit.side) this.impact(point, color, index);
     const phase = (p) => clamp((p - 0.22) / 0.55);
     if (['slash', 'crescent', 'axe', 'blades'].includes(effect)) {
-      const count = effect === 'blades' ? 2 : effect === 'crescent' ? 3 : 1;
+      const count = Math.max(hits, effect === 'blades' ? 3 : effect === 'crescent' ? 2 : 1);
       for (let i = 0; i < count; i++) {
         const slash = this.mesh('TorusGeometry', [1, 0.065, 8, 40, Math.PI * 1.45], this.material(color));
         slash.position.copy(point);
@@ -202,13 +241,14 @@ export class CombatAnimation {
         slash.rotation.set(effect === 'axe' ? 0 : Math.PI * 0.35, i * 0.65, i);
         this.tracks.push((p) => {
           const t = phase(p);
-          slash.visible = p > 0.32 && p < 0.85;
+          const strike = clamp((p - 0.28 - i * 0.08) / 0.32);
+          slash.visible = strike > 0 && strike < 1;
           slash.rotation.z = -1.7 + t * 5 + i * 1.6;
-          slash.scale.setScalar((1.1 + i * 0.2) * Math.sin(Math.PI * t));
+          slash.scale.setScalar((1.5 + i * 0.2) * Math.sin(Math.PI * strike));
         });
       }
     } else if (effect === 'arrows') {
-      for (let i = 0; i < Math.max(2, hits + 1); i++) {
+      for (let i = 0; i < Math.max(3, hits * 3); i++) {
         const arrow = new T.Group();
         this.root.add(arrow);
         const mat = this.material(color);
@@ -216,7 +256,7 @@ export class CombatAnimation {
         const tip = this.mesh('ConeGeometry', [0.08, 0.22, 5], mat, arrow);
         tip.position.y = 0.65;
         this.tracks.push((p) => {
-          const t = clamp((p - 0.2 - i * 0.055) / 0.4);
+          const t = clamp((p - 0.18 - i * 0.025) / 0.4);
           arrow.visible = t > 0 && t < 1;
           const start = this.origin.clone().add(new T.Vector3(0, 2.1, (i - 1) * 0.15));
           arrow.position.lerpVectors(start, point, t);
@@ -237,6 +277,32 @@ export class CombatAnimation {
           trail.position.y += 1 + Math.sin(i * 0.7 + p * 15) * 0.4;
           trail.scale.setScalar((1 - i / 22) * Math.sin(p * Math.PI));
         });
+      }
+      if (effect === 'lance') {
+        const beam = this.ribbon(
+          [
+            this.origin.clone().add(new T.Vector3(0, 1.4, 0)),
+            point.clone().add(new T.Vector3(0, 0.1, 0)),
+            point.clone().add(new T.Vector3(this.unit.side ? -1.8 : 1.8, 0.1, 0)),
+          ],
+          color,
+          0.1,
+        );
+        this.tracks.push((p) => {
+          beam.visible = p > 0.35 && p < 0.64;
+        });
+      } else {
+        for (let i = 0; i < (this.v.quality === 'low' ? 4 : 12); i++) {
+          const dust = this.mesh('IcosahedronGeometry', [0.22, 0], this.material('#bcab82', 0.35));
+          this.tracks.push((p) => {
+            const t = clamp((p - 0.22 - i * 0.015) / 0.4);
+            dust.visible = p > 0.22 && p < 0.8;
+            dust.position.lerpVectors(this.origin, this.approach, i / 12);
+            dust.position.z += Math.sin(i * 4) * t;
+            dust.position.y = 0.15 + t * 0.5;
+            dust.scale.setScalar(Math.sin(t * Math.PI) * 2);
+          });
+        }
       }
     } else if (effect === 'fire') {
       for (let i = 0; i < 10; i++) {
@@ -282,7 +348,76 @@ export class CombatAnimation {
         bolt.userData.ownedGeometry = true;
         this.root.add(bolt);
         this.tracks.push((p) => {
-          bolt.visible = p > 0.3 && p < 0.8 && (Math.floor(p * 30) + k) % 3 !== 0;
+          bolt.visible = p > 0.3 + k * 0.07 && p < 0.65 + k * 0.07;
+        });
+      }
+    } else if (effect === 'ice') {
+      for (let i = 0; i < (this.v.quality === 'low' ? 5 : 11); i++) {
+        const crystal = this.mesh(
+          'OctahedronGeometry',
+          [0.5],
+          this.material(i % 2 ? color : '#d5f3ff', 0.75),
+        );
+        const angle = i * 2.399;
+        this.tracks.push((p) => {
+          const rise = smooth((p - 0.22 - i * 0.012) / 0.3),
+            shatter = clamp((p - 0.58) / 0.28);
+          crystal.visible = p > 0.2 && p < 0.88;
+          crystal.position.set(
+            point.x + Math.cos(angle) * (0.7 + shatter * 1.4),
+            0.15 + rise * (0.8 + (i % 3) * 0.3) + Math.sin(shatter * Math.PI),
+            point.z + Math.sin(angle) * (0.7 + shatter * 1.4),
+          );
+          crystal.scale.set(
+            0.6 * (1 - shatter),
+            (1.2 + (i % 3) * 0.6) * rise * (1 - shatter),
+            0.6 * (1 - shatter),
+          );
+          crystal.rotation.z = Math.cos(angle) * (0.2 + shatter);
+        });
+      }
+    } else if (effect === 'wind') {
+      for (let k = 0; k < (this.v.quality === 'low' ? 2 : 5); k++) {
+        const points = Array.from({ length: 30 }, (_, i) => {
+          const t = i / 29,
+            a = t * Math.PI * 4 + k * 1.25;
+          return new T.Vector3(
+            point.x + Math.cos(a) * (1.6 - t * 0.8),
+            0.3 + t * 3.7,
+            point.z + Math.sin(a) * (1.6 - t * 0.8),
+          );
+        });
+        const ribbon = this.ribbon(points, k % 2 ? '#d7f8ec' : color, 0.035);
+        this.tracks.push((p) => {
+          ribbon.visible = p > 0.24 && p < 0.88;
+          ribbon.position.y = Math.sin(phase(p) * Math.PI) * 0.4;
+        });
+      }
+    } else if (effect === 'quake') {
+      for (let i = 0; i < 7; i++) {
+        const angle = (i / 7) * Math.PI * 2;
+        const points = Array.from(
+          { length: 5 },
+          (_, j) =>
+            new T.Vector3(
+              point.x + Math.cos(angle + Math.sin(j * 3) * 0.15) * j * 0.65,
+              0.12,
+              point.z + Math.sin(angle + Math.sin(j * 3) * 0.15) * j * 0.65,
+            ),
+        );
+        const crack = this.ribbon(points, color, 0.045);
+        const rock = this.mesh('DodecahedronGeometry', [0.3, 0], this.material('#ae9b7f'));
+        this.tracks.push((p) => {
+          const t = clamp((p - 0.35 - i * 0.018) / 0.4);
+          crack.visible = t > 0 && p < 0.84;
+          rock.visible = t > 0 && t < 1;
+          rock.position.set(
+            point.x + Math.cos(angle) * (0.7 + t),
+            Math.sin(t * Math.PI) * (0.8 + (i % 3) * 0.5),
+            point.z + Math.sin(angle) * (0.7 + t),
+          );
+          rock.rotation.set(t * 5, angle, t * 2);
+          rock.scale.setScalar(1 - t * 0.6);
         });
       }
     } else if (['formation', 'scroll', 'talisman', 'chains'].includes(effect)) {
@@ -317,6 +452,22 @@ export class CombatAnimation {
       }
     } else if (['heal', 'tide', 'banner'].includes(effect)) {
       this.aura(ground, color, 'heal');
+      const origin = this.origin.clone().add(new T.Vector3(0, 2, 0));
+      const ribbon = this.ribbon(
+        [
+          origin,
+          origin
+            .clone()
+            .lerp(point, 0.5)
+            .add(new T.Vector3(0, 2.5, 0)),
+          point,
+        ],
+        color,
+        0.06,
+      );
+      this.tracks.push((p) => {
+        ribbon.visible = p > 0.2 && p < 0.76;
+      });
       if (effect === 'banner') {
         const banner = this.glyph('令', color, 1.3, 1.6);
         banner.position.copy(point).y += 1.8;
@@ -361,6 +512,7 @@ export class CombatAnimation {
   }
   tick(time) {
     const p = clamp((time - this.started) / this.duration);
+    this.v.container.dataset.combatEffect = this.presentation.effect;
     this.v.container.dataset.combatStage =
       p < 0.22 ? 'windup' : p < 0.45 ? 'approach' : p < 0.72 ? 'impact' : 'recover';
     const travel = p < 0.45 ? smooth((p - 0.18) / 0.27) : 1 - smooth((p - 0.72) / 0.28);
@@ -420,5 +572,6 @@ export class CombatAnimation {
     this.materials.forEach((m) => m.dispose());
     this.root.removeFromParent();
     delete this.v.container.dataset.combatStage;
+    delete this.v.container.dataset.combatEffect;
   }
 }

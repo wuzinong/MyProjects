@@ -189,11 +189,16 @@ try {
         for (const key of ['giveCash', 'takeCash', 'giveEscape', 'takeEscape'])
           await page.locator(`[name=${key}]`).fill(String(c.offer[key]));
         await page.getByRole('button', { name: '递交提案' }).click();
-      } else if (['equip', 'train', 'guard'].includes(c.type)) {
+      } else if (['equip', 'train', 'guard', 'manual', 'relic', 'loadSkill'].includes(c.type)) {
         await page.getByRole('button', { name: '武将 / 装备', exact: true }).click();
         await page.locator(`[data-general="${c.general}"]`).click();
         if (c.type === 'equip') await page.locator(`[data-equip="${c.slot}"]`).selectOption(String(c.item));
-        if (c.type === 'train') await page.getByRole('button', { name: /培养 ·/ }).click();
+        if (c.type === 'train') await page.getByRole('button', { name: /训练 / }).click();
+        if (c.type === 'manual')
+          await page.locator('[data-hero-choice="manual"]').selectOption(String(c.index));
+        if (c.type === 'relic') await page.locator('[data-hero-choice="relic"]').selectOption(String(c.item));
+        if (c.type === 'loadSkill')
+          await page.locator(`[data-skill-slot="${c.slot}"]`).selectOption(String(c.skill));
         if (c.type === 'guard') {
           await page.locator('#guard-tile').selectOption(String(c.tile));
           await page.getByRole('button', { name: '调动驻守' }).click();
@@ -218,6 +223,7 @@ try {
           await page.getByRole('button', { name: '关闭面板' }).click();
       } else if (c.type === 'siege') {
         await page.getByRole('button', { name: /点将攻城/ }).click();
+        await page.locator('#siege-hero').setChecked(Boolean(c.hero));
         for (const checkbox of await page.locator('[name=siege-general]').all()) {
           const id = Number(await checkbox.getAttribute('value'));
           await checkbox.setChecked(c.generals.includes(id));
@@ -225,8 +231,11 @@ try {
         await page.getByRole('button', { name: '鸣鼓攻城' }).click();
       } else if (c.type === 'attack' || c.type === 'skill') {
         if (c.type === 'attack') await page.locator('#battle-target').selectOption(String(c.target));
-        else if (await page.locator('#skill-target').count())
-          await page.locator('#skill-target').selectOption(String(c.target));
+        else {
+          await page.locator('#battle-skill').selectOption(String(c.skill));
+          if (await page.locator('#skill-target').count())
+            await page.locator('#skill-target').selectOption(String(c.target));
+        }
         await page.locator(`[data-action="${c.type}"]`).click();
       } else if (c.type === 'shopBuy') {
         await page.getByRole('button', { name: '查看秘密商店', exact: true }).click();

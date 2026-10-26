@@ -1,6 +1,7 @@
 import { assertState } from './engine.js';
-import { VERSION, GENERALS, MAP, SHOP_PRICES, HOUSE_SUPPLY, PALACE_SUPPLY } from '../data/game.js';
-import { STATUS_NAMES } from '../data/skills.js';
+import { VERSION, GENERALS, LORDS, MAP, SHOP_PRICES, HOUSE_SUPPLY, PALACE_SUPPLY } from '../data/game.js';
+import { STATUS_NAMES, skillById } from '../data/skills.js';
+import { makeFighter, fighter, equippedSkills, fighterTroop } from './progression.js';
 
 const MAX_BYTES = 2 * 1024 * 1024;
 function record(x) {
@@ -24,10 +25,10 @@ export function deserialize(text) {
   requireKeys(root, ['format', 'version', 'state'], '存档');
   if (
     root.format !== 'dingli-save' ||
-    ![1, 2, VERSION].includes(root.version) ||
+    ![1, 2, 3, VERSION].includes(root.version) ||
     root.state?.version !== root.version
   )
-    throw Error('存档版本不兼容，支持版本1、2迁移与版本3');
+    throw Error('存档版本不兼容，支持版本1、2、3迁移与版本4');
   const s = root.state;
   requireKeys(
     s,
@@ -98,7 +99,7 @@ export function deserialize(text) {
     );
     if (
       !Array.isArray(p.generals) ||
-      p.generals.length > 40 ||
+      p.generals.length > (root.version < 4 ? 40 : GENERALS.length) ||
       !Array.isArray(p.items) ||
       p.items.length > 3000 ||
       !Array.isArray(p.cards) ||
@@ -123,7 +124,7 @@ export function deserialize(text) {
       p.region = MAP[tile].group >= 0 ? MAP[tile].group : 0;
     }
   }
-  const legacy = root.version < VERSION;
+  const legacy = root.version < 3;
   if (legacy) {
     if (s.assets.length !== 40) throw Error('旧版存档必须是40格地图');
     num(s.houses, 0, 32);
@@ -136,6 +137,40 @@ export function deserialize(text) {
     });
     s.assets.push(...MAP.slice(40).map(() => ({ owner: -1, level: 0, mortgaged: false })));
     s.version = VERSION;
+  }
+  if (root.version < 4) {
+    for (const p of s.players) {
+      num(p.lord, 0, 6);
+      p.hero = s.enhanced ? makeFighter(-1, 1, p.lord) : null;
+      p.manuals = [];
+      p.relics = [];
+      p.loot = [];
+      p.generals = p.generals.map((g) => {
+        requireKeys(g, ['id', 'level', 'injury', 'guard', 'gear'], '旧武将');
+        num(g.id, 0, 39);
+        num(g.level, 1, 10);
+        const fresh = makeFighter(g.id, g.level);
+        return { ...fresh, injury: g.injury, guard: g.guard, gear: g.gear };
+      });
+    }
+    if (s.battle) {
+      if (!Array.isArray(s.battle.units)) throw Error('旧档战斗单位结构无效');
+      for (const u of s.battle.units) {
+        num(u.gid, -2, 39);
+        u.skills = u.gid === -2 ? [] : [u.gid >= 0 ? u.gid : -1];
+        u.cooldowns = u.skills.map(() => u.cooldown);
+        u.regen = 0;
+      }
+    }
+    s.reports = [];
+    s.version = VERSION;
+    s.log.push('已迁移群英成长：原武将等级和装备保留，经验从该等级起计；主公1级加入，旧战斗不增补参战者。');
+    if (s.log.length > 160) s.log.shift();
+  }
+  for (const p of s.players) {
+    requireKeys(p, ['hero', 'manuals', 'relics', 'loot'], '人物成长');
+    if (s.enhanced)
+      requireKeys(p.hero, ['id', 'level', 'xp', 'gear', 'loadout', 'manual', 'relic', 'title'], '主公');
   }
   requireKeys(s, ['combatEvent'], '游戏');
   if (
@@ -277,7 +312,7 @@ function validatePending(s, tileCount) {
     if (
       !Array.isArray(b.units) ||
       b.units.length < 3 ||
-      b.units.length > 7 ||
+      b.units.length > 9 ||
       !Array.isArray(b.order) ||
       b.order.length < 2
     )
@@ -305,7 +340,7 @@ function validatePending(s, tileCount) {
       );
       num(u.id, 0, 19);
       num(u.side, 0, 1);
-      num(u.gid, -2, 39);
+      num(u.gid, -3, GENERALS.length - 1);
       ['max', 'atk', 'def', 'speed', 'cooldown'].forEach((k) => num(u[k], 0, 100000));
       num(u.hp, 0, u.max);
       num(u.shield, 0, u.max * 2);
@@ -321,15 +356,45 @@ function validatePending(s, tileCount) {
         num(x.power, 0, 100);
         num(x.turns, 1, 3);
       });
-      const expected = u.gid >= 0 ? GENERALS[u.gid].name : u.gid === -1 ? '守城军' : '城墙';
-      const troop = u.gid >= 0 ? GENERALS[u.gid].troop : u.gid === -1 ? '步' : '墙';
+      const owner = s.players[u.side === 0 ? b.attacker : b.defender];
+      const character = u.gid === -3 || u.gid >= 0 ? fighter(owner, u.gid === -3 ? -1 : u.gid) : null;
+      if ((u.gid === -3 || u.gid >= 0) && !character) throw Error('战斗人物不属于该玩家');
+      const expected =
+        u.gid >= 0
+          ? GENERALS[u.gid].name
+          : u.gid === -3
+            ? LORDS[owner.lord].name
+            : u.gid === -1
+              ? '守城军'
+              : '城墙';
+      const troop = character ? fighterTroop(owner, character) : u.gid === -1 ? '步' : '墙';
       if (u.name !== expected || u.troop !== troop) throw Error('战斗单位身份异常');
+      const allowed = character ? equippedSkills(character) : u.gid === -1 ? [-1] : [];
+      if (
+        !Array.isArray(u.skills) ||
+        u.skills.length > 3 ||
+        (u.gid !== -2 && !u.skills.length) ||
+        new Set(u.skills).size !== u.skills.length ||
+        u.skills.some((id) => !allowed.includes(id)) ||
+        !Array.isArray(u.cooldowns) ||
+        u.cooldowns.length !== u.skills.length
+      )
+        throw Error('战斗技能配装异常');
+      u.cooldowns.forEach((n) => num(n, 0, 10));
+      num(u.regen, 0, 20);
+      if (u.gid === -2 ? u.id !== 19 || u.side !== 1 : Math.floor(u.id / 10) !== u.side || u.id % 10 > 3)
+        throw Error('战斗单位编号与阵营不符');
+      if (u.gid === -1 && u.side !== 1) throw Error('基础守军阵营异常');
       ids.add(u.id);
     });
     if (
       ids.size !== b.units.length ||
       b.order.some((id) => !ids.has(id)) ||
-      new Set(b.order).size !== b.order.length
+      new Set(b.order).size !== b.order.length ||
+      b.order.includes(19) ||
+      b.order.length !== b.units.filter((u) => u.gid !== -2).length ||
+      b.units.filter((u) => u.gid === -2).length !== 1 ||
+      new Set(b.units.map((u) => `${u.side}:${u.gid}`)).size !== b.units.length
     )
       throw Error('战斗行动顺序异常');
     num(b.cursor, 0, b.order.length - 1);
@@ -354,8 +419,8 @@ function validatePending(s, tileCount) {
     const e = s.combatEvent;
     requireKeys(e, ['actor', 'kind', 'skillId', 'units'], '战斗演出');
     num(e.actor, 0, 19);
-    num(e.skillId, -1, 39);
-    if (!['attack', 'skill', 'battleCard'].includes(e.kind) || !Array.isArray(e.units) || e.units.length > 7)
+    if (!Number.isInteger(e.skillId) || !skillById(e.skillId)) throw Error('战斗演出技能异常');
+    if (!['attack', 'skill', 'battleCard'].includes(e.kind) || !Array.isArray(e.units) || e.units.length > 9)
       throw Error('战斗演出数据异常');
     e.units.forEach((u) => {
       requireKeys(u, ['id', 'hp', 'shield'], '演出单位');
@@ -373,7 +438,40 @@ function validatePending(s, tileCount) {
     if (a.a === a.b || s.players[a.a].out || s.players[a.b].out) throw Error('盟约对象异常');
   });
   if (new Set(allies).size !== allies.length) throw Error('同一玩家不能有多个盟友');
-  const items = s.players.flatMap((p) => p.items.map((x) => x.id));
+  if (!Array.isArray(s.reports) || s.reports.length > 20 || (!s.enhanced && s.reports.length))
+    throw Error('战报列表异常');
+  for (const r of s.reports) {
+    requireKeys(r, ['round', 'city', 'attacker', 'defender', 'win', 'entries', 'loot'], '战报');
+    num(r.round, 1, s.round);
+    tile(r.city);
+    player(r.attacker);
+    player(r.defender);
+    if (
+      typeof r.win !== 'boolean' ||
+      !Array.isArray(r.entries) ||
+      r.entries.length > 8 ||
+      !Array.isArray(r.loot) ||
+      r.loot.length > 1 ||
+      r.loot.some((x) => typeof x !== 'string' || x.length > 200)
+    )
+      throw Error('战报内容异常');
+    for (const e of r.entries) {
+      player(e.owner);
+      num(e.gid, -1, GENERALS.length - 1);
+      num(e.xp, 0, 1000);
+      num(e.from, 1, 50);
+      num(e.to, e.from, 50);
+      const name = e.gid === -1 ? LORDS[s.players[e.owner].lord].name : GENERALS[e.gid].name;
+      if (
+        e.name !== name ||
+        !Array.isArray(e.unlocked) ||
+        e.unlocked.length > 15 ||
+        e.unlocked.some((x) => typeof x !== 'string' || x.length > 40)
+      )
+        throw Error('战报人物异常');
+    }
+  }
+  const items = s.players.flatMap((p) => [...p.items, ...p.relics].map((x) => x.id));
   if (new Set(items).size !== items.length || items.some((id) => id >= s.nextItem))
     throw Error('装备实例序号异常');
   if (!Array.isArray(s.eventDeck) || s.eventDeck.length !== 12 || new Set(s.eventDeck).size !== 12)
