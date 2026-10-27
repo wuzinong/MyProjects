@@ -31,6 +31,8 @@ import {
 import { MANUAL_SKILLS, skillById } from '../data/skills.js';
 import { makeFighter, skillPath, fighterRole, fighterTroop } from '../core/progression.js';
 import { stats } from '../core/engine.js';
+import { equipmentArt, EQUIPMENT_DETAILS } from './equipment-art.js';
+import { cardArt } from './reward-scenes.js';
 
 export const LIBRARY_CATEGORIES = [
   ['people', '人物卡牌', '将'],
@@ -403,13 +405,17 @@ export function libraryContent(category, query, selected, ui) {
   const mark = (e) =>
     e.category === 'people'
       ? portrait(e.index < 0 ? -e.index - 1 : e.index, e.color, e.index < 0)
-      : `<span class="library-seal" aria-hidden="true">${esc(e.category === 'titles' ? TITLES[e.index].seal : LIBRARY_CATEGORIES.find(([id]) => id === e.category)[2])}</span>`;
+      : e.category === 'equipment'
+        ? equipmentArt(e.index % SLOTS.length, Math.floor(e.index / SLOTS.length))
+        : e.category === 'cards'
+          ? cardArt(e.index)
+          : `<span class="library-seal" aria-hidden="true">${esc(e.category === 'titles' ? TITLES[e.index].seal : LIBRARY_CATEGORIES.find(([id]) => id === e.category)[2])}</span>`;
   const nav = `<nav class="library-tabs" aria-label="资料分类">${LIBRARY_CATEGORIES.map(([id, name, seal]) => `<button type="button" data-library-category="${id}" aria-pressed="${id === category}"><span aria-hidden="true">${seal}</span>${name}<small>${LIBRARY_ENTRIES.filter((e) => e.category === id).length}</small></button>`).join('')}</nav>`;
   return {
     title: '资料 · 天下藏书阁',
     body: `<section class="reference-library"><p class="muted">收录全部公开资料，无需先获得。这里只供查阅，不会消耗资源或改变对局；秘法、宝物与人物成长等玩法仅在增强模式生效。</p>${nav}${
       chosen
-        ? `<button type="button" class="text-button library-back" data-library-back>← 返回${current[1]}</button><article class="library-detail" tabindex="-1"><div class="library-detail-heading" style="--library-color:${chosen.color}">${mark(chosen)}<div><p class="eyebrow">${esc(chosen.tag)}</p><h1>${esc(chosen.name)}</h1></div></div><p class="library-intro">${esc(chosen.summary)}</p>${detail(chosen, ui)}</article>`
+        ? `<button type="button" class="text-button library-back" data-library-back>← 返回${current[1]}</button><article class="library-detail" tabindex="-1"><div class="library-detail-heading" style="--library-color:${chosen.color}">${mark(chosen)}<div><p class="eyebrow">${esc(chosen.tag)}</p><h1>${esc(chosen.name)}</h1></div></div>${chosen.category === 'equipment' ? `<p class="equipment-description">${EQUIPMENT_DETAILS[chosen.index % SLOTS.length]}</p>` : ''}<p class="library-intro">${esc(chosen.summary)}</p>${detail(chosen, ui)}</article>`
         : `<form id="library-search" class="library-search"><label>搜索${current[1]}<input name="query" value="${esc(query)}" placeholder="输入名称、地区或介绍关键词"></label><button type="submit">查找资料</button><button type="button" data-library-clear>清空</button></form><p class="tiny muted" role="status">找到 ${entries.length} 条${current[1]}资料</p><div class="library-grid">${entries.map((e) => `<button type="button" class="library-card" data-library-entry="${e.id}" style="--library-color:${e.color}">${mark(e)}<span class="library-card-copy"><small>${esc(e.tag)}</small><strong>${esc(e.name)}</strong><span>${esc(e.summary)}</span><em>查看详情 ↗</em></span></button>`).join('') || '<p class="empty">没有符合条件的资料，请换一个关键词或清空搜索。</p>'}</div>`
     }</section>`,
   };

@@ -11,6 +11,7 @@ import {
 } from '../data/progression.js';
 import { fighters, fighter, fighterName, fighterTroop, skillPath } from '../core/progression.js';
 import { stats, owned } from '../core/engine.js';
+import { equipmentArt, EQUIPMENT_DETAILS } from './equipment-art.js';
 
 export function rosterContent(state, p, selected, ui) {
   const { esc, btn, portrait } = ui,
@@ -66,7 +67,7 @@ export function rosterContent(state, p, selected, ui) {
       const available = p.items.filter(
         (x) => x.slot === i && !fighters(p).some((y) => y.gear.includes(x.id)),
       );
-      return `<section class="equipment-slot q${item?.quality ?? 0}" style="--quality:${color}"><small>${slot}</small><div class="equip-glyph">${['♜', '✦', '⚔', '◇', '║', '↟'][i]}</div><h3>${item ? ITEMS[i] : '空置'}</h3><p>${item ? QUALITY[item.quality] : '尚未装备'}</p><select aria-label="${slot}装备" data-equip="${i}" ${!manage ? 'disabled' : ''}><option value="">选择可用装备</option>${available.map((x) => `<option value="${x.id}">${QUALITY[x.quality]} ${ITEMS[i]} #${x.id}</option>`).join('')}</select>${item ? btn('卸下', { type: 'equip', general: g.id, slot: i, item: null }, 'text-button', !manage) : ''}</section>`;
+      return `<section class="equipment-slot armory-slot q${item?.quality ?? 0}" style="--quality:${color}"><small>${slot} · ${item ? QUALITY[item.quality] : '未装备'}</small>${equipmentArt(i, item?.quality ?? 0, !item)}<h3>${ITEMS[i]}</h3><p class="equipment-description">${EQUIPMENT_DETAILS[i]}</p><select aria-label="${slot}装备" data-equip="${i}" ${!manage ? 'disabled' : ''}><option value="">${item ? '更换装备' : '选择可用装备'}</option>${available.map((x) => `<option value="${x.id}">${QUALITY[x.quality]} ${ITEMS[i]} #${x.id}</option>`).join('')}</select>${item ? btn('卸下', { type: 'equip', general: g.id, slot: i, item: null }, 'text-button', !manage) : '<small class="muted">轮廓仅示意部位，尚未穿戴</small>'}</section>`;
     }).join('')}</div>
     ${
       lord

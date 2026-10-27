@@ -56,6 +56,12 @@ import { damage, hit, resolveSkill, tickStatuses } from './combat.js';
 export function ensure(condition, text) {
   if (!condition) throw Error(text);
 }
+/** @typedef {{kind:string,owner:number,id:number,duplicate?:boolean}} PresentationEvent */
+/** @type {WeakMap<State, PresentationEvent[]>} */
+const presentations = new WeakMap();
+function present(s, kind, p, id, duplicate = false) {
+  presentations.get(s)?.push({ kind, owner: p.id, id, duplicate });
+}
 export function random(s) {
   s.seed = (Math.imul(s.seed, 1664525) + 1013904223) >>> 0;
   return s.seed / 4294967296;
@@ -208,6 +214,7 @@ function charge(s, debtor, creditor, amount, after = 'end', data = {}) {
   continueAt(s, after, data);
 }
 function startIncome(s, p) {
+  present(s, 'special', p, 0);
   const cash = 200 + (s.enhanced && p.lord === 1 ? 80 : 0);
   p.cash += cash;
   if (s.enhanced) {
@@ -218,6 +225,7 @@ function startIncome(s, p) {
 }
 function jail(s) {
   const p = active(s);
+  present(s, 'special', p, 1);
   p.pos = 10;
   p.jail = 0;
   s.extra = false;
@@ -250,6 +258,7 @@ function land(s) {
       } else phase(s, 'rent', { tile: t.id, amount: rent(s, t.id), creditor: a.owner });
     }
   } else if (t.kind === 'tax') {
+    present(s, 'special', p, 2);
     charge(s, p.id, -1, t.price * (s.enhanced && p.lord === 5 ? 0.8 : 1));
   } else if (t.kind === 'gojail') jail(s);
   else if (t.kind === 'event') {
@@ -260,10 +269,12 @@ function land(s) {
           return { item, price: SHOP_PRICES[item.quality], sold: false };
         });
         phase(s, 'shop', { tile: t.id, offers });
+        present(s, 'special', p, 3);
         note(s, '隐市灯火亮起：秘密商店出现，三件军械限量出售。');
       } else phase(s, 'event', { tile: t.id });
     } else classicEvent(s);
   } else if (t.kind === 'rest' && s.enhanced) {
+    present(s, 'special', p, 4);
     fighters(p).forEach((g) => {
       g.injury = 0;
     });
@@ -273,6 +284,7 @@ function land(s) {
 function classicEvent(s) {
   const p = active(s),
     e = EVENTS[s.eventDeck[s.eventCursor++ % s.eventDeck.length]];
+  present(s, 'event', p, EVENTS.indexOf(e));
   note(s, `时局：${e.name}。`);
   if (e.cash > 0) p.cash += e.cash;
   else if (e.cash < 0) charge(s, p.id, -1, -e.cash);
@@ -545,6 +557,7 @@ function acceptTrade(s) {
 export function gainCard(s, p) {
   const id = Math.floor(random(s) * CARDS.length);
   p.cards.push(id);
+  present(s, 'card', p, id);
   note(s, `${p.name}获得1张锦囊，内容仅持有者可见。`);
   return id;
 }
@@ -556,6 +569,7 @@ function makeGear(s) {
 export function gainGear(s, p) {
   const item = makeGear(s);
   p.items.push(item);
+  present(s, 'gear', p, item.id);
   return item;
 }
 export function awardLoot(s, p, kind, source) {
@@ -583,6 +597,7 @@ export function awardLoot(s, p, kind, source) {
     reward = { kind: 'relic', id: item.id, name: RELICS[item.type].name };
   }
   const record = { round: s.round, source, ...reward };
+  if (reward.kind !== 'gear') present(s, reward.kind, p, reward.id);
   p.loot.push(record);
   if (p.loot.length > 80) p.loot.shift();
   note(s, `${p.name}在${source}获得${reward.name}。`);
@@ -597,7 +612,9 @@ export function recruit(s, p, free = false) {
   p.pity = rarity === 3 ? 0 : p.pity + 1;
   const pool = GENERALS.filter((g) => g.rarity === rarity),
     g = pool[Math.floor(random(s) * pool.length)];
-  if (p.generals.some((x) => x.id === g.id)) {
+  const duplicate = p.generals.some((x) => x.id === g.id);
+  present(s, 'general', p, g.id, duplicate);
+  if (duplicate) {
     p.material += rarity * 2;
     note(s, `重复招募${g.name}，转为${rarity * 2}份培养材料。`);
   } else {
@@ -940,10 +957,13 @@ function guard(s, p, c) {
  * @param {State} original
  * @param {{type:string,action?:string,tile?:number,amount?:number,card?:boolean,index?:number,
  * offer?:Trade,target?:number,choice?:string,generals?:number[],general?:number,slot?:number,item?:number|null,hero?:boolean,skill?:number}} c
+ * @param {PresentationEvent[]} [events]
  * @returns {State}
  */
-export function command(original, c) {
+export function command(original, c, events) {
   const s = structuredClone(original);
+  const pending = [];
+  if (events) presentations.set(s, pending);
   s.combatEvent = null;
   ensure(s.phase !== 'over', '对局已经结束');
   const p = active(s),
@@ -1011,6 +1031,7 @@ export function command(original, c) {
     ensure(p.cash >= offer.price, '金币不足，无法购买');
     p.cash -= offer.price;
     p.items.push({ ...offer.item });
+    present(s, 'gear', p, offer.item.id);
     offer.sold = true;
     note(s, `${p.name}在秘密商店花费${offer.price}金购入军械。`);
   } else if (c.type === 'shopLeave') {
@@ -1165,6 +1186,10 @@ export function command(original, c) {
     phase(s, 'discard', { resume: s.phase, data: s.decision });
   s.sequence++;
   assertState(s);
+  if (events) {
+    events.push(...pending);
+    presentations.delete(s);
+  }
   return s;
 }
 export function canAlly(s, a, b) {

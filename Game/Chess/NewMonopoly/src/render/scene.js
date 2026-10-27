@@ -1,6 +1,6 @@
 import * as T from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { MAP, ROUTE, ROUTE_INDEX, REGIONS, COLORS, QUALITY_COLORS, GENERALS } from '../data/game.js';
+import { MAP, ROUTE, ROUTE_INDEX, REGIONS, COLORS, GENERALS } from '../data/game.js';
 import {
   tilePosition,
   tileAngle,
@@ -595,8 +595,10 @@ export class GameScene {
     this.cone(root, 0, 0.43, 0, 0.28, 0.62, color, 8);
     this.box(root, 0, 0.61, 0, 0.35, 0.3, 0.22, '#777c74');
     this.cylinder(root, 0, 0.96, 0, 0.14, 0.28, '#d5b18a');
-    this.cone(root, 0, 1.16, 0, 0.18, 0.19, variant % 2 ? '#4c5055' : color, 6);
-    this.box(root, 0, 1.23, 0, 0.04, 0.23, 0.08, '#c4a567');
+    if (!items.some((i) => i.id === gear[0])) {
+      this.cone(root, 0, 1.16, 0, 0.18, 0.19, variant % 2 ? '#4c5055' : color, 6);
+      this.box(root, 0, 1.23, 0, 0.04, 0.23, 0.08, '#c4a567');
+    }
     const arms = [],
       legs = [];
     for (const x of [-0.23, 0.23]) {
@@ -619,54 +621,15 @@ export class GameScene {
       bow.rotation.z = -Math.PI / 2;
       arms[1].add(bow);
       this.box(arms[1], 0.12, -0.12, 0.15, 0.018, 0.75, 0.018, '#e5dbc1');
-    } else {
+    } else if (!items.some((i) => i.id === gear[2])) {
       const spear = this.box(arms[1], 0.13, -0.06, 0.04, 0.027, 1.45, 0.027, '#a78a59');
       spear.rotation.z = -0.13;
       this.cone(arms[1], 0.23, 0.68, 0.04, 0.06, 0.2, '#d5d1bb', 4);
     }
-    const positions = [
-      [0, 1.12, 0],
-      [-0.24, 0.55, 0],
-      [0.4, 1, 0.04],
-      [0, 0.63, 0],
-      [0.12, 0.32, 0],
-      [0.12, 0.15, 0.04],
-    ];
     gear.forEach((id, slot) => {
       const item = items.find((x) => x.id === id);
       if (!item) return;
-      const c = QUALITY_COLORS[item.quality],
-        parent = slot === 1 ? arms[0] : slot === 2 ? arms[1] : slot >= 4 ? legs[1] : root,
-        pos = positions[slot].map((n, i) => n - (parent === root ? 0 : parent.position.getComponent(i)));
-      this.box(
-        parent,
-        ...pos,
-        slot === 3 ? 0.39 : 0.15,
-        slot === 2 ? 0.6 : 0.13,
-        slot === 3 ? 0.27 : 0.16,
-        c,
-        true,
-      );
-      if (item.quality >= 2) {
-        const aura = new T.Mesh(
-          this.geo('TorusGeometry', [slot === 3 ? 0.24 : 0.13, 0.015, 6, 20]),
-          this.mat(c, true),
-        );
-        aura.position.set(...pos);
-        aura.rotation.x = Math.PI / 2;
-        parent.add(aura);
-      }
-      if (item.quality === 4) {
-        for (let k = 0; k < 4; k++) {
-          const star = new T.Mesh(this.geo('OctahedronGeometry', [0.025]), this.mat(c, true));
-          star.position.set(
-            pos[0] + Math.cos(k * 1.6) * 0.2,
-            pos[1] + k * 0.07,
-            pos[2] + Math.sin(k * 1.6) * 0.2,
-          );
-          parent.add(star);
-        }
-      }
+      this.fitEquipment(root, arms, legs, slot, item.quality, troop);
     });
     if (troop === '骑') {
       root.children.slice(1).forEach((o) => {
@@ -682,6 +645,88 @@ export class GameScene {
       this.box(horse, 0, 0.78, -0.15, 0.5, 0.08, 0.5, color);
     }
     return root;
+  }
+  fitEquipment(root, arms, legs, slot, quality, troop) {
+    const steel = ['#758080', '#8b9a98', '#a1b3be', '#b3b0c2', '#ccd5ce'][quality],
+      trim = quality >= 3 ? '#d4b66f' : '#9f8159',
+      leather = quality >= 3 ? '#594231' : '#79553b';
+    const group = new T.Group();
+    group.name = `equipment-${slot}-${quality}`;
+    const sphere = (parent, x, y, z, r, sx, sy, sz) => {
+      const mesh = new T.Mesh(
+        this.geo('SphereGeometry', [r, 12, 8, 0, Math.PI * 2, 0, Math.PI / 2]),
+        this.mat(steel),
+      );
+      mesh.position.set(x, y, z);
+      mesh.scale.set(sx, sy, sz);
+      parent.add(mesh);
+      return mesh;
+    };
+    if (slot === 0) {
+      root.add(group);
+      sphere(group, 0, 1.05, 0, 0.19, 1, 1.1, 1);
+      this.cylinder(group, 0, 1.07, 0, 0.195, 0.04, trim);
+      for (const side of [-1, 1]) {
+        this.box(group, side * 0.165, 0.98, 0.02, 0.04, 0.19, 0.18, steel);
+        this.box(group, side * 0.17, 0.94, 0.12, 0.045, 0.025, 0.02, trim);
+      }
+      this.box(group, 0, 1.17, 0, 0.024, 0.17, 0.27, trim);
+    } else if (slot === 1) {
+      arms.forEach((arm) => {
+        const glove = group.clone();
+        arm.add(glove);
+        this.cylinder(glove, 0, -0.28, 0, 0.083, 0.19, leather);
+        this.box(glove, 0, -0.33, 0.07, 0.12, 0.12, 0.055, leather);
+        for (let i = 0; i < 3; i++) this.cylinder(glove, 0, -0.21 - i * 0.055, 0, 0.088, 0.016, trim);
+      });
+    } else if (slot === 2) {
+      const parent = troop === '弓' ? root : arms[1];
+      parent.add(group);
+      group.position.set(troop === '弓' ? -0.26 : 0.08, troop === '弓' ? 0.58 : -0.26, 0.13);
+      group.rotation.z = troop === '弓' ? -2.5 : -0.22;
+      this.box(group, 0, 0, 0, 0.045, 0.21, 0.045, leather);
+      for (let i = 0; i < 4; i++) this.box(group, 0, -0.08 + i * 0.05, 0, 0.049, 0.01, 0.049, trim);
+      const ring = new T.Mesh(this.geo('TorusGeometry', [0.062, 0.015, 6, 16]), this.mat(trim));
+      ring.position.y = -0.16;
+      group.add(ring);
+      this.box(group, 0, 0.115, 0, 0.11, 0.027, 0.06, trim);
+      this.box(group, 0, 0.47, 0, 0.075, 0.69, 0.023, steel);
+      this.box(group, 0.034, 0.47, 0, 0.009, 0.69, 0.026, '#e1e7df');
+      const tip = this.cone(group, 0.004, 0.865, 0, 0.055, 0.13, steel, 3);
+      tip.scale.z = 0.28;
+      if (quality >= 3) this.box(group, -0.017, 0.45, 0.016, 0.009, 0.35, 0.003, trim);
+    } else if (slot === 3) {
+      root.add(group);
+      for (let row = 0; row < 5; row++)
+        for (let col = 0; col < 5; col++)
+          for (const side of [-1, 1]) {
+            this.box(group, (col - 2) * 0.082, 0.82 - row * 0.082, side * 0.14, 0.075, 0.09, 0.035, steel);
+            this.box(group, (col - 2) * 0.082, 0.84 - row * 0.082, side * 0.161, 0.035, 0.013, 0.008, trim);
+          }
+      this.box(group, 0, 0.53, 0, 0.46, 0.04, 0.34, leather);
+      this.box(group, 0, 0.53, 0.18, 0.08, 0.065, 0.025, trim);
+      arms.forEach((arm) => {
+        const shoulder = new T.Group();
+        shoulder.name = group.name;
+        arm.add(shoulder);
+        for (let i = 0; i < 3; i++) this.box(shoulder, 0, 0.03 - i * 0.065, 0.04, 0.18, 0.07, 0.19, steel);
+      });
+    } else {
+      legs.forEach((leg) => {
+        const piece = group.clone();
+        leg.add(piece);
+        if (slot === 4) {
+          this.box(piece, 0, -0.07, 0.105, 0.13, 0.25, 0.055, steel);
+          this.box(piece, 0, -0.07, 0.14, 0.019, 0.25, 0.009, trim);
+          for (const y of [-0.15, 0.01]) this.box(piece, 0, y, 0.11, 0.145, 0.025, 0.065, leather);
+        } else {
+          this.cylinder(piece, 0, -0.18, 0.02, 0.09, 0.22, leather);
+          this.box(piece, 0, -0.28, 0.075, 0.18, 0.11, 0.3, leather);
+          this.box(piece, 0, -0.34, 0.075, 0.19, 0.032, 0.31, '#303735');
+          this.box(piece, 0, -0.12, 0.02, 0.185, 0.028, 0.18, trim);
+        }
+      });
+    }
   }
   makeDice() {
     const dots = [

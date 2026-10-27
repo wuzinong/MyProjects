@@ -38,6 +38,8 @@ import { skillFor, STATUS_NAMES } from './data/skills.js';
 import { fighter } from './core/progression.js';
 import { rosterContent, biographyContent, codexContent, reportsContent } from './ui/heroes.js';
 import { libraryContent } from './ui/library.js';
+import { equipmentArt, EQUIPMENT_DETAILS } from './ui/equipment-art.js';
+import { rewardContent, cardArt } from './ui/reward-scenes.js';
 import { skillTargets } from './core/combat.js';
 import { combatPresentation } from './render/combat-effects.js';
 
@@ -76,6 +78,7 @@ let saved = null,
   lastBattle = false,
   reveal = null;
 let animating = false;
+let rewardQueue = [];
 let battleSkill = null,
   biographyName = '',
   biographyReturn = 'codex',
@@ -509,7 +512,7 @@ function render() {
   }
 }
 function apply(c, automatic = false) {
-  if (animating) return;
+  if (animating || reveal) return;
   if (!state || paused) {
     toast('请先继续对局。');
     return;
@@ -521,9 +524,8 @@ function apply(c, automatic = false) {
   }
   try {
     const old = state,
-      oldItems = active(state).items.length,
-      oldGenerals = active(state).generals.length;
-    state = command(state, c);
+      events = [];
+    state = command(state, c, events);
     selected = active(state).pos;
     tone();
     if (c.type === 'roll') {
@@ -550,18 +552,16 @@ function apply(c, automatic = false) {
       (c.type === 'card' && state.phase !== old.phase)
     )
       closeModal(false);
-    if (
-      !automatic &&
-      state.enhanced &&
-      old.turn === state.turn &&
-      ['recruit', 'gear', 'event', 'card', 'shopBuy'].includes(c.type) &&
-      (active(state).items.length > oldItems || active(state).generals.length > oldGenerals)
-    ) {
+    const visibleEvents = events.filter(
+      (e) =>
+        !state.players[e.owner].ai &&
+        e.owner === old.turn &&
+        !(e.kind === 'special' && e.id === 1 && events.some((v) => v.kind === 'event' && v.id === 6)),
+    );
+    if (visibleEvents.length) {
       closeModal(false);
-      reveal =
-        active(state).items.length > oldItems
-          ? { kind: 'gear', item: active(state).items.at(-1) }
-          : { kind: 'general', general: active(state).generals.at(-1).id };
+      rewardQueue = visibleEvents;
+      reveal = { event: rewardQueue.shift(), seen: false };
     }
     persist();
     clearTimeout(timer);
@@ -570,12 +570,13 @@ function apply(c, automatic = false) {
       document.body.classList.remove('animating');
       $('#combat-banner')?.remove();
       render();
+      if (reveal) fillModal('reveal');
       (
         $('#app .handoff button') ||
         $('#app [data-action="attack"]:not(:disabled)') ||
         $('#app .decision-actions button:not(:disabled)')
       )?.focus();
-      if (old.phase !== 'over' && state.phase === 'over') fillModal('victory');
+      if (!reveal && old.phase !== 'over' && state.phase === 'over') fillModal('victory');
     });
     if (played) {
       animating = true;
@@ -596,7 +597,7 @@ function apply(c, automatic = false) {
     render();
     scene?.actionEffect(c, old, state, fast || reduced);
     if (reveal) fillModal('reveal');
-    if (old.phase !== 'over' && state.phase === 'over') fillModal('victory');
+    if (!reveal && old.phase !== 'over' && state.phase === 'over') fillModal('victory');
   } catch (error) {
     toast(error.message);
     console.error(error);
@@ -639,15 +640,26 @@ function closeModal(reschedule = true) {
     returnFromBiography();
     return;
   }
+  if (reschedule && modalName === 'reveal' && rewardQueue.length) {
+    reveal = { event: rewardQueue.shift(), seen: false };
+    fillModal('reveal', false);
+    $('#dialog .reward-controls [data-action="close"]')?.focus();
+    return;
+  }
   const dialog = $('#dialog');
   if (dialog?.open) dialog.close();
-  const closingLibrary = modalName === 'library';
+  dialog?.replaceChildren();
+  const closingLibrary = modalName === 'library',
+    closingReward = modalName === 'reveal';
   modalName = '';
   reveal = null;
+  rewardQueue = [];
   if (reschedule) {
     render();
     if (closingLibrary) $('[data-action="library"]')?.focus();
+    else if (closingReward) $('#app .decision-actions button:not(:disabled)')?.focus();
     else lastFocus?.focus?.();
+    if (state?.phase === 'over' && closingReward) fillModal('victory');
   }
 }
 function fillModal(name, open = true) {
@@ -773,7 +785,7 @@ function modalContent(name) {
         p.cards
           .map((id, index) => {
             const card = CARDS[id];
-            return `<article class="tactic-card"><small>${card.timing === 'board' ? '行军 · 功能卡' : '攻城 · 战术卡'}</small><div class="card-symbol">${card.timing === 'board' ? '令' : '策'}</div><h3>${card.name}</h3><p>${card.description}</p>${discard ? btn('弃置此卡', { type: 'discard', index }) : battle ? `<button data-card="${index}" ${card.timing !== 'battle' || state.battle.cardUsed ? 'disabled' : ''}>使用战术</button>` : btn('施用此计', { type: 'card', index }, '', !manage || card.timing !== 'board' || p.usedCards >= 2)}</article>`;
+            return `<article class="tactic-card"><small>${card.timing === 'board' ? '行军 · 功能卡' : '攻城 · 战术卡'}</small>${cardArt(card.id)}<h3>${card.name}</h3><p>${card.description}</p>${discard ? btn('弃置此卡', { type: 'discard', index }) : battle ? `<button data-card="${index}" ${card.timing !== 'battle' || state.battle.cardUsed ? 'disabled' : ''}>使用战术</button>` : btn('施用此计', { type: 'card', index }, '', !manage || card.timing !== 'board' || p.usedCards >= 2)}</article>`;
           })
           .join('') || '<div class="empty">暂无锦囊。抵达机遇格可以抽取功能卡与战术卡。</div>'
       }</div>`,
@@ -789,7 +801,7 @@ function modalContent(name) {
     return {
       title: '隐市 · 灯火中的珍藏',
       body: `<div class="shop-intro"><div class="seal">隐</div><div><p class="eyebrow">仅此一次的相逢</p><h1>识货者，自有所得。</h1><p>库存已固定，读档不会刷新。每件仅售一次，收摊后不可返回。</p></div></div>
-      <div class="shop-offers">${state.decision.offers.map((o, index) => `<article class="equipment-slot q${o.item.quality} ${o.sold ? 'sold' : ''}" style="--quality:${QUALITY_COLORS[o.item.quality]}"><small>${SLOTS[o.item.slot]} · ${QUALITY[o.item.quality]}</small><div class="equip-glyph">${['♜', '✦', '⚔', '◇', '║', '↟'][o.item.slot]}</div><h3>${ITEMS[o.item.slot]}</h3><p>${o.price} 金</p>${btn(o.sold ? '已售出' : '购买装备', { type: 'shopBuy', index }, 'primary', o.sold || p.ai || p.cash < o.price)}</article>`).join('')}</div>
+      <div class="shop-offers">${state.decision.offers.map((o, index) => `<article class="equipment-slot armory-slot q${o.item.quality} ${o.sold ? 'sold' : ''}" style="--quality:${QUALITY_COLORS[o.item.quality]}"><small>${SLOTS[o.item.slot]} · ${QUALITY[o.item.quality]}</small>${equipmentArt(o.item.slot, o.item.quality)}<h3>${ITEMS[o.item.slot]}</h3><p class="equipment-description">${EQUIPMENT_DETAILS[o.item.slot]}</p><p>${o.price} 金</p>${btn(o.sold ? '已售出' : '购买装备', { type: 'shopBuy', index }, 'primary', o.sold || p.ai || p.cash < o.price)}</article>`).join('')}</div>
       <div class="modal-footer"><span>现有 ${money(p.cash)} 金 · 装备可在将台中穿戴</span>${btn('收摊离开', { type: 'shopLeave' }, '', p.ai)}</div>`,
     };
   }
@@ -818,14 +830,9 @@ function modalContent(name) {
     };
   }
   if (name === 'reveal' && reveal) {
-    const gear = reveal.kind === 'gear',
-      item = reveal.item,
-      name = gear ? ITEMS[item.slot] : GENERALS[reveal.general].name,
-      color = gear ? QUALITY_COLORS[item.quality] : QUALITY_COLORS[GENERALS[reveal.general].rarity + 1];
-    return {
-      title: gear ? '军械入库' : '英杰来归',
-      body: `<div class="reveal-stage" style="--quality:${color}"><div class="reveal-rays"></div><${gear ? 'div' : 'button'} class="reveal-card" ${gear ? '' : `data-bio="${esc(name)}"`}>${gear ? `<div class="revealed-item">${['♜', '✦', '⚔', '◇', '║', '↟'][item.slot]}</div><p>${SLOTS[item.slot]} · ${QUALITY[item.quality]}</p>` : portrait(reveal.general, color)}<h1>${name}</h1><p>${gear ? '可前往将府，为武将穿戴。' : GENERALS[reveal.general].faction + ' · 点击查看生平事迹'}</p></${gear ? 'div' : 'button'}>${action('收入麾下 · 继续', 'close', 'primary')}</div>`,
-    };
+    const content = rewardContent(reveal, state, heroUI, reduced || fast || reveal.seen, low);
+    reveal.seen = true;
+    return content;
   }
   if (name === 'victory') {
     const winner = state.players.find((x) => !x.out);
@@ -958,6 +965,11 @@ document.addEventListener('click', (event) => {
     return;
   }
   const name = button.dataset.action;
+  if (name === 'skip-reward' && reveal) {
+    fillModal('reveal', false);
+    $('#dialog .reward-controls [data-action="close"]')?.focus();
+    return;
+  }
   if (animating) {
     if (name === 'skip-combat' || name === 'fast') {
       if (name === 'fast') fast = true;

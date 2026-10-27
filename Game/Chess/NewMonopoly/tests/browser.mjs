@@ -270,7 +270,7 @@ try {
         await page.locator('#app button[data-cmd]').nth(index).click();
       }
       if (await page.locator('#dialog[open] .victory').count()) break;
-      if (await page.locator('#dialog[open] .reveal-stage').count()) {
+      while (await page.locator('#dialog[open] .reveal-stage').count()) {
         await page.getByRole('button', { name: '关闭面板' }).click();
       }
     }

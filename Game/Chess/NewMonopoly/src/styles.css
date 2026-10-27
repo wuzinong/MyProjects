@@ -1673,6 +1673,737 @@ dialog::backdrop {
   position: relative;
   overflow: hidden;
 }
+
+/* A shared, material-led armory plate in every inventory surface. */
+.equipment-art {
+  display: block;
+  width: 100%;
+  max-width: 260px;
+  height: auto;
+  margin: 10px auto;
+  filter: drop-shadow(0 8px 6px #0008);
+}
+.equipment-empty {
+  opacity: 0.36;
+  filter: grayscale(1);
+}
+.equipment-slot.armory-slot {
+  padding-top: 30px;
+  background: linear-gradient(145deg, #293438, #142126 62%);
+  border-color: #65706b;
+  box-shadow:
+    inset 0 0 0 5px #101a2080,
+    inset 0 0 30px #0005;
+}
+.equipment-slot.armory-slot .equipment-description {
+  min-height: 48px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #c2c7be;
+}
+.equipment-slot.armory-slot > small:last-child {
+  position: static;
+  display: block;
+  margin-top: 9px;
+}
+.equipment-slot.armory-slot select {
+  font-size: 12px;
+}
+.shop-offers .equipment-art {
+  height: 170px;
+}
+.library-card > .equipment-art,
+.library-card > .card-art {
+  flex: 0 0 100px;
+  width: 100px;
+  height: 100px;
+  margin: 0;
+}
+.library-detail-heading > .equipment-art,
+.library-detail-heading > .card-art {
+  flex: 0 0 220px;
+  width: 220px;
+  max-height: 190px;
+  margin: 0;
+}
+.card-art {
+  display: block;
+  width: 100%;
+  color: #c5b780;
+}
+.reward-stage {
+  padding: 0;
+  text-align: left;
+  overflow: hidden;
+}
+.reward-theater {
+  position: relative;
+  isolation: isolate;
+  min-height: 485px;
+  padding: 22px;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 50% 0, #46554b66, transparent 64%), linear-gradient(130deg, #101a20, #1c2b2d);
+  border: 1px solid #687360;
+  border-radius: 10px;
+}
+.reward-caption {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  position: relative;
+  z-index: 1;
+  font-size: 13px;
+  letter-spacing: 2px;
+  color: var(--reward-color);
+}
+.reward-caption small {
+  color: #a5b4aa;
+  letter-spacing: 0;
+}
+.reward-scenery {
+  display: block;
+  width: 100%;
+  height: 280px;
+  color: var(--reward-color);
+  overflow: visible;
+}
+.scene-backdrop {
+  opacity: 0.3;
+}
+.scene-trail {
+  opacity: 0.28;
+}
+.scene-main,
+.scene-support {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation-duration: 2.3s;
+  animation-delay: var(--delay, 0s);
+  animation-timing-function: cubic-bezier(0.2, 0.7, 0.3, 1);
+  animation-fill-mode: both;
+  animation-iteration-count: 1;
+}
+.scene-spark {
+  animation: reward-spark 1.8s var(--delay, 0s) both;
+}
+.reward-result {
+  position: relative;
+  display: flex;
+  gap: 28px;
+  align-items: center;
+  margin: -58px 10px 12px;
+  animation: reward-arrive 1.2s 0.3s both;
+}
+.reward-stage .reveal-card {
+  flex: 0 0 188px;
+  width: 188px;
+  min-height: 184px;
+  margin: 0;
+  padding: 10px;
+  border: 1px solid #a28e63;
+  border-radius: 5px;
+  background: linear-gradient(145deg, #334045, #172229);
+  box-shadow:
+    0 12px 32px #0007,
+    inset 0 0 0 5px #101a2080;
+  animation: none;
+  color: var(--reward-color);
+  white-space: normal;
+}
+.reward-object > svg {
+  width: 100%;
+  height: 168px;
+  margin: 0;
+}
+.reward-general .portrait {
+  width: 100%;
+  height: 178px;
+}
+.reward-general > span {
+  display: block;
+  font-size: 11px;
+  color: #c5bda2;
+}
+.reward-copy {
+  flex: 1;
+  min-width: 0;
+}
+.reward-copy h1 {
+  font-size: clamp(27px, 4vw, 42px);
+  margin: 9px 0 16px;
+  color: var(--paper);
+}
+.reward-copy > p:last-child {
+  color: #c5cdc2;
+  font-size: 14px;
+  line-height: 1.8;
+}
+.reward-controls {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-top: 18px;
+}
+.reward-still *,
+.reward-still *::before,
+.reward-still *::after {
+  animation: none !important;
+}
+.reward-still .scene-spark {
+  opacity: 0.5;
+}
+.motion-grow {
+  animation-name: reward-grow;
+}
+.motion-harvest {
+  animation-name: reward-harvest;
+}
+.motion-march,
+.motion-charge {
+  animation-name: reward-march;
+}
+.motion-charge {
+  animation-duration: 1.35s;
+}
+.motion-retreat {
+  animation-name: reward-retreat;
+}
+.motion-escort {
+  animation-name: reward-escort;
+}
+.motion-unroll {
+  animation-name: reward-unroll;
+}
+.motion-strike {
+  animation-name: reward-strike;
+  transform-origin: 50% 85%;
+}
+.motion-sway {
+  animation-name: reward-sway;
+  transform-origin: 50% 95%;
+}
+.motion-build {
+  animation-name: reward-build;
+}
+.motion-stamp {
+  animation-name: reward-stamp;
+}
+.motion-orbit {
+  animation-name: reward-orbit;
+}
+.motion-trade {
+  animation-name: reward-trade;
+}
+.motion-open {
+  animation-name: reward-open;
+}
+.motion-draw {
+  animation-name: reward-draw;
+}
+.motion-burn {
+  animation-name: reward-burn;
+}
+.motion-pour {
+  animation-name: reward-pour;
+}
+.motion-wall {
+  animation-name: reward-wall;
+}
+.motion-slash {
+  animation-name: reward-slash;
+}
+.motion-rain {
+  animation-name: reward-rain;
+}
+.motion-pulse {
+  animation-name: reward-pulse;
+}
+.motion-pierce {
+  animation-name: reward-pierce;
+}
+.motion-close {
+  animation-name: reward-close;
+}
+.motion-collect {
+  animation-name: reward-collect;
+}
+[data-reward-arrival='left'] .reward-result {
+  --arrival-x: -65px;
+}
+[data-reward-arrival='right'] .reward-result {
+  --arrival-x: 65px;
+}
+[data-reward-arrival='fall'] .reward-result {
+  --arrival-y: -45px;
+}
+[data-reward-arrival='split'] .reward-result {
+  animation-name: reward-unroll;
+}
+@keyframes reward-arrive {
+  from {
+    opacity: 0;
+    transform: translate(var(--arrival-x, 0), var(--arrival-y, 35px));
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes reward-grow {
+  0% {
+    transform: scaleY(0);
+    opacity: 0;
+  }
+  60% {
+    transform: scaleY(1.15);
+    opacity: 1;
+  }
+  100% {
+    transform: scaleY(1);
+  }
+}
+@keyframes reward-harvest {
+  0% {
+    transform: scale(0.2) translateY(45px);
+    opacity: 0;
+  }
+  45% {
+    transform: scale(1.1) rotate(-12deg);
+    opacity: 1;
+  }
+  100% {
+    transform: none;
+  }
+}
+@keyframes reward-march {
+  0% {
+    transform: translateX(calc(-140px * var(--direction))) translateY(12px);
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  55% {
+    transform: translateX(calc(-40px * var(--direction))) translateY(-12px) rotate(-8deg);
+  }
+  100% {
+    transform: none;
+  }
+}
+@keyframes reward-retreat {
+  0% {
+    transform: translateX(calc(130px * var(--direction))) scaleX(-1);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  70% {
+    transform: translateX(15px) scaleX(-1);
+  }
+  100% {
+    transform: none;
+  }
+}
+@keyframes reward-escort {
+  0% {
+    transform: translateX(100px);
+    opacity: 0;
+  }
+  30% {
+    transform: translateX(-22px);
+    opacity: 1;
+  }
+  60% {
+    transform: translateX(12px);
+  }
+  100% {
+    transform: none;
+  }
+}
+@keyframes reward-unroll {
+  0% {
+    transform: scaleX(0.03);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  85% {
+    transform: scaleX(1.04);
+  }
+  100% {
+    transform: none;
+  }
+}
+@keyframes reward-strike {
+  0% {
+    transform: rotate(-85deg) translateY(-35px);
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+    transform: rotate(-75deg);
+  }
+  45% {
+    transform: rotate(24deg) translateY(10px);
+  }
+  70% {
+    transform: rotate(-12deg);
+  }
+  100% {
+    transform: none;
+  }
+}
+@keyframes reward-sway {
+  0% {
+    transform: rotate(-23deg);
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+    transform: rotate(18deg);
+  }
+  55% {
+    transform: rotate(-12deg);
+  }
+  80% {
+    transform: rotate(6deg);
+  }
+  100% {
+    transform: none;
+  }
+}
+@keyframes reward-build {
+  0% {
+    clip-path: inset(100% 0 0);
+    transform: translateY(25px);
+  }
+  45% {
+    clip-path: inset(48% 0 0);
+  }
+  75% {
+    clip-path: inset(15% 0 0);
+  }
+  100% {
+    clip-path: inset(0);
+    transform: none;
+  }
+}
+@keyframes reward-stamp {
+  0% {
+    transform: scale(2.1) rotate(-18deg);
+    opacity: 0;
+  }
+  30% {
+    transform: scale(1.7) rotate(-18deg);
+    opacity: 1;
+  }
+  43% {
+    transform: scale(0.86);
+  }
+  65% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: none;
+  }
+}
+@keyframes reward-orbit {
+  0% {
+    transform: rotate(-210deg) scale(0.3);
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  85% {
+    transform: rotate(15deg);
+  }
+  100% {
+    transform: none;
+  }
+}
+@keyframes reward-trade {
+  0% {
+    transform: translateX(-65px) rotateY(0);
+    opacity: 0;
+  }
+  35% {
+    transform: translateX(38px) rotateY(180deg);
+    opacity: 1;
+  }
+  75% {
+    transform: translateX(-15px) rotateY(360deg);
+  }
+  100% {
+    transform: rotateY(360deg);
+  }
+}
+@keyframes reward-open {
+  0% {
+    clip-path: inset(65% 0 0);
+    transform: translateY(22px);
+    opacity: 0;
+  }
+  35% {
+    opacity: 1;
+    clip-path: inset(48% 0 0);
+  }
+  70% {
+    clip-path: inset(0);
+    transform: translateY(-9px);
+  }
+  100% {
+    transform: none;
+  }
+}
+@keyframes reward-draw {
+  0% {
+    clip-path: inset(100% 0 0);
+    transform: translateY(65px) rotate(-35deg);
+  }
+  65% {
+    clip-path: inset(0);
+    transform: translateY(-15px) rotate(10deg);
+  }
+  100% {
+    transform: none;
+  }
+}
+@keyframes reward-burn {
+  0% {
+    transform: scale(0.3, 0.05);
+    opacity: 0;
+  }
+  20% {
+    transform: scale(0.8, 1.25);
+    opacity: 0.8;
+  }
+  45% {
+    transform: scale(1.2, 0.85);
+    opacity: 1;
+  }
+  70% {
+    transform: scale(0.95, 1.15);
+  }
+  100% {
+    transform: none;
+  }
+}
+@keyframes reward-pour {
+  0% {
+    transform: rotate(0) translateY(-20px);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  50% {
+    transform: rotate(55deg) translateY(15px);
+  }
+  75% {
+    transform: rotate(55deg);
+  }
+  100% {
+    transform: none;
+  }
+}
+@keyframes reward-wall {
+  0% {
+    transform: translateX(calc(110px * var(--direction))) scaleX(0.3);
+    opacity: 0;
+  }
+  40% {
+    transform: translateX(-12px);
+    opacity: 1;
+  }
+  65% {
+    transform: translateX(5px);
+  }
+  100% {
+    transform: none;
+  }
+}
+@keyframes reward-slash {
+  0% {
+    transform: rotate(-110deg) translateX(-70px);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  40% {
+    transform: rotate(70deg) translateX(40px);
+  }
+  62% {
+    transform: rotate(-30deg);
+  }
+  100% {
+    transform: none;
+  }
+}
+@keyframes reward-rain {
+  0% {
+    transform: translate(100px, -130px);
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  60% {
+    transform: translate(-15px, 20px);
+  }
+  100% {
+    transform: none;
+  }
+}
+@keyframes reward-pulse {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+    transform: scale(1.14);
+  }
+  40% {
+    transform: scale(0.93);
+  }
+  60% {
+    transform: scale(1.08);
+  }
+  80% {
+    transform: scale(0.97);
+  }
+  100% {
+    transform: none;
+  }
+}
+@keyframes reward-pierce {
+  0% {
+    transform: rotate(65deg) translateY(-100px);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  40% {
+    transform: rotate(65deg) translateY(35px);
+  }
+  70% {
+    transform: rotate(65deg) translateY(-12px);
+  }
+  100% {
+    transform: none;
+  }
+}
+@keyframes reward-close {
+  0% {
+    transform: scaleX(1.9);
+    opacity: 0;
+    clip-path: inset(0 35%);
+  }
+  40% {
+    opacity: 1;
+  }
+  70% {
+    transform: scaleX(0.9);
+    clip-path: inset(0);
+  }
+  100% {
+    transform: none;
+  }
+}
+@keyframes reward-collect {
+  0% {
+    transform: translate(-70px, -55px) scale(1.2);
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  65% {
+    transform: translate(25px, 20px) scale(0.7);
+  }
+  100% {
+    transform: none;
+  }
+}
+@keyframes reward-spark {
+  0%,
+  100% {
+    opacity: 0;
+    transform: scale(0.1);
+  }
+  45% {
+    opacity: 0.7;
+    transform: scale(1.3);
+  }
+}
+.reward-low .scene-spark,
+.reward-low .scene-support {
+  display: none;
+}
+@media (max-width: 600px) {
+  .reward-theater {
+    padding: 14px;
+    min-height: 0;
+  }
+  .reward-scenery {
+    height: 180px;
+  }
+  .reward-result {
+    margin: -20px 0 4px;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .reward-stage .reveal-card {
+    flex-basis: 110px;
+    width: 110px;
+    min-height: 115px;
+    padding: 5px;
+  }
+  .reward-object > svg {
+    height: 106px;
+  }
+  .reward-general .portrait {
+    height: 120px;
+  }
+  .reward-copy h1 {
+    font-size: 25px;
+    margin: 5px 0 10px;
+  }
+  .reward-copy > p:last-child {
+    font-size: 12px;
+  }
+  .reward-copy .eyebrow {
+    font-size: 9px;
+    letter-spacing: 1px;
+  }
+  .reward-caption {
+    font-size: 11px;
+  }
+  .reward-caption small {
+    font-size: 9px;
+  }
+  .reward-controls {
+    justify-content: center;
+  }
+  .library-detail-heading > .equipment-art,
+  .library-detail-heading > .card-art {
+    flex-basis: 125px;
+    width: 125px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reward-stage * {
+    animation: none !important;
+  }
+}
 .reveal-rays {
   position: absolute;
   inset: 0;

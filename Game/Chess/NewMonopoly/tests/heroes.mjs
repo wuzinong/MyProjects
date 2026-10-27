@@ -279,6 +279,8 @@ try {
   await page.locator('[data-action="skip-combat"]').click();
   assert.equal((await saved()).reports.length, 1);
   const result = serialize(await saved());
+  while (await page.locator('#dialog[open] .reward-stage').count())
+    await page.locator('.reward-controls [data-action="close"]').click();
   await page.locator('[data-action="reports"]').click();
   assert.match(await page.locator('.campaign-report').innerText(), /经验/);
   await page.screenshot({ path: resolve(out, 'heroes-report.png') });
