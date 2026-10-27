@@ -189,6 +189,8 @@ test('v2 migration retains assets, guards, pending trade and combat; creates onl
   s.players[0].pos = 1;
   phase(s, 'rent', { tile: 1, creditor: 1, amount: 2 });
   s = command(s, { type: 'siege', generals: [0] });
+  s = command(s, { type: 'defend', generals: s.players[1].generals.map((g) => g.id), hero: false });
+  s.battle.cursor = s.battle.order.indexOf(0);
   migrated = deserialize(oldSave(s));
   assert.deepEqual(migrated.battle, s.battle);
   assert.equal(migrated.players[0].food, s.players[0].food);

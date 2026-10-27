@@ -1,6 +1,6 @@
 import { SKILLS } from './skills.js';
 import { NEW_PEOPLE, BIOGRAPHIES } from './people.js';
-export const VERSION = 4;
+export const VERSION = 6;
 // Four seats can each develop a six-city region through four ordinary levels.
 export const HOUSE_SUPPLY = 96;
 export const PALACE_SUPPLY = 24;
@@ -9,14 +9,14 @@ export const SHOP_CHANCE = 0.25;
 export const SHOP_PRICES = [70, 120, 210, 350, 550];
 export const COLORS = ['#5aa98c', '#689dcc', '#ce7558', '#bb92cd'];
 export const REGIONS = [
-  { name: '凉州', color: '#ca9b66', style: '夯土烽燧 · 河西商旅' },
-  { name: '关中', color: '#ad7560', style: '台榭重垣 · 秦汉故都' },
-  { name: '河洛', color: '#ccaf62', style: '双阙深院 · 帝京气象' },
-  { name: '河北', color: '#799aa8', style: '楼橹坚垒 · 沃野连营' },
-  { name: '兖豫', color: '#a28eaf', style: '仓廪院落 · 中原阡陌' },
-  { name: '荆襄', color: '#6b9d85', style: '临水高台 · 江汉舟楫' },
-  { name: '江东', color: '#67afb4', style: '水岸木构 · 吴越帆影' },
-  { name: '巴蜀', color: '#c88674', style: '山麓层台 · 川蜀竹木' },
+  { name: '凉州', color: '#ca9b66', band: '#edb45c', style: '夯土烽燧 · 河西商旅' },
+  { name: '关中', color: '#ad7560', band: '#de774a', style: '台榭重垣 · 秦汉故都' },
+  { name: '河洛', color: '#ccaf62', band: '#d4d86d', style: '双阙深院 · 帝京气象' },
+  { name: '河北', color: '#799aa8', band: '#7c9ee4', style: '楼橹坚垒 · 沃野连营' },
+  { name: '兖豫', color: '#a28eaf', band: '#b58ada', style: '仓廪院落 · 中原阡陌' },
+  { name: '荆襄', color: '#6b9d85', band: '#68b785', style: '临水高台 · 江汉舟楫' },
+  { name: '江东', color: '#67afb4', band: '#5acbd5', style: '水岸木构 · 吴越帆影' },
+  { name: '巴蜀', color: '#c88674', band: '#df88ac', style: '山麓层台 · 川蜀竹木' },
 ];
 export const LORDS = [
   {

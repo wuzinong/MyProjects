@@ -225,6 +225,11 @@ try {
   battle.assets[1].owner = 1;
   phase(battle, 'rent', { tile: 1, creditor: 1, amount: 2 });
   battle = command(battle, { type: 'siege', hero: true, generals: [0, 3, 4] });
+  battle = command(battle, {
+    type: 'defend',
+    generals: battle.players[1].generals.map((g) => g.id),
+    hero: false,
+  });
   battle.battle.order = [3, ...battle.battle.order.filter((id) => id !== 3)];
   battle.battle.cursor = 0;
   await load(battle);

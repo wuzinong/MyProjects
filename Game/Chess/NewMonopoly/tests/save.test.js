@@ -32,8 +32,11 @@ test('pending auction, debt, trade and combat round-trip', () => {
     offer: { to: 1, give: -1, take: 1, giveCash: 200, takeCash: 0, giveEscape: 0, takeEscape: 0 },
   });
   assert.deepEqual(deserialize(serialize(s)), s);
+  s.players[0].pos = 1;
   phase(s, 'rent', { tile: 1, creditor: 1, amount: 2 });
   s = command(s, { type: 'siege', generals: [0] });
+  s = command(s, { type: 'defend', generals: s.players[1].generals.map((g) => g.id), hero: false });
+  s.battle.cursor = s.battle.order.indexOf(0);
   const restored = deserialize(serialize(s));
   assert.deepEqual(
     command(restored, { type: 'attack', target: 10 }),

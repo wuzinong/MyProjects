@@ -19,7 +19,8 @@ export const fighterTroop = (p, g) => (g.id === -1 ? LORD_TROOPS[p.lord] : GENER
 export const baseSkill = (p, g) => (g.id === -1 ? 100 + p.lord : g.id);
 export function skillPath(p, g) {
   const start = 200 + ROLES.indexOf(fighterRole(p, g)) * 5;
-  return [baseSkill(p, g), ...Array.from({ length: 5 }, (_, i) => start + i)];
+  const tactical = 400 + ROLES.indexOf(fighterRole(p, g)) * 2;
+  return [baseSkill(p, g), start, tactical, start + 1, start + 2, tactical + 1, start + 3, start + 4];
 }
 export const unlockedSkills = (p, g) => skillPath(p, g).filter((_, i) => g.level >= UNLOCK_LEVELS[i]);
 export const equippedSkills = (g) => [...g.loadout, ...(g.manual >= 0 ? [300 + g.manual] : [])];

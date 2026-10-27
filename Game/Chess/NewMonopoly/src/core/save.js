@@ -1,4 +1,4 @@
-import { assertState } from './engine.js';
+import { assertState, validateDefense } from './engine.js';
 import { VERSION, GENERALS, LORDS, MAP, SHOP_PRICES, HOUSE_SUPPLY, PALACE_SUPPLY } from '../data/game.js';
 import { STATUS_NAMES, skillById } from '../data/skills.js';
 import { makeFighter, fighter, equippedSkills, fighterTroop } from './progression.js';
@@ -25,10 +25,10 @@ export function deserialize(text) {
   requireKeys(root, ['format', 'version', 'state'], '存档');
   if (
     root.format !== 'dingli-save' ||
-    ![1, 2, 3, VERSION].includes(root.version) ||
+    ![1, 2, 3, 4, 5, VERSION].includes(root.version) ||
     root.state?.version !== root.version
   )
-    throw Error('存档版本不兼容，支持版本1、2、3迁移与版本4');
+    throw Error('存档版本不兼容，支持版本1—5迁移与版本6');
   const s = root.state;
   requireKeys(
     s,
@@ -167,6 +167,10 @@ export function deserialize(text) {
     s.log.push('已迁移群英成长：原武将等级和装备保留，经验从该等级起计；主公1级加入，旧战斗不增补参战者。');
     if (s.log.length > 160) s.log.shift();
   }
+  if (root.version < 5) {
+    s.freeBuild = false;
+  }
+  s.version = VERSION;
   for (const p of s.players) {
     requireKeys(p, ['hero', 'manuals', 'relics', 'loot'], '人物成长');
     if (s.enhanced)
@@ -208,11 +212,13 @@ function validatePending(s, tileCount) {
     'trade',
     'alliance',
     'battle',
+    'defense',
     'discard',
     'over',
   ]);
   function pending(name, d, depth = 0) {
     if (depth > 5 || !record(d)) throw Error('存档决策层级不合法');
+    if (name === 'defense') validateDefense(s, d);
     if (['buy', 'rent', 'auction', 'event', 'shop', 'develop'].includes(name)) tile(d.tile);
     if (name === 'develop') {
       const a = s.assets[d.tile];
@@ -346,7 +352,7 @@ function validatePending(s, tileCount) {
       num(u.shield, 0, u.max * 2);
       if (
         !Array.isArray(u.statuses) ||
-        u.statuses.length > 5 ||
+        u.statuses.length > Object.keys(STATUS_NAMES).length ||
         new Set(u.statuses.map((x) => x?.kind)).size !== u.statuses.length
       )
         throw Error('战斗状态异常');
@@ -420,7 +426,11 @@ function validatePending(s, tileCount) {
     requireKeys(e, ['actor', 'kind', 'skillId', 'units'], '战斗演出');
     num(e.actor, 0, 19);
     if (!Number.isInteger(e.skillId) || !skillById(e.skillId)) throw Error('战斗演出技能异常');
-    if (!['attack', 'skill', 'battleCard'].includes(e.kind) || !Array.isArray(e.units) || e.units.length > 9)
+    if (
+      !['attack', 'skill', 'battleCard', 'recover'].includes(e.kind) ||
+      !Array.isArray(e.units) ||
+      e.units.length > 9
+    )
       throw Error('战斗演出数据异常');
     e.units.forEach((u) => {
       requireKeys(u, ['id', 'hp', 'shield'], '演出单位');
@@ -428,6 +438,21 @@ function validatePending(s, tileCount) {
       num(u.hp, 0, 100000);
       num(u.shield, 0, 200000);
     });
+    if (e.reactions !== undefined) {
+      if (!Array.isArray(e.reactions) || e.reactions.length > 8) throw Error('反击演出数据异常');
+      e.reactions.forEach((r) => {
+        requireKeys(r, ['actor', 'target', 'damage'], '反击');
+        num(r.actor, 0, 13);
+        num(r.target, 0, 13);
+        num(r.damage, 0, 100000);
+        if (
+          !e.units.some((u) => u.id === r.actor) ||
+          !e.units.some((u) => u.id === r.target) ||
+          Math.floor(r.actor / 10) === Math.floor(r.target / 10)
+        )
+          throw Error('反击双方异常');
+      });
+    }
   }
   const allies = [];
   s.alliances.forEach((a) => {

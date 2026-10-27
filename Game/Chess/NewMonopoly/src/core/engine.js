@@ -41,13 +41,13 @@ import { damage, hit, resolveSkill, tickStatuses } from './combat.js';
 /** @typedef {{owner:number,level:number,mortgaged:boolean}} Asset */
 /** @typedef {{kind:string,power:number,turns:number}} Status */
 /** @typedef {{id:number,side:number,gid:number,name:string,troop:string,hp:number,max:number,atk:number,def:number,speed:number,cooldown:number,shield:number,statuses:Status[],skills:number[],cooldowns:number[],regen:number}} Unit */
-/** @typedef {{actor:number,kind:string,skillId:number,units:{id:number,hp:number,shield:number}[]}} CombatEvent */
+/** @typedef {{actor:number,kind:string,skillId:number,units:{id:number,hp:number,shield:number}[],reactions?:{actor:number,target:number,damage:number}[]}} CombatEvent */
 /** @typedef {{city:number,attacker:number,defender:number,round:number,units:Unit[],order:number[],cursor:number,cardUsed:boolean,log:string[]}} Battle */
 /** @typedef {{debtor?:number,creditor?:number,amount?:number,after?:string,data?:Decision,tile?:number,
  * actor?:number,bid?:number,bidder?:number,passed?:number[],offer?:Trade,target?:number,from?:number,
- * resume?:string,steps?:number,event?:number,offers?:{item:Gear,price:number,sold:boolean}[]}} Decision */
+ * resume?:string,steps?:number,event?:number,generals?:number[],hero?:boolean,offers?:{item:Gear,price:number,sold:boolean}[]}} Decision */
 /** @typedef {{to:number,give:number,take:number,giveCash:number,takeCash:number,giveEscape:number,takeEscape:number}} Trade */
-/** @typedef {{version:number,seed:number,enhanced:boolean,players:Player[],assets:Asset[],turn:number,round:number,
+/** @typedef {{version:number,seed:number,enhanced:boolean,freeBuild:boolean,players:Player[],assets:Asset[],turn:number,round:number,
  * phase:string,decision:Decision,dice:number[],doubles:number,extra:boolean,log:string[],sequence:number,
  * houses:number,palaces:number,alliances:{a:number,b:number,expires:number}[],battle:Battle|null,
  * nextItem:number,auctionQueue:number[],auctionReturn:string,eventDeck:number[],eventCursor:number,combatEvent:CombatEvent|null,
@@ -93,7 +93,8 @@ function makeGeneral(id) {
 /** @param {{lord:number,ai:boolean}[]} seats
  * @returns {State}
  */
-export function createGame(seats, enhanced = true, seed = Date.now() >>> 0) {
+export function createGame(seats, enhanced = true, seed = Date.now() >>> 0, freeBuild = false) {
+  ensure(typeof freeBuild === 'boolean', '自由建造选项无效');
   ensure(seats.length >= 2 && seats.length <= 4, '需要2–4个席位');
   ensure(new Set(seats.map((p) => p.lord)).size === seats.length, '同局不能重复选择主公');
   seats.forEach((p) => integer(p.lord, 0, LORDS.length - 1));
@@ -130,6 +131,7 @@ export function createGame(seats, enhanced = true, seed = Date.now() >>> 0) {
     version: VERSION,
     seed: seed >>> 0,
     enhanced,
+    freeBuild,
     players,
     assets: MAP.map(() => ({ owner: -1, level: 0, mortgaged: false })),
     turn: 0,
@@ -168,7 +170,7 @@ export function createGame(seats, enhanced = true, seed = Date.now() >>> 0) {
 export function actorId(s) {
   if (s.phase === 'auction') return s.decision.actor;
   if (s.phase === 'debt') return s.decision.debtor;
-  if (['trade', 'alliance'].includes(s.phase)) return s.decision.target;
+  if (['trade', 'alliance', 'defense'].includes(s.phase)) return s.decision.target;
   if (s.phase === 'battle') return currentUnit(s).side === 0 ? s.battle.attacker : s.battle.defender;
   return s.turn;
 }
@@ -379,20 +381,27 @@ function auctionAction(s, c) {
     }
   }
 }
+export function constructionPeers(s, id) {
+  return s.freeBuild ? [MAP[id]] : groupTiles(id);
+}
 export function assetAction(s, p, id, action) {
   integer(id, 0, MAP.length - 1);
   const a = s.assets[id],
     t = MAP[id],
-    group = groupTiles(id);
+    group = constructionPeers(s, id);
   ensure(a.owner === p.id, '只能管理自己的资产');
   if (action === 'build') {
     const landing = s.enhanced && s.phase === 'develop' && s.decision.tile === id && p.pos === id;
+    const independent = landing || s.freeBuild;
     ensure(
-      t.kind === 'city' && !a.mortgaged && (landing || complete(s, id, p.id)),
-      '需集齐区域且城池未抵押；增强模式可在自有城落点升级',
+      t.kind === 'city' && !a.mortgaged && (independent || complete(s, id, p.id)),
+      '城池须未抵押；需集齐区域、开启自由建造或使用增强落点建设',
     );
-    ensure(landing || group.every((x) => !s.assets[x.id].mortgaged), '区域存在抵押');
-    ensure(a.level < 5 && (landing || group.every((x) => s.assets[x.id].level >= a.level)), '必须均匀建设');
+    ensure(independent || group.every((x) => !s.assets[x.id].mortgaged), '区域存在抵押');
+    ensure(
+      a.level < 5 && (independent || group.every((x) => s.assets[x.id].level >= a.level)),
+      '已达最高级或必须均匀建设',
+    );
     const cost = buildCost(s, p, id);
     ensure(p.cash >= cost, '金币不足');
     ensure(a.level === 4 ? s.palaces > 0 : s.houses > 0, '官库建筑库存不足');
@@ -419,7 +428,7 @@ export function assetAction(s, p, id, action) {
     p.cash += t.build / 2;
     note(s, `${p.name}拆售${t.name}一级建筑。`);
   } else if (action === 'demolish') {
-    const mine = group.filter((x) => s.assets[x.id].owner === p.id);
+    const mine = groupTiles(id).filter((x) => s.assets[x.id].owner === p.id);
     ensure(
       mine.some((x) => s.assets[x.id].level > 0),
       '本区域没有可拆建筑',
@@ -430,7 +439,10 @@ export function assetAction(s, p, id, action) {
     });
     note(s, `${p.name}拆售${MAP[id].name}所在区域的全部自有建筑。`);
   } else if (action === 'mortgage') {
-    ensure(!a.mortgaged && group.every((x) => s.assets[x.id].level === 0), '抵押前需拆除本区域所有建筑');
+    ensure(
+      !a.mortgaged && group.every((x) => s.assets[x.id].level === 0),
+      s.freeBuild ? '抵押前需拆除本城建筑' : '抵押前需拆除本区域所有建筑',
+    );
     a.mortgaged = true;
     p.cash += t.price / 2;
     note(s, `${p.name}抵押${t.name}，获得${t.price / 2}金。`);
@@ -494,7 +506,9 @@ export function liquidationValue(s, p) {
   return (
     p.cash +
     owned(s, p.id).reduce((sum, t) => {
-      const blocked = groupTiles(t.id).some((x) => s.assets[x.id].owner !== p.id && s.assets[x.id].level > 0);
+      const blocked = constructionPeers(s, t.id).some(
+        (x) => s.assets[x.id].owner !== p.id && s.assets[x.id].level > 0,
+      );
       return (
         sum + (s.assets[t.id].mortgaged || blocked ? 0 : t.price / 2) + (s.assets[t.id].level * t.build) / 2
       );
@@ -506,8 +520,8 @@ function validTransfer(s, from, id) {
   integer(id, 0, MAP.length - 1);
   ensure(s.assets[id].owner === from, '交易资产不属于出让者');
   ensure(
-    groupTiles(id).every((t) => s.assets[t.id].level === 0),
-    '有建筑的区域不能转让',
+    constructionPeers(s, id).every((t) => s.assets[t.id].level === 0),
+    s.freeBuild ? '有建筑的城池不能转让' : '有建筑的区域不能转让',
   );
 }
 function validateTrade(s, from, o) {
@@ -649,6 +663,62 @@ export function stats(p, g) {
 export function readyGenerals(p) {
   return p.generals.filter((g) => g.injury === 0 && g.guard < 0);
 }
+export function defenseRoster(s, id) {
+  const p = s.players[s.assets[id].owner];
+  return {
+    guards: p.generals.filter((g) => g.guard === id && g.injury === 0),
+    reserves: readyGenerals(p),
+    hero: p.hero?.injury === 0,
+  };
+}
+export function chooseDefense(s) {
+  const d = s.decision,
+    p = s.players[d.target],
+    roster = defenseRoster(s, d.tile);
+  const value = (g) => {
+    const n = stats(p, g);
+    return n.hp * 0.3 + n.atk * 2 + n.def + n.speed;
+  };
+  return {
+    type: 'defend',
+    generals: roster.reserves
+      .slice()
+      .sort((a, b) => value(b) - value(a) || a.id - b.id)
+      .slice(0, 3 - roster.guards.length)
+      .map((g) => g.id),
+    hero: roster.hero,
+  };
+}
+export function validateDefense(s, d) {
+  ensure(s.enhanced && !s.battle, '迎战阶段状态异常');
+  integer(d.tile, 0, MAP.length - 1);
+  integer(d.from, 0, s.players.length - 1);
+  integer(d.target, 0, s.players.length - 1);
+  const a = s.assets[d.tile],
+    p = s.players[d.from];
+  ensure(
+    d.from === s.turn &&
+      d.target !== d.from &&
+      a.owner === d.target &&
+      !p.out &&
+      !s.players[d.target].out &&
+      MAP[d.tile].kind === 'city' &&
+      !a.mortgaged &&
+      p.pos === d.tile &&
+      p.siegeRound === s.round &&
+      !allies(s, d.from, d.target),
+    '宣战城池或玩家状态异常',
+  );
+  ensure(typeof d.hero === 'boolean' && (!d.hero || p.hero?.injury === 0), '宣战主公状态异常');
+  ensure(
+    Array.isArray(d.generals) &&
+      d.generals.length <= 3 &&
+      d.generals.length >= (d.hero ? 0 : 1) &&
+      new Set(d.generals).size === d.generals.length &&
+      d.generals.every((id) => readyGenerals(p).some((g) => g.id === id)),
+    '宣战武将状态异常',
+  );
+}
 export function siegeReason(s, p, id) {
   const a = s.assets[id];
   if (!s.enhanced) return '经典模式不允许攻城';
@@ -690,7 +760,7 @@ function makeUnits(p, generals, side) {
     };
   });
 }
-function beginBattle(s, ids, withHero = false) {
+function declareSiege(s, ids, withHero = false) {
   const p = active(s),
     id = s.decision.tile,
     a = s.assets[id];
@@ -709,10 +779,35 @@ function beginBattle(s, ids, withHero = false) {
     generals.every((g) => g && g.injury === 0 && g.guard < 0),
     '出征武将不可用',
   );
-  const defender = s.players[a.owner],
-    guards = defender.generals.filter((g) => g.guard === id && g.injury === 0).slice(0, 3);
+  p.food -= 20;
+  p.siegeRound = s.round;
+  phase(s, 'defense', { tile: id, from: p.id, target: a.owner, generals: ids, hero: withHero });
+  note(s, `${p.name}消耗20粮向${MAP[id].name}宣战，等待${s.players[a.owner].name}点将迎战。`);
+}
+function beginBattle(s, ids, withHero = false) {
+  const d = s.decision;
+  validateDefense(s, d);
+  const p = s.players[d.from],
+    id = d.tile,
+    a = s.assets[id],
+    generals = d.generals.map((gid) => p.generals.find((g) => g.id === gid)),
+    defender = s.players[d.target],
+    roster = defenseRoster(s, id);
+  ensure(
+    Array.isArray(ids) &&
+      ids.length + roster.guards.length <= 3 &&
+      new Set(ids).size === ids.length &&
+      ids.every((gid) => roster.reserves.some((g) => g.id === gid)),
+    '援军需为未负伤的空闲武将，与本城驻将合计最多3人',
+  );
+  ensure(typeof withHero === 'boolean' && (!withHero || roster.hero), '主公正在负伤，不能驰援');
+  const guards = [...roster.guards, ...ids.map((gid) => defender.generals.find((g) => g.id === gid))];
+  ensure(
+    guards.length || withHero || (!roster.reserves.length && !roster.hero),
+    '有可用人物时须至少派出一名迎战',
+  );
   const units = makeUnits(p, generals, 0).concat(makeUnits(defender, guards, 1));
-  if (!guards.length)
+  if (!guards.length && !withHero)
     units.push({
       id: 10,
       side: 1,
@@ -736,8 +831,8 @@ function beginBattle(s, ids, withHero = false) {
     unit.id = side * 10 + 3;
     units.push(unit);
   };
-  if (withHero) addHero(p, 0);
-  if (defender.pos === id && defender.hero?.injury === 0) addHero(defender, 1);
+  if (d.hero) addHero(p, 0);
+  if (withHero) addHero(defender, 1);
   units.push({
     id: 19,
     side: 1,
@@ -756,8 +851,6 @@ function beginBattle(s, ids, withHero = false) {
     cooldowns: [],
     regen: 0,
   });
-  p.food -= 20;
-  p.siegeRound = s.round;
   s.battle = {
     city: id,
     attacker: p.id,
@@ -773,7 +866,10 @@ function beginBattle(s, ids, withHero = false) {
     log: ['战鼓起，城门闭。'],
   };
   phase(s, 'battle');
-  note(s, `${p.name}消耗20粮，攻打${MAP[id].name}！`);
+  note(
+    s,
+    `${defender.name}派${[...guards.map((g) => fighterName(defender, g)), ...(withHero ? [defender.name] : [])].join('、') || '守城军'}迎战${p.name}！`,
+  );
 }
 export const currentUnit = (s) => s.battle.units.find((u) => u.id === s.battle.order[s.battle.cursor]);
 function finishBattle(s, win) {
@@ -843,12 +939,17 @@ function checkBattle(s) {
   }
   return false;
 }
-function battleAction(s, c) {
+function battleAction(s, c, reactions) {
   const b = s.battle,
     u = currentUnit(s),
     p = s.players[u.side === 0 ? b.attacker : b.defender];
   const target = b.units.find((x) => x.id === c.target);
   const ticking = u.statuses.slice();
+  const stunned = u.statuses.some((x) => x.kind === 'stun'),
+    disarmed = u.statuses.some((x) => x.kind === 'disarm');
+  ensure(!stunned || c.type === 'recover', '眩晕期间只能整息恢复');
+  ensure(c.type !== 'attack' || !disarmed, '缴械期间不能普攻，可使用技能或整息');
+  ensure(c.type !== 'recover' || stunned || disarmed, '未被控制，无需整息');
   if (c.type === 'battleCard') {
     integer(c.index, 0, p.cards.length - 1);
     const card = CARDS[p.cards[c.index]];
@@ -890,11 +991,13 @@ function battleAction(s, c) {
   ensure(!special || (slot >= 0 && ability), '未装备此技能');
   ensure(!special || (slot === 0 ? u.cooldown : u.cooldowns[slot]) === 0, '技能尚在冷却');
   ensure(!special || !u.statuses.some((x) => x.kind === 'silence'), '封技期间不能施放技能');
-  if (special) {
-    resolveSkill(b, u, target, ability, () => random(s));
+  if (c.type === 'recover') {
+    b.log.push(`${u.name}整息恢复，本次行动不攻击。`);
+  } else if (special) {
+    resolveSkill(b, u, target, ability, () => random(s), reactions);
   } else {
     ensure(target && target.hp > 0 && target.side !== u.side, '请选择存活敌军');
-    hit(b, u, target, () => random(s));
+    hit(b, u, target, () => random(s), 1, 0, 0, 1, reactions);
   }
   u.cooldowns[0] = u.cooldown;
   u.cooldowns = u.cooldowns.map((n, i) => (special && i === slot ? ability.cooldown : Math.max(0, n - 1)));
@@ -969,7 +1072,12 @@ export function command(original, c, events) {
   const p = active(s),
     management = ['roll', 'end'].includes(s.phase),
     economic = management || s.phase === 'debt';
-  if (c.type === 'asset') {
+  if (c.type === 'enableFreeBuild') {
+    ensure(management && !p.out && !p.ai, '请在真人回合的整备阶段开启自由建造');
+    ensure(!s.freeBuild, '本局已开启自由建造');
+    s.freeBuild = true;
+    note(s, '本局已开启自由建造：各方可独立升级自有城池，不必集齐区域；本局不能关闭。');
+  } else if (c.type === 'asset') {
     ensure(economic, '当前阶段不能管理资产');
     const owner = s.players[s.phase === 'debt' ? s.decision.debtor : s.turn];
     ensure(!owner.out, '已退场的主公不能管理产业');
@@ -1105,17 +1213,22 @@ export function command(original, c, events) {
     if (p.cards.length <= 8) phase(s, s.decision.resume, s.decision.data);
   } else if (c.type === 'siege') {
     ensure(s.phase === 'rent', '只有抵达敌城时可攻城');
+    declareSiege(s, c.generals, c.hero);
+  } else if (c.type === 'defend') {
+    ensure(s.phase === 'defense', '当前无需点将迎战');
     beginBattle(s, c.generals, c.hero);
-  } else if (['attack', 'skill', 'battleCard'].includes(c.type)) {
+  } else if (['attack', 'skill', 'battleCard', 'recover'].includes(c.type)) {
     ensure(s.phase === 'battle', '当前不在战斗');
     const resolved = s.battle,
       unit = currentUnit(s);
-    battleAction(s, c);
+    const reactions = [];
+    battleAction(s, c, reactions);
     s.combatEvent = {
       actor: unit.id,
       kind: c.type,
       skillId: c.type === 'skill' ? (c.skill ?? unit.skills[0]) : unit.skills[0],
       units: resolved.units.map((u) => ({ id: u.id, hp: u.hp, shield: u.shield })),
+      reactions,
     };
     if (resolved.log.length > 30) resolved.log.splice(0, resolved.log.length - 30);
   } else {
@@ -1208,6 +1321,7 @@ export function canAlly(s, a, b) {
 }
 export function assertState(s) {
   ensure(s.version === VERSION, '存档版本不兼容');
+  ensure(typeof s.freeBuild === 'boolean', '自由建造选项无效');
   ensure(s.players.length >= 2 && s.players.length <= 4 && s.assets.length === MAP.length, '存档结构异常');
   ensure(
     [
@@ -1222,6 +1336,7 @@ export function assertState(s) {
       'debt',
       'trade',
       'alliance',
+      'defense',
       'battle',
       'discard',
       'over',
@@ -1235,6 +1350,7 @@ export function assertState(s) {
   integer(s.palaces, 0, PALACE_SUPPLY);
   integer(s.sequence);
   integer(s.nextItem, 1);
+  if (s.phase === 'defense') validateDefense(s, s.decision);
   integer(s.doubles, 0, 3);
   ensure(typeof s.extra === 'boolean', '追加掷骰标记异常');
   let houses = 0,

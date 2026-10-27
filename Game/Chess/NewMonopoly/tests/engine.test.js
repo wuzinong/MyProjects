@@ -193,6 +193,7 @@ test('siege enforces food, ownership, alliance and per-round limit', () => {
   const s = game(true),
     p = s.players[0];
   own(s, 1, 1);
+  s.players[0].pos = 1;
   phase(s, 'rent', { tile: 1, creditor: 1, amount: 2 });
   p.food = 0;
   assert.match(siegeReason(s, p, 1), /粮/);
@@ -206,9 +207,11 @@ test('siege enforces food, ownership, alliance and per-round limit', () => {
 test('manual combat changes state, resolves walls, captures ownership and returns to board', () => {
   let s = game(true);
   own(s, 1, 1);
+  s.players[0].pos = 1;
   phase(s, 'rent', { tile: 1, creditor: 1, amount: 2 });
   s.players[0].generals[0].level = 10;
   s = command(s, { type: 'siege', generals: [0] });
+  s = command(s, { type: 'defend', generals: s.players[1].generals.map((g) => g.id), hero: false });
   assert.equal(s.players[0].food, 40);
   for (let i = 0; i < 80 && s.phase === 'battle'; i++) {
     const b = s.battle,

@@ -86,13 +86,14 @@ test('classic mode rejects hero progression and enhanced equipment management', 
 });
 
 function siege(hero = true, generals = []) {
-  const s = game();
+  let s = game();
   s.assets[1].owner = 1;
   s.players[0].pos = 1;
   phase(s, 'rent', { tile: 1, creditor: 1, amount: 2 });
-  return command(s, { type: 'siege', hero, generals });
+  s = command(s, { type: 'siege', hero, generals });
+  return command(s, { type: 'defend', generals: s.players[1].generals.map((g) => g.id), hero: false });
 }
-test('lord can fight alone with a distinct skill and no remote defending lord', () => {
+test('lord can fight alone and defender may reserve their lord when deploying generals', () => {
   const s = siege();
   const lord = s.battle.units.find((u) => u.gid === -3);
   assert.equal(lord.name, '刘备');
@@ -101,7 +102,7 @@ test('lord can fight alone with a distinct skill and no remote defending lord', 
   assert.equal(s.battle.units.filter((u) => u.gid === -3).length, 1);
   assert.equal(s.players[0].food, 40);
 });
-test('lord defense is local, and four-person formation uses unique unit IDs', () => {
+test('lord defense and four-person formation use unique unit IDs', () => {
   let s = game();
   s.players[0].generals = [0, 1, 2].map((id) => makeFighter(id));
   s.players[1].generals = [13, 14, 15].map((id) => ({ ...makeFighter(id), guard: 1 }));
@@ -110,6 +111,7 @@ test('lord defense is local, and four-person formation uses unique unit IDs', ()
   s.assets[1].owner = 1;
   phase(s, 'rent', { tile: 1, creditor: 1, amount: 2 });
   s = command(s, { type: 'siege', hero: true, generals: [0, 1, 2] });
+  s = command(s, { type: 'defend', generals: [], hero: true });
   assert.equal(s.battle.units.length, 9);
   assert.equal(new Set(s.battle.units.map((u) => u.id)).size, 9);
   assert.equal(s.battle.units.filter((u) => u.gid === -3).length, 2);
@@ -131,8 +133,10 @@ test('equipped advanced skills have independent cooldowns and reject unowned cho
   let s = game();
   s.players[0].hero = makeFighter(-1, 5, 0);
   s.assets[1].owner = 1;
+  s.players[0].pos = 1;
   phase(s, 'rent', { tile: 1, creditor: 1, amount: 2 });
   s = command(s, { type: 'siege', hero: true, generals: [] });
+  s = command(s, choose(s));
   s.battle.cursor = s.battle.order.indexOf(3);
   assert.throws(() => command(s, { type: 'skill', skill: 300, target: 3 }), /未装备/);
   const first = currentUnit(s).skills[0],
@@ -194,7 +198,7 @@ test('v3 64-cell saves retain levels, gear and old battle participants without a
   delete root.state.reports;
   for (const u of root.state.battle.units) for (const key of ['skills', 'cooldowns', 'regen']) delete u[key];
   const migrated = deserialize(JSON.stringify(root));
-  assert.equal(migrated.version, 4);
+  assert.equal(migrated.version, 6);
   assert.equal(migrated.assets.length, 64);
   assert.equal(migrated.players[0].generals[0].level, 8);
   assert.equal(migrated.players[0].hero.level, 1);
@@ -254,8 +258,10 @@ for (const ability of [...LORD_SKILLS, ...ADVANCED_SKILLS, ...MANUAL_SKILLS]) {
     }
     s.players[1].generals = [13, 14, 15].map((id) => ({ ...makeFighter(id, 50), guard: 1 }));
     s.assets[1].owner = 1;
+    s.players[0].pos = 1;
     phase(s, 'rent', { tile: 1, creditor: 1, amount: 2 });
     s = command(s, { type: 'siege', hero: lord, generals: lord ? [] : [gid] });
+    s = command(s, { type: 'defend', generals: [], hero: false });
     const u = s.battle.units.find((u) => u.side === 0);
     s.battle.cursor = s.battle.order.indexOf(u.id);
     s.battle.units.forEach((u) => {

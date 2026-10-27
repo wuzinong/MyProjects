@@ -35,6 +35,7 @@ function skill(name, description, target, effect, color, options = {}) {
     cost: 0,
     selfVulnerable: 0,
     statuses: [],
+    selfStatuses: [],
     ...options,
   };
 }
@@ -507,6 +508,77 @@ export const MANUAL_SKILLS = [
     pierce: 0.4,
   }),
 ];
+export const TACTICAL_SKILLS = [
+  skill('截锋缚刃', '单体115%攻击，缴械1次行动（不能普攻，但可施法或整息）。', 'enemy', 'chains', '#b6c8e0', {
+    power: 1.15,
+    statuses: [status('disarm', 0, 1)],
+    cooldown: 4,
+  }),
+  skill(
+    '横刀反震',
+    '自身获得45护盾与反击姿态：2次自身行动内，首次受到直接攻击后以75%攻击反击一次。',
+    'self',
+    'counter',
+    '#db9163',
+    { shield: 45, statuses: [status('counter', 75, 2)], cooldown: 4 },
+  ),
+  skill('踏阵惊敌', '单体105%攻击，眩晕1次行动（只能整息，仍结算持续伤害）。', 'enemy', 'quake', '#e6bb7b', {
+    power: 1.05,
+    statuses: [status('stun', 0, 1)],
+    cooldown: 5,
+  }),
+  skill(
+    '回马邀击',
+    '单体140%攻击，自身进入65%攻击反击姿态，持续2次自身行动，仅反击一次。',
+    'enemy',
+    'lance',
+    '#db9163',
+    { power: 1.4, selfStatuses: [status('counter', 65, 2)], cooldown: 4 },
+  ),
+  skill('锁弦缚手', '单体2次65%攻击，缴械1次行动。', 'enemy', 'arrows', '#8ed9ed', {
+    power: 0.65,
+    hits: 2,
+    statuses: [status('disarm', 0, 1)],
+    cooldown: 4,
+  }),
+  skill(
+    '回弦伏射',
+    '自身获得35护盾与90%攻击反击姿态，持续2次自身行动，仅反击一次。',
+    'self',
+    'counter',
+    '#a5d8ee',
+    { shield: 35, statuses: [status('counter', 90, 2)], cooldown: 4 },
+  ),
+  skill('定军雷印', '单体95%攻击，眩晕1次行动；城墙不受控制。', 'enemy', 'storm', '#a99adf', {
+    power: 0.95,
+    statuses: [status('stun', 0, 1)],
+    cooldown: 5,
+  }),
+  skill(
+    '镜阵返锋',
+    '一名友军获得40护盾及80%攻击反击姿态，持续2次自身行动，仅反击一次。',
+    'ally',
+    'counter',
+    '#b4b5ee',
+    { shield: 40, statuses: [status('counter', 80, 2)], cooldown: 4 },
+  ),
+  skill('清音解缚', '一名友军恢复35生命并清除所有负面状态，保留反击姿态。', 'ally', 'talisman', '#9dddbb', {
+    heal: 35,
+    cleanse: true,
+    cooldown: 3,
+  }),
+  skill(
+    '护军还锋',
+    '全体友军获得25护盾及50%攻击反击姿态，持续2次自身行动，每人仅反击一次。',
+    'allies',
+    'counter',
+    '#dfc597',
+    { shield: 25, statuses: [status('counter', 50, 2)], cooldown: 5 },
+  ),
+];
+TACTICAL_SKILLS.forEach((s, i) => {
+  s.id = 400 + i;
+});
 SKILLS.forEach((s, i) => {
   s.id = i;
 });
@@ -528,6 +600,7 @@ export const skillById = (id) =>
   LORD_SKILLS[id - 100] ||
   ADVANCED_SKILLS[id - 200] ||
   MANUAL_SKILLS[id - 300] ||
+  TACTICAL_SKILLS[id - 400] ||
   (id === -1 ? GUARD_SKILL : undefined);
 export const skillFor = (u, id = u.skills?.[0]) =>
   id === undefined ? (u.gid >= 0 ? SKILLS[u.gid] : GUARD_SKILL) : skillById(id);
@@ -537,4 +610,8 @@ export const STATUS_NAMES = {
   weaken: '虚弱',
   vulnerable: '易伤',
   silence: '封技',
+  stun: '眩晕',
+  disarm: '缴械',
+  counter: '反击',
 };
+export const NEGATIVE_STATUSES = ['burn', 'poison', 'weaken', 'vulnerable', 'silence', 'stun', 'disarm'];

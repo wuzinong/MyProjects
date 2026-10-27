@@ -25,6 +25,8 @@ import {
   rent,
   worth,
   readyGenerals,
+  defenseRoster,
+  chooseDefense,
   siegeReason,
   currentUnit,
   canAlly,
@@ -220,22 +222,37 @@ function playerRows() {
     )
     .join('');
 }
+function regionLegend() {
+  return `<nav class="region-legend" aria-label="成套区域图例">${REGIONS.map((r, id) => `<button type="button" data-region="${id}" style="--region:${r.band}" title="查看${r.name}成套城池"><i aria-hidden="true"></i>${r.name}</button>`).join('')}</nav>`;
+}
+function regionCollection(id, player) {
+  const cities = MAP.filter((t) => t.group === id);
+  const held = cities.filter((t) => state.assets[t.id].owner === player.id).length;
+  return { cities, held, total: cities.length };
+}
+function buildingRule() {
+  return state?.freeBuild
+    ? '自由建造已开启：整备时可独立升级任意自有、未抵押城池，不必集齐区域或均匀升级。抵押、转让前只需拆除该城建筑。'
+    : `标准建设：整备时需集齐同色区域并均匀升级；抵押、转让前需清空区域建筑。${state?.enhanced ? '增强模式另有自有城落点单次升级机会。' : ''}`;
+}
 function tilePanel() {
   const t = MAP[selected],
     a = state.assets[selected],
     p = state.players[actorId(state) ?? state.turn],
     owner = a.owner >= 0 ? state.players[a.owner] : null;
-  return `<div class="tile-heading"><small>${t.group >= 0 ? REGIONS[t.group].name : '天下行旅'} · 第${ROUTE_INDEX[selected] + 1}格</small><h2>${t.name}</h2><p>${t.group >= 0 ? REGIONS[t.group].style : tileDescription(t)}${t.landmark ? '<br>城建意象 · ' + t.landmark : ''}</p></div>
+  const collection = t.group >= 0 ? regionCollection(t.group, p) : null;
+  return `<div class="tile-heading ${collection ? 'region-heading' : ''}" ${collection ? `style="--region:${REGIONS[t.group].band}"` : ''}><small>${t.group >= 0 ? REGIONS[t.group].name + '套组' : '天下行旅'} · 第${ROUTE_INDEX[selected] + 1}格</small><h2>${t.name}</h2><p>${t.group >= 0 ? REGIONS[t.group].style : tileDescription(t)}${t.landmark ? '<br>城建意象 · ' + t.landmark : ''}</p></div>
     <div class="tile-stats"><div><small>归属</small><b style="color:${owner ? COLORS[owner.id] : 'var(--gold)'}">${owner ? owner.name : '官库'}</b></div><div><small>${a.mortgaged ? '已抵押' : '当前租金'}</small><b>${a.owner >= 0 ? money(rent(state, selected)) : '—'}<em> 金</em></b></div></div>
     ${t.price && t.kind !== 'tax' ? `<div class="stat-line"><span>购入价格</span><b>${t.price} 金</b></div><div class="stat-line"><span>抵押 / 赎回</span><b>${t.price / 2} / ${Math.ceil(t.price * 0.55)} 金</b></div>` : ''}
     ${t.kind === 'city' ? `<div class="stat-line"><span>${BUILDING_NAMES[a.level]}</span><b>${'◆'.repeat(a.level)}${'◇'.repeat(5 - a.level)}</b></div><p class="muted tiny">租金 ${t.rent.join(' / ')}<br>集齐区域：无建筑租金翻倍</p>` : ''}
     ${a.owner === p.id ? `<div class="tile-buttons">${assetButtons(p, t)}</div>` : ''}
+    ${collection ? `<p class="region-progress">${p.name}持有 <b>${collection.held}/${collection.total}</b> · ${collection.held === collection.total ? '已集齐本套区域' : `还差${collection.total - collection.held}城`}</p><button type="button" data-region="${t.group}" class="text-button">查看本套城池与归属 →</button>` : ''}
     <div class="region-mini">${
       t.group >= 0
         ? MAP.filter((x) => x.group === t.group)
             .map(
               (x) =>
-                `<button data-tile="${x.id}" class="${x.id === selected ? 'selected' : ''}"><i style="background:${state.assets[x.id].owner >= 0 ? COLORS[state.assets[x.id].owner] : '#52605d'}"></i>${x.name}</button>`,
+                `<button data-tile="${x.id}" class="${x.id === selected ? 'selected' : ''}" title="${state.assets[x.id].owner >= 0 ? state.players[state.assets[x.id].owner].name : '无主'}"><i style="background:${state.assets[x.id].owner >= 0 ? COLORS[state.assets[x.id].owner] : '#52605d'}"></i>${x.name}</button>`,
             )
             .join('')
         : ''
@@ -263,13 +280,13 @@ function assetButtons(p, t) {
   return `${t.kind === 'city' ? `${!debt ? btn(`建设 · ${buildCost(state, p, t.id)}金`, { type: 'asset', action: 'build', tile: t.id }, 'small', a.level === 5) : ''}${btn('拆售一级', { type: 'asset', action: 'sell', tile: t.id }, 'small', !a.level)}${btn('整区拆售', { type: 'asset', action: 'demolish', tile: t.id }, 'small')}` : ''}
     ${a.mortgaged ? (!debt ? btn('赎回产业', { type: 'asset', action: 'redeem', tile: t.id }, 'small') : '') : btn('抵押筹资', { type: 'asset', action: 'mortgage', tile: t.id }, 'small')}`;
 }
+const heading = (label, title, body, buttons) =>
+  `<div class="decision"><div><small class="eyebrow">${label}</small><h2>${title}</h2><p>${body}</p></div><div class="decision-actions">${buttons}</div></div>`;
 function prompt() {
   const p = active(state),
     d = state.decision,
     actor = state.players[actorId(state) ?? state.turn],
     ai = actor.ai;
-  const heading = (label, title, body, buttons) =>
-    `<div class="decision"><div><small class="eyebrow">${label}</small><h2>${title}</h2><p>${body}</p></div><div class="decision-actions">${buttons}</div></div>`;
   switch (state.phase) {
     case 'roll':
       return heading(
@@ -326,6 +343,13 @@ function prompt() {
         state.extra ? '双骰相同，再行一步' : '此行已定，整军待发',
         '现在可以管理产业、武将与卡牌。',
         btn(state.extra ? '继续掷骰' : '结束回合', { type: 'end' }, 'primary', ai),
+      );
+    case 'defense':
+      return heading(
+        '烽火告急 · 守方点将',
+        `${actor.name} · ${MAP[d.tile].name}遭到进攻`,
+        `${state.players[d.from].name}已宣战。本城驻将保留，可派空闲武将及健康主公驰援；确认后开战。`,
+        `<button data-action="defense" class="primary" ${ai ? 'disabled' : ''}>点将迎战</button>`,
       );
     case 'event':
       return heading(
@@ -409,9 +433,20 @@ function battlePrompt() {
     single = ['enemy', 'ally'].includes(skill.target);
   battleSkill = skill.id;
   const cooldown = u.skills.indexOf(skill.id) === 0 ? u.cooldown : u.cooldowns[u.skills.indexOf(skill.id)];
+  const stunned = u.statuses.some((x) => x.kind === 'stun'),
+    disarmed = u.statuses.some((x) => x.kind === 'disarm');
+  if (stunned)
+    return heading(
+      '控制状态 · 眩晕',
+      `${u.name}暂不能行动`,
+      '整息消耗本次行动，持续伤害与冷却照常结算。',
+      btn('整息恢复', { type: 'recover' }, 'primary', actor.ai || autoBattle) +
+        action(autoBattle ? '停止自动' : '自动战斗', 'autoBattle'),
+    );
   return `<div class="decision combat-decision"><div><small class="eyebrow">攻城 ${b.round} / 10 回合 · ${actor.name}</small><h2>${u.name}行动 <span class="troop">${u.troop}</span></h2><p>护盾 ${u.shield} · ${u.statuses.map((x) => `${STATUS_NAMES[x.kind]}${x.turns}次`).join(' / ') || '无减益'}</p><p class="combat-description"><b style="color:${skill.color}">${skill.name}</b>：${skill.description}<br>冷却${skill.cooldown}次行动；当前剩余${cooldown}。</p></div><div class="decision-actions">
     <label class="inline-input">普攻目标<select id="battle-target">${targets.map((t) => `<option value="${t.id}">${t.name} · ${t.hp}/${t.max}</option>`).join('')}</select></label>
-    <button data-action="attack" ${actor.ai || autoBattle ? 'disabled' : ''}>普攻</button>
+    <button data-action="attack" ${actor.ai || autoBattle || disarmed ? 'disabled' : ''}>${disarmed ? '缴械 · 无法普攻' : '普攻'}</button>
+    ${disarmed ? btn('整息恢复', { type: 'recover' }, '', actor.ai || autoBattle) : ''}
     <label class="inline-input">出战技能<select id="battle-skill" ${actor.ai || autoBattle ? 'disabled' : ''}>${u.skills.map((id, i) => `<option value="${id}" ${id === skill.id ? 'selected' : ''}>${skillFor(u, id).name} · 冷却${i === 0 ? u.cooldown : u.cooldowns[i]}</option>`).join('')}</select></label>
     ${single ? `<label class="inline-input">技能目标<select id="skill-target">${options.map((t) => `<option value="${t.id}">${t.name} · ${t.hp}/${t.max}</option>`).join('')}</select></label>` : `<span class="skill-range">${{ self: '自身', allies: '全部友军', enemies: '全部敌军' }[skill.target]}</span>`}
     <button data-action="skill" class="primary" ${actor.ai || autoBattle || cooldown || u.statuses.some((x) => x.kind === 'silence') || !options.length ? 'disabled' : ''}>${skill.name}</button>
@@ -438,7 +473,7 @@ function render() {
   const management = ['roll', 'end', 'debt'].includes(state.phase);
   const privateAllowed = !handoff && !actor.ai;
   $('#app').innerHTML = `
-    <header class="game-top"><div class="wordmark">鼎立<span>${state.enhanced ? '群雄逐鹿' : '经典商道'}</span></div>
+    <header class="game-top"><div class="wordmark">鼎立<span>${state.freeBuild ? '自由建造' : state.enhanced ? '群雄逐鹿' : '经典商道'}</span></div>
       <div class="turn-label"><small>第 ${state.round} 轮</small><b style="color:${COLORS[p.id]}">${p.name}执棋</b></div>
       <div class="header-resource"><span>金 <b>${money(p.cash)}</b></span>${state.enhanced ? `<span>粮 <b>${p.food}</b></span><span>材 <b>${p.material}</b></span>` : ''}<span class="dice-result" aria-label="最近骰点">${state.dice.map((n) => `<i>${['', '⚀', '⚁', '⚂', '⚃', '⚄', '⚅'][n]}</i>`).join('')}</span></div>
       <div class="header-tools">${action('存档', 'save-menu')}${action('规则', 'help')}${action('资料', 'library')}${action('⚙', 'settings')}</div>
@@ -470,7 +505,7 @@ function render() {
             .join('')}</section>`
         : ''
     }</aside>
-    ${!state.battle ? `<div class="center-banner"><span class="eyebrow">行至${REGIONS[p.region].name} · 山河随行</span><strong>${MAP[p.pos].group >= 0 ? `${MAP[p.pos].name} · ${MAP[p.pos].landmark}` : REGIONS[p.region].style}</strong>${state.enhanced ? `<nav aria-label="中央设施"><button data-facility="roster" ${!privateAllowed ? 'disabled' : ''}>将台 · 点将</button><button data-facility="cards" ${!privateAllowed ? 'disabled' : ''}>锦囊台 · 览策</button><button data-facility="recruit" ${!privateAllowed ? 'disabled' : ''}>军械铺 · 铸装</button></nav>` : ''}</div>` : ''}
+    ${!state.battle ? `<div class="center-banner"><span class="eyebrow">行至${REGIONS[p.region].name} · 山河随行</span><strong>${MAP[p.pos].group >= 0 ? `${MAP[p.pos].name} · ${MAP[p.pos].landmark}` : REGIONS[p.region].style}</strong>${regionLegend()}${state.enhanced ? `<nav aria-label="中央设施"><button data-facility="roster" ${!privateAllowed ? 'disabled' : ''}>将台 · 点将</button><button data-facility="cards" ${!privateAllowed ? 'disabled' : ''}>锦囊台 · 览策</button><button data-facility="recruit" ${!privateAllowed ? 'disabled' : ''}>军械铺 · 铸装</button></nav>` : ''}</div>` : ''}
     <div class="view-tools">${action('⌂ 复位视角', 'camera')}${!state.battle ? action('跟随主公', 'follow-camera') + action('近看中央', 'center-camera') : ''}${action(fast ? '正常节奏' : '快速 / 跳过动画', 'fast')}${action(paused ? '继续对局' : '暂停', 'pause')}<span>左拖旋转 · 右拖平移 · 滚轮缩放</span></div>
     <section class="bottom-hud"><nav class="game-nav">
       ${action('疆域 / 资产', 'assets')}${action('天下地图', 'map')}
@@ -538,6 +573,7 @@ function apply(c, automatic = false) {
     if (
       [
         'siege',
+        'defend',
         'accept',
         'reject',
         'alliance',
@@ -677,7 +713,13 @@ function openBiography(name) {
   biographyName = name;
   biographyReturn = modalName || 'codex';
   if (biographyReturn === 'setup') {
-    setupDraft = { count: $('#seat-count').value, enhanced: $('#enhanced').checked, lords: [], types: [] };
+    setupDraft = {
+      count: $('#seat-count').value,
+      enhanced: $('#enhanced').checked,
+      freeBuild: $('#free-build').checked,
+      lords: [],
+      types: [],
+    };
     for (let i = 0; i < 4; i++) {
       setupDraft.lords.push($(`#lord-${i}`).value);
       setupDraft.types.push($(`#type-${i}`).value);
@@ -690,6 +732,7 @@ function returnFromBiography() {
   if (biographyReturn === 'setup' && setupDraft) {
     $('#seat-count').value = setupDraft.count;
     $('#enhanced').checked = setupDraft.enhanced;
+    $('#free-build').checked = setupDraft.freeBuild;
     for (let i = 0; i < 4; i++) {
       $(`#lord-${i}`).value = setupDraft.lords[i];
       $(`#type-${i}`).value = setupDraft.types[i];
@@ -714,7 +757,7 @@ function modalContent(name) {
     return {
       title: '择主公，定天下',
       body: `<p class="muted">同机轮流执棋，2–4人真人与AI混合。主公不可重复；主公技能仅增强模式生效。</p>
-      <div class="setup-options"><label>入局人数<select id="seat-count"><option value="2">2位主公</option><option value="3" selected>3位主公</option><option value="4">4位主公</option></select></label><label class="toggle"><input id="enhanced" type="checkbox" checked><span>增强玩法 <small>攻城 · 武将 · 六槽装备 · 外交</small></span></label></div>
+      <div class="setup-options"><label>入局人数<select id="seat-count"><option value="2">2位主公</option><option value="3" selected>3位主公</option><option value="4">4位主公</option></select></label><label class="toggle"><input id="enhanced" type="checkbox" checked><span>增强玩法 <small>攻城 · 武将 · 六槽装备 · 外交</small></span></label><label class="toggle"><input id="free-build" type="checkbox"><span>自由建造 <small>无需集齐区域 · 自有城独立升级 · 本局开启后不可关闭</small></span></label></div>
       <div class="seats">${Array.from({ length: 4 }, (_, i) => `<div class="seat" data-seat="${i}" ${i === 3 ? 'hidden' : ''}><small style="color:${COLORS[i]}">${icons[i]} 第${i + 1}席</small><select aria-label="第${i + 1}席主公" id="lord-${i}">${LORDS.map((l, j) => `<option value="${j}" ${i === j ? 'selected' : ''}>${l.name} · ${l.word}</option>`).join('')}</select><select aria-label="第${i + 1}席类型" id="type-${i}"><option value="human">真人</option><option value="ai" ${i ? 'selected' : ''}>AI谋士</option></select></div>`).join('')}</div>
       <div class="lords-grid">${LORDS.map((l, i) => `<button class="lord-card" data-lord="${i}" style="--lord:${l.color}">${portrait(i, l.color, true)}<div><small>${l.word}</small><h3>${l.name}</h3><b>${l.title}</b><p>${l.skill}</p></div></button>`).join('')}</div>
       <div class="modal-footer"><span class="muted">点击主公卡为第一席选将，并查看生平。无联网、无付费抽卡。</span>${action('举兵入局　→', 'start', 'primary large')}</div>`,
@@ -725,17 +768,34 @@ function modalContent(name) {
       tiles = owned(state, owner.id);
     return {
       title: `${owner.name} · 疆域产业`,
-      body: `<div class="resource-strip"><span>现金 <b>${money(owner.cash)}</b></span><span>总资产 <b>${money(worth(state, owner))}</b></span><span>产业 <b>${tiles.length}</b></span></div><p class="muted">整备建设需集齐同色区域并均匀升级。${state.enhanced ? '增强模式还可在停到自有城池时单独升级一次，无需集齐区域。' : ''}抵押前需清空区域建筑；整区拆售可直接拆除自有建筑，包括都督府。</p>
-      <div class="asset-grid">${tiles.map((t) => `<article class="asset-card" style="--region:${t.group >= 0 ? REGIONS[t.group].color : '#d4ad63'}"><small>${t.group >= 0 ? REGIONS[t.group].name : t.kind === 'station' ? '驿站' : '漕运'}</small><h3>${t.name}</h3><p>${state.assets[t.id].mortgaged ? '已抵押' : `${state.assets[t.id].level}级 · 租金${rent(state, t.id)}金`}</p><div class="wrap">${assetButtons(owner, t)}</div></article>`).join('') || '<div class="empty">尚无产业。行军抵达无主城池后即可购买，或在公开拍卖中竞得。</div>'}</div>`,
+      body: `<div class="resource-strip"><span>现金 <b>${money(owner.cash)}</b></span><span>总资产 <b>${money(worth(state, owner))}</b></span><span>产业 <b>${tiles.length}</b></span></div><p class="muted">${buildingRule()}整区拆售可直接拆除该区域全部自有建筑，包括都督府。</p>
+      <div class="asset-grid">${tiles.map((t) => `<article class="asset-card" style="--region:${t.group >= 0 ? REGIONS[t.group].band : '#d4ad63'}"><small>${t.group >= 0 ? REGIONS[t.group].name + '套组' : t.kind === 'station' ? '驿站' : '漕运'}</small><h3>${t.name}</h3><p>${state.assets[t.id].mortgaged ? '已抵押' : `${state.assets[t.id].level}级 · 租金${rent(state, t.id)}金`}</p><div class="wrap">${assetButtons(owner, t)}</div></article>`).join('') || '<div class="empty">尚无产业。行军抵达无主城池后即可购买，或在公开拍卖中竞得。</div>'}</div>`,
     };
   }
   if (name === 'map') {
     return {
       title: '六十四格 · 天下图录',
-      body: `<p class="muted">64格山水环线，下列编号即行军顺序。城池间的山林、花草与溪桥不计步数；点击可近看该地，复位视角返回全图。古地名跨汉末至三国使用，路线与地形不代表真实地理比例。</p><div class="map-grid">${ROUTE.map(
+      body: `<p class="muted">同一底座色带与区域名称代表一套城池；点击下方区域查看完整清单。旗帜颜色代表玩家，不代表区域。</p>${regionLegend()}<p class="muted">64格山水环线，下列编号即行军顺序。城池间的山林、花草与溪桥不计步数；点击可近看该地，复位视角返回全图。古地名跨汉末至三国使用，路线与地形不代表真实地理比例。</p><div class="map-grid">${ROUTE.map(
         (id, index) => {
           const t = MAP[id];
-          return `<button data-tile="${t.id}" style="--region:${t.group >= 0 ? REGIONS[t.group].color : '#859a94'}"><small>${String(index + 1).padStart(2, '0')} · ${t.group >= 0 ? REGIONS[t.group].name : '行旅'}</small><strong>${t.name}</strong><span>${state.assets[t.id].owner >= 0 ? state.players[state.assets[t.id].owner].name : t.price ? t.price + '金' : '机遇'}</span></button>`;
+          return `<button data-tile="${t.id}" style="--region:${t.group >= 0 ? REGIONS[t.group].band : '#859a94'}"><small>${String(index + 1).padStart(2, '0')} · ${t.group >= 0 ? REGIONS[t.group].name + '套组' : '行旅'}</small><strong>${t.name}</strong><span>${state.assets[t.id].owner >= 0 ? state.players[state.assets[t.id].owner].name : t.price ? t.price + '金' : '机遇'}</span></button>`;
+        },
+      ).join('')}</div>`,
+    };
+  }
+  if (name === 'regions') {
+    return {
+      title: '八大区域 · 成套城池',
+      body: `<p class="muted">色带与区域名称标示套组，旗帜标示玩家。以下为${p.name}的持有进度；无论是否开启自由建造，集齐一套仍使该套未建造城池的基础租金翻倍。</p><p class="note-box">${buildingRule()}</p><div class="region-collections">${REGIONS.map(
+        (r, id) => {
+          const { cities, held, total } = regionCollection(id, p);
+          return `<section class="region-collection" id="region-${id}" style="--region:${r.band}"><header><h3>${r.name} <small>${total}城成套</small></h3><b>${held === total ? '已成套' : '持有'} ${held}/${total}</b></header><div>${cities
+            .map((t) => {
+              const a = state.assets[t.id],
+                owner = a.owner >= 0 ? state.players[a.owner] : null;
+              return `<button type="button" data-tile="${t.id}" class="${a.owner === p.id ? 'held' : ''}"><strong>${t.name}</strong><span>${owner ? owner.name : '无主 · 尚未购入'}${a.mortgaged ? ' · 抵押' : ''}</span></button>`;
+            })
+            .join('')}</div></section>`;
         },
       ).join('')}</div>`,
     };
@@ -808,11 +868,21 @@ function modalContent(name) {
   if (name === 'siege') {
     const ready = readyGenerals(p),
       id = state.decision.tile,
-      def = state.players[state.assets[id].owner],
-      guards = def.generals.filter((g) => g.guard === id && g.injury === 0);
+      roster = defenseRoster(state, id),
+      guards = roster.guards;
     return {
       title: `点将出征 · ${MAP[id].name}`,
-      body: `<div class="resource-strip"><span>出征 <b>20粮</b></span><span>失败需交 <b>${state.decision.amount}金</b></span><span>守军 <b>${guards.length || 1}队${def.pos === id && !def.hero.injury ? '＋主公' : ''} + 城墙</b></span></div><p class="muted">独立主公位＋最多3名武将，也可主公独自亲征。攻胜夺城免租，败方负伤但不永久死亡；10回合未攻克则守方胜。双方实际参战人物均获得经验，胜方更多。</p><p>敌方驻军：${guards.map((g) => GENERALS[g.id].name).join('、') || '基础守城军'}${def.pos === id && !def.hero.injury ? `，${def.name}亲自守城` : ''}；城墙耐久 ${65 + state.assets[id].level * 30}。</p><label class="hero-siege-choice"><input type="checkbox" id="siege-hero" ${p.hero.injury ? 'disabled' : 'checked'}><strong>${p.name}亲征 · Lv.${p.hero.level}</strong><span>${p.hero.injury ? '主公负伤，暂不可出征' : '不占用武将名额'}</span></label><h3>选择最多3名武将</h3><div class="siege-picks">${ready.map((g, i) => `<label class="siege-pick"><input type="checkbox" name="siege-general" value="${g.id}" ${i < 3 ? 'checked' : ''}>${portrait(g.id)}<strong>${GENERALS[g.id].name}</strong><span>${GENERALS[g.id].troop}兵 · Lv.${g.level}</span></label>`).join('')}</div><div class="modal-footer">${action('鸣鼓攻城', 'begin-siege', 'primary large')}</div>`,
+      body: `<div class="resource-strip"><span>宣战 <b>20粮</b></span><span>失败需交 <b>${state.decision.amount}金</b></span><span>防守 <b>最多3将＋主公＋城墙</b></span></div><p class="note-box">宣战后由守方点将：本城驻将保留，空闲武将与健康主公可远程增援。此处不公开对方未出阵将库，不能把没有驻将当作没有援军。</p><p>公开驻军：${guards.map((g) => GENERALS[g.id].name).join('、') || '暂无驻将，守方仍可增援'}；城墙耐久 ${65 + state.assets[id].level * 30}。攻胜夺城免租；10回合未攻克则守方胜。参战人物均获得经验，败方负伤但不永久死亡。</p><label class="hero-siege-choice"><input type="checkbox" id="siege-hero" ${p.hero.injury ? 'disabled' : 'checked'}><strong>${p.name}亲征 · Lv.${p.hero.level}</strong><span>${p.hero.injury ? '主公负伤，暂不可出征' : '不占用武将名额'}</span></label><h3>选择最多3名武将</h3><div class="siege-picks">${ready.map((g, i) => `<label class="siege-pick"><input type="checkbox" name="siege-general" value="${g.id}" ${i < 3 ? 'checked' : ''}>${portrait(g.id)}<strong>${GENERALS[g.id].name}</strong><span>${GENERALS[g.id].troop}兵 · Lv.${g.level}</span></label>`).join('')}</div><div class="modal-footer">${action('鸣鼓攻城', 'begin-siege', 'primary large')}</div>`,
+    };
+  }
+  if (name === 'defense' && state.phase === 'defense' && !handoff && !p.ai) {
+    const d = state.decision,
+      roster = defenseRoster(state, d.tile),
+      suggested = chooseDefense(state),
+      attacker = state.players[d.from];
+    return {
+      title: `点将迎战 · ${MAP[d.tile].name}`,
+      body: `<div class="defense-banner"><small>城主 · ${p.name}</small><h3>${attacker.name}来袭</h3><p>攻方已出阵：${[...(d.hero ? [attacker.name] : []), ...d.generals.map((id) => GENERALS[id].name)].join('、')}</p></div><p class="muted">本城驻将固定参战，援军不改变原驻守位置；总计最多3将＋主公。健康主公可远程驰援，战败会负伤。只要有可用人物，就须至少派出一人。</p><h3>本城驻将 · ${roster.guards.length}/3</h3><div class="defense-garrison">${roster.guards.map((g) => `<span>${GENERALS[g.id].name} · Lv.${g.level} · 固定参战</span>`).join('') || '<p class="muted">暂无健康驻将，请选择援军。</p>'}</div><label class="hero-siege-choice"><input id="defense-hero" type="checkbox" ${roster.hero ? 'checked' : 'disabled'}><strong>${p.name}驰援 · Lv.${p.hero.level}</strong><span>${roster.hero ? '可远程增援，不占武将名额' : '主公负伤，不可迎战'}</span></label><h3>选择援军 · 最多${3 - roster.guards.length}人</h3><div class="siege-picks">${roster.reserves.map((g) => `<label class="siege-pick"><input type="checkbox" name="defense-general" value="${g.id}" ${suggested.generals.includes(g.id) ? 'checked' : ''} ${roster.guards.length === 3 ? 'disabled' : ''}>${portrait(g.id)}<strong>${GENERALS[g.id].name}</strong><span>${GENERALS[g.id].troop}兵 · Lv.${g.level}</span></label>`).join('') || '<p class="muted">没有可用空闲武将；伤兵及驻守他城者不能调动。</p>'}</div>${!roster.hero && !roster.guards.length && !roster.reserves.length ? '<p class="note-box">无人可以出战，本城由普通守城军与城墙迎敌。</p>' : ''}<div class="modal-footer">${action('确认迎战', 'begin-defense', 'primary large')}</div>`,
     };
   }
   if (name === 'diplomacy') {
@@ -862,10 +932,11 @@ function modalContent(name) {
   return {
     title: '行棋有道 · 玩法与史料',
     body: `<div class="help-content">
+    ${state ? `<section class="construction-rule"><h3>本局建设模式</h3><p>${buildingRule()}</p>${state.freeBuild ? '<p class="note-box">自由建造已开启，对所有玩家生效，本局不可关闭。金币、建筑库存、最高5级与阶段限制仍有效。</p>' : `<label class="toggle"><input type="checkbox" id="confirm-free-build" ${!manage || p.ai || handoff ? 'disabled' : ''}><span>开启自由建造<small>对所有玩家生效；不影响现有建筑；开启后本局不可关闭。</small></span></label>${action('确认开启自由建造', 'enable-free-build', 'primary')}<p class="tiny muted">仅可在真人回合的整备阶段开启，其他阶段请先完成当前决策。</p>`}</section>` : ''}
     <section><h3>一 · 置业与胜负</h3><p>2–4位主公轮流掷双骰，经过誓师台获得200金。购买无主产业，向过路对手收租；不购买则公开拍卖。只有最后一位未破产的主公获胜，没有隐藏的回合判胜。</p><p>双骰相同可再掷一次，连续三次被拘押。拘押后可付50金、使用通关赦令，或尝试双骰；第三次失败必须付费并继续移动。</p></section>
-    <section><h3>二 · 建设、抵押与交易</h3><p>集齐同色区域后，无建筑租金翻倍，可在整备阶段均匀建设。增强模式额外允许停在自有、未抵押城池时升级一次，不必集齐区域；路过不触发。经典模式保留整区均匀建设。</p><p>建筑由空地升级为民居、里坊、商署、城楼、都督府，模型逐阶变化。1—4级每级占用1份民居配额；升都督府返还4份。64格地图的官库有${HOUSE_SUPPLY}份民居配额、${PALACE_SUPPLY}座都督府，租金表可点击城池查看。旧档迁移保留全部原资产与建筑，补充官库容量；新增24城初始无主，集齐区域需包括新城。</p><p>拆售回收基础造价的一半。抵押前需清空该区域建筑；抵押获得地价的一半，赎回需地价55%。抵押资产不收租，转让受让人另缴地价5%的利息。驿站按持有数量收租；漕运按骰点×4或×10收租。</p><p>债务阶段可以拆售、抵押或协商交易，仍无法偿还才能破产。向玩家破产则资产交债权人；向官库破产则资产公开拍卖。</p></section>
-    <section><h3>三 · 群雄成长（默认开启）</h3><p>卡池90名武将：汉末三国40人，加魏晋、十六国、南北朝50人；七位主公另有独立战斗技能。点击人物卡可查阅生平，人物图鉴收录全部97人。武将65%良将、30%英杰、5%名将，连续19次未出名将则第20次必出。重复武将转换材料。</p><p>主公和武将上限50级。双方实际参战者无论胜败均获经验：胜方120＋城池建筑级×25，败方65＋建筑级×15；满级不再积累经验。升级所需经验为80＋当前等级×30。训练花费等级×30金与等量材料，提供当前经验阈值60%向上取整的经验。</p><p>5/15/25/35/45级解锁定位进阶技能，可携带2项常规技能和1项秘法。每5级获得称号，仅当前佩戴称号提供小幅加成。官职序列是游戏设计，不代表真实历史晋升。</p><p>头、手、武器、铠甲、护腿、脚共六槽五品质装备，主公也能穿戴；另有独立宝物槽。同一装备或宝物实例不能多人共用。战斗中不能换装、换技能或训练。每回合最多主动使用2张功能卡，手牌上限8张；羁绊至少2名对应武将同时出阵，最多2组。</p></section>
-    <section><h3>四 · 攻城与奇珍</h3><p>落到未抵押敌城可交租或攻城，每人每轮最多一次，耗20粮。独立主公位＋最多3将；主公可独自亲征，只有本人停留在被攻自有城且未负伤时才参战防守。城墙为守军提供6防御，攻克城墙和全部守军即夺城免租。10回合未攻下则守方胜，攻方交租；败方人物暂时负伤，装备不丢，主公倒下不直接导致玩家出局。</p><p>步克骑、骑克弓、弓克步，克制×1.3、被克×0.8。先选技能再选合法目标；技能独立冷却，每次普攻或施放其他技能后减少1，战术卡不推进冷却；每次行动可先用1张战术卡。护盾优先吸伤，上限为最大生命的2倍。灼烧/中毒在自身行动末结算；同类状态取较强数值与较长时长。城墙不受减益，群攻不含城墙；临时攻防提升仅本场有效。</p><p>战斗胜者65%概率额外掉落，增强奇遇结算30%概率额外掉落；触发后秘法25%、装备45%、宝物30%。秘法自动学习，重复转5材料；每人可携带1项秘法和1件宝物。军功簿记录经验、解锁与奖励，查看/读档不重抽、不重复发奖。装备/宝物属性、秘法效果均为原创游戏设定。</p><p>攻击含起势、轨迹、命中和归位；减少动态、快速或跳过只改变演出。粮草起点补给30、集市40金换30粮；两人结盟3轮，互免租禁攻，剩2人自动解盟。</p></section>
+    <section><h3>二 · 建设、抵押与交易</h3><p>默认需集齐同色区域并均匀建设。经典与增强模式都可独立勾选自由建造：整备时可升级任意自有未抵押城池，不必成套，也不必均匀升级；开启后本局不可关闭。增强模式另有自有城落点单次建设机会。无论是否开启自由建造，集齐区域仍使该套未建造城池的基础租金翻倍。</p><p>建筑由空地升级为民居、里坊、商署、城楼、都督府，模型逐阶变化。1—4级每级占用1份民居配额；升都督府返还4份。64格地图的官库有${HOUSE_SUPPLY}份民居配额、${PALACE_SUPPLY}座都督府，租金表可点击城池查看。旧档迁移保留全部原资产与建筑；自由建造默认关闭，可在规则菜单中开启。</p><p>拆售回收基础造价的一半。标准模式抵押、转让前需清空该区域建筑；自由建造只需清空该城建筑，其他城不受影响。抵押获得地价的一半，赎回需地价55%。抵押资产不收租，转让受让人另缴地价5%的利息。驿站按持有数量收租；漕运按骰点×4或×10收租。</p><p>债务阶段可以拆售、抵押或协商交易，但不能建造或切换模式；仍无法偿还才能破产。向玩家破产则资产交债权人；向官库破产则资产公开拍卖。</p></section>
+    <section><h3>三 · 群雄成长（默认开启）</h3><p>卡池90名武将：汉末三国40人，加魏晋、十六国、南北朝50人；七位主公另有独立战斗技能。点击人物卡可查阅生平，人物图鉴收录全部97人。武将65%良将、30%英杰、5%名将，连续19次未出名将则第20次必出。重复武将转换材料。</p><p>主公和武将上限50级。双方实际参战者无论胜败均获经验：胜方120＋城池建筑级×25，败方65＋建筑级×15；满级不再积累经验。升级所需经验为80＋当前等级×30。训练花费等级×30金与等量材料，提供当前经验阈值60%向上取整的经验。</p><p>5/15/25/35/45级解锁定位进阶技能；10级和30级另解锁控制、反击或解控分支，共新增10项战技。可携带2项常规技能和1项秘法，已装备技能不会被新技能替换。每5级获得称号，仅当前佩戴称号提供小幅加成。官职序列是游戏设计，不代表真实历史晋升。</p><p>头、手、武器、铠甲、护腿、脚共六槽五品质装备，主公也能穿戴；另有独立宝物槽。同一装备或宝物实例不能多人共用。战斗中不能换装、换技能或训练。每回合最多主动使用2张功能卡，手牌上限8张；羁绊至少2名对应武将同时出阵，最多2组。</p></section>
+    <section><h3>四 · 攻城与奇珍</h3><p>落到未抵押敌城可交租或攻城，每人每轮最多一次，宣战耗20粮并锁定攻方阵容。随后守方点将：本城健康驻将固定参战，真人选择空闲援军，AI自动选将，健康主公可远程驰援；最多3将＋独立主公位。其他城池驻将不可调动，无可用人物才由普通守城军出战。增援不改变驻守位置，守方不消耗出征粮草或次数。</p><p>城墙为守军提供6防御，攻克城墙和全部守军即夺城免租。10回合未攻下则守方胜，攻方交租；败方人物暂时负伤，装备不丢，主公倒下不直接导致玩家出局。</p><p>步克骑、骑克弓、弓克步，克制×1.3、被克×0.8。先选技能再选合法目标；每次普攻、施法或整息后推进冷却；战术卡不推进冷却，每次行动限1张。护盾优先吸伤，上限为最大生命的2倍。灼烧/中毒在自身行动末结算；同类状态取较强数值与较长时长。城墙免疫人物状态，群攻不含城墙。</p><p>眩晕时只能整息；缴械时不能普攻但可施法或整息。整息照常结算持续伤害与冷却。反击姿态在标明的自身行动次数内生效，受到直接普攻或伤害技能后反击一次并消耗；反击不能触发反击，持续伤害及战术卡不触发。阵亡、眩晕或缴械者不能反击；净化仅移除负面状态，保留反击姿态。</p><p>战斗胜者65%概率额外掉落，增强奇遇结算30%概率额外掉落；触发后秘法25%、装备45%、宝物30%。秘法自动学习，重复转5材料；每人可携带1项秘法和1件宝物。军功簿记录经验、解锁与奖励，查看/读档不重抽、不重复发奖。装备/宝物属性、秘法效果均为原创游戏设定。</p><p>人物攻击通过起手、路径、兵器拖尾和命中纹样区分，共用基础骨架。五档兵器品质影响拖尾层次，不额外附加未说明伤害。减少动态、快速或跳过只改变演出。粮草起点补给30、集市40金换30粮；两人结盟3轮，互免租禁攻，剩2人自动解盟。</p></section>
     <section><h3>隐市与中央沙盘</h3><p>增强模式每次抵达事件格有25%概率出现秘密商店，固定展示3件随机装备。五档售价依次为70、120、210、350、550金，每件限购一次，读档不刷新；离开后继续原事件奖励。通常军械抽取仍然保留。</p><p>中央将台展示至多3名可出征武将，点击查看全体阵容；锦囊台打开手牌，军械铺打开招募与装备抽取（整备时可操作）。上方同名按钮可用键盘操作。地域景观跟随当前执棋主公的落点，在特殊格沿用其最近地域。</p></section>
     <section><h3>五 · 七位主公</h3>${LORDS.map((l) => `<p><b>${l.name} · ${l.title}</b>　${l.skill}</p>`).join('')}<p>关闭增强模式后，上述技能、攻城、养成和抽卡全部关闭，所有主公仅为外观身份。</p></section>
     <section><h3>六 · 史实边界与参考</h3><p>人物、城池名称取自汉末三国相关记载，允许跨年代同场。建业采用建安十七年更名后的称呼，“许”采用汉末称呼，“吴”“会稽”等为当时地名。区域是玩法与视觉分组，不等同某一年的行政区；驿站冠以真实地点名，经营设施与建筑为原创艺术化设计，不是考古复原。技能、数值、五档品质及羁绊为游戏规则。</p><p>人物依据《三国志》相关传记，张角兄弟参考《后汉书》卷71，司马懿参考《晋书》卷1。人物详情标明对应卷次。游戏本身不需要访问以下资料链接：</p>${SOURCES.map(([label, url]) => `<p><a href="${url}" target="_blank" rel="noopener noreferrer">${label} ↗</a></p>`).join('')}<p>Three.js 使用 MIT 许可，完整许可随本HTML内嵌。所有人物头像、几何建筑、棋子及音效由程序生成。</p></section>
@@ -883,7 +954,7 @@ function start() {
     return;
   }
   try {
-    state = createGame(seats, $('#enhanced').checked);
+    state = createGame(seats, $('#enhanced').checked, Date.now() >>> 0, $('#free-build').checked);
     selected = 0;
     shownActor = -1;
     paused = false;
@@ -932,6 +1003,11 @@ document.addEventListener('click', (event) => {
   event.preventDefault();
   if (button.dataset.bio) {
     openBiography(button.dataset.bio);
+    return;
+  }
+  if (button.dataset.region !== undefined) {
+    fillModal('regions');
+    $(`#region-${Number(button.dataset.region)}`)?.scrollIntoView({ block: 'nearest' });
     return;
   }
   if (button.dataset.cmd) {
@@ -1112,6 +1188,16 @@ document.addEventListener('click', (event) => {
     });
     return;
   }
+  if (name === 'begin-defense') {
+    apply({
+      type: 'defend',
+      hero: $('#defense-hero').checked,
+      generals: [...document.querySelectorAll('[name="defense-general"]:checked')].map((x) =>
+        Number(x.value),
+      ),
+    });
+    return;
+  }
   if (name === 'guard') {
     apply({ type: 'guard', general: selectedGeneral, tile: Number($('#guard-tile').value) });
     return;
@@ -1129,6 +1215,14 @@ document.addEventListener('click', (event) => {
     scene?.settings(low, reduced);
     tone();
     closeModal();
+    return;
+  }
+  if (name === 'enable-free-build') {
+    if (!$('#confirm-free-build')?.checked) {
+      toast('请先勾选并确认本局开启后不可关闭。');
+      return;
+    }
+    apply({ type: 'enableFreeBuild' });
     return;
   }
   fillModal(name);

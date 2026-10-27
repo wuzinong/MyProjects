@@ -134,7 +134,7 @@ test('v1 saves explicitly migrate player scenery regions without changing money'
   });
   root.state.players[0].pos = 7;
   const s = deserialize(JSON.stringify(root));
-  assert.equal(s.version, 4);
+  assert.equal(s.version, 6);
   assert.equal(s.players[0].region, 1);
   assert.equal(s.players[0].cash, 1500);
   assert.deepEqual(deserialize(serialize(s)), s);
@@ -159,6 +159,7 @@ function combat(id = 0) {
   s.players[0].pos = 1;
   phase(s, 'rent', { tile: 1, creditor: 1, amount: 2 });
   s = command(s, { type: 'siege', generals: s.players[0].generals.map((g) => g.id) });
+  s = command(s, { type: 'defend', generals: [], hero: false });
   s.battle.order = [0, 1, 2, 10, 11, 12];
   s.battle.cursor = 0;
   s.battle.units.forEach((u) => {

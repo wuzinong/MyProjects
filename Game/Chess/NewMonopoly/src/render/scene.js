@@ -391,11 +391,17 @@ export class GameScene {
       tile.position.copy(pos);
       tile.rotation.y = tileAngle(t.id);
       this.board.add(tile);
-      const color = t.group >= 0 ? REGIONS[t.group].color : '#d4ad63';
+      const color = t.group >= 0 ? REGIONS[t.group].band : '#d4ad63';
       const base = this.box(tile, 0, 0.12, 0, 2.05, 0.32, 2.05, t.group >= 0 ? '#c4b898' : '#879184');
       base.userData.tile = t.id;
       this.picks.push(base);
-      this.box(tile, 0, 0.3, 0.92, 1.95, 0.07, 0.15, color, true);
+      if (t.group >= 0) {
+        // The perimeter remains visible from every camera angle, independent of ownership flags.
+        for (const side of [-1, 1]) {
+          this.box(tile, 0, 0.2, side * 0.95, 2.07, 0.4, 0.2, color);
+          this.box(tile, side * 0.95, 0.2, 0, 0.2, 0.4, 1.72, color);
+        }
+      } else this.box(tile, 0, 0.3, 0.92, 1.95, 0.07, 0.15, color, true);
       let city;
       if (t.kind === 'city') {
         city = this.makeCity(t.id);
@@ -429,7 +435,12 @@ export class GameScene {
         }
       }
       this.cityRoots[t.id] = { tile, city, level: 0 };
-      const name = this.text(`${ROUTE_INDEX[t.id] + 1} · ${t.name}`, color, 2.55, 0.55);
+      const name = this.text(
+        `${ROUTE_INDEX[t.id] + 1} · ${t.name}${t.group >= 0 ? ' · ' + REGIONS[t.group].name : ''}`,
+        color,
+        2.9,
+        0.55,
+      );
       name.position.set(0, 1.7, 0);
       tile.add(name);
       this.labels.push(name);
@@ -614,6 +625,10 @@ export class GameScene {
       this.box(leg, 0, -0.17, 0.04, 0.11, 0.18, 0.21, '#403d39');
     }
     root.userData.rig = { left: arms[0], right: arms[1], legs };
+    root.userData.weaponTip = {
+      parent: arms[1],
+      point: new T.Vector3(0.2, troop === '弓' ? 0.25 : 0.78, 0.1),
+    };
     if (troop === '弓') {
       const bow = new T.Mesh(this.geo('TorusGeometry', [0.38, 0.028, 6, 24, Math.PI]), this.mat('#d5bb82'));
       bow.position.set(0.12, -0.12, 0.15);
@@ -694,6 +709,7 @@ export class GameScene {
       this.box(group, 0.034, 0.47, 0, 0.009, 0.69, 0.026, '#e1e7df');
       const tip = this.cone(group, 0.004, 0.865, 0, 0.055, 0.13, steel, 3);
       tip.scale.z = 0.28;
+      if (troop !== '弓') root.userData.weaponTip = { parent: group, point: new T.Vector3(0, 0.93, 0) };
       if (quality >= 3) this.box(group, -0.017, 0.45, 0.016, 0.009, 0.35, 0.003, trim);
     } else if (slot === 3) {
       root.add(group);

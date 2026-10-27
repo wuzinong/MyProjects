@@ -16,6 +16,8 @@
     "heroes": "node tests/heroes.mjs",
     "library": "node tests/library.mjs",
     "rewards": "node tests/rewards.mjs",
+    "free-build": "node tests/free-build.mjs",
+    "defense": "node tests/defense.mjs",
     "format": "prettier --write src scripts tests *.json *.js",
     "format:check": "prettier --check src scripts tests *.json *.js"
   },

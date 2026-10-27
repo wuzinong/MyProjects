@@ -117,11 +117,20 @@ try {
   s = await saved();
   s.assets[1].owner = 1;
   s.players[0].pos = 1;
+  s.players[1].hero.injury = 1;
+  s.players[1].generals.forEach((g) => {
+    g.injury = 1;
+  });
   phase(s, 'rent', { tile: 1, creditor: 1, amount: 2 });
   await load(s);
   await page.getByRole('button', { name: /点将攻城/ }).click();
   await page.locator('[name="siege-general"]').uncheck();
   await page.locator('[data-action="begin-siege"]').click();
+  await page.locator('[data-action="handoff"]').click();
+  await page.locator('[data-action="defense"]').click();
+  await page.locator('[data-action="begin-defense"]').click();
+  if (await page.locator('[data-action="handoff"]').count())
+    await page.locator('[data-action="handoff"]').click();
   assert.equal((await saved()).battle.units.filter((u) => u.side === 0).length, 1);
   await page.locator('#battle-skill').selectOption('302');
   await page.locator('[data-action="skill"]').click();
@@ -153,8 +162,10 @@ try {
     s.players[0].generals[0].loadout = [ability];
     s.players[1].generals = [13, 14, 15].map((id) => ({ ...makeFighter(id, 50), guard: 1 }));
     s.assets[1].owner = 1;
+    s.players[0].pos = 1;
     phase(s, 'rent', { tile: 1, creditor: 1, amount: 2 });
     s = command(s, { type: 'siege', generals: [id], hero: false });
+    s = command(s, { type: 'defend', generals: [], hero: false });
     s.battle.cursor = s.battle.order.indexOf(0);
     s.battle.units.forEach((u) => {
       u.hp = Math.ceil(u.max * 0.65);
@@ -183,8 +194,10 @@ try {
       31,
     );
     s.assets[1].owner = 1;
+    s.players[0].pos = 1;
     phase(s, 'rent', { tile: 1, creditor: 1, amount: 2 });
     s = command(s, { type: 'siege', hero: true, generals: [] });
+    s = command(s, { type: 'defend', generals: s.players[1].generals.map((g) => g.id), hero: false });
     s.battle.cursor = s.battle.order.indexOf(3);
     await load(s);
     await page.locator('[data-action="skill"]').click();
@@ -207,9 +220,11 @@ try {
     });
   }
   s.players[1].pos = 1;
+  s.players[0].pos = 1;
   s.assets[1].owner = 1;
   phase(s, 'rent', { tile: 1, creditor: 1, amount: 2 });
   s = command(s, { type: 'siege', hero: true, generals: [0, 1, 2] });
+  s = command(s, { type: 'defend', generals: [], hero: true });
   await load(s);
   await page.screenshot({ path: resolve(out, 'heroes-four-versus-four.png') });
   assert.equal(await page.locator('.battle-unit').count(), 9);
@@ -264,8 +279,10 @@ try {
   s = make();
   gainExperience(s.players[0], s.players[0].hero, 180);
   s.assets[1].owner = 1;
+  s.players[0].pos = 1;
   phase(s, 'rent', { tile: 1, creditor: 1, amount: 2 });
   s = command(s, { type: 'siege', hero: true, generals: [] });
+  s = command(s, { type: 'defend', generals: s.players[1].generals.map((g) => g.id), hero: false });
   s.battle.units
     .filter((u) => u.side === 1)
     .forEach((u) => {

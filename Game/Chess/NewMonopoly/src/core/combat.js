@@ -1,4 +1,4 @@
-import { STATUS_NAMES } from '../data/skills.js';
+import { STATUS_NAMES, NEGATIVE_STATUSES } from '../data/skills.js';
 
 export function skillTargets(b, u, skill) {
   if (skill.target === 'self') return [u];
@@ -27,8 +27,19 @@ export function damage(target, amount) {
   target.hp -= lost;
   return lost;
 }
-export function hit(b, u, target, roll, power = 1, pierce = 0, execute = 0, wallMultiplier = 1) {
-  if (target.hp <= 0) return 0;
+export function hit(
+  b,
+  u,
+  target,
+  roll,
+  power = 1,
+  pierce = 0,
+  execute = 0,
+  wallMultiplier = 1,
+  reactions = [],
+  reactive = false,
+) {
+  if (target.hp <= 0 || u.hp <= 0) return 0;
   const beats = { 步: '骑', 骑: '弓', 弓: '步' };
   const adv = beats[u.troop] === target.troop ? 1.3 : beats[target.troop] === u.troop ? 0.8 : 1;
   const wall = b.units.find((x) => x.gid === -2);
@@ -46,6 +57,21 @@ export function hit(b, u, target, roll, power = 1, pierce = 0, execute = 0, wall
   );
   const lost = damage(target, amount);
   b.log.push(`${u.name}命中${target.name}：${lost}生命伤害${amount > lost ? '（含护盾抵挡或溢出）' : ''}。`);
+  const counter = target.statuses.find((x) => x.kind === 'counter');
+  if (
+    !reactive &&
+    counter &&
+    target.hp > 0 &&
+    target.gid !== -2 &&
+    u.gid !== -2 &&
+    target.side !== u.side &&
+    !target.statuses.some((x) => ['stun', 'disarm'].includes(x.kind))
+  ) {
+    target.statuses = target.statuses.filter((x) => x !== counter);
+    const lost = hit(b, target, u, roll, counter.power / 100, 0, 0, 1, reactions, true);
+    reactions.push({ actor: target.id, target: u.id, damage: lost });
+    b.log.push(`${target.name}格挡还击，反击姿态已消耗。`);
+  }
   return lost;
 }
 function heal(u, value) {
@@ -54,19 +80,21 @@ function heal(u, value) {
 function shield(u, value) {
   if (u.hp > 0) u.shield = Math.min(u.max * 2, u.shield + value);
 }
-export function resolveSkill(b, u, target, skill, roll) {
+export function resolveSkill(b, u, target, skill, roll, reactions = []) {
   const available = skillTargets(b, u, skill);
   if (['enemy', 'ally'].includes(skill.target) && !available.includes(target))
     throw Error('请选择技能允许的存活目标');
   const targets = ['enemy', 'ally'].includes(skill.target) ? [target] : available;
   u.hp = Math.max(1, u.hp - skill.cost);
+  b.log.push(`${u.name}施展「${skill.name}」。`);
   let stolen = 0;
   for (const t of targets) {
     if (skill.breakShield) t.shield = 0;
-    for (let i = 0; i < skill.hits && skill.power && t.hp > 0; i++)
-      stolen += hit(b, u, t, roll, skill.power, skill.pierce, skill.execute, skill.wall);
+    for (let i = 0; i < skill.hits && skill.power && t.hp > 0 && u.hp > 0; i++)
+      stolen += hit(b, u, t, roll, skill.power, skill.pierce, skill.execute, skill.wall, reactions);
+    if (u.hp <= 0) return;
     if (t.hp <= 0) continue;
-    if (skill.cleanse) t.statuses = [];
+    if (skill.cleanse) t.statuses = t.statuses.filter((x) => !NEGATIVE_STATUSES.includes(x.kind));
     heal(t, skill.heal + (t.max - t.hp) * skill.healMissing);
     shield(t, skill.shield);
     t.def += skill.defense;
@@ -81,7 +109,8 @@ export function resolveSkill(b, u, target, skill, roll) {
   if (skill.splash)
     b.units
       .filter((t) => t.side !== u.side && t.hp > 0 && t.gid !== -2 && !targets.includes(t))
-      .forEach((t) => hit(b, u, t, roll, skill.splash));
+      .forEach((t) => hit(b, u, t, roll, skill.splash, 0, 0, 1, reactions));
+  if (u.hp <= 0) return;
   heal(u, skill.selfHeal + stolen * skill.drain);
   shield(u, skill.selfShield);
   u.atk += skill.selfAttack;
@@ -93,7 +122,7 @@ export function resolveSkill(b, u, target, skill, roll) {
   });
   if (skill.lowestHeal) heal(allies.slice().sort((a, b) => a.hp / a.max - b.hp / b.max)[0], skill.lowestHeal);
   if (skill.selfVulnerable) addStatus(u, { kind: 'vulnerable', power: skill.selfVulnerable, turns: 2 });
-  b.log.push(`${u.name}施展「${skill.name}」。`);
+  skill.selfStatuses.forEach((x) => addStatus(u, x));
 }
 export function tickStatuses(b, u, ticking) {
   for (const status of ticking) {

@@ -1,5 +1,5 @@
 export const MAX_LEVEL = 50;
-export const UNLOCK_LEVELS = [1, 5, 15, 25, 35, 45];
+export const UNLOCK_LEVELS = [1, 5, 10, 15, 25, 30, 35, 45];
 export const ROLES = ['vanguard', 'rider', 'archer', 'strategist', 'support'];
 export const ROLE_NAMES = ['先锋', '骁骑', '神射', '谋略', '辅佐'];
 export const LORD_ROLES = ['support', 'vanguard', 'strategist', 'archer', 'strategist', 'vanguard', 'rider'];

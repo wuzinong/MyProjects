@@ -8,6 +8,8 @@ import {
   owned,
   complete,
   groupTiles,
+  constructionPeers,
+  chooseDefense,
   buildCost,
   readyGenerals,
   stats,
@@ -20,10 +22,10 @@ import {
 function building(s, p) {
   return owned(s, p.id).find((t) => {
     const a = s.assets[t.id],
-      group = groupTiles(t.id);
+      group = constructionPeers(s, t.id);
     return (
       t.kind === 'city' &&
-      complete(s, t.id, p.id) &&
+      (s.freeBuild || complete(s, t.id, p.id)) &&
       a.level < 5 &&
       !group.some((x) => s.assets[x.id].mortgaged) &&
       group.every((x) => s.assets[x.id].level >= a.level) &&
@@ -51,7 +53,7 @@ function findTrade(s, p) {
       owner < 0 ||
       owner === p.id ||
       !group.length ||
-      group.some((x) => s.assets[x.id].level) ||
+      constructionPeers(s, t.id).some((x) => s.assets[x.id].level) ||
       held < 2 ||
       s.players.some((peer) => {
         if (peer.id === p.id || peer.out) return false;
@@ -65,7 +67,7 @@ function findTrade(s, p) {
       (x) =>
         x.group >= 0 &&
         x.group !== t.group &&
-        groupTiles(x.id).every(
+        constructionPeers(s, x.id).every(
           (y) => !s.assets[y.id].level && (y.id === x.id || s.assets[y.id].owner === owner),
         ),
     );
@@ -73,6 +75,7 @@ function findTrade(s, p) {
       ? Math.max(0, Math.ceil(tradeValue(s, peer, t.id) - tradeValue(s, peer, swap.id) + 30))
       : Math.ceil(t.price * 1.4);
     if (p.cash - giveCash < 150) continue;
+    if (swap && s.assets[swap.id].mortgaged && peer.cash + giveCash < Math.ceil(swap.price * 0.05)) continue;
     return {
       type: 'trade',
       offer: {
@@ -94,6 +97,7 @@ export function chooseBattle(s) {
     p = s.players[actorId(s)];
   const targets = b.units.filter((x) => x.side !== u.side && x.hp > 0).sort((a, b) => a.hp - b.hp);
   const target = targets[0];
+  if (u.statuses.some((x) => x.kind === 'stun')) return { type: 'recover' };
   if (!b.cardUsed) {
     const index = p.cards.findIndex((id) => {
       const c = CARDS[id];
@@ -124,26 +128,38 @@ export function chooseBattle(s) {
               n +
               (t.side !== u.side
                 ? skill.power * skill.hits * u.atk + skill.statuses.length * 12
-                : Math.min(t.max - t.hp, skill.heal + (t.max - t.hp) * skill.healMissing) +
+                : skill.statuses
+                    .filter((x) => x.kind === 'counter')
+                    .reduce(
+                      (n, x) =>
+                        n + (t.statuses.some((v) => v.kind === 'counter') ? 0 : (t.atk * x.power) / 100),
+                      0,
+                    ) +
+                  (skill.cleanse ? t.statuses.filter((x) => x.kind !== 'counter').length * 20 : 0) +
+                  Math.min(t.max - t.hp, skill.heal + (t.max - t.hp) * skill.healMissing) +
                   Math.max(0, skill.shield - t.shield) * 0.5 +
                   skill.attack * 3 +
                   skill.defense * 2),
             0,
           ) +
           Math.max(0, skill.selfShield - u.shield) * 0.3 +
-          skill.selfAttack * 3;
+          skill.selfAttack * 3 +
+          skill.selfStatuses.length * u.atk * 0.5;
         choices.push({ id, target: choice.id, score });
       }
     }
   choices.sort((a, b) => b.score - a.score);
   if (choices[0]?.score > u.atk * 0.6)
     return { type: 'skill', skill: choices[0].id, target: choices[0].target };
+  if (u.statuses.some((x) => x.kind === 'disarm')) return { type: 'recover' };
   return { type: 'attack', target: target.id };
 }
 export function choose(s) {
   const p = s.players[actorId(s)];
   if (p.out && s.phase === 'end') return { type: 'end' };
   switch (s.phase) {
+    case 'defense':
+      return chooseDefense(s);
     case 'over':
       return null;
     case 'battle':
@@ -163,7 +179,10 @@ export function choose(s) {
       const affordable = p.cash > buildCost(s, p, id) + 180;
       const inventory = a.level === 4 ? s.palaces > 0 : s.houses > 0;
       // Scattered buildings lock region trades and exhaust the shared housing stock.
-      return { type: 'develop', choice: affordable && inventory && complete(s, id, p.id) ? 'build' : 'skip' };
+      return {
+        type: 'develop',
+        choice: affordable && inventory && (s.freeBuild || complete(s, id, p.id)) ? 'build' : 'skip',
+      };
     }
     case 'shop': {
       const index = s.decision.offers.findIndex(
@@ -212,7 +231,7 @@ export function choose(s) {
       const buildings = owned(s, p.id).find((t) => s.assets[t.id].level > 0);
       if (buildings) return { type: 'asset', action: 'demolish', tile: buildings.id };
       const asset = owned(s, p.id).find(
-        (t) => !s.assets[t.id].mortgaged && groupTiles(t.id).every((x) => !s.assets[x.id].level),
+        (t) => !s.assets[t.id].mortgaged && constructionPeers(s, t.id).every((x) => !s.assets[x.id].level),
       );
       if (asset) return { type: 'asset', action: 'mortgage', tile: asset.id };
       if (liquidationValue(s, p) < s.decision.amount) return { type: 'bankrupt' };
@@ -242,7 +261,7 @@ export function choose(s) {
   }
   // Captures split developed regions; reclaim capital so their land can be traded again.
   const stranded = owned(s, p.id).find((t) => s.assets[t.id].level > 0 && !complete(s, t.id, p.id));
-  if (stranded) return { type: 'asset', action: 'demolish', tile: stranded.id };
+  if (!s.freeBuild && stranded) return { type: 'asset', action: 'demolish', tile: stranded.id };
   const build = building(s, p);
   if (build) return { type: 'asset', action: 'build', tile: build.id };
   const redeemed = owned(s, p.id).find((t) => s.assets[t.id].mortgaged && p.cash > t.price * 0.55 + 300);

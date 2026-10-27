@@ -95,6 +95,11 @@ try {
   await load(s);
   await page.getByRole('button', { name: /点将攻城/ }).click();
   await page.getByRole('button', { name: '鸣鼓攻城' }).click();
+  await page.locator('[data-action="handoff"]').click();
+  await page.getByRole('button', { name: '点将迎战', exact: true }).click();
+  await page.getByRole('button', { name: '确认迎战', exact: true }).click();
+  if (await page.locator('[data-action="handoff"]').count())
+    await page.locator('[data-action="handoff"]').click();
   await page.waitForTimeout(200);
   await page.screenshot({ path: resolve(out, 'battle.png') });
   await page.getByRole('button', { name: '普攻', exact: true }).click();
@@ -229,6 +234,15 @@ try {
           await checkbox.setChecked(c.generals.includes(id));
         }
         await page.getByRole('button', { name: '鸣鼓攻城' }).click();
+      } else if (c.type === 'defend') {
+        await page.getByRole('button', { name: '点将迎战', exact: true }).click();
+        if (await page.locator('#defense-hero').isEnabled())
+          await page.locator('#defense-hero').setChecked(c.hero);
+        for (const checkbox of await page.locator('[name=defense-general]:enabled').all())
+          await checkbox.setChecked(c.generals.includes(Number(await checkbox.getAttribute('value'))));
+        await page.getByRole('button', { name: '确认迎战', exact: true }).click();
+      } else if (c.type === 'recover') {
+        await page.getByRole('button', { name: '整息恢复', exact: true }).click();
       } else if (c.type === 'attack' || c.type === 'skill') {
         if (c.type === 'attack') await page.locator('#battle-target').selectOption(String(c.target));
         else {

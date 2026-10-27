@@ -2,6 +2,7 @@ import * as T from 'three';
 import { skillFor } from '../data/skills.js';
 import { CARDS } from '../data/game.js';
 import { skillTargets } from '../core/combat.js';
+import { fighterStyle } from './fighter-style.js';
 
 const clamp = (x) => Math.max(0, Math.min(1, x));
 const smooth = (x) => {
@@ -11,7 +12,10 @@ const smooth = (x) => {
 export function combatPresentation(command, before) {
   const b = before.battle,
     u = b.units.find((x) => x.id === b.order[b.cursor]);
-  if (command.type === 'skill') return skillFor(u, command.skill);
+  const style = fighterStyle(u, before.players[u.side === 0 ? b.attacker : b.defender]);
+  if (command.type === 'skill') return { ...skillFor(u, command.skill), style };
+  if (command.type === 'recover')
+    return { name: `${u.name} · 整息解缚`, effect: 'recover', color: '#a99adf', hits: 1, style };
   if (command.type === 'battleCard') {
     const p = before.players[u.side === 0 ? b.attacker : b.defender],
       card = CARDS[p.cards[command.index]];
@@ -28,13 +32,15 @@ export function combatPresentation(command, before) {
       }[card.effect],
       color: '#efcf88',
       hits: 1,
+      style,
     };
   }
   return {
-    name: u.troop === '弓' ? '引弓破敌' : u.troop === '骑' ? '铁骑冲锋' : '挥刃进击',
-    effect: u.troop === '弓' ? 'arrows' : u.troop === '骑' ? 'charge' : 'slash',
-    color: '#f0cc8c',
+    name: `${u.name} · ${style.attackName}`,
+    effect: style.effect,
+    color: style.color,
     hits: 1,
+    style,
   };
 }
 export class CombatAnimation {
@@ -50,6 +56,8 @@ export class CombatAnimation {
     this.materials = [];
     this.tracks = [];
     this.presentation = combatPresentation(command, before);
+    this.style = this.presentation.style;
+    this.duration *= this.style.tempo;
     const b = before.battle;
     this.unit = b.units.find((u) => u.id === b.order[b.cursor]);
     this.actor = v.battleModels.get(this.unit.id);
@@ -78,7 +86,12 @@ export class CombatAnimation {
     this.approach.y = this.origin.y;
     if (this.melee && toward.length() > 0.01) this.actor.model.rotation.y = Math.atan2(toward.x, toward.z);
     if (this.melee && command.type === 'skill') this.afterimages();
+    this.signature();
+    if (command.type !== 'recover') this.weaponTrail();
     targets.filter(Boolean).forEach((u, i) => this.makeEffect(u, i));
+    this.reactions = after.combatEvent.reactions || [];
+    if (this.reactions.length) this.duration += 700;
+    this.reactions.forEach((r, i) => this.counterStrike(r, i));
     after.combatEvent.units.forEach((result) => {
       const old = b.units.find((u) => u.id === result.id),
         entry = v.battleModels.get(result.id);
@@ -97,13 +110,163 @@ export class CombatAnimation {
         label.position.copy(point);
         this.root.add(label);
         this.tracks.push((p) => {
-          label.visible = p > 0.45;
+          label.visible = p > (this.reactions.some((r) => r.target === result.id) ? 0.78 : 0.45);
           label.position.y = point.y + clamp((p - 0.45) / 0.55) * 1.5;
           label.material.opacity = 1 - clamp((p - 0.8) / 0.2);
         });
       }
       if (shield > 0) this.aura(entry.home, '#9ddff8', 'shield');
       if (hp > 0) this.aura(entry.home, '#9ff0c8', 'heal');
+    });
+  }
+  signature() {
+    const { style } = this;
+    const root = new T.Group();
+    this.root.add(root);
+    root.position.copy(this.destination);
+    root.position.y += 2.1;
+    const sigil = this.glyph(style.motif, style.color, 0.85);
+    root.add(sigil);
+    for (let i = 0; i < style.marks; i++) {
+      const a = (i / style.marks) * Math.PI * 2 + style.tilt;
+      const blade = this.mesh(
+        style.stance % 2 ? 'OctahedronGeometry' : 'TetrahedronGeometry',
+        [0.14],
+        this.material(style.color, 0.72),
+        root,
+      );
+      blade.position.set(Math.cos(a) * (0.7 + style.path * 0.16), Math.sin(a) * 0.8, Math.sin(a * 2) * 0.25);
+      blade.rotation.set(a, style.tilt, a);
+      blade.scale.y = 1.5 + style.stance * 0.6;
+    }
+    this.tracks.push((p) => {
+      root.visible = p > 0.4 && p < 0.78;
+      root.rotation.z = style.sweep * Math.sin(p * Math.PI);
+      root.scale.setScalar(Math.sin(clamp((p - 0.4) / 0.38) * Math.PI));
+    });
+    const banner = this.glyph(style.seal, style.color, 0.6);
+    this.root.add(banner);
+    banner.position.copy(this.origin).y += 2.8;
+    this.tracks.push((p) => {
+      banner.visible = p < 0.3;
+      banner.position.y = this.origin.y + 2.8 + p;
+    });
+  }
+  weaponTrail() {
+    const tip = this.actor.model.userData.weaponTip;
+    if (!tip) return;
+    const count = this.v.quality === 'low' ? 6 : 10 + Math.max(0, this.style.weaponQuality) * 2;
+    const positions = new Float32Array((count - 1) * 18);
+    const geometry = new T.BufferGeometry();
+    geometry.setAttribute('position', new T.BufferAttribute(positions, 3));
+    const trail = new T.Mesh(geometry, this.material(this.style.weaponColor, 0.58));
+    trail.userData.ownedGeometry = true;
+    trail.frustumCulled = false;
+    this.root.add(trail);
+    const history = [];
+    const point = new T.Vector3();
+    const glints = Array.from(
+      { length: this.v.quality === 'low' ? 1 : Math.max(1, this.style.weaponQuality + 2) },
+      (_, i) => {
+        const glint = this.mesh(
+          'OctahedronGeometry',
+          [0.055 + i * 0.008],
+          this.material(this.style.weaponColor, 0.8),
+        );
+        glint.scale.y = 2 + Math.max(0, this.style.weaponQuality) * 0.3;
+        return glint;
+      },
+    );
+    this.tracks.push((p) => {
+      trail.visible = p > 0.2 && p < 0.73;
+      glints.forEach((glint) => {
+        glint.visible = trail.visible;
+      });
+      if (!trail.visible) {
+        history.length = 0;
+        return;
+      }
+      this.actor.model.updateMatrixWorld(true);
+      point.copy(tip.point);
+      tip.parent.localToWorld(point);
+      this.root.worldToLocal(point);
+      glints.forEach((glint, i) => {
+        glint.position
+          .copy(point)
+          .add(new T.Vector3(Math.cos(p * 10 + i) * i * 0.07, -i * 0.11, Math.sin(p * 10 + i) * i * 0.07));
+        glint.rotation.z = p * 5 + i;
+      });
+      history.unshift(point.clone());
+      if (history.length > count) history.pop();
+      while (history.length < count) history.push(point.clone());
+      const width = 0.055 + (this.style.weaponQuality + 1) * 0.025;
+      for (let i = 0; i < count - 1; i++) {
+        const a = history[i],
+          b = history[i + 1],
+          w = width * (1 - i / count);
+        positions.set(
+          [
+            a.x,
+            a.y - w,
+            a.z,
+            a.x,
+            a.y + w,
+            a.z,
+            b.x,
+            b.y + w,
+            b.z,
+            a.x,
+            a.y - w,
+            a.z,
+            b.x,
+            b.y + w,
+            b.z,
+            b.x,
+            b.y - w,
+            b.z,
+          ],
+          i * 18,
+        );
+      }
+      geometry.attributes.position.needsUpdate = true;
+    });
+  }
+  counterStrike(reaction, index) {
+    const actor = this.v.battleModels.get(reaction.actor),
+      target = this.v.battleModels.get(reaction.target);
+    const shield = this.mesh('CircleGeometry', [0.8, 6], this.material('#91c8df', 0.7));
+    shield.position.copy(actor.home).y += 1.5;
+    shield.rotation.y = Math.PI / 2;
+    const start = actor.home.clone().add(new T.Vector3(0, 1.5, 0)),
+      end = target.home.clone().add(new T.Vector3(0, 1.5, 0)),
+      arc = this.ribbon(
+        [
+          start,
+          start
+            .clone()
+            .lerp(end, 0.5)
+            .add(new T.Vector3(0, 0.8, 0.7)),
+          end,
+        ],
+        '#db9163',
+        0.065,
+      );
+    const glyph = this.glyph('反', '#e6b27d', 0.8);
+    glyph.position.copy(start).y += 1;
+    this.root.add(glyph);
+    this.tracks.push((p) => {
+      const delay = (index * 0.03) / Math.max(1, this.reactions.length - 1);
+      const t = clamp((p - 0.64 - delay) / 0.19);
+      shield.visible = p > 0.46 && p < 0.7;
+      arc.visible = t > 0.18 && t < 0.85;
+      glyph.visible = t > 0 && t < 1;
+      if (t > 0 && t < 1) {
+        actor.model.position.copy(actor.home).lerp(target.home, Math.sin(t * Math.PI) * 0.32);
+        actor.model.userData.rig.right.rotation.x = -Math.sin(t * Math.PI) * 1.4;
+      } else if (p > 0.9) {
+        actor.model.position.copy(actor.home);
+        actor.model.userData.rig.right.rotation.x = 0;
+      }
     });
   }
   glyph(text, color, width = 1, height = width) {
@@ -180,10 +343,10 @@ export class CombatAnimation {
     }
   }
   impact(point, color, index) {
-    const count = this.v.quality === 'low' ? 5 : 12;
+    const count = this.v.quality === 'low' ? 5 : 10 + Math.max(0, this.style.weaponQuality) * 2;
     for (let i = 0; i < count; i++) {
       const shard = this.mesh('TetrahedronGeometry', [0.09], this.material(i % 3 ? color : '#f2dfb8', 0.85));
-      const angle = i * 2.399 + index;
+      const angle = i * 2.399 + index + this.style.tilt;
       this.tracks.push((p) => {
         const t = clamp((p - 0.43) / 0.32);
         shard.visible = p > 0.43 && p < 0.8;
@@ -226,19 +389,58 @@ export class CombatAnimation {
       point = v.battleModels
         .get(unit.id)
         .home.clone()
-        .add(new T.Vector3(0, 1.5, 0));
+        .add(new T.Vector3(0, 2.1, 0));
     const { effect, color, hits } = this.presentation;
     const ground = point.clone();
     ground.y = 0.2;
     if (unit.side !== this.unit.side) this.impact(point, color, index);
     const phase = (p) => clamp((p - 0.22) / 0.55);
-    if (['slash', 'crescent', 'axe', 'blades'].includes(effect)) {
+    const controlled =
+      this.after.battle?.units
+        .find((u) => u.id === unit.id)
+        ?.statuses.filter((x) => ['stun', 'disarm'].includes(x.kind)) || [];
+    for (const status of controlled) {
+      for (let i = 0; i < 3; i++) {
+        const mark = this.mesh(
+          status.kind === 'stun' ? 'OctahedronGeometry' : 'BoxGeometry',
+          status.kind === 'stun' ? [0.17] : [0.08, 0.85, 0.05],
+          this.material(status.kind === 'stun' ? '#b9a7ef' : '#91cbdd', 0.85),
+        );
+        this.tracks.push((p) => {
+          const angle = (i * Math.PI * 2) / 3 + p * 4;
+          mark.visible = p > 0.45;
+          mark.position.set(
+            point.x + Math.cos(angle) * 0.75,
+            point.y + (status.kind === 'stun' ? 0.7 : 0),
+            point.z + Math.sin(angle) * 0.75,
+          );
+          mark.rotation.z = status.kind === 'stun' ? p * 5 : (Math.PI / 4) * (i % 2 ? -1 : 1);
+        });
+      }
+    }
+    if (['counter', 'recover'].includes(effect)) {
+      const shape = this.mesh(
+        'RingGeometry',
+        [0.6, 0.78, effect === 'counter' ? 6 : 3],
+        this.material(color, 0.7),
+      );
+      shape.position.copy(point);
+      shape.rotation.y = Math.PI / 2;
+      const seal = this.glyph(effect === 'counter' ? '御' : '解', color, 0.8);
+      seal.position.copy(point);
+      this.root.add(seal);
+      this.tracks.push((p) => {
+        shape.rotation.z = p * 2;
+        shape.scale.setScalar(0.5 + Math.sin(p * Math.PI));
+        seal.visible = p > 0.2 && p < 0.85;
+      });
+    } else if (['slash', 'crescent', 'axe', 'blades'].includes(effect)) {
       const count = Math.max(hits, effect === 'blades' ? 3 : effect === 'crescent' ? 2 : 1);
       for (let i = 0; i < count; i++) {
         const slash = this.mesh('TorusGeometry', [1, 0.065, 8, 40, Math.PI * 1.45], this.material(color));
         slash.position.copy(point);
         slash.scale.setScalar(1.25 + i * 0.22);
-        slash.rotation.set(effect === 'axe' ? 0 : Math.PI * 0.35, i * 0.65, i);
+        slash.rotation.set(effect === 'axe' ? 0 : this.style.tilt, i * 0.65 + this.style.sweep, i);
         this.tracks.push((p) => {
           const t = phase(p);
           const strike = clamp((p - 0.28 - i * 0.08) / 0.32);
@@ -260,13 +462,43 @@ export class CombatAnimation {
           arrow.visible = t > 0 && t < 1;
           const start = this.origin.clone().add(new T.Vector3(0, 2.1, (i - 1) * 0.15));
           arrow.position.lerpVectors(start, point, t);
-          arrow.position.y += Math.sin(t * Math.PI) * 2.5;
+          arrow.position.y += Math.sin(t * Math.PI) * this.style.arc;
+          arrow.position.z +=
+            Math.sin(t * Math.PI) *
+            (this.style.path === 0
+              ? (i - 1) * 0.7
+              : this.style.path === 1
+                ? 0
+                : Math.sin(t * Math.PI * (this.style.path === 2 ? 2 : 4)) * 0.8);
           const direction = point.clone().sub(start);
-          direction.y += Math.cos(t * Math.PI) * Math.PI * 2.5;
+          direction.y += Math.cos(t * Math.PI) * Math.PI * this.style.arc;
           arrow.quaternion.setFromUnitVectors(new T.Vector3(0, 1, 0), direction.normalize());
         });
       }
     } else if (['charge', 'lance', 'dash', 'ambush'].includes(effect)) {
+      if (effect === 'dash' || effect === 'ambush') {
+        for (const flank of effect === 'ambush' ? [-1, 1] : [1]) {
+          const path = this.ribbon(
+            [
+              this.origin.clone().add(new T.Vector3(0, 1, 0)),
+              this.origin
+                .clone()
+                .lerp(point, 0.35)
+                .add(new T.Vector3(0, 0.5, flank * this.style.arc)),
+              this.origin
+                .clone()
+                .lerp(point, 0.7)
+                .add(new T.Vector3(0, 0, -flank * this.style.arc * 0.4)),
+              point,
+            ],
+            color,
+            effect === 'ambush' ? 0.055 : 0.085,
+          );
+          this.tracks.push((p) => {
+            path.visible = p > 0.28 && p < 0.66;
+          });
+        }
+      }
       for (let i = 0; i < 18; i++) {
         const trail = this.mesh('OctahedronGeometry', [0.12], this.material(color, 0.8));
         this.tracks.push((p) => {
@@ -513,15 +745,42 @@ export class CombatAnimation {
   tick(time) {
     const p = clamp((time - this.started) / this.duration);
     this.v.container.dataset.combatEffect = this.presentation.effect;
+    this.v.container.dataset.fighterStyle = String(this.style.id);
+    this.v.container.dataset.weaponQuality = String(this.style.weaponQuality);
     this.v.container.dataset.combatStage =
-      p < 0.22 ? 'windup' : p < 0.45 ? 'approach' : p < 0.72 ? 'impact' : 'recover';
-    const travel = p < 0.45 ? smooth((p - 0.18) / 0.27) : 1 - smooth((p - 0.72) / 0.28);
+      this.reactions.length && p >= 0.69 && p < 0.8
+        ? 'counter'
+        : p < 0.22
+          ? 'windup'
+          : p < 0.45
+            ? 'approach'
+            : p < 0.72
+              ? 'impact'
+              : 'recover';
+    const returnStart = this.reactions.length ? 0.5 : 0.72;
+    const returnDuration = this.reactions.length ? 0.16 : 0.28;
+    const travel = p < 0.45 ? smooth((p - 0.18) / 0.27) : 1 - smooth((p - returnStart) / returnDuration);
     if (this.melee) this.actor.model.position.lerpVectors(this.origin, this.approach, travel);
+    if (this.melee) {
+      const bend = Math.sin(travel * Math.PI);
+      this.actor.model.position.z +=
+        bend *
+        (this.style.path === 0
+          ? 0
+          : this.style.path === 1
+            ? this.style.sweep
+            : this.style.path === 2
+              ? -this.style.arc
+              : Math.sin(travel * Math.PI * 2) * this.style.arc);
+      this.actor.model.position.y += this.style.stance === 2 ? bend * 0.7 : 0;
+    }
     const swing =
       p < 0.28
         ? -smooth(p / 0.28) * 1.4
         : Math.sin(clamp((p - 0.28) / 0.44) * Math.PI * 2 * this.presentation.hits) * 1.2;
     this.rig.right.rotation.x = swing;
+    this.rig.right.rotation.z = Math.sin(p * Math.PI * 2) * this.style.sweep;
+    this.rig.right.rotation.y = this.style.stance === 3 ? Math.sin(p * Math.PI) * 1.2 : 0;
     this.rig.left.rotation.x = this.melee ? -swing * 0.4 : -0.9 * Math.sin(p * Math.PI);
     this.rig.legs.forEach((leg, i) => {
       leg.rotation.x = this.melee ? Math.sin(p * 26 + i * Math.PI) * 0.32 * travel : 0;
@@ -537,7 +796,7 @@ export class CombatAnimation {
         else entry.model.rotation.z = impact * Math.PI * 0.48;
       }
     }
-    if (p >= 0.5 && !this.impacted) {
+    if (p >= (this.reactions.length ? 0.87 : 0.5) && !this.impacted) {
       this.impacted = true;
       this.v.refreshBattleUnits(
         {
@@ -573,5 +832,13 @@ export class CombatAnimation {
     this.root.removeFromParent();
     delete this.v.container.dataset.combatStage;
     delete this.v.container.dataset.combatEffect;
+    delete this.v.container.dataset.fighterStyle;
+    delete this.v.container.dataset.weaponQuality;
+    for (const reaction of this.reactions) {
+      const actor = this.v.battleModels.get(reaction.actor);
+      actor.model.position.copy(actor.home);
+      actor.model.rotation.copy(actor.rotation);
+      actor.model.userData.rig.right.rotation.set(0, 0, 0);
+    }
   }
 }
